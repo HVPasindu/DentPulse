@@ -1,16 +1,17 @@
 import React from 'react'
-
-
+import { Header } from './MainInterface Components/Header'
 
 function App() {
   
+
+
   return (
     <>
-   
-       <p className="bg-red-600">
-        Welcome to DentPulse
-      </p>
+    <div className="bg-cyan-100 h-screen w-screen">
+    <Header />
+    </div>
     </>
+
   )
 }
 
