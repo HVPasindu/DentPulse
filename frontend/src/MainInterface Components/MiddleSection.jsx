@@ -5,13 +5,13 @@ export function MiddleSection() {
 
     return (
 
-        <div className="grid grid-cols-1 justify-around md:grid-cols-2 gap-x-10 bg-cyan-100 ">
+        <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64 bg-cyan-100  ">
 
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center pl-20">
 
                 <h1 className="text-2xl font-medium   text-cyan-700">Why Choose DentPulse Clinic</h1>
                 <h1 className="font-light m-8 text-cyan-600">Enhance your smile with our cosmetic dentistry services, including teeth whitening, veneers, bonding, and smile makeovers tailored to your needs. </h1>
-                <div className="">
+                <div className="grid  gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
 
                     {middledata.map((middle_data)=>(<MiddleSectionCard main_text={middle_data.main_text} second_text={middle_data.second_text}/>))}
              

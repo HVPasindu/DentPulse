@@ -6,11 +6,11 @@ export const middledata=[
     {
         id:2,
         main_text:"100000+",
-        second_text:"Island Wide Happy Paintents"
+        second_text:" Happy Paintents"
     },
     {
         id:3,
-        main_text:"1",
+        main_text:"10+",
         second_text:"Experinced Dentist",
 
     },
