@@ -1,5 +1,6 @@
 import { MiddleSectionCard } from "./MiddleSectionCard"
 import { middledata } from "../data/middledata"
+
 export function MiddleSection() {
 
 
@@ -22,8 +23,16 @@ export function MiddleSection() {
                 <img src="middlesection.png" alt="middlesection_image" className="w-[500px] h-[500px] pt-16 mx-auto" />
             </div>
 
+
+            <div className=" flex  flex-col bg-cyan-600 w-screen pt-20 justify-center items-center pb-20">
+                <h1 className="font-semibold text-xl text-white p-5">Ready to Sheudule Your Visit</h1>
+                <h1 className="font-normal text-lg text-white p-7">Our friendly staff is here to help you. Book your appointment today and take the first step towards a healthier smile.</h1>
+
+                <button className="bg-white p-3 rounded-xl px-7 shadow-lg hover:bg-cyan-200 " >Make An Appointment</button>
+                
+            </div>
         </div>
 
-
+    
     )
 }

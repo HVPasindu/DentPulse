@@ -6,7 +6,7 @@ export const middledata=[
     {
         id:2,
         main_text:"100000+",
-        second_text:" Happy Paintents"
+        second_text:" Happy Paitents"
     },
     {
         id:3,

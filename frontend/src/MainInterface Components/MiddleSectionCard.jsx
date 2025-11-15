@@ -4,7 +4,7 @@ export function MiddleSectionCard(props){
 
 
     return (
-        <div className=" flex flex-col rounded-xl items-center p-5 bg-cyan-400 hover:scale-105 transition-transform duration-300">
+        <div className=" flex flex-col rounded-xl   p-5 bg-cyan-400 hover:scale-105 transition-transform duration-300">
 
             <h1 className="font-light text-lg">{props.main_text}</h1>
 
