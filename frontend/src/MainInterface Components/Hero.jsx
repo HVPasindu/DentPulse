@@ -1,7 +1,6 @@
+import { CircleCheckBig } from "lucide-react";
+
 export function Hero() {
-
-
-
 
     return (
         <div className="grid grid-cols-1 pb-3.5 bg-cyan-100 ">
@@ -18,16 +17,28 @@ export function Hero() {
                 <button className="rounded-lg bg-cyan-600 text-white hover:shadow-2xl px-7 py-3 hover:bg-cyan-800">Book Appointment</button>
                 <button className="rounded-lg bg-white border-cyan-600 border-2 px-7 py-3 hover:bg-cyan-200" >📞Call Us Now</button>
             </div>
-            <div className="bg-cyan-600   justify-between px-4 py-14 mt-10 text-cyan-100 font-bold grid grid-cols-1 gap-y-4  md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-6 ">
+            <div className=" bg-linear-to-r from-cyan-500 via-cyan-600 to-cyan-700  justify-between px-4 py-14 mt-10 text-cyan-100 font-bold grid grid-cols-1 gap-y-4  md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-6 ">
 
-                <h1> ✔️Experienced & Certified Dentists  </h1>
-                <h1> ✔️State-of-the-Art Equipment   </h1>
-                <h1> ✔️Flexible Payment Options </h1>
-                <h1> ✔️Same-Day Appointments Available </h1>
-                <h1>✔️Family-Friendly Environment</h1>
-                <h1>✔️Digital X-Rays & Imaging</h1>
+                <h1 className="flex gap-x-0.5"> <CircleCheckBig />Experienced & Certified Dentists  </h1>
+                <h1 className="flex gap-x-0.5"> <CircleCheckBig />State-of-the-Art Equipment   </h1>
+                <h1 className="flex gap-x-0.5"> <CircleCheckBig />Flexible Payment Options </h1>
+                <h1 className="flex gap-x-0.5"> <CircleCheckBig/>Same-Day Appointments Available </h1>
+                <h1 className="flex gap-x-0.5"><CircleCheckBig/>Family-Friendly Environment</h1>
+                <h1 className="flex gap-x-0.5"><CircleCheckBig/>Digital X-Rays & Imaging</h1>
 
             </div>
+
+            <div className=" flex flex-col bg-cyan-100  items-center justify-center p-10">
+
+
+                <h1 className="text-2xl font-bold text-cyan-800 pb-10">
+                   Our Services
+                </h1>
+                <h1 className="text-lg font-medium text-cyan-500"> Comprehensive dental care tailored all your needs</h1>
+
+
+            </div>
+
         </div>
 
     )
