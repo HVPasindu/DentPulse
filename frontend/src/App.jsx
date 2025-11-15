@@ -5,7 +5,7 @@ import { Hero } from './MainInterface Components/Hero'
 import { servicesData } from './data/servicedata'
 import { Services } from './MainInterface Components/Services'
 import { MiddleSection } from './MainInterface Components/MiddleSection'
-
+import { Contact } from './MainInterface Components/Contact'
 
 function App() {
 
@@ -28,7 +28,9 @@ function App() {
       <div>
         <MiddleSection />
       </div>
-
+      <div>
+        <Contact/>
+      </div>
       <div className='bg-cyan-800'>
 
         <Footer />
