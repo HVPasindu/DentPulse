@@ -6,21 +6,21 @@ export function MiddleSection() {
 
     return (
 
-        <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64 bg-cyan-100  ">
+        <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64 bg-cyan-50  ">
 
             <div className="flex flex-col justify-center items-center pl-20">
 
                 <h1 className="text-2xl font-medium   text-cyan-700">Why Choose DentPulse Clinic</h1>
                 <h1 className="font-light m-8 text-cyan-600">Enhance your smile with our cosmetic dentistry services, including teeth whitening, veneers, bonding, and smile makeovers tailored to your needs. </h1>
-                <div className="grid  gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                <div className="grid  grid-cols-1 gap-x-7 gap-y-7 md:grid-cols-2 ">
 
                     {middledata.map((middle_data)=>(<MiddleSectionCard main_text={middle_data.main_text} second_text={middle_data.second_text}/>))}
              
                 </div>
             </div>
-            <div className="bg-cyan-200 rounded-3xl w-[600px] h-[600px]  ">
+            <div className="bg-cyan-200 rounded-3xl w-[600px] h-[600px] my-9">
 
-                <img src="middlesection.png" alt="middlesection_image" className="w-[500px] h-[500px] pt-16 mx-auto" />
+                <img src="middlesection.png" alt="middlesection_image" className="w-[500px] h-[500px] pt-20 mx-auto"/>
             </div>
 
 
@@ -35,6 +35,5 @@ export function MiddleSection() {
 
         </div>
 
-    
     )
 }

@@ -26,12 +26,12 @@ export function ContactCard(props){
 
     return (
 
-        <div className="bg-cyan-100 rounded-lg border-2 border-cyan-200 flex flex-col justify-center items-center p-15">
+        <div className="bg-white rounded-lg border-2 border-cyan-200 flex flex-col justify-center items-center p-15  ">
 
             {image_component}
-             <h1>{props.title}</h1>  
-             <h1>{props.first_data}</h1>
-            <h1>{props.second_data}</h1>
+             <h1 className="text-cyan">{props.title}</h1>
+             <h1 className="text-cyan-500">{props.first_data}</h1>
+            <h1 className="text-cyan-500">{props.second_data}</h1>
 
         </div>
     )

@@ -3,7 +3,7 @@ import { CircleCheckBig } from "lucide-react";
 export function Hero() {
 
     return (
-        <div className="grid grid-cols-1 pb-3.5 bg-cyan-100 ">
+        <div className="grid grid-cols-1 pb-3.5 bg-cyan-50 ">
 
             <div className="flex flex-col justify-center items-center py-8">
                 <h1 className="text-cyan-600 rounded-3xl bg-cyan-300 my-8 py-1.5 px-1.5">🌟 Trusted by 100000+ Happy Patients</h1>
@@ -28,7 +28,7 @@ export function Hero() {
 
             </div>
 
-            <div className=" flex flex-col bg-cyan-100  items-center justify-center p-10">
+            <div className=" flex flex-col bg-cyan-50  items-center justify-center p-10">
 
 
                 <h1 className="text-2xl font-bold text-cyan-800 pb-10">
