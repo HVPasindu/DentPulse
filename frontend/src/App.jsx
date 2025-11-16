@@ -6,6 +6,7 @@ import { servicesData } from './data/servicedata'
 import { Services } from './MainInterface Components/ServicesCard'
 import { MiddleSection } from './MainInterface Components/MiddleSection'
 import { Contact } from './MainInterface Components/Contact'
+import Carosuel  from './MainInterface Components/Carosuel'
 
 function App() {
 
@@ -20,16 +21,18 @@ function App() {
         <Hero />
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-4 py-5 bg-cyan-50 mx-auto' >
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-4 py-5 pb-28 bg-cyan-50 mx-auto' >
 
         {servicesData.map((service, index) => (<Services title={service.title} description={service.description} />))}
 
       </div>
       <div>
+
+          <Carosuel/>
         <MiddleSection />
 
       </div>
-
+      
       <div>
         <Contact/>
       </div>

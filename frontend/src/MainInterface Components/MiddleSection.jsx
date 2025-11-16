@@ -17,6 +17,13 @@ export function MiddleSection() {
                     {middledata.map((middle_data)=>(<MiddleSectionCard main_text={middle_data.main_text} second_text={middle_data.second_text}/>))}
              
                 </div>
+
+                <div>
+
+
+
+                    
+                </div>
             </div>
             <div className="bg-cyan-200 rounded-3xl w-[600px] h-[600px] my-9">
 
