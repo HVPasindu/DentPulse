@@ -1,10 +1,18 @@
 import headerLogo from '../assets/headerLogo.png'
 import loginicon from '../assets/loginicon.png'
 import { TextAlignJustify } from 'lucide-react'
-
+import { useNavigate } from 'react-router-dom'
 
 
 export function Header() {
+
+    const navigate = useNavigate()
+
+    const navigatetologinpage = () =>{
+
+            navigate('/login')
+            
+    }
 
     return (
 
@@ -32,7 +40,7 @@ export function Header() {
             </div>
             <div className="">
 
-                <button className=" flex  justify-center w-[150px] border-cyan-500 border-2 rounded-lg p-2 m-2  font-light  text-black text-sm hover:text-cyan-500 hover:bg-cyan-50">
+                <button className=" flex  justify-center w-[150px] border-cyan-500 border-2 rounded-lg p-2 m-2  font-light  text-black text-sm hover:text-cyan-500 hover:bg-cyan-50 "onClick={navigatetologinpage}>
                     <img src={loginicon} className='w-2/12 h-2/12' />
                     <span className=''>Login/Signup</span>
 

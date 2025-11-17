@@ -7,10 +7,9 @@ import { Services } from './MainInterface Components/ServicesCard'
 import { MiddleSection } from './MainInterface Components/MiddleSection'
 import { Contact } from './MainInterface Components/Contact'
 import Carosuel  from './MainInterface Components/Carosuel'
-import {MainLogin} from './login_page/MainLogin'
 import  Layout  from './Layout'
 import Home from './index/Home'
-
+import MainLogin from './login_page/MainLogin'
 
 function App() {
 
@@ -21,10 +20,11 @@ function App() {
         
           <Route index element={<Home/>}/>
 
-
-            
           </Route>
-          
+          <Route path='/login' element={<MainLogin/>}/>
+
+
+
       
         </Routes>
   
