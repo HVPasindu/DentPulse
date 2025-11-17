@@ -2,49 +2,33 @@ import React from 'react'
 import { Header } from './MainInterface Components/Header'
 import { Footer } from './MainInterface Components/Footer'
 import { Hero } from './MainInterface Components/Hero'
-import { servicesData } from './data/servicedata'
+import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import { Services } from './MainInterface Components/ServicesCard'
 import { MiddleSection } from './MainInterface Components/MiddleSection'
 import { Contact } from './MainInterface Components/Contact'
 import Carosuel  from './MainInterface Components/Carosuel'
+import {MainLogin} from './login_page/MainLogin'
+import  Layout  from './Layout'
+import Home from './index/Home'
+
 
 function App() {
 
   return (
-    <>
-      <div className="bg-cyan-100  w-screen">
+   <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Layout/>}>
+        
+          <Route index element={<Home/>}/>
 
-        <Header />
 
-      </div>
-      <div>
-        <Hero />
-      </div>
-
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-4 py-5 pb-28 bg-cyan-50 mx-auto' >
-
-        {servicesData.map((service, index) => (<Services title={service.title} description={service.description} />))}
-
-      </div>
-      <div>
-
-          <Carosuel/>
-        <MiddleSection />
-
-      </div>
+            
+          </Route>
+          
       
-      <div>
-        <Contact/>
-      </div>
-
-      <div className='bg-cyan-800'>
-
-        <Footer />
-
-      </div>
-
-    </>
-
+        </Routes>
+  
+   </BrowserRouter>      
   )
 }
 

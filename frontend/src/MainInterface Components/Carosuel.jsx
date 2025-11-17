@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
- export default function Carosuel() {
+ function Carosuel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const [cardsPerView, setCardsPerView] = useState(3);
@@ -197,3 +197,4 @@ import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
   );
 }
 
+export default Carosuel;
