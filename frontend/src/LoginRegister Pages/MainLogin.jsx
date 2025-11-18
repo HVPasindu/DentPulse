@@ -70,7 +70,7 @@ const MainLogin = () => {
               </div>
               <div className="flex flex-row justify-center gap-4">
                 <h1 className="text-cyan-500">Dont Have An Account?</h1>
-                <a href="" className="text-cyan-600 hover:text-cyan-700">
+                <a href="/register" className="text-cyan-600 hover:text-cyan-700">
                   <u>Register Here</u>
                 </a>
               </div>

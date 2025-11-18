@@ -9,7 +9,8 @@ import { Contact } from './MainInterface Components/Contact'
 import Carosuel  from './MainInterface Components/Carosuel'
 import  Layout  from './Layout'
 import Home from './index/Home'
-import MainLogin from './login_page/MainLogin'
+import MainLogin from './LoginRegister Pages/MainLogin'
+import RegisterPage from './LoginRegister Pages/RegisterPage'
 
 function App() {
 
@@ -22,6 +23,8 @@ function App() {
 
           </Route>
           <Route path='/login' element={<MainLogin/>}/>
+
+          <Route path='/register' element={<RegisterPage/>}/>
 
 
 
