@@ -1,8 +1,12 @@
 import React from "react";
 import dental_logo from "../assets/headerLogo.png";
 import { ArrowLeft } from "lucide-react";
+import  loginpagedata  from "../data/loginpagedata";
+import InputCommonCard from "./InputCommonCard";
+
 
 const MainLogin = () => {
+
   return (
    
       <div className=" bg-cyan-50 flex flex-col min-h-screen justify-center items-center ">
@@ -31,24 +35,13 @@ const MainLogin = () => {
 
           <div className=" ">
             <form className="flex flex-col">
-              <div className="p-5 flex flex-col gap-3">
-                <label className="">Email Address</label>
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  className="border-2  border-cyan-500 rounded-lg p-1.5 hover:border-gray-500 hover:border-2 "
-                />
-              </div>
-              <div className="p-5 flex gap-3 flex-col">
-                <label className="">Password</label>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="border-2 rounded-lg border-cyan-500  p-1.5 hover:border-gray-500 hover:border-2"
-                />
-              </div>
+            
+            {loginpagedata.map((login_data,index)=>
+            
+              (<InputCommonCard type={login_data.type} name={login_data.name} />)
+            )}
 
-              <div className="flex flex-row justify-around ">
+              <div className="flex flex-row justify-around pt-3">
                 <div className="flex flex-row gap-x-3  ">
                   <input type="checkbox" />
                   <label className="pr-4 text-cyan-400">Remember Me</label>
@@ -84,4 +77,5 @@ const MainLogin = () => {
    
   );
 };
+
 export default MainLogin;
