@@ -1,17 +1,28 @@
-import React from 'react'
-
-
+import React from "react";
+import Sidebar from "./components/Sidebar";
+import AppDashboard from "./pages/AppDashboard";
+import UpdateRecords from "./components/UpdateRecords";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  
   return (
-    <>
-   
-       <p className="bg-red-600">
-        Welcome to DentPulse
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <div className="bg-blue-50 min-h-screen flex">
+
+        {/* Sidebar */}
+        <Sidebar />
+
+        {/* Page Content */}
+        <div className="ml-64 flex-1 p-6 md:p-8">
+          <Routes>
+            <Route path="/" element={<AppDashboard />} />
+            <Route path="/update-records/:id" element={<UpdateRecords />} />
+          </Routes>
+        </div>
+
+      </div>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
