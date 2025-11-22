@@ -17,7 +17,7 @@ import { Services } from '../MainInterface Components/ServicesCard'
     
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-4 py-5 pb-28 bg-cyan-50 mx-auto' >
     
-            {servicesData.map((service, index) => (<Services title={service.title} description={service.description} />))}
+            {servicesData.map((service, ) => (<Services title={service.title} description={service.description} />))}
     
           </div>
           <div>
