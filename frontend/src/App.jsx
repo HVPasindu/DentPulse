@@ -9,7 +9,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route path="/patient" element={<MainInterface/>} />
       </Routes>
     </BrowserRouter>
