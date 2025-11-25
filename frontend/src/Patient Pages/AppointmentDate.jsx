@@ -16,8 +16,8 @@ export const AppointmentDate = () => {
         <div className="bg-white border-2 border-cyan-500 rounded-2xl flex flex-col justify-center items-center max-w-fit">
           <div className="p-10">
             <div className="py-4">
-              <h1 className="font-bold text-cyan-400">Set Appointment Date</h1>
-              <h1 className="font-light">Choose a date for your appointment</h1>
+              <h1 className="p-1.5 text-cyan-700">Set Appointment Date</h1>
+              <h1 className="p-1.5 text-cyan-400">Choose a date for your appointment</h1>
             </div>
             <DatePicker
               selected={date}
@@ -30,8 +30,8 @@ export const AppointmentDate = () => {
         </div>
         <div className="border-2 border-cyan-400 m-4 gap-x-3 w-2xl p-4 rounded-2xl ">
           <div className="flex flex-col pb-4">
-            <h1 className="">Select Time Slot</h1>
-            <h1 className="font-bold text-cyan-400">
+            <h1 className="p-1.5 text-cyan-700">Select Time Slot</h1>
+            <h1 className="p-1.5 text-cyan-400">
               Available slots for {selected_date.toDateString()}
             </h1>
           </div>
@@ -42,7 +42,7 @@ export const AppointmentDate = () => {
           </div>
 
           <div className="flex justify-center items-center p-6">
-            <button className="w-[90%] rounded-2xl p-2 text-white bg-cyan-600 hover:bg-cyan-800 active:scale-100 active:translate-y-0 active:shadow-none active:bg-blue-600">
+            <button className="w-[90%] rounded-2xl p-2 text-white bg-cyan-600 hover:bg-cyan-800 ">
               Book An Appoinment
             </button>
           </div>

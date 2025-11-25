@@ -2,6 +2,7 @@ import React from "react";
 import PatientHeader from "./PatientHeader";
 import { AppointmentDate } from "./AppointmentDate";
 import { PatientDetail } from "./PatientDetail";
+import { RecentAppoinment } from "./RecentAppoinment";
 
 const MainInterface = () => {
   return (
@@ -13,7 +14,10 @@ const MainInterface = () => {
         <PatientDetail />
         <AppointmentDate />
       </div>
-      <div></div>
+      <div className="pt-5">
+
+        <RecentAppoinment/>
+      </div>
     </>
   );
 };
