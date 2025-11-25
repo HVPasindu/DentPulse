@@ -42,7 +42,7 @@ export const AppointmentDate = () => {
           </div>
 
           <div className="flex justify-center items-center p-6">
-            <button className="w-[90%] rounded-2xl p-2 text-white bg-cyan-600 hover:bg-cyan-800">
+            <button className="w-[90%] rounded-2xl p-2 text-white bg-cyan-600 hover:bg-cyan-800 active:scale-100 active:translate-y-0 active:shadow-none active:bg-blue-600">
               Book An Appoinment
             </button>
           </div>

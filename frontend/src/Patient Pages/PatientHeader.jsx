@@ -1,5 +1,7 @@
 import React from 'react'
 import headerLogo from '../assets/headerLogo.png'
+
+
 const PatientHeader = () => {
 
   return (
@@ -20,7 +22,8 @@ const PatientHeader = () => {
 
             <h1 className='text-black p-4'>Hello Patient!</h1>
 
-            <button className='bg-cyan-400  hover:bg-cyan-700 p-4 rounded-2xl'>Logout</button>
+               <button className='bg-white  hover:bg-cyan-100 border-2  hover:border-2 border-cyan-400 p-0.5 rounded-2xl '>Logout</button>
+
 
         </div>
     </div>
