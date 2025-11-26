@@ -3,6 +3,7 @@ import PatientHeader from "./PatientHeader";
 import { AppointmentDate } from "./AppointmentDate";
 import { PatientDetail } from "./PatientDetail";
 import { RecentAppoinment } from "./RecentAppoinment";
+import { PatientIdCard } from "./PatientIdCard";
 
 const MainInterface = () => {
   return (
@@ -10,6 +11,11 @@ const MainInterface = () => {
       <div>
         <PatientHeader />
       </div>
+    
+      <div>
+        <PatientIdCard/>
+      </div>
+
       <div className="flex flex-row justify-around pt-8">
         <PatientDetail />
         <AppointmentDate />
