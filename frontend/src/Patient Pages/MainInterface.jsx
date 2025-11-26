@@ -3,7 +3,7 @@ import PatientHeader from "./PatientHeader";
 import { AppointmentDate } from "./AppointmentDate";
 import { PatientDetail } from "./PatientDetail";
 import { RecentAppoinment } from "./RecentAppoinment";
-import { PatientIdCard } from "./PatientIdCard";
+import  {PatientIdCard}  from "./PatientIdCard";
 
 const MainInterface = () => {
   return (
