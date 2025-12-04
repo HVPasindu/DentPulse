@@ -54,11 +54,7 @@ export default function AdminLogin() {
         Sign In
       </button>
 
-      {/* Register */}
-      <p className="mt-6 text-sm text-gray-600">
-        Don’t have an account?{" "}
-        <a className="text-cyan-600 cursor-pointer">Register here</a>
-      </p>
+     
     </div>
   );
 }
