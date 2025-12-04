@@ -1,17 +1,11 @@
-import React from 'react'
-
-
+import AdminLogin from "./pages/AdminLogin";
 
 function App() {
-  
   return (
-    <>
-   
-       <p className="bg-red-600">
-        Welcome to DentPulse
-      </p>
-    </>
-  )
+    <div className="min-h-screen bg-[#E5F7FA] flex items-center justify-center p-4">
+      <AdminLogin />
+    </div>
+  );
 }
 
-export default App
+export default App;
