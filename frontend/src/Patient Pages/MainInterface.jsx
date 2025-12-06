@@ -3,26 +3,27 @@ import PatientHeader from "./PatientHeader";
 import { AppointmentDate } from "./AppointmentDate";
 import { PatientDetail } from "./PatientDetail";
 import { RecentAppoinment } from "./RecentAppoinment";
-import  {PatientIdCard}  from "./PatientIdCard";
+import { PatientIdCard } from "./PatientIdCard";
 
 const MainInterface = () => {
   return (
     <>
-      <div>
-        <PatientHeader />
-      </div>
-    
-      <div>
-        <PatientIdCard/>
-      </div>
+      <div className="bg-cyan-50">
+        <div>
+          <PatientHeader />
+        </div>
 
-      <div className="flex flex-row justify-around pt-8">
-        <PatientDetail />
-        <AppointmentDate />
-      </div>
-      <div className="pt-5">
+        <div>
+          <PatientIdCard />
+        </div>
 
-        <RecentAppoinment/>
+        <div className="flex  justify-around pt-8">
+          <PatientDetail />
+          <AppointmentDate />
+        </div>
+        <div className="pt-5">
+          <RecentAppoinment />
+        </div>
       </div>
     </>
   );

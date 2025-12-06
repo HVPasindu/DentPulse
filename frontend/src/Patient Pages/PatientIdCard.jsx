@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { QRCodeSVG as QRCode } from 'qrcode.react'; 
 
-export const PatientIdCard = (props) => {
+export const PatientIdCard = () => {
   const [show, Setshow] = useState(true);
+
+
 
   const [user, SetUsuer] = useState({
     userid: "1001",
@@ -31,11 +33,16 @@ export const PatientIdCard = (props) => {
           className=" p-4 text-white bg-cyan-500 hover:bg-cyan-800 rounded-2xl  "
           onClick={showhide}
         >
-          View/Hide ID Card
+         {show ? "Hide ID Card": "View ID Card"}
         </button>
       </div>
       {show && (
+        <>
+           <div className="md:grid-cols-1 justify-center">
+            <button className="bg-cyan-500 hover:bg-cyan-700 rounded-2xl p-4">Download Card</button>
+          </div>
         <div className="border-2 rounded-lg border-cyan-600 shadow-2xl  flex  flex-col justify-center w-[35%] mx-auto">
+       
           <div className="bg-cyan-500 p-4 flex flex-row justify-around rounded-lg">
             <div className="grid grid-cols-1">
               <h1 className="text-white font-7xl font-semibold">DentPulse</h1>
@@ -64,12 +71,12 @@ export const PatientIdCard = (props) => {
             <div className="pt-3 flex flex-col justify-center
             items-center">
                       <QRCode
-              value={qrData} // ✅ Use optimized data
+              value={qrData} 
               size={128} 
               level="M"
         
             />
-            <h1 className="text-cyan-700 pt-0.5 ">Scan QR Code</h1>
+            <h1 className="text-cyan-700 pt-0.5s ">Scan QR Code</h1>
             </div>
           </div>
   
@@ -92,6 +99,7 @@ export const PatientIdCard = (props) => {
           </div>
    
         </div>
+        </>
       )}
     </div>
   );

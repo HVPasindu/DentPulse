@@ -11,7 +11,7 @@ export const PatientDetail = () => {
           Update your personal information
         </h1>
       </div>
-      {paitentdata.map((data, index) => (
+      {paitentdata.map((data, ) => (
         <PaitentDetailCardComponent type={data.type} name={data.name} />
       ))}
 

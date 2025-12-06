@@ -10,6 +10,8 @@ export const AppointmentDate = () => {
 
   let selected_date = date;
 
+
+
   return (
     <>
       <div className="flex flex-col justify-center items-center">
@@ -28,7 +30,8 @@ export const AppointmentDate = () => {
             />
           </div>
         </div>
-        <div className="border-2 border-cyan-400 m-4 gap-x-3 w-2xl p-4 rounded-2xl ">
+        <div className="border-2 border-cyan-400 m-4 gap-x-3 w-2xl p-4 rounded-2xl bg-white
+         ">
           <div className="flex flex-col pb-4">
             <h1 className="p-1.5 text-cyan-700">Select Time Slot</h1>
             <h1 className="p-1.5 text-cyan-400">
