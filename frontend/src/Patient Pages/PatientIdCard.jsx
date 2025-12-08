@@ -3,6 +3,8 @@ import { QRCodeSVG as QRCode } from "qrcode.react";
 import { PatientDetail } from "./PatientDetail";
 
 export const PatientIdCard = () => {
+
+
   const [user, SetUsuer] = useState({
     userid: "1001",
     name: "Thushan Jayathilaka",
@@ -19,18 +21,20 @@ export const PatientIdCard = () => {
     dob: user.dob,
   });
 
+
   return (
-    <div className=" flex flex-row p-10 justify-evenly">
-      <div className="w-[40%]">
+
+    <div className=" grid grid-cols-1 lg:grid-cols-2 p-8  ">
+      <div className="p-4">
         <PatientDetail />
       </div>
 
-      <div className="border-2 border-cyan-500 bg-white rounded-2xl w-[40%]  p-11">
+      <div className="border-2 border-cyan-500 bg-white rounded-2xl   p-11">
         <div className="grid grid-cols-1 pb-10">
           <h1 className="text-cyan-800">Patient ID Card</h1>
           <h1 className="text-cyan-400">View and download your ID card</h1>
         </div>
-        <div className="border-2 rounded-lg border-cyan-600 shadow-2xl  flex  flex-col justify-center w-[90%] mx-auto">
+        <div className="border-2 rounded-lg border-cyan-600 shadow-2xl  flex  flex-col justify-center w-full  md:w-[90%]  mx-auto">
           <div className="bg-cyan-500 p-4 flex flex-row justify-around rounded-lg">
             <div className="grid grid-cols-1">
               <h1 className="text-white font-7xl font-semibold">DentPulse</h1>

@@ -3,13 +3,13 @@ import React from "react";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import MainInterface from "./Patient Pages/MainInterface";
+import PaitentProfile from "./Patient Pages/PaitentProfile";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/patient" element={<MainInterface/>} />
+        <Route path="/patient" element={<PaitentProfile/>} />
       </Routes>
     </BrowserRouter>
   );
