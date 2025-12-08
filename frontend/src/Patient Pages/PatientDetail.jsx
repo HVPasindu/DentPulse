@@ -4,7 +4,7 @@ import PaitentDetailCardComponent from "./PaitentDetailCardComponent";
 
 export const PatientDetail = () => {
   return (
-    <div className="bg-white border-2 border-cyan-400 rounded-2xl w-[25%] ">
+    <div className="bg-white border-2 border-cyan-400 rounded-2xl p-10  ">
       <div>
         <h1 className="p-1.5 text-cyan-700"> Paitent Details</h1>
         <h1 className="p-1.5 text-cyan-400">

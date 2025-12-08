@@ -4,7 +4,7 @@ import { AppointmentDate } from "./AppointmentDate";
 import { PatientDetail } from "./PatientDetail";
 import { RecentAppoinment } from "./RecentAppoinment";
 import { PatientIdCard } from "./PatientIdCard";
-
+import { NavigationButtons } from "./NavigationButtons";
 const MainInterface = () => {
   return (
     <>
@@ -12,17 +12,14 @@ const MainInterface = () => {
         <div>
           <PatientHeader />
         </div>
-
         <div>
-          <PatientIdCard />
+          <NavigationButtons />
         </div>
 
-        <div className="flex  justify-around pt-8">
-          <PatientDetail />
-          <AppointmentDate />
-        </div>
-        <div className="pt-5">
-          <RecentAppoinment />
+
+        <div className="">
+     
+          <PatientIdCard />
         </div>
       </div>
     </>
