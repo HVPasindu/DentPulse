@@ -1,16 +1,16 @@
 import { Outlet } from "react-router-dom";
 import React from "react";
-import { Footer } from "./MainInterface Components/Footer";
-import { Header } from "./MainInterface Components/Header";
+import PatientHeader from "./Patient Pages/PatientHeader";
+import { NavigationButtons}  from "./Patient Pages/NavigationButtons";
 
 const Layout = () => {
   return (
     <div>
-      <Header />
-
+        <PatientHeader/>
+        <NavigationButtons/>
       <Outlet />
 
-      <Footer />
+
     </div>
   );
 };

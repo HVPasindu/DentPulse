@@ -1,18 +1,36 @@
 import React from "react";
 
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import Layout from "./Layout";
 import PaitentProfile from "./Patient Pages/PaitentProfile";
-
+import PatientHeader from "./Patient Pages/PatientHeader";
+import { PatientIdCard } from "./Patient Pages/PatientIdCard";
+import { FamilyMembers } from "./Patient Pages/FamilyMembers";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/patient" element={<PaitentProfile/>} />
+        <Route path="/patient" element={<Layout />}>
+          <Route path="family" element={<FamilyMembers />} />
+          <Route path="bookappointments" element={<FamilyMembers />} />
+          <Route path="myappointments" element={<FamilyMembers />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
+
+// <BrowserRouter>
+//     <Routes>
+//       <Route path="/" element={<Layout />}>
+//         {/* All child routes will render inside the Layout */}
+//         <Route index element={<PatientDashboard />} />
+//         <Route path="dashboard" element={<PatientDashboard />} />
+//         <Route path="appointments" element={<PatientAppointments />} />
+//         <Route path="records" element={<PatientRecords />} />
+//         <Route path="profile" element={<PatientProfile />} />
+//       </Route>
+//     </Routes>
+//   </BrowserRouter>

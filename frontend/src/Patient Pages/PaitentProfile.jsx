@@ -8,11 +8,11 @@ import { NavigationButtons } from "./NavigationButtons";
 const MainInterface = () => {
   return (
     <>
-      <div className="bg-cyan-50">
+      <div className="">
         <div>
           <PatientHeader />
         </div>
-        <div>
+        <div className="bg-cyan-300">
           <NavigationButtons />
         </div>
 

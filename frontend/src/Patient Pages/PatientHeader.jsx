@@ -5,8 +5,8 @@ import { LogOut } from "lucide-react";
 
 const PatientHeader = () => {
   return (
-    <div className="flex flex-row w-screen justify-between bg-cyan-200 p-4">
-      <div className="bg-cyan-200 flex flex-row p-2">
+    <div className="flex flex-row w-screen justify-between bg-white p-4 shadow-md">
+      <div className="bg-white flex flex-row p-2">
         <img src={headerLogo} alt="dental logo" className="size-10" />
 
         <h1 className="text-cyan-400 text-2xl font-bold">
@@ -15,7 +15,7 @@ const PatientHeader = () => {
       </div>
 
       <div className=" flex flex-row">
-        <h1 className="text-black p-4">Hello Patient!</h1>
+        <h1 className=" p-4 text-cyan-600  ">Hello Patient!</h1>
 
         <button className="bg-white  hover:bg-cyan-100 border-2  hover:border-2 border-cyan-400 px-3 rounded-2xl ">
           <div className="flex p-0.5">
