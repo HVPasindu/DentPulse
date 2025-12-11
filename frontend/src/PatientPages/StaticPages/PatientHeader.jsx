@@ -1,5 +1,5 @@
 import React from "react";
-import headerLogo from "../assets/headerLogo.png";
+// import headerLogo from "./";
 import { LogOut } from "lucide-react";
 
 
@@ -7,7 +7,7 @@ const PatientHeader = () => {
   return (
     <div className="flex flex-row w-screen justify-between bg-white p-4 shadow-md">
       <div className="bg-white flex flex-row p-2">
-        <img src={headerLogo} alt="dental logo" className="size-10" />
+        {/* <img src={headerLogo} alt="dental logo" className="size-10" /> */}
 
         <h1 className="text-cyan-400 text-2xl font-bold">
           <span className="text-cyan-600">Dent</span>Pluse

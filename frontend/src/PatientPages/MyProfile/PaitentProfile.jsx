@@ -1,10 +1,10 @@
 import React from "react";
-import PatientHeader from "./PatientHeader";
-import { AppointmentDate } from "./AppointmentDate";
+import PatientHeader from "../StaticPages/PatientHeader";
+import { AppointmentDate } from "../AppointmentDate";
 import { PatientDetail } from "./PatientDetail";
-import { RecentAppoinment } from "./RecentAppoinment";
+import { RecentAppoinment } from "../RecentAppoinment";
 import { PatientIdCard } from "./PatientIdCard";
-import { NavigationButtons } from "./NavigationButtons";
+import { NavigationButtons } from "../StaticPages/NavigationButtons";
 const MainInterface = () => {
   return (
     <>
@@ -12,11 +12,9 @@ const MainInterface = () => {
         <div>
           <PatientHeader />
         </div>
-        <div className="bg-cyan-300">
+        <div className="">
           <NavigationButtons />
         </div>
-
-
         <div className="">
      
           <PatientIdCard />

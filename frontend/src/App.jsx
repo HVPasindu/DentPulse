@@ -2,10 +2,10 @@ import React from "react";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
-import PaitentProfile from "./Patient Pages/PaitentProfile";
-import PatientHeader from "./Patient Pages/PatientHeader";
-import { PatientIdCard } from "./Patient Pages/PatientIdCard";
-import { FamilyMembers } from "./Patient Pages/FamilyMembers";
+import PaitentProfile from "./PatientPages/MyProfile/PaitentProfile";
+import PatientHeader from "./PatientPages/StaticPages/PatientHeader";
+import { PatientIdCard } from "./PatientPages/MyProfile/PatientIdCard";
+import { FamilyMembers } from "./PatientPages/FamilyMember/FamilyMembers";
 function App() {
   return (
     <BrowserRouter>

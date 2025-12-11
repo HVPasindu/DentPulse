@@ -1,5 +1,5 @@
 import React from "react";
-import { paitentdata } from "./data/paitentdata";
+import { paitentdata } from "../data/paitentinputs";
 import PaitentDetailCardComponent from "./PaitentDetailCardComponent";
 import { UserRoundPen } from "lucide-react";
 export const PatientDetail = () => {

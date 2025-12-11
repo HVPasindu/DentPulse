@@ -1,13 +1,15 @@
 import React from "react";
-import { paitentdata } from "./data/paitentdata";
+import { paitentdata } from "../data/paitentdata";
 import { IdCard, UserRoundPlus } from "lucide-react";
+import { PopupForm } from "./PopupForm";
 
 export const FamilyMembers = () => {
   // table data in the data/patientdata
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
+
+    <div className="p-8 bg-cyan-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between p-4">
           <div>
             <h1 className="text-lg text-cyan-700   mb-6">Family Members</h1>
             <h1 className="text-md text-cyan-500">
@@ -21,7 +23,6 @@ export const FamilyMembers = () => {
                    <h1 className="text-sm">Add New Paitent</h1>
               </div>
 
-           
             </button>
           </div>
         </div>
@@ -34,12 +35,15 @@ export const FamilyMembers = () => {
                   Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-                  Email
+                 Relationship
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-                  Phone
+                 Email
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                 Phone Number
+                </th>
+                     <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
                   Action
                 </th>
               </tr>
@@ -67,9 +71,12 @@ export const FamilyMembers = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                
                       {user.email}
-                    </span>
+                  
+                  </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm  text-gray-900">{user.phone}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="">
@@ -87,6 +94,7 @@ export const FamilyMembers = () => {
           </table>
         </div>
       </div>
+      <PopupForm/>
     </div>
   );
 };
