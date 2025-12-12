@@ -5,13 +5,9 @@ import { PopupForm } from "./PopupForm";
 import { useState } from "react";
 
 export const FamilyMembers = () => {
-
   // table data in the data/patientdata
 
-
-
-
-    const [Isopen, setIsOpen] = useState(false);
+  const [Isopen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     relationship: "",
@@ -23,7 +19,7 @@ export const FamilyMembers = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.taget.value,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -39,17 +35,15 @@ export const FamilyMembers = () => {
     });
   };
 
-  const openModal=()=>{
+  const openModal = () => {
     setIsOpen(true);
   };
 
-  const closeModal=()=>{
-
+  const closeModal = () => {
     setIsOpen(false);
   };
 
   return (
-
     <div className="p-8 bg-cyan-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-row justify-between p-4">
@@ -60,12 +54,14 @@ export const FamilyMembers = () => {
             </h1>
           </div>
           <div className="">
-            <button className=" rounded-lg bg-cyan-500 text-white hover:bg-cyan-700 p-2 " onClick={openModal}>
+            <button
+              className=" rounded-lg bg-cyan-500 text-white hover:bg-cyan-700 p-2 "
+              onClick={openModal}
+            >
               <div className="flex flex-row">
-                <UserRoundPlus className="size-5"/>
-                   <h1 className="text-sm">Add New Paitent</h1>
+                <UserRoundPlus className="size-5" />
+                <h1 className="text-sm">Add New Paitent</h1>
               </div>
-
             </button>
           </div>
         </div>
@@ -78,15 +74,15 @@ export const FamilyMembers = () => {
                   Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-                 Relationship
+                  Relationship
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-                 Email
+                  Email
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-                 Phone Number
+                  Phone Number
                 </th>
-                     <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
                   Action
                 </th>
               </tr>
@@ -113,12 +109,8 @@ export const FamilyMembers = () => {
                       {user.relationship}{" "}
                     </span>
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                
-                      {user.email}
-                  
-                  </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm  text-gray-900">{user.phone}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -138,10 +130,14 @@ export const FamilyMembers = () => {
         </div>
       </div>
       <div>
-                {Isopen && <PopupForm closeModal={closeModal} handleChange={handleChange}/>}
+        {Isopen && (
+          <PopupForm
+            closeModal={closeModal}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+        )}
       </div>
-      
-      
     </div>
   );
 };

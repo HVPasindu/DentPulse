@@ -5,40 +5,54 @@ const inputs = [
   {
     id: "1",
     name: "Patient Name",
+    label: "name",
+    value:"",
     type: "text",
   },
   {
     id: "2",
     name: "Relationship",
     type: "select",
+    label: "relationship",
+    value: "",
     options: ["Father", "Mother", "Spouse", "Son", "Daughter", "Other"],
   },
   {
     id: "3",
     name: "Phone Number",
+    label: "phone",
+    value: "",
     type: "tel",
   },
   {
     id: "4",
     name: "Email Address",
+    label: "email",
+    value: "",
     type: "email",
   },
   {
     id: "5",
     name: "Date Of Birth",
+    label: "date",
+    value: "",
     type: "date",
   },
   {
     id: "6",
     name: "Address",
+    label: "address",
+    value: "",
     type: "text",
   },
 ];
-export const PopupForm = ({closeModal,handleChange}) => {
+export const PopupForm = ({ closeModal, handleChange, handleSubmit }) => {
   return (
-    <div className=" bg-white  border-2 border-cyan-400 rounded-lg w-[25%]">
+    <div className="fixed inset-0  bg-opacity-10 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+ >
+    <div className=" bg-white  border-2 border-cyan-400 rounded-lg w-[25%] shadow-2xl" onClick={(e)=>e.stopPropagation()}>
       <div className="pl-9 py-2 ">
-        <div className="flex flex-row justify-evenly items-center">
+        <div className="flex flex-row justify-evenly items-center pt-4">
           <div>
             <h1 className="text-cyan-800 text-md">
               Add Family Member
@@ -49,7 +63,10 @@ export const PopupForm = ({closeModal,handleChange}) => {
             </h1>
           </div>
           <div>
-            <X className="cursor-pointer hover:text-cyan-600" onClick={closeModal}/>
+            <X
+              className="cursor-pointer hover:text-cyan-600"
+              onClick={closeModal}
+            />
           </div>
         </div>
 
@@ -74,6 +91,7 @@ export const PopupForm = ({closeModal,handleChange}) => {
                             key={option}
                             value={option}
                             className="border-2 border-cyan-400"
+                            onChange={handleChange}
                           >
                             {option}
                           </option>
@@ -92,24 +110,33 @@ export const PopupForm = ({closeModal,handleChange}) => {
                     <br />
                     <input
                       type={input.type}
-                      className="border-2 border-cyan-500  rounded-md p-1  "
+                      className="border-2 border-cyan-500 w-[95%] rounded-md p-0.5  "
                       placeholder={input.name}
+                      onChange={handleChange}
+                      value={input.value}
                     />
                   </div>
                 )}
               </div>
             ))}
             <div className="py-2.5 flex flex-row ">
-              <button className=" p-2.5 text-white bg-cyan-500 hover:bg-cyan-700 rounded-2xl w-50 " onClick={handleChange}>
+              <button
+                className=" p-1.5 text-white bg-cyan-500 hover:bg-cyan-700 rounded-2xl w-50 "
+                onClick={handleSubmit}
+              >
                 Add Family Member
               </button>
-              <button className="p-2.5 hover:bg-gray-300  border-2 border-gray-100 rounded-2xl w-40" onClick={closeModal}>
+              <button
+                className="p-1.5 hover:bg-gray-300  border-2 border-gray-100 rounded-2xl w-40"
+                onClick={closeModal}
+              >
                 Cancel
               </button>
             </div>
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 };
