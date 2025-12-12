@@ -11,6 +11,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/patient" element={<Layout />}>
+          <Route index element={<PaitentProfile/>}/>
           <Route path="family" element={<FamilyMembers />} />
           <Route path="bookappointments" element={<FamilyMembers />} />
           <Route path="myappointments" element={<FamilyMembers />} />

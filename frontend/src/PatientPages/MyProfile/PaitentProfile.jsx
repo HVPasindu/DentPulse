@@ -8,17 +8,12 @@ import { NavigationButtons } from "../StaticPages/NavigationButtons";
 const MainInterface = () => {
   return (
     <>
-      <div className="">
-        <div>
-          <PatientHeader />
-        </div>
-        <div className="">
-          <NavigationButtons />
-        </div>
+  
+    
         <div className="">
      
           <PatientIdCard />
-        </div>
+
       </div>
     </>
   );

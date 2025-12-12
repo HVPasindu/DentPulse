@@ -2,9 +2,52 @@ import React from "react";
 import { paitentdata } from "../data/paitentdata";
 import { IdCard, UserRoundPlus } from "lucide-react";
 import { PopupForm } from "./PopupForm";
+import { useState } from "react";
 
 export const FamilyMembers = () => {
+
   // table data in the data/patientdata
+
+
+
+
+    const [Isopen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    relationship: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.taget.value,
+    });
+  };
+
+  const handleSubmit = () => {
+    console.log("form submitted!", formData);
+    setIsOpen(false);
+    setFormData({
+      name: "",
+      relationship: "",
+      phone: "",
+      email: "",
+      address: "",
+    });
+  };
+
+  const openModal=()=>{
+    setIsOpen(true);
+  };
+
+  const closeModal=()=>{
+
+    setIsOpen(false);
+  };
+
   return (
 
     <div className="p-8 bg-cyan-50 min-h-screen">
@@ -17,7 +60,7 @@ export const FamilyMembers = () => {
             </h1>
           </div>
           <div className="">
-            <button className=" rounded-lg bg-cyan-500 text-white hover:bg-cyan-700 p-2">
+            <button className=" rounded-lg bg-cyan-500 text-white hover:bg-cyan-700 p-2 " onClick={openModal}>
               <div className="flex flex-row">
                 <UserRoundPlus className="size-5"/>
                    <h1 className="text-sm">Add New Paitent</h1>
@@ -94,7 +137,11 @@ export const FamilyMembers = () => {
           </table>
         </div>
       </div>
-      <PopupForm/>
+      <div>
+                {Isopen && <PopupForm closeModal={closeModal} handleChange={handleChange}/>}
+      </div>
+      
+      
     </div>
   );
 };
