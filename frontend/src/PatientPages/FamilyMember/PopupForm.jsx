@@ -1,7 +1,8 @@
 import React from "react";
-import { useState } from "react";
+
 import { X } from "lucide-react";
 const inputs = [
+
   {
     id: "1",
     name: "Patient Name",
@@ -45,6 +46,7 @@ const inputs = [
     value: "",
     type: "text",
   },
+
 ];
 export const PopupForm = ({ closeModal, handleChange, handleSubmit }) => {
   return (
@@ -110,10 +112,10 @@ export const PopupForm = ({ closeModal, handleChange, handleSubmit }) => {
                     <br />
                     <input
                       type={input.type}
-                      className="border-2 border-cyan-500 w-[95%] rounded-md p-0.5  "
+                      className="border-2 border-cyan-500  w-[95%]   rounded-md p-0.5  "
                       placeholder={input.name}
                       onChange={handleChange}
-                      value={input.value}
+                      value={""}
                     />
                   </div>
                 )}
