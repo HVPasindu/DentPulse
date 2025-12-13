@@ -7,6 +7,7 @@ import PatientHeader from "./PatientPages/StaticPages/PatientHeader";
 import { PatientIdCard } from "./PatientPages/MyProfile/PatientIdCard";
 import { FamilyMembers } from "./PatientPages/FamilyMember/FamilyMembers";
 import { BookAppoinment } from "./PatientPages/BookAppointment/BookAppoinment";
+import { MyAppointments } from "./PatientPages/MyAppointments/MyAppointments";
 function App() {
   return (
     <BrowserRouter>
@@ -15,7 +16,7 @@ function App() {
           <Route index element={<PaitentProfile/>}/>
           <Route path="family" element={<FamilyMembers />} />
           <Route path="bookappointments" element={<BookAppoinment />} />
-          <Route path="myappointments" element={<FamilyMembers />} />
+          <Route path="myappointments" element={<MyAppointments />} />
         </Route>
       </Routes>
     </BrowserRouter>

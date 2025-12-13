@@ -11,8 +11,6 @@ export const AppointmentDate = () => {
 
   let selected_date = date;
 
-
-
   return (
     <>
       <div className="flex flex-col justify-center items-center">

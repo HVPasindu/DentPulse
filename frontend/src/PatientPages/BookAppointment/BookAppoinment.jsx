@@ -1,6 +1,6 @@
 import React from "react";
 import { AppointmentDate } from "./AppointmentDate";
-import { RecentAppoinment } from "./RecentAppoinment";
+
 import { SelectPatient } from "./SelectPatient";
 import { TimeSlot } from "./TimeSlot";
 export const BookAppoinment = () => {

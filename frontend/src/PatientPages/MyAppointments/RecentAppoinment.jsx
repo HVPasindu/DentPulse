@@ -11,6 +11,9 @@ export const RecentAppoinment = () => {
         <div>
             <h1 className='p-1.5 text-cyan-700'>Upcoming Appoinments</h1>
             <h1 className='p-1.5 text-cyan-400'>View your scheduled appointments</h1>
+            
+
+
         </div>
 
 
