@@ -1,7 +1,14 @@
 import React from 'react'
+import { RecentAppoinment } from './RecentAppoinment'
 
 export const MyAppointments = () => {
   return (
-    <div>MyAppointments</div>
+    <div>
+
+        <RecentAppoinment/>
+
+
+
+    </div>
   )
 }

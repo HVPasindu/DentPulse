@@ -8,12 +8,14 @@ export const FamilyMembers = () => {
   // table data in the data/patientdata
 
   const [Isopen, setIsOpen] = useState(false);
+  
   const [formData, setFormData] = useState({
     name: "",
     relationship: "",
     phone: "",
     email: "",
     address: "",
+
   });
 
   const handleChange = (e) => {
