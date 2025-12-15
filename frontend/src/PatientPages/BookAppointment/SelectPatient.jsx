@@ -2,19 +2,16 @@ import React from "react";
 
 export const SelectPatient = () => {
 
-
-
-
   return (
 
     <div className="pl-10">
 
       <div className="rounded-2xl  border-2 border-cyan-500 h-full p-4">
         <div className="p-4">
-          <h1 className="text-cyan-700 text-sm">
+          <h1 className="text-cyan-700 ">
             Select Patient
             <br />
-            <span className="text-cyan-300 text-sm">
+            <span className="text-cyan-300 ">
               Choose who this appointment is for
             </span>
           </h1>

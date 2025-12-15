@@ -4,7 +4,7 @@ const paitentdata = [
   {
     id: 1,
     name: "kalana",
-    relationship: "account owner",
+    status: "Scheduled",
     date: "2025/05/26",
     time: "9.00am",
   },
@@ -16,7 +16,7 @@ export const RecentAppoinment = () => {
   return (
   
       <div>
-        <div className="bg-white rounded-lg  overflow-hidden border-2 border-cyan-400">
+        <div className="bg-white rounded-lg  overflow-hidden border-2 border-cyan-400 ">
           <div>
             <h1 className="p-1.5 text-cyan-700">Upcoming Appoinments</h1>
             <h1 className="p-1.5 text-cyan-400">
@@ -30,7 +30,7 @@ export const RecentAppoinment = () => {
                   Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-                  Relationship
+                  Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
                   Date
@@ -62,7 +62,7 @@ export const RecentAppoinment = () => {
                       }`}
                     >
                       {" "}
-                      {user.relationship}{" "}
+                      {user.status}{" "}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{user.date}</td>
