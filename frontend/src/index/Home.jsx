@@ -31,7 +31,7 @@ import { Services } from '../MainInterface Components/ServicesCard'
             <Contact/>
           </div>
 
-       <a href="/login">login</a>
+  
         </>
     
       )
