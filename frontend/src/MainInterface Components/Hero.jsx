@@ -10,6 +10,9 @@ export function Hero() {
 
 
 
+
+
+
   return (
     <div className="grid grid-cols-1 pb-3.5 bg-cyan-50 ">
       <div className="flex flex-col justify-center items-center py-8">
@@ -31,7 +34,7 @@ export function Hero() {
         <button className="rounded-lg bg-cyan-600 text-white hover:shadow-2xl px-7 py-3 hover:bg-cyan-800 "onClick={switchlologin}>
           Book Appointment
         </button>
-        <button className="rounded-lg bg-white border-cyan-600 border-2 px-7 py-3 hover:bg-cyan-200">
+        <button className="rounded-lg bg-white border-cyan-600 border-2 px-7 py-3 hover:bg-cyan-200" >
           📞Call Us Now
         </button>
       </div>

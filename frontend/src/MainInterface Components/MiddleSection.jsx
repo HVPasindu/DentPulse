@@ -2,12 +2,27 @@ import { MiddleSectionCard } from "./MiddleSectionCard";
 import { middledata } from "../data/middledata";
 import { useNavigate } from 'react-router-dom'
 
-export function MiddleSection() {
+export function MiddleSection({link}) {
   const navigate = useNavigate();
 
   const switchlologin = () => {
     navigate("/login");
   };
+
+
+  const scrolltoSection=(link)=>{
+
+    const element=document.getElementById(link);
+
+    if(element){
+      element.scrollIntoView({
+        behavior:'smooth',
+
+        block:'start'
+      });  
+    }
+
+  }
 
   return (
     <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64 bg-cyan-50  ">

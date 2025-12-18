@@ -10,7 +10,7 @@ import Carosuel from "./MainInterface Components/Carosuel";
 import Layout from "./Layout";
 import Home from "./index/Home";
 
-import MainInterface from "./Patient Pages/MainInterface";
+
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
           <Route index element={<Home />} />
         </Route>
 
-        <Route path="/patient" element={<MainInterface/>} />
+        
       </Routes>
     </BrowserRouter>
   );
