@@ -1,2 +1,2 @@
 # DentPulse Dental Management System 
-with reat and springboot
+with react and springboot(Additionally Django)
