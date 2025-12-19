@@ -7,6 +7,7 @@ import { Services } from "./MainInterface Components/ServicesCard";
 import { MiddleSection } from "./MainInterface Components/MiddleSection";
 import { Contact } from "./MainInterface Components/Contact";
 import Carosuel from "./MainInterface Components/Carosuel";
+import ChatbotWidget from "./chatbot/ChatbotWidget";
 import Layout from "./Layout";
 import Home from "./index/Home";
 
@@ -18,10 +19,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-        </Route>
-
-        
+        </Route> 
       </Routes>
+
+    {/* ✅ ADD THIS LINE (GLOBAL CHATBOT) */}
+      <ChatbotWidget />
+
     </BrowserRouter>
   );
 }
