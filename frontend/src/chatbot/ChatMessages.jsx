@@ -23,7 +23,7 @@ export default function ChatMessages({ messages, isTyping, onQuickSend }) {
       {/* ⏳ TYPING INDICATOR */}
       {isTyping && (
         <div className="chat-message bot typing">
-          DentPulse is typing<span className="dots">...</span>
+          DP Assistant is typing<span className="dots">...</span>
         </div>
       )}
 
