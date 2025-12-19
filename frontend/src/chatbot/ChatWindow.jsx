@@ -2,12 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
+import chatbotIcon from "../assets/chatbot-icon.png";
 
 export default function ChatWindow({ onClose }) {
   const [messages, setMessages] = useState([
     {
       sender: "bot",
-      text: "Hi 👋 I’m DentPulse Assistant. How can I help you today?",
+      text: "Hi 👋 I’m DP Assistant. How can I help you today?",
     },
   ]);
 
@@ -55,7 +56,10 @@ export default function ChatWindow({ onClose }) {
   return (
     <div className="chatbot-window">
       <div className="chatbot-header">
-        <span>DentPulse Assistant 🦷</span>
+        <div className="chatbot-title">
+          <img src={chatbotIcon} alt="Chatbot" className="chatbot-icon" />
+          <span>DP Assistant</span>
+        </div>
         <button onClick={onClose}>✕</button>
       </div>
 
