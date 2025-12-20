@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import WelcomeHeader from "../components/WelcomeHeader";
 import SummarySection from "../components/SummarySection";
@@ -92,7 +93,8 @@ const handleSave = async (e) => {
         Appointments Management
       </h1>
 
-      <SummarySection />
+      <SummarySection appointments={appointments} />
+
 
       {/* ================= POPUP MODAL ================= */}
       {isPopupOpen && (
@@ -248,6 +250,7 @@ const handleSave = async (e) => {
                               ? "bg-green-100 text-green-800"
                               : "bg-blue-100 text-blue-800"
                           }`}
+
                         >
                           {appt.status}
                         </span>
