@@ -10,7 +10,7 @@ const MainInterface = () => {
     <>
   
     
-        <div className="">
+        <div className="bg-cyan-50">
      
           <PatientIdCard />
 

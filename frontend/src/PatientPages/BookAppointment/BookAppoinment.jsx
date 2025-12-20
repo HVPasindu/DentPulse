@@ -6,7 +6,7 @@ import { TimeSlot } from "./TimeSlot";
 export const BookAppoinment = () => {
   return (
     <div>
-      <div className="flex flex-col">
+      <div className="flex flex-col bg-cyan-50">
         <div className="grid grid-cols-1 md:grid-cols-2 justify-evenly gap-7">
           <SelectPatient />
           <AppointmentDate />

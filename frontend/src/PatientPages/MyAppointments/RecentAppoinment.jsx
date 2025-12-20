@@ -15,7 +15,7 @@ const paitentdata = [
 export const RecentAppoinment = () => {
   return (
   
-      <div>
+
         <div className="bg-white rounded-lg  overflow-hidden border-2 border-cyan-400 ">
           <div>
             <h1 className="p-1.5 text-cyan-700">Upcoming Appoinments</h1>
@@ -81,7 +81,7 @@ export const RecentAppoinment = () => {
             </tbody>
           </table>
         </div>
-      </div>
+  
     
   );
 };

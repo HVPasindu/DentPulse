@@ -3,11 +3,12 @@ import { RecentAppoinment } from './RecentAppoinment'
 
 export const MyAppointments = () => {
   return (
-    <div>
+   
+    <div className=''>
 
         <RecentAppoinment/>
 
-
+        
 
     </div>
   )

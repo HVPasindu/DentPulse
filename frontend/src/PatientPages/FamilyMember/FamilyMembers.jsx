@@ -8,14 +8,16 @@ export const FamilyMembers = () => {
   // table data in the data/patientdata
 
   const [Isopen, setIsOpen] = useState(false);
-  
+
+  const [FamilyDetail, setFamilyDetail] = useState(paitentdata);
+
   const [formData, setFormData] = useState({
     name: "",
     relationship: "",
     phone: "",
     email: "",
     address: "",
-
+    date: "",
   });
 
   const handleChange = (e) => {
@@ -26,7 +28,14 @@ export const FamilyMembers = () => {
   };
 
   const handleSubmit = () => {
-    console.log("form submitted!", formData);
+    const new_member = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      relationship: formData.relationship,
+    };
+    setFamilyDetail([...FamilyDetail, new_member]);
+
     setIsOpen(false);
     setFormData({
       name: "",
@@ -34,6 +43,7 @@ export const FamilyMembers = () => {
       phone: "",
       email: "",
       address: "",
+      date: "",
     });
   };
 
@@ -90,7 +100,7 @@ export const FamilyMembers = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {paitentdata.map((user) => (
+              {FamilyDetail.map((user) => (
                 <tr
                   key={user.id}
                   className="hover:bg-gray-50 transition-colors"
@@ -137,6 +147,7 @@ export const FamilyMembers = () => {
             closeModal={closeModal}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
+            formData={formData}
           />
         )}
       </div>
