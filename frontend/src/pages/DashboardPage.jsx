@@ -4,6 +4,7 @@ import DashboardSidebar from '../Admin/DashboardSidebar'
 import DashboardHeader from '../Admin/DashboardHeader'
 import DashboardStatus from '../Admin/DashboardStatus'
 import DashboardQuickActions from '../Admin/DashboardQuickActions'
+import DashboardRecentAppointments from '../Admin/DashboardRecentAppoinments'
 
 
 export default function DashboardPage() {
@@ -25,6 +26,7 @@ export default function DashboardPage() {
 
           <DashboardStatus />
           <DashboardQuickActions />
+          <DashboardRecentAppointments />
 
          
         </main>
