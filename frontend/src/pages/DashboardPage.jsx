@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import DashboardSidebar from '../Admin/DashboardSidebar'
 import DashboardHeader from '../Admin/DashboardHeader'
+import DashboardStatus from '../Admin/DashboardStatus'
 
 
 export default function DashboardPage() {
@@ -20,6 +21,8 @@ export default function DashboardPage() {
             <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
             <p className="text-gray-600 mt-1">Welcome back! Here's what's happening today.</p>
           </div>
+
+          <DashboardStatus />
 
          
         </main>
