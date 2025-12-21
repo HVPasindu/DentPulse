@@ -3,6 +3,7 @@ import { useState } from 'react'
 import DashboardSidebar from '../Admin/DashboardSidebar'
 import DashboardHeader from '../Admin/DashboardHeader'
 import DashboardStatus from '../Admin/DashboardStatus'
+import DashboardQuickActions from '../Admin/DashboardQuickActions'
 
 
 export default function DashboardPage() {
@@ -23,6 +24,7 @@ export default function DashboardPage() {
           </div>
 
           <DashboardStatus />
+          <DashboardQuickActions />
 
          
         </main>
