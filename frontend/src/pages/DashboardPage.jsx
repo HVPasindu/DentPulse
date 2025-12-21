@@ -1,12 +1,14 @@
 import { useState } from 'react'
 
+import DashboardSidebar from '../Admin/DashboardSidebar'
+
 
 export default function DashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="min-h-screen flex bg-gray-50">
-     <div className="w-64 bg-gray-200 p-4">Sidebar Placeholder</div>
+     <DashboardSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       
       <div className="flex-1 flex flex-col min-w-0">
        <div className="w-64 bg-gray-200 p-4">Header Placeholder</div>
