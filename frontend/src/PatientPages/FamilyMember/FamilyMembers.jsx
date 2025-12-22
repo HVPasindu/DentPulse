@@ -1,6 +1,6 @@
 import React from "react";
 import { paitentdata } from "../data/paitentdata";
-import { IdCard, UserRoundPlus } from "lucide-react";
+import { IdCard, UserRoundPlus, Trash2, SquarePen } from "lucide-react";
 import { PopupForm } from "./PopupForm";
 import { useState } from "react";
 
@@ -9,9 +9,12 @@ export const FamilyMembers = () => {
 
   const [Isopen, setIsOpen] = useState(false);
 
+
   const [FamilyDetail, setFamilyDetail] = useState(paitentdata);
 
+
   const [formData, setFormData] = useState({
+
     name: "",
     relationship: "",
     phone: "",
@@ -20,12 +23,15 @@ export const FamilyMembers = () => {
     date: "",
   });
 
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
+
+
 
   const handleSubmit = () => {
     const new_member = {
@@ -53,6 +59,16 @@ export const FamilyMembers = () => {
 
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+
+  const handleDelete=(id)=>{
+
+    if(window.confirm("Are u Sure Want to Delete this Record?")){
+
+        setFamilyDetail(FamilyDetail.filter(member=>member.id!==id))
+    } 
+    
   };
 
   return (
@@ -126,13 +142,32 @@ export const FamilyMembers = () => {
                     <div className="text-sm  text-gray-900">{user.phone}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="">
-                      <button className="flex flex-row justify-evenly border-2 rounded-2xl text-cyan-700 hover:text-black border-cyan-300 bg-white p-1 hover:bg-cyan-100">
-                        <div className="pt-0.5 pr-2">
+                    <div className="flex flex-row justify-around px-1">
+                      <button className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-cyan-700 hover:text-black border-cyan-300 bg-white p-1 hover:bg-cyan-100">
+                        <div className=" pr-2">
                           <IdCard className="size-6" />
                         </div>
-                        <div className="pt-0.5">Id card</div>
+                        <div className="pt-1">
+                          <h1>Id card</h1>
+                        </div>
                       </button>
+                      <div className="px-1">
+                        <button className="border-2 rounded-lg text-sm border-cyan-400 flex flex-row justify-evenly text-cyan-600 p-1 hover:bg-cyan-300 hover:text-black">
+                          <div className="pt-1">
+                            <SquarePen className="size-3 " />
+                          </div>
+                          <div>
+                            <h1 className=" pl-0.5 ">
+                              Edit
+                            </h1>
+                          </div>
+                        </button>
+                      </div>
+                      <div className="pt-1">
+                        <button className="border-2 rounded-md p-1 border-red-300 text-red-500 hover:bg-red-200" onClick={()=>{handleDelete(user.id)}}>
+                          <Trash2 className="size-3" />
+                        </button>
+                      </div>
                     </div>
                   </td>
                 </tr>
