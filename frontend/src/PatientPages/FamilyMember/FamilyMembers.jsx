@@ -12,14 +12,12 @@ export const FamilyMembers = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
-
     name: "",
     relationship: "",
     phone: "",
     email: "",
     address: "",
     date: "",
-
   });
 
   const handleChange = (e) => {
@@ -87,11 +85,33 @@ export const FamilyMembers = () => {
   };
 
   const openModal = () => {
+
+    
+    setFormData({
+      name: "",
+      relationship: "",
+      phone: "",
+      email: "",
+      address: "",
+      date: "",
+    });
+    setIsEditMode(false);
+    setEditingId(null);
     setIsOpen(true);
   };
 
   const closeModal = () => {
     setIsOpen(false);
+    setIsEditMode(false);
+    setEditingId(null);
+    setFormData({
+      name: "",
+      relationship: "",
+      phone: "",
+      email: "",
+      address: "",
+      date: "",
+    });
   };
 
   const handleDelete = (id) => {
@@ -220,9 +240,8 @@ export const FamilyMembers = () => {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             formData={formData}
-           isEditMode={isEditMode}
-           editId={editingId}
-    
+            isEditMode={isEditMode}
+            editId={editingId}
           />
         )}
       </div>
