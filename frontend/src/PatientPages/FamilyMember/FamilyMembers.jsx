@@ -8,11 +8,9 @@ export const FamilyMembers = () => {
   // table data in the data/patientdata
 
   const [Isopen, setIsOpen] = useState(false);
-
-
   const [FamilyDetail, setFamilyDetail] = useState(paitentdata);
-
-
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
 
     name: "",
@@ -21,8 +19,8 @@ export const FamilyMembers = () => {
     email: "",
     address: "",
     date: "",
-  });
 
+  });
 
   const handleChange = (e) => {
     setFormData({
@@ -31,26 +29,61 @@ export const FamilyMembers = () => {
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    if (isEditMode) {
+      setFamilyDetail(
+        FamilyDetail.map((member) =>
+          member.id === editingId
+            ? {
+                ...member,
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                relationship: formData.relationship,
+                address: formData.address,
+                date: formData.date,
+              }
+            : member
+        )
+      );
+    } else {
+      const new_member = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        relationship: formData.relationship,
+      };
+      setFamilyDetail([...FamilyDetail, new_member]);
 
-  const handleSubmit = () => {
-    const new_member = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      relationship: formData.relationship,
-    };
-    setFamilyDetail([...FamilyDetail, new_member]);
+      setIsOpen(false);
+      setIsEditMode(false);
+      setEditingId(null);
+      setFormData({
+        name: "",
+        relationship: "",
+        phone: "",
+        email: "",
+        address: "",
+        date: "",
+      });
+    }
+  };
 
-    setIsOpen(false);
+  const handleEdit = (member) => {
     setFormData({
-      name: "",
-      relationship: "",
-      phone: "",
-      email: "",
-      address: "",
-      date: "",
+      name: member.name,
+      relationship: member.relationship,
+      phone: member.phone,
+      email: member.email,
+      address: member.address,
+      date: member.date,
     });
+
+    setEditingId(member.id);
+    setIsEditMode(true);
+    setIsOpen(true);
   };
 
   const openModal = () => {
@@ -61,14 +94,10 @@ export const FamilyMembers = () => {
     setIsOpen(false);
   };
 
-
-  const handleDelete=(id)=>{
-
-    if(window.confirm("Are u Sure Want to Delete this Record?")){
-
-        setFamilyDetail(FamilyDetail.filter(member=>member.id!==id))
-    } 
-    
+  const handleDelete = (id) => {
+    if (window.confirm("Are u Sure Want to Delete this Record?")) {
+      setFamilyDetail(FamilyDetail.filter((member) => member.id !== id));
+    }
   };
 
   return (
@@ -152,19 +181,27 @@ export const FamilyMembers = () => {
                         </div>
                       </button>
                       <div className="px-1">
-                        <button className="border-2 rounded-lg text-sm border-cyan-400 flex flex-row justify-evenly text-cyan-600 p-1 hover:bg-cyan-300 hover:text-black">
+                        <button
+                          className="border-2 rounded-lg text-sm border-cyan-400 flex flex-row justify-evenly text-cyan-600 p-1 hover:bg-cyan-300 hover:text-black"
+                          onClick={() => {
+                            handleEdit(user);
+                          }}
+                        >
                           <div className="pt-1">
                             <SquarePen className="size-3 " />
                           </div>
                           <div>
-                            <h1 className=" pl-0.5 ">
-                              Edit
-                            </h1>
+                            <h1 className=" pl-0.5 ">Edit</h1>
                           </div>
                         </button>
                       </div>
                       <div className="pt-1">
-                        <button className="border-2 rounded-md p-1 border-red-300 text-red-500 hover:bg-red-200" onClick={()=>{handleDelete(user.id)}}>
+                        <button
+                          className="border-2 rounded-md p-1 border-red-300 text-red-500 hover:bg-red-200"
+                          onClick={() => {
+                            handleDelete(user.id);
+                          }}
+                        >
                           <Trash2 className="size-3" />
                         </button>
                       </div>
@@ -183,6 +220,9 @@ export const FamilyMembers = () => {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             formData={formData}
+           isEditMode={isEditMode}
+           editId={editingId}
+    
           />
         )}
       </div>

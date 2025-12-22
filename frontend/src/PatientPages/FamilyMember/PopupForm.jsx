@@ -2,9 +2,6 @@ import React from "react";
 
 import { X } from "lucide-react";
 const inputs = [
-
-
-
   {
     id: "1",
     name: "Patient Name",
@@ -54,7 +51,8 @@ export const PopupForm = ({
   handleChange,
   handleSubmit,
   formData,
-
+  isEditMode = false,
+  editId = null,
 }) => {
   return (
     <div
@@ -69,10 +67,13 @@ export const PopupForm = ({
           <div className="flex flex-row justify-evenly items-center pt-4">
             <div>
               <h1 className="text-cyan-800 text-md">
-                Add Family Member
+                {isEditMode ? "Update Family Member " : "Add Family Member "}
+
                 <br />
                 <span className="text-cyan-400">
-                  Add a family member to manage their appointments
+                  {isEditMode
+                    ? " Update family member to manage their appointments"
+                    : " Add a family member to manage their appointments"}
                 </span>
               </h1>
             </div>
@@ -95,16 +96,18 @@ export const PopupForm = ({
                           {input.name}{" "}
                         </label>
                         <br />
-                        <select className="border-2 border-cyan-500 rounded-md p-1"  onChange={handleChange} name={input.label} value={formData[input.label] || ""}>
+                        <select
+                          className="border-2 border-cyan-500 rounded-md p-1"
+                          onChange={handleChange}
+                          name={input.label}
+                          value={formData[input.label] || ""}
+                        >
                           <option selected className="border-2 border-cyan-400">
                             {" "}
                             Select A Relationship{" "}
                           </option>
                           {input.options.map((option, index) => (
-                            <option
-                              key={option}
-                              value={option}
-                            >
+                            <option key={option} value={option}>
                               {option}
                             </option>
                           ))}
@@ -137,7 +140,7 @@ export const PopupForm = ({
                   className=" p-1.5 text-white bg-cyan-500 hover:bg-cyan-700 rounded-2xl w-50 "
                   onClick={handleSubmit}
                 >
-                  Add Family Member
+                  {isEditMode ? "Update Details" : "Add Details"}
                 </button>
                 <button
                   className="p-1.5 hover:bg-gray-300  border-2 border-gray-100 rounded-2xl w-40"
