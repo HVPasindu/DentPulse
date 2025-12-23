@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send, Settings } from 'lucide-react';
-import NotificationItem from '../Admin/NotificationItem';
+import Notification from '../Admin/Notification';
 import FilterBar from '../Admin/FilterBar';
 import { TemplatesModal, NotificationModal } from '../Admin/Modals';
 
@@ -42,7 +42,7 @@ export default function NotificationsPage() {
 
        
         <div className="space-y-4">
-          {filtered.map(log => <NotificationItem key={log.id} data={log} />)}
+          {filtered.map(log => <Notification key={log.id} data={log} />)}
         </div>
 
       
