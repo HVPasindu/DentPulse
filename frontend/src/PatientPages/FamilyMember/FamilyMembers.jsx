@@ -8,14 +8,14 @@ import { PatientIdCard } from "./PatientIdCard";
 export const FamilyMembers = () => {
   // table data in the data/patientdata
 
-
   const [Isopen, setIsOpen] = useState(false);
   const [FamilyDetail, setFamilyDetail] = useState(paitentdata);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const[IsIdOpen,setIsIdOpen]=useState(false);
-  const[SelectedMember,setSelectedMember]=useState(null);
+  const [IsIdOpen, setIsIdOpen] = useState(false);
+  const [SelectedMember, setSelectedMember] = useState(null);
   const [formData, setFormData] = useState({
+
 
     name: "",
     relationship: "",
@@ -25,12 +25,16 @@ export const FamilyMembers = () => {
     date: "",
   });
 
-  const handleIdcard=(member)=>{
-
+  const handleIdcard = (member) => {
     setSelectedMember(member);
-    console.log("hello world");
     setIsIdOpen(true);
   };
+
+  const closeIdModel=()=>{
+
+    setIsIdOpen(false);
+
+  }
 
   const handleChange = (e) => {
     setFormData({
@@ -97,8 +101,6 @@ export const FamilyMembers = () => {
   };
 
   const openModal = () => {
-
-
     setFormData({
       name: "",
       relationship: "",
@@ -133,6 +135,7 @@ export const FamilyMembers = () => {
   };
 
   return (
+  
     <div className="p-8 bg-cyan-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-row justify-between p-4">
@@ -204,7 +207,12 @@ export const FamilyMembers = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-row justify-around px-1">
-                      <button className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-cyan-700 hover:text-black border-cyan-300 bg-white p-1 hover:bg-cyan-100" onClick={()=>{handleIdcard(user)}}>
+                      <button
+                        className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-cyan-700 hover:text-black border-cyan-300 bg-white p-1 hover:bg-cyan-100"
+                        onClick={() => {
+                          handleIdcard(user);
+                        }}
+                      >
                         <div className=" pr-2">
                           <IdCard className="size-6" />
                         </div>
@@ -258,7 +266,9 @@ export const FamilyMembers = () => {
         )}
       </div>
       <div>
-        {IsIdOpen && SelectedMember && <PatientIdCard FormData={SelectedMember}/>}
+        {IsIdOpen && SelectedMember && (
+          <PatientIdCard FormData={SelectedMember} closeIdModel={closeIdModel} />
+        )}
       </div>
     </div>
   );

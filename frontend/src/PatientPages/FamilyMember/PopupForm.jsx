@@ -1,6 +1,9 @@
 import React from "react";
 
 import { X } from "lucide-react";
+
+
+
 const inputs = [
   {
     id: "1",
@@ -10,6 +13,8 @@ const inputs = [
     type: "text",
   },
   {
+
+
     id: "2",
     name: "Relationship",
     type: "select",
@@ -53,6 +58,7 @@ export const PopupForm = ({
   formData,
   isEditMode = false,
   editId = null,
+
 }) => {
   return (
     <div

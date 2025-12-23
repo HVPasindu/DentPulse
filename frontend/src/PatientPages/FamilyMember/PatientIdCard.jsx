@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { QRCodeSVG as QRCode } from "qrcode.react";
-import { Download,Printer } from "lucide-react";
+import { Download, Printer,X } from "lucide-react";
 
-
-
-export const PatientIdCard = ({ FormData }) => {
+export const PatientIdCard = ({ FormData, closeIdModel }) => {
   const [User, setUser] = useState({
     userid: "",
     name: "",
@@ -14,7 +12,6 @@ export const PatientIdCard = ({ FormData }) => {
     dob: "",
     register_year: "",
   });
-
 
   useEffect(() => {
     console.log("this is form data", FormData);
@@ -30,24 +27,35 @@ export const PatientIdCard = ({ FormData }) => {
   }, [FormData]);
 
 
-
   const qrData = JSON.stringify({
     patientId: User.userid,
     name: User.name,
     contact: User.contact,
     dob: User.dob,
   });
+
   return (
     <div>
-      <div className=" grid grid-cols-1 lg:grid-cols-2 p-4  ">
-        <div className="p-1"></div>
-        <div className="border-2 border-cyan-500 bg-white rounded-2xl   p-11">
-          <div className="grid grid-cols-1 pb-4">
-            <h1 className="text-cyan-800 text-lg">Patient ID Card</h1>
-            <h1 className="text-cyan-400 text-lg">
-              View and download your ID card
-            </h1>
+      <div
+        className="  fixed inset-0  bg-opacity-10 flex items-center justify-center z-50 p-4 backdrop-blur-sm  "
+        onClick={closeIdModel}
+      >
+        <div className="border-2 border-cyan-500 bg-white rounded-2xl  w-[50%] p-11">
+          <div className="flex flex-row justify-between">
+            <div className="grid grid-cols-1 pb-4">
+              <h1 className="text-cyan-800 text-lg">Patient ID Card</h1>
+              <h1 className="text-cyan-400 text-lg">
+                View and download your ID card
+              </h1>
+            </div>
+            <div className="">
+              <X
+                className="cursor-pointer hover:text-cyan-600"
+                onClick={closeIdModel}
+              />
+            </div>
           </div>
+
           <div className="flex flex-row justify-end gap-10 pb-4">
             <div>
               <button className="p-2 bg-cyan-500 rounded-xl text-white text-lg hover:bg-cyan-700">

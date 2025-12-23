@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { QRCodeSVG as QRCode } from "qrcode.react";
 import { PatientDetail } from "./PatientDetail";
-
+import { IdCard, Download,Printer } from "lucide-react";
 export const PatientIdCard = () => {
-
-
   const [user, SetUsuer] = useState({
     userid: "1001",
     name: "Thushan Jayathilaka",
@@ -21,9 +19,7 @@ export const PatientIdCard = () => {
     dob: user.dob,
   });
 
-
   return (
-
     <div className=" grid grid-cols-1 lg:grid-cols-2 p-8  ">
       <div className="p-4">
         <PatientDetail />
@@ -31,7 +27,11 @@ export const PatientIdCard = () => {
 
       <div className="border-2 border-cyan-500 bg-white rounded-2xl   p-11">
         <div className="grid grid-cols-1 pb-10">
-          <h1 className="text-cyan-800">Patient ID Card</h1>
+          <div className="flex flex-row gap-x-2">
+            <IdCard />
+            <h1 className="text-cyan-800">Patient ID Card</h1>
+          </div>
+
           <h1 className="text-cyan-400">View and download your ID card</h1>
         </div>
         <div className="border-2 rounded-lg border-cyan-600 shadow-2xl  flex  flex-col justify-center w-full  md:w-[90%]  mx-auto">
@@ -87,12 +87,26 @@ export const PatientIdCard = () => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 p-7 justify-around">
+        <div className="grid grid-cols-1 lg:grid-cols-2 p-7 justify-items-center">
           <div>
-            <button className="p-4 bg-cyan-500 rounded-xl text-white hover:bg-cyan-700">Download Card</button>
+            <button className="p-4 bg-cyan-500 rounded-xl text-white hover:bg-cyan-700">
+              <div className="flex flex-row gap-x-1.5">
+                <div>
+                  <Download />
+                </div>
+                <div>Download Card</div>
+              </div>
+            </button>
           </div>
           <div>
-            <button className=" p-4 bg-cyan-500 rounded-xl text-white  hover:bg-cyan-700">Print Card</button>
+            <button className=" p-4 bg-white border-2 border-cyan-600  rounded-xl text-cyan-600 hover:border-black  hover:bg-cyan-50 hover:text-black">
+               <div className="flex flex-row gap-x-1.5">
+                <div>
+                <Printer />
+                </div>
+                <div>Print Card</div>
+              </div>
+            </button>
           </div>
         </div>
       </div>
