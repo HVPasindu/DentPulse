@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import DashboardSidebar from '../Admin/DashboardSidebar'
 import DashboardHeader from '../Admin/DashboardHeader'
-import DashboardStatus from '../Admin/DashboardStatus'
+
 import DashboardQuickActions from '../Admin/DashboardQuickActions'
 import DashboardRecentAppointments from '../Admin/DashboardRecentAppoinments'
 
@@ -24,7 +24,7 @@ export default function DashboardPage() {
             <p className="text-gray-600 mt-1">Welcome back! Here's what's happening today.</p>
           </div>
 
-          <DashboardStatus />
+         
           <DashboardQuickActions />
           <DashboardRecentAppointments />
 

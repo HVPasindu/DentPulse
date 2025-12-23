@@ -9,7 +9,7 @@ const navItems = [
   { name: 'Dentists', icon: UserCog, href: '/dentists' },
   { name: 'Billing', icon: DollarSign, href: '/billing' },
   { name: 'Inventory', icon: Package, href: '/inventory' },
-  { name: 'Reports', icon: FileText, href: '/reports' },
+ 
   { name: 'User Management', icon: Settings, href: '/users' },
   { name: 'Notifications', icon: Bell, href: '/notifications' },
 ]
@@ -27,7 +27,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
         />
       )}
 
-      {/* Sidebar */}
+     
       <aside className={`
         fixed lg:static inset-y-0 left-0 z-50
         w-64 bg-white border-r border-gray-200
@@ -35,7 +35,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="flex flex-col h-full">
-          {/* Logo */}
+         
           <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center">
@@ -51,7 +51,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
             </button>
           </div>
 
-          {/* Navigation */}
+         
           <nav className="flex-1 overflow-y-auto py-4 px-3">
             <div className="space-y-1">
               {navItems.map((item) => {
@@ -78,7 +78,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
             </div>
           </nav>
 
-          {/* User Profile */}
+          
           <div className="p-4 border-t border-gray-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
