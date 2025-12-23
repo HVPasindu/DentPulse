@@ -56,7 +56,7 @@ const DoctorMedicines = () => {
   });
 
   const badges = {
-    available: "bg-green-100 text-green-700",
+    available: "bg-cyan-100 text-cyan-700",
     limited: "bg-yellow-100 text-yellow-700",
     out: "bg-red-100 text-red-700",
   };
@@ -71,7 +71,7 @@ const DoctorMedicines = () => {
         placeholder="Search medicines..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4 w-full px-4 py-2 border rounded-lg"
+        className="mb-4 w-full px-4 py-2 border border-cyan-500 rounded-lg"
       />
 
       {/* Filters */}
@@ -81,7 +81,7 @@ const DoctorMedicines = () => {
             key={f}
             onClick={() => setFilter(f)}
             className={`px-3 py-1 rounded border ${
-              filter === f ? "bg-blue-600 text-white" : ""
+              filter === f ? "bg-cyan-500 text-white" : ""
             }`}
           >
             {f}
@@ -105,7 +105,7 @@ const DoctorMedicines = () => {
           {filteredMedicines.map((m) => (
             <div
               key={m.id}
-              className="border p-4 rounded-lg shadow-sm flex justify-between"
+              className="border p-4 rounded-lg border-cyan-500 shadow-sm flex justify-between"
             >
               <div>
                 <h2 className="font-semibold">{m.name}</h2>

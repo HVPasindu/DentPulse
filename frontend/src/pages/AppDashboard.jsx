@@ -24,11 +24,11 @@ const AppDashboard = () => {
       const data = await getAllAppointments();
 
       const formattedData = data.map((appt) => ({
-        id: appt.appointment_id,
-        patientId: appt.patient_id,
-        name: appt.patient_name || "Unknown Patient",
-        date: appt.appointment_date,
-        time: appt.start_time,
+        id: appt.appointmentId,
+        patientId: appt.patientId,
+        name: appt.fullName || "Unknown Patient",
+        date: appt.appointmentDate,
+        time: appt.startTime,
         status: appt.status || "Scheduled",
         diagnosis: appt.diagnosis || "",
         dentistNote: appt.dentist_note || "",
@@ -182,7 +182,7 @@ const handleSave = async (e) => {
 
                 <button
                   type="submit"
-                  className="px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  className="px-3 py-1 bg-cyan-400 text-white rounded-lg hover:bg-cyan-600"
                 >
                   Save
                 </button>
@@ -204,7 +204,7 @@ const handleSave = async (e) => {
           placeholder="Search by patient name..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="mb-4 w-80 px-4 py-2 border rounded-lg"
+          className="mb-4 w-80 px-4 py-2 border border-cyan-500 rounded-lg"
         />
 
         {/* Loading */}
@@ -270,7 +270,7 @@ const handleSave = async (e) => {
                       <td className="px-4 py-3">
                         <button
                           onClick={() => openPopup(appt)}
-                          className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                          className="px-3 py-1 bg-cyan-500 text-white rounded hover:bg-cyan-600"
                         >
                           Update
                         </button>
