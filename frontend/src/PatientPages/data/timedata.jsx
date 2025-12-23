@@ -8,3 +8,6 @@ export const timedata = [
 ];
 
 
+// Weekdays 2-6
+// Saturday 9-5
+// Sunday 2-6

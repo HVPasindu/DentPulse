@@ -3,15 +3,20 @@ import { paitentdata } from "../data/paitentdata";
 import { IdCard, UserRoundPlus, Trash2, SquarePen } from "lucide-react";
 import { PopupForm } from "./PopupForm";
 import { useState } from "react";
+import { PatientIdCard } from "./PatientIdCard";
 
 export const FamilyMembers = () => {
   // table data in the data/patientdata
+
 
   const [Isopen, setIsOpen] = useState(false);
   const [FamilyDetail, setFamilyDetail] = useState(paitentdata);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const[IsIdOpen,setIsIdOpen]=useState(false);
+  const[SelectedMember,setSelectedMember]=useState(null);
   const [formData, setFormData] = useState({
+
     name: "",
     relationship: "",
     phone: "",
@@ -19,6 +24,13 @@ export const FamilyMembers = () => {
     address: "",
     date: "",
   });
+
+  const handleIdcard=(member)=>{
+
+    setSelectedMember(member);
+    console.log("hello world");
+    setIsIdOpen(true);
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -86,7 +98,7 @@ export const FamilyMembers = () => {
 
   const openModal = () => {
 
-    
+
     setFormData({
       name: "",
       relationship: "",
@@ -192,7 +204,7 @@ export const FamilyMembers = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-row justify-around px-1">
-                      <button className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-cyan-700 hover:text-black border-cyan-300 bg-white p-1 hover:bg-cyan-100">
+                      <button className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-cyan-700 hover:text-black border-cyan-300 bg-white p-1 hover:bg-cyan-100" onClick={()=>{handleIdcard(user)}}>
                         <div className=" pr-2">
                           <IdCard className="size-6" />
                         </div>
@@ -202,7 +214,7 @@ export const FamilyMembers = () => {
                       </button>
                       <div className="px-1">
                         <button
-                          className="border-2 rounded-lg text-sm border-cyan-400 flex flex-row justify-evenly text-cyan-600 p-1 hover:bg-cyan-300 hover:text-black"
+                          className="border-2 rounded-lg text-sm border-cyan-400 flex flex-row justify-evenly text-cyan-700 p-1 hover:bg-cyan-300 hover:text-black"
                           onClick={() => {
                             handleEdit(user);
                           }}
@@ -244,6 +256,9 @@ export const FamilyMembers = () => {
             editId={editingId}
           />
         )}
+      </div>
+      <div>
+        {IsIdOpen && SelectedMember && <PatientIdCard FormData={SelectedMember}/>}
       </div>
     </div>
   );
