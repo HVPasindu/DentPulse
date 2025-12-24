@@ -20,8 +20,8 @@ const actions = [
     color: "orange",
   },
   {
-    name: "Generate Report",
-    description: "View analytics",
+    name: "Add a Bill",
+    description: "View bill details",
     icon: FileText,
     color: "purple",
   },

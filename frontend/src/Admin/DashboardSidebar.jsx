@@ -6,12 +6,12 @@ const navItems = [
   { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
   { name: 'Appointments', icon: Calendar, href: '/appointments' },
   { name: 'Patients', icon: Users, href: '/patients' },
-  { name: 'Dentists', icon: UserCog, href: '/dentists' },
+ 
   { name: 'Billing', icon: DollarSign, href: '/billing' },
   { name: 'Inventory', icon: Package, href: '/inventory' },
  
-  { name: 'User Management', icon: Settings, href: '/users' },
-  { name: 'Notifications', icon: Bell, href: '/notifications' },
+ 
+  
 ]
 
 export default function DashboardSidebar({ isOpen, setIsOpen }) {
@@ -38,7 +38,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
          
           <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-cyan-600 rounded-lg flex items-center justify-center">
                 <ToothIcon className="w-5 h-5 text-white" />
               </div>
               <span className="text-lg font-semibold text-gray-900">DentPulse</span>
@@ -65,7 +65,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
                       w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
                       text-sm font-medium transition-colors
                       ${isActive 
-                        ? 'bg-teal-50 text-teal-700' 
+                        ? 'bg-cyan-50 text-cyan-700' 
                         : 'text-gray-700 hover:bg-gray-100'
                       }
                     `}
@@ -82,7 +82,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
           <div className="p-4 border-t border-gray-200">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
-                <span className="text-sm font-semibold text-teal-700">AD</span>
+                <span className="text-sm font-semibold text-cyan-500">AD</span>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900">Admin User</p>

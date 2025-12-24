@@ -2,34 +2,34 @@ const appointments = [
   {
     id: 1,
     patient: "Sarah Johnson",
-    dentist: "Dr. Michael Chen",
+   
     time: "09:00 AM",
     treatment: "Routine Checkup",
-    status: "confirmed",
+   
   },
   {
     id: 2,
     patient: "James Wilson",
-    dentist: "Dr. Emily Roberts",
+    
     time: "10:30 AM",
     treatment: "Root Canal",
-    status: "pending",
+    
   },
   {
     id: 3,
     patient: "Maria Garcia",
-    dentist: "Dr. Michael Chen",
+    
     time: "02:00 PM",
     treatment: "Teeth Cleaning",
-    status: "confirmed",
+    
   },
   {
     id: 4,
     patient: "Robert Brown",
-    dentist: "Dr. Sarah Lee",
+   
     time: "03:30 PM",
     treatment: "Cavity Filling",
-    status: "confirmed",
+   
   },
 ]
 
@@ -38,7 +38,7 @@ export default function DashboardRecentAppointments() {
     <div className="bg-white rounded-lg border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-semibold text-gray-900">Today's Appointments</h2>
-        <button className="text-sm font-medium text-teal-600 hover:text-teal-700">
+        <button className="text-sm font-medium text-cyan-600 hover:text-teal-700">
           View All
         </button>
       </div>
@@ -60,10 +60,7 @@ export default function DashboardRecentAppointments() {
               </div>
               <span className={`
                 px-3 py-1 rounded-full text-xs font-medium
-                ${appointment.status === "confirmed" 
-                  ? 'bg-green-100 text-green-700' 
-                  : 'bg-yellow-100 text-yellow-700'
-                }
+               
               `}>
                 {appointment.status}
               </span>
