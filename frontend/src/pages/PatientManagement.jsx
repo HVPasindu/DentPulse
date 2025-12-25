@@ -1,4 +1,7 @@
 import { useState } from "react";
+import PatientRow from "../Admin/PatientRow";
+import PatientProfileModal from "../Admin/PatientProfileModal";
+
 
 export default function PatientManagement() {
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -27,7 +30,7 @@ export default function PatientManagement() {
 
       {/* Patient List */}
       <div className="bg-white rounded-xl shadow">
-        {/* <PatientRow
+        <PatientRow
           name="John Smith"
           age="45"
           gender="Male"
@@ -41,12 +44,15 @@ export default function PatientManagement() {
               treatments: ["Root Canal", "Cleaning", "X-Ray"],
             })
           }
-        /> */}
-        <p className="p-4 text-gray-500">Patient list will load here...</p>
+        />
+
+        <p className="p-4 text-gray-500">
+          Patient list will load here...
+        </p>
       </div>
 
       {/* Modals */}
-      {/* {selectedPatient && (
+      {selectedPatient && (
         <PatientProfileModal
           patient={selectedPatient}
           onClose={() => setSelectedPatient(null)}
@@ -54,8 +60,10 @@ export default function PatientManagement() {
       )}
 
       {showAppointmentForm && (
-        <NewAppointmentModal onClose={() => setShowAppointmentForm(false)} />
-      )} */}
+        <NewAppointmentModal
+          onClose={() => setShowAppointmentForm(false)}
+        />
+      )}
     </div>
   );
 }
