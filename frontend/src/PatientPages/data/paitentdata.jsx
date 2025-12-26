@@ -37,7 +37,7 @@ export const paitentdata = [
       address: "colombo",
   },
   {
-     id: "5",
+     id: 5,
     name: "John Doe",
     phone: "123-456-7890",
     email: "john@example.com",
