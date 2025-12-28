@@ -40,7 +40,7 @@ export const PatientIdCard = ({ FormData, closeIdModel }) => {
         className="  fixed inset-0  bg-opacity-10 flex items-center justify-center z-50 p-4 backdrop-blur-sm  "
         onClick={closeIdModel}
       >
-        <div className="border-2 border-cyan-500 bg-white rounded-2xl  w-[50%] p-11">
+        <div className="border-2 border-cyan-500 bg-white rounded-2xl  w-[50%] p-11" onClick={(e) => e.stopPropagation()}>
           <div className="flex flex-row justify-between">
             <div className="grid grid-cols-1 pb-4">
               <h1 className="text-cyan-800 text-lg">Patient ID Card</h1>
