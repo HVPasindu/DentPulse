@@ -1,8 +1,8 @@
 import { useState } from "react"
-import InventoryHeader from "./components/InventoryHeader"
-import InventoryStats from "./components/InventoryStats"
-import InventoryTable from "./components/InventoryTable"
-import InventoryDialog from "./components/InventoryDialog"
+import InventoryHeader from "./Admin/InventoryHeader"
+import InventoryStats from "./Admin/InventoryStats"
+import InventoryTable from "./Admin/InventoryTable"
+import InventoryDialog from "./Admin/InventoryDialog"
 
 const initialInventoryData = [
   { id: 1, name: "Dental Gloves (Box)", sku: "DG-001", category: "PPE", quantity: 5, minStock: 10, unit: "box", price: 25 },
