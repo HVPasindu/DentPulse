@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DashboardPage from "./Pages/DashboardPage";
-import PatientManagement from "./Pages/PatientManagement";
+import PatientsPage from "./Pages/PatientsPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<DashboardPage />} />        {/* Dashboard */}
-        <Route path="/Patients" element={<PatientManagement />} /> {/* Patient page */}
+        <Route path="/Patients" element={<PatientsPage />} /> {/* Patient page */}
       </Routes>
     </BrowserRouter>
   );
