@@ -8,6 +8,7 @@ function App() {
       <Routes>
         <Route path="/" element={<DashboardPage />} />        {/* Dashboard */}
         <Route path="/Patients" element={<PatientsPage />} /> {/* Patient page */}
+        <Route path="/Inventory" element={<InventoryPage />}/>
       </Routes>
     </BrowserRouter>
   );
