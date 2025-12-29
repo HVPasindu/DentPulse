@@ -8,6 +8,9 @@ import { saveTreatmentRecord } from "../api/recordsApi";
 const AppDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const today = new Date().toISOString().split("T")[0];
+  const [selectedDate, setSelectedDate] = useState(today);
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -44,10 +47,21 @@ const AppDashboard = () => {
     }
   };
 
-  /* ================= FILTER ================= */
+  /* ================= FILTER ================= 
   const filteredAppointments = appointments.filter((appt) =>
     (appt.name || "").toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  );*/
+
+  const filteredAppointments = appointments.filter((appt) => {
+  const matchesName = appt.name
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase());
+
+  const matchesDate = appt.date === selectedDate;
+
+  return matchesName && matchesDate;
+});
+
 
   /* ================= POPUP ================= */
   const openPopup = (appt) => {
@@ -66,7 +80,7 @@ const handleSave = async (e) => {
   if (!selectedAppointment) return;
 
   const recordData = {
-     patient_id: selectedAppointment.patientId,
+    patient_id: selectedAppointment.patientId,
     treatment_date: selectedAppointment.date,
     diagnosis: selectedAppointment.diagnosis || "",
     dentist_note: selectedAppointment.dentistNote || "",
@@ -97,14 +111,14 @@ const handleSave = async (e) => {
 
 
       {/* ================= POPUP MODAL ================= */}
-      {isPopupOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+      {isPopupOpen && ( 
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white p-6 w-96 rounded-xl shadow-xl">
             <h2 className="text-xl font-semibold mb-4">Update Appointment</h2>
 
             <form className="space-y-5" onSubmit={handleSave}>
               <div>
-                <label className="text-sm text-gray-700">App ID</label>
+                <label className="text-sm text-gray-700">Appointment ID</label>
                 <input
                   type="text"
                   value={selectedAppointment?.id || ""}
@@ -198,14 +212,24 @@ const handleSave = async (e) => {
           Appointments
         </h2>
 
-        {/* Search */}
-        <input
-          type="text"
-          placeholder="Search by patient name..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="mb-4 w-80 px-4 py-2 border border-cyan-500 rounded-lg"
-        />
+          {/* Search + Date Filter */}
+          <div className="flex justify-between items-center mb-4">
+            <input
+              type="text"
+              placeholder="Search by patient name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-80 px-4 py-2 border border-cyan-500 rounded-lg"
+            />
+
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="px-4 py-2 border border-cyan-500 rounded-lg"
+            />
+          </div>
+
 
         {/* Loading */}
         {loading && <p>Loading appointments...</p>}
