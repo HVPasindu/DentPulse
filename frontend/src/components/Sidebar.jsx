@@ -16,7 +16,7 @@ const Sidebar = () => {
       
       <div>
         {/* Logo/Header Area */}
-        <div className="flex items-center justify-center h-20 bg-white border-b border-gray-100">
+        <div className="flex items-center justify-center h-20 bg-white border-b border-gray-200">
           <span className="ml-2 text-xl font-bold text-gray-800">Doctor Console</span>
         </div>
 
@@ -32,7 +32,7 @@ const Sidebar = () => {
                 className={`
                   flex items-center px-4 py-2 text-sm rounded-lg transition duration-150 ease-in-out
                   ${isActive
-                    ? 'bg-cyan-100 text-cyan-500 font-bold border-l-4 border-cyan-500'
+                    ? 'bg-cyan-100 text-cyan-600 font-bold border-l-4 border-cyan-500'
                     : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800 font-medium'
                   }
                 `}
