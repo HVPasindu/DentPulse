@@ -5,6 +5,7 @@ import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    {console.log("Rendering Root Component")}
     <App />
   </StrictMode>,
 )
