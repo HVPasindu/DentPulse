@@ -121,7 +121,7 @@ const PatientsPage = () => {
           </div>
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center justify-center gap-2 bg-cyan-600 hover:bg-primary-700 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-lg transition-colors font-medium shadow-lg hover:shadow-xl w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 bg-cyan-500 hover:bg-primary-700 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-lg transition-colors font-medium shadow-lg hover:shadow-xl w-full sm:w-auto"
           >
             <Plus size={20} />
             <span>New Patient</span>
