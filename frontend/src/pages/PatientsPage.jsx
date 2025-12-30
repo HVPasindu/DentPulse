@@ -173,7 +173,7 @@ const PatientsPage = () => {
                       ? 'bg-green-100 text-green-700' 
                       : 'bg-gray-100 text-gray-700'
                   }`}>
-                    {patient.status}
+                   
                   </span>
                 </div>
                 <div className="space-y-1 mb-3 text-sm">
@@ -234,7 +234,7 @@ const PatientsPage = () => {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {displayedPatients.map((patient) => (
-                  <tr key={patient.id} className="hover:bg-cyan-100 transition-colors">
+                  <tr key={patient.id} className="hover:bg-cyan-200 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="text-sm font-medium text-gray-900">{patient.id}</span>
                     </td>
