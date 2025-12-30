@@ -15,14 +15,13 @@ export const FamilyMembers = () => {
   const [IsIdOpen, setIsIdOpen] = useState(false);
   const [SelectedMember, setSelectedMember] = useState(null);
   const [formData, setFormData] = useState({
-
-
     name: "",
     relationship: "",
     phone: "",
     email: "",
     address: "",
     date: "",
+    gender: "",
   });
 
   const handleIdcard = (member) => {
@@ -30,11 +29,9 @@ export const FamilyMembers = () => {
     setIsIdOpen(true);
   };
 
-  const closeIdModel=()=>{
-
+  const closeIdModel = () => {
     setIsIdOpen(false);
-
-  }
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -58,6 +55,7 @@ export const FamilyMembers = () => {
                 relationship: formData.relationship,
                 address: formData.address,
                 date: formData.date,
+                gender: formData.gender,
               }
             : member
         )
@@ -68,6 +66,7 @@ export const FamilyMembers = () => {
         email: formData.email,
         phone: formData.phone,
         relationship: formData.relationship,
+        gender: formData.gender,
       };
       setFamilyDetail([...FamilyDetail, new_member]);
 
@@ -81,6 +80,7 @@ export const FamilyMembers = () => {
         email: "",
         address: "",
         date: "",
+        gender: "",
       });
     }
   };
@@ -93,6 +93,7 @@ export const FamilyMembers = () => {
       email: member.email,
       address: member.address,
       date: member.date,
+      gender: member.gender,
     });
 
     setEditingId(member.id);
@@ -125,6 +126,7 @@ export const FamilyMembers = () => {
       email: "",
       address: "",
       date: "",
+      gender: "",
     });
   };
 
@@ -135,7 +137,6 @@ export const FamilyMembers = () => {
   };
 
   return (
-  
     <div className="p-8 bg-cyan-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-row justify-between p-4">
@@ -207,6 +208,7 @@ export const FamilyMembers = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-row justify-around px-1">
+                      <div></div>
                       <button
                         className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-cyan-700 hover:text-black border-cyan-300 bg-white p-1 hover:bg-cyan-100"
                         onClick={() => {
@@ -220,31 +222,28 @@ export const FamilyMembers = () => {
                           <h1>Id card</h1>
                         </div>
                       </button>
-                      <div className="px-1">
-                        <button
-                          className="border-2 rounded-lg text-sm border-cyan-400 flex flex-row justify-evenly text-cyan-700 p-1 hover:bg-cyan-300 hover:text-black"
-                          onClick={() => {
-                            handleEdit(user);
-                          }}
-                        >
+                      {user.relationship !== "Account Owner" && (
+                        <>
+                          <div className="px-1">
+                            <button
+                              className="border-2 rounded-lg text-sm border-cyan-400 flex flex-row justify-evenly text-cyan-700 p-1 hover:bg-cyan-300 hover:text-black"
+                              onClick={() => handleEdit(user)}
+                            >
+                              <SquarePen className="size-3" />
+                              <span className="pl-1">Edit</span>
+                            </button>
+                          </div>
+
                           <div className="pt-1">
-                            <SquarePen className="size-3 " />
+                            <button
+                              className="border-2 rounded-md p-1 border-red-300 text-red-500 hover:bg-red-200"
+                              onClick={() => handleDelete(user.id)}
+                            >
+                              <Trash2 className="size-3" />
+                            </button>
                           </div>
-                          <div>
-                            <h1 className=" pl-0.5 ">Edit</h1>
-                          </div>
-                        </button>
-                      </div>
-                      <div className="pt-1">
-                        <button
-                          className="border-2 rounded-md p-1 border-red-300 text-red-500 hover:bg-red-200"
-                          onClick={() => {
-                            handleDelete(user.id);
-                          }}
-                        >
-                          <Trash2 className="size-3" />
-                        </button>
-                      </div>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -267,7 +266,10 @@ export const FamilyMembers = () => {
       </div>
       <div>
         {IsIdOpen && SelectedMember && (
-          <PatientIdCard FormData={SelectedMember} closeIdModel={closeIdModel} />
+          <PatientIdCard
+            FormData={SelectedMember}
+            closeIdModel={closeIdModel}
+          />
         )}
       </div>
     </div>

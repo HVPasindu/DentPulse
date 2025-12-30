@@ -19,8 +19,14 @@ export const paitentdata=[
         type:"date",
         name:"Date Of Birth"
     },
-    {
+      {
         id:5,
+        type:"radio",
+        name:"Gender",
+        genders:["Male","Female"]
+    },
+    {
+        id:6,
         type:"text",
         name:"Address"
     },

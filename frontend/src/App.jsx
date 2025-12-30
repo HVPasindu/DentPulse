@@ -28,6 +28,11 @@ import { FamilyMembers } from "./PatientPages/FamilyMember/FamilyMembers";
 import { BookAppoinment } from "./PatientPages/BookAppointment/BookAppoinment";
 import { MyAppointments } from "./PatientPages/MyAppointments/MyAppointments";
 
+
+//login page
+import MainLogin from "./LoginRegister Pages/MainLogin";
+import RegisterPage from "./LoginRegister Pages/RegisterPage";
+
 function App() {
   return (
     <BrowserRouter>
@@ -46,6 +51,10 @@ function App() {
           <Route path="bookappointments" element={<BookAppoinment />} />
           <Route path="myappointments" element={<MyAppointments />} />
         </Route>
+        <Route path="/login" element={<MainLogin />} />
+
+        <Route path="/register" element={<RegisterPage />} />
+
       </Routes>
     </BrowserRouter>
   );
