@@ -4,7 +4,7 @@ export default function InventoryTable({ items, onEdit, onDelete }) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
-        <thead className="border-b border-slate-200 bg-slate-50">
+        <thead className="border-b border-slate-200 bg-cyan-50">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
               Item Name
