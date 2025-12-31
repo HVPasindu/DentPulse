@@ -33,6 +33,10 @@ import { MyAppointments } from "./PatientPages/MyAppointments/MyAppointments";
 import MainLogin from "./LoginRegister Pages/MainLogin";
 import RegisterPage from "./LoginRegister Pages/RegisterPage";
 
+
+//otp page
+import OTPForm from "./LoginRegister Pages/OTPForm";
+
 function App() {
   return (
     <BrowserRouter>
@@ -54,7 +58,7 @@ function App() {
         <Route path="/login" element={<MainLogin />} />
 
         <Route path="/register" element={<RegisterPage />} />
-
+        <Route path="/otp" element={<OTPForm/>}/>
       </Routes>
     </BrowserRouter>
   );
