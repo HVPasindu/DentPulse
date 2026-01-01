@@ -1,8 +1,8 @@
-function InputCommonCard({ name, type, value, onChange }) {
+function InputCommonCard({ name, type, value, label,onChange }) {
   return (
     <>
       <div className="p-1 flex flex-col gap-3">
-        <label className="text-cyan-600 text-sm">{name}</label>
+        <label className="text-cyan-600 text-sm">{label}</label>
         <input
           type={type}
           name={name}
