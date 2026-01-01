@@ -3,13 +3,13 @@
     {
         id:1,
         type:"email",
-        name:"Email"
+        name:"email"
     },
     {
 
         id:2,
         type:"password",
-        name:"Password",
+        name:"password",
     },
 
 ]
