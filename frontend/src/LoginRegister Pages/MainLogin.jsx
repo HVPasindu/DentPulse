@@ -7,7 +7,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-
 const MainLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -83,7 +82,7 @@ const MainLogin = () => {
               name={login_data.name}
               value={formData[login_data.name]}
               onChange={handleChange}
-              
+              label={login_data.label}
             />
             ))}
 
