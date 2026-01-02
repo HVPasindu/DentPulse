@@ -2,7 +2,7 @@ export const registerpagedata = [
   {
     id: 1,
     type: "text",
-    name: "fullname",
+    name: "fullName",
     label: "Full Name",
   },
   {
