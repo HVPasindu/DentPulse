@@ -125,7 +125,7 @@ const MainLogin = () => {
         localStorage.setItem("authToken", response.data.token);
 
         // Navigate to patient dashboard (or other protected routes)
-        navigate("/patient");  // Redirecting to the patient dashboard page
+        navigate("/patient/me");  // Redirecting to the patient dashboard page
       }
     } catch (error) {
       // Handle error (e.g., invalid login credentials)

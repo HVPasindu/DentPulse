@@ -10,26 +10,26 @@ export const NavigationButtons = () => {
 
   const navigatetomyprofile=()=>{
 
-    navigate('/patient')
+    navigate('/patient/me')
   }
 
 
     const navigatetofamilymembers=()=>{
 
-    navigate('/patient/family')
+    navigate('/patient/me/family')
   }
 
 
     const navigatetobookappointment=()=>{
 
-    navigate('/patient/bookappointments')
+    navigate('/patient/me/bookappointments')
     
   }
 
 
     const navigatetomyappointments=()=>{
 
-    navigate('/patient/myappointments')
+    navigate('/patient/me/myappointments')
   }
   return (
     <div className="bg-cyan-50 rounded-2xl grid justify-between grid-cols-1 md:grid-cols-2 lg:grid-cols-4 py-20">
