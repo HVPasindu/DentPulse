@@ -16,8 +16,8 @@ const PatientsPage = () => {
       lastVisit: '2024-01-15',
       status: 'Active',
       treatments: [
-        { id: 1, date: '2024-01-15', procedure: 'Dental Cleaning', doctor: 'Dr. Smith', cost: 150 },
-        { id: 2, date: '2023-12-10', procedure: 'Filling', doctor: 'Dr. Johnson', cost: 200 },
+        { id: 1, date: '2024-01-15', procedure: 'Dental Cleaning', cost: 150 },
+        { id: 2, date: '2023-12-10', procedure: 'Filling', cost: 200 },
       ],
       billing: [
         { id: 1, date: '2024-01-15', description: 'Dental Cleaning', amount: 150, status: 'Paid' },

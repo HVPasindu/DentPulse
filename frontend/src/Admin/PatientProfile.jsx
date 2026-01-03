@@ -1,6 +1,11 @@
-import { X, User, Activity, DollarSign } from 'lucide-react';
+import { X, User, Activity } from 'lucide-react';
 
 const PatientProfile = ({ patient, onClose }) => {
+  // Calculate total cost of treatments
+  const totalCost = patient.treatments
+    ? patient.treatments.reduce((sum, t) => sum + t.cost, 0)
+    : 0;
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 md:p-4">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[95vh] overflow-hidden flex flex-col">
@@ -23,9 +28,9 @@ const PatientProfile = ({ patient, onClose }) => {
           </button>
         </div>
 
-        {/* Content - Three Frames Side by Side on Desktop, Stacked on Mobile */}
+        {/* Content - Two Frames Side by Side on Desktop */}
         <div className="flex-1 overflow-y-auto p-4 md:p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
             {/* Frame 1: Patient Information */}
             <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
               <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
@@ -74,7 +79,7 @@ const PatientProfile = ({ patient, onClose }) => {
               </div>
             </div>
 
-            {/* Frame 2: Past Treatments */}
+            {/* Frame 2: Past Treatments (with total cost) */}
             <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
               <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
                 <Activity size={20} className="text-green-600" />
@@ -89,55 +94,20 @@ const PatientProfile = ({ patient, onClose }) => {
                           <h4 className="font-semibold text-gray-800 text-sm md:text-base">{treatment.procedure}</h4>
                           <span className="text-xs md:text-sm text-gray-500">{treatment.date}</span>
                         </div>
-                        <p className="text-xs md:text-sm text-gray-600 mb-1">Doctor: {treatment.doctor}</p>
                         <p className="text-xs md:text-sm font-semibold text-green-700">Cost: ${treatment.cost}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-500 text-center py-8">No treatment history available</p>
-                )}
-              </div>
-            </div>
-
-            {/* Frame 3: Billing Information */}
-            <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-              <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
-                <DollarSign size={20} className="text-orange-600" />
-                <h3 className="font-semibold text-gray-800">Billing Information</h3>
-              </div>
-              <div className="p-4">
-                {patient.billing && patient.billing.length > 0 ? (
-                  <div className="space-y-4">
-                    {patient.billing.map((bill) => (
-                      <div key={bill.id} className="border border-gray-200 rounded-lg p-3 bg-gray-50">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
-                          <h4 className="font-semibold text-gray-800 text-sm md:text-base">{bill.description}</h4>
-                          <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
-                            bill.status === 'Paid' 
-                              ? 'bg-green-100 text-green-700' 
-                              : 'bg-yellow-100 text-yellow-700'
-                          }`}>
-                            {bill.status}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs md:text-sm text-gray-500">{bill.date}</span>
-                          <span className="text-base md:text-lg font-bold text-gray-800">${bill.amount}</span>
-                        </div>
                       </div>
                     ))}
                     <div className="border-t-2 border-gray-300 pt-3 mt-4">
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-gray-700">Total Amount:</span>
+                        <span className="font-semibold text-gray-700">Total Cost:</span>
                         <span className="text-xl md:text-2xl font-bold text-primary-600">
-                          ${patient.billing.reduce((sum, bill) => sum + bill.amount, 0)}
+                          ${totalCost}
                         </span>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-500 text-center py-8">No billing history available</p>
+                  <p className="text-sm text-gray-500 text-center py-8">No treatment history available</p>
                 )}
               </div>
             </div>
