@@ -1,0 +1,97 @@
+import React from "react";
+
+// id: "apt_001",
+// patientId: "owner_001",
+// patientName: "John Doe",
+// date: "2024-12-28",
+// time: "10:00 AM",
+// status: "Confirmed",
+// type: "Checkup",
+// notes: "Regular dental checkup",
+
+export const RecentAppoinment = ({ AppointmentList,OpenReviewCard}) => {
+  return (
+    <div className="bg-white rounded-lg  overflow-hidden border-2 border-cyan-400 ">
+      <div>
+        <h1 className="p-1.5 text-cyan-700">
+          Upcoming Appoinments/Past Appoinments
+        </h1>
+        <h1 className="p-1.5 text-cyan-400">
+          View your scheduled appointments
+        </h1>
+      </div>
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+              Name
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+              Status
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+              Date
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+              Time
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+              Type
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {AppointmentList.map((user) => (
+            <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm  text-gray-900">{user.patientName}</div>
+              </td>
+
+              <td className="px-6 py-4 whitespace-nowrap">
+                {user.status == "Confirmed" ? (
+                  <span className="bg-blue-200 rounded-2xl p-1.5 text-sm">
+                    {" "}
+                    {user.status}{" "}
+                  </span>
+                ) : user.status == "Completed" ? (
+                  <span className="bg-green-200 rounded-2xl p-1.5 text-sm">
+                    {" "}
+                    {user.status}{" "}
+                  </span>
+                ) : user.status == "Pending" ? (
+                  <span className="bg-yellow-200 rounded-2xl p-1.5 text-sm">
+                    {" "}
+                    {user.status}{" "}
+                  </span>
+                ) : null}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">{user.date}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm  text-gray-900">{user.time}</div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">{user.type}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {user.status == "Confirmed" ? (
+                  <button className="p-3 rounded-2xl border-2 border-cyan-300 text-cyan-800 hover:text-black hover:border-black hover:bg-cyan-100">
+                    Contact Us{" "}
+                  </button>
+                ) : user.status == "Pending" ? (
+                  <button className="flex flex-row justify-evenly border-2 rounded-2xl text-red-500 hover:bg-red-200 border-red-400 bg-white p-2 ">
+                    Cancel
+                  </button>
+                ) : user.status == "Completed" ? (
+                  <button className="flex flex-row justify-evenly border-2 rounded-2xl text-cyan-500 hover:bg-cyan-100 border-cyan-400 bg-white p-2 " onClick={OpenReviewCard}>
+                    Review Us!
+                  </button>
+                ) : null}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
