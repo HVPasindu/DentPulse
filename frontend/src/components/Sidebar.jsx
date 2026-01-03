@@ -3,9 +3,9 @@ import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
-  { name: 'Dashboard', href: '/' },
-  { name: 'Record', href: '/records' },
-  { name: 'Medicines', href: '/doctor-medicines' },
+  { name: 'Dashboard', href: '/doctor' },
+  { name: 'Record', href: '/doctor/records' },
+  { name: 'Medicines', href: '/doctor/medicines' },
 ];
 
 const Sidebar = () => {

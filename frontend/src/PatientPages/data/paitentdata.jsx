@@ -7,6 +7,7 @@ export const paitentdata = [
     email: "assad@gmail.com",
      date: "1990-01-01",
      address: "colombo",
+     gender:"male"
   },
   {
     id:2,
@@ -16,6 +17,7 @@ export const paitentdata = [
     email: "assad@gmail.com",
      date: "1990-01-01",
       address: "colombo",
+      gender:"male"
   },
   {
     id:3,
@@ -25,6 +27,7 @@ export const paitentdata = [
     email: "assad@gmail.com",
      date: "1990-01-01",
       address: "colombo",
+      gender:"male"
   },
   {
 
@@ -35,6 +38,7 @@ export const paitentdata = [
     email: "assad@gmail.com",
      date: "1990-01-01",
       address: "colombo",
+      gender:"male"
   },
   {
      id: 5,
@@ -44,6 +48,7 @@ export const paitentdata = [
     address: "123 Main St",
     date: "1990-01-01",
     relationship: "Account Owner",
+    gender:"male"
 
   }
 ];
