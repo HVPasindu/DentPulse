@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { CalendarPlus, UserPlus, PackagePlus, FileText } from 'lucide-react'
 
+
+
+
+
 const actions = [
   {
     name: "New Appointment",
@@ -21,7 +25,7 @@ const actions = [
     description: "Update stock items",
     icon: PackagePlus,
     color: "orange",
-    path: "/inventory/add",
+    path: "/inventory",
   },
   {
     name: "Add a Bill",

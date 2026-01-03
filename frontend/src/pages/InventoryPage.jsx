@@ -178,7 +178,7 @@ export default function InventoryDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-cyan-100 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-cyan-50 p-4 sm:p-6 lg:p-8">
       <div className="mx-auto max-w-7xl space-y-6">
         {/* Header Section */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -192,7 +192,7 @@ export default function InventoryDashboard() {
           </div>
           <button
             onClick={handleAddItem}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95 sm:w-auto"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95 sm:w-auto"
           >
             <Plus className="h-4 w-4" />
             Add Item
@@ -205,7 +205,7 @@ export default function InventoryDashboard() {
             title="Total Items"
             value={inventoryData.length}
             icon={Package}
-            color="gray"
+            color="blue"
             subtitle="Across all categories"
           />
           <StatsCard
@@ -219,15 +219,15 @@ export default function InventoryDashboard() {
             title="Total Value"
             value={`$${totalValue.toFixed(2)}`}
             icon={Package}
-            color="gray"
+            color="green"
             subtitle="Current inventory value"
           />
         </div>
 
         {/* Inventory Table */}
-        <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-          <div className="border-b border-slate-200 p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="rounded-xl  bg- tranparent ">
+          <div className="border-b border-slate-200 p-4">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-semibold text-slate-900">Inventory List</h2>
               <SearchBar
                 value={searchQuery}
