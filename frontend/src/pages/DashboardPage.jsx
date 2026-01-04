@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 
-import DashboardHeader from '../Admin/DashboardHeader'
+
 
 import DashboardQuickActions from '../Admin/DashboardQuickActions'
 import DashboardRecentAppointments from '../Admin/DashboardRecentAppoinments'
@@ -15,7 +15,7 @@ export default function DashboardPage() {
     
       
       <div className="flex-1 flex flex-col min-w-0">
-       <DashboardHeader onMenuClick={() => setSidebarOpen(true)} />
+       
 
         
         <main className="flex-1 p-4 md:p-6 lg:p-8 space-y-6 overflow-auto">

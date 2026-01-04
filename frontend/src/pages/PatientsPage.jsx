@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Plus, Eye, Edit, Trash2 } from 'lucide-react';
 import AddPatientModal from '../Admin/AddPatientModal';
 import PatientProfile from '../Admin/PatientProfile';
+import { useLocation } from 'react-router-dom';
 
 const PatientsPage = () => {
   const [patients, setPatients] = useState([
@@ -78,6 +79,7 @@ const PatientsPage = () => {
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const location = useLocation();
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [showAllPatients, setShowAllPatients] = useState(false);
@@ -102,6 +104,12 @@ const PatientsPage = () => {
     setPatients([...patients, patient]);
     setShowAddModal(false);
   };
+
+  useEffect(() => {
+    if (location?.state?.openAdd) {
+      setShowAddModal(true);
+    }
+  }, [location]);
 
   const deletePatient = (id) => {
     if (window.confirm('Are you sure you want to delete this patient?')) {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Plus, Package, AlertTriangle } from 'lucide-react'
 import StatsCard from '../Admin/StatsCard'
 import SearchBar from '../Admin/SearchBar'
@@ -88,7 +88,10 @@ const initialInventoryData = [
   },
 ]
 
+import { useLocation } from 'react-router-dom'
+
 export default function InventoryDashboard() {
+  const location = useLocation()
   const [inventoryData, setInventoryData] = useState(initialInventoryData)
   const [searchQuery, setSearchQuery] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -176,6 +179,12 @@ export default function InventoryDashboard() {
       setInventoryData(inventoryData.filter((item) => item.id !== id))
     }
   }
+
+  useEffect(() => {
+    if (location?.state?.openAdd) {
+      setIsDialogOpen(true)
+    }
+  }, [location])
 
   return (
     <div className="min-h-screen bg-cyan-50 p-4 sm:p-6 lg:p-8">

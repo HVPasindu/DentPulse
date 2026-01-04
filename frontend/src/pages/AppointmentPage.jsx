@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Eye, Edit } from "lucide-react"; 
 import WelcomeHeader from "../Admin/WelcomeHeader";
 import SummarySection from "../Admin/SummarySection";
 
@@ -89,7 +90,7 @@ const AppDashboard = () => {
   };
 
   return (
-    <div className="flex-1 p-6 md:p-8 bg-gray-50 min-h-screen">
+    <div className="flex-1 p-6 md:p-8 bg-cyan-50 min-h-screen">
       <WelcomeHeader onAddNew={openRegular} onAddSpecial={openSpecial} />
 
       <h1 className="text-3xl font-semibold text-gray-800 mt-10 mb-10"></h1>
@@ -123,7 +124,7 @@ const AppDashboard = () => {
       )}
 
       {/* TABLE SECTION */}
-      <div className="bg-white p-6 rounded-lg shadow-lg border border-dashed border-gray-300 mt-6">
+      <div className="bg-cyan-50 p-6 rounded-lg shadow-lg border border-dashed border-gray-300 mt-6">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Appointments</h2>
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
           <input
@@ -187,10 +188,22 @@ const AppDashboard = () => {
                         </span>
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <button onClick={() => openViewPopup(appt)} className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium">View</button>
+                        <button 
+                          onClick={() => openViewPopup(appt)} 
+                          className="text-blue-500 hover:text-blue-700 transition-colors inline-flex items-center justify-center p-1" 
+                          title="View"
+                        >
+                          <Eye size={20} />
+                        </button>
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <button onClick={() => openEditPopup(appt)} className="px-4 py-2 bg-cyan-500 text-white rounded-lg text-sm font-medium">Update</button>
+                        <button 
+                          onClick={() => openEditPopup(appt)} 
+                          className="text-cyan-500 hover:text-cyan-700 transition-colors inline-flex items-center justify-center p-1" 
+                          title="Update"
+                        >
+                          <Edit size={20} />
+                        </button>
                       </td>
                     </tr>
                   );
@@ -271,14 +284,33 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
   );
 };
 
-/* --- ADD SPECIAL FORM --- */
+/* --- ADD SPECIAL FORM (Weekends only, 5pm - 8pm) --- */
 const AddSpecialForm = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     patientId: "", name: "", treatmentType: "Teeth Cleaning (Moderate)", 
-    date: new Date().toISOString().split("T")[0],
+    date: "", 
     time: "17:00", status: "Scheduled", notes: ""
   });
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    
+    if (name === "date") {
+      const selectedDate = new Date(value);
+      const day = selectedDate.getUTCDay(); 
+      if (day === 0 || day === 6) {
+        setFormData({ ...formData, [name]: value });
+        setError("");
+      } else {
+        setFormData({ ...formData, [name]: "" });
+        setError("Please choose a weekend (Saturday or Sunday).");
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
   return (
     <form onSubmit={(e) => onSubmit(e, formData)} className="mt-6 space-y-4">
@@ -306,12 +338,29 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Date</label>
-          <input name="date" type="date" value={formData.date} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+          <label className="block text-sm font-medium text-slate-700">Date (Weekend Only)</label>
+          <input 
+            name="date" 
+            type="date" 
+            required 
+            value={formData.date} 
+            onChange={handleChange} 
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" 
+          />
+          {error && <p className="text-[10px] text-red-500 mt-1">{error}</p>}
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Time</label>
-          <input name="time" type="time" value={formData.time} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+          <label className="block text-sm font-medium text-slate-700">Time (5pm-8pm)</label>
+          <input 
+            name="time" 
+            type="time" 
+            min="17:00" 
+            max="20:00" 
+            required 
+            value={formData.time} 
+            onChange={handleChange} 
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" 
+          />
         </div>
       </div>
       <div>

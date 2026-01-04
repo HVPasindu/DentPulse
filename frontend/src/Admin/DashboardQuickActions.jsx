@@ -11,14 +11,15 @@ const actions = [
     description: "Schedule a patient visit",
     icon: CalendarPlus,
     color: "teal",
-    path: "/appointments/add",
+    path: "/appointments",
   },
   {
     name: "Add Patient",
     description: "Register new patient",
     icon: UserPlus,
     color: "blue",
-    path: "/patients/add",
+    path: "/patients",
+    openAdd: true,
   },
   {
     name: "Add Inventory",
@@ -26,13 +27,15 @@ const actions = [
     icon: PackagePlus,
     color: "orange",
     path: "/inventory",
+    openAdd: true,
   },
   {
     name: "Add a Bill",
     description: "View bill details",
     icon: FileText,
     color: "purple",
-    path: "/billing/add",
+    path: "/billing",
+    openAdd: true,
   },
 ]
 
@@ -56,8 +59,14 @@ export default function DashboardQuickActions() {
 
           return (
             <button
-              key={action.name}
-              onClick={() => navigate(action.path)}
+                key={action.name}
+                onClick={() => {
+                  if (action.openAdd) {
+                    navigate(action.path, { state: { openAdd: true } })
+                  } else {
+                    navigate(action.path)
+                  }
+                }}
               className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-all text-left h-full"
             >
               <div

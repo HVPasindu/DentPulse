@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ import useNavigate
+import { useNavigate } from 'react-router-dom';
 import ToothIcon from '../Admin/ToothIcon';
 import { LayoutDashboard, Calendar, Users, DollarSign, Package, X } from 'lucide-react';
 
@@ -13,7 +13,7 @@ const navItems = [
 
 export default function DashboardSidebar({ isOpen, setIsOpen }) {
   const [activeItem, setActiveItem] = useState('Dashboard');
-  const navigate = useNavigate(); // ✅ initialize navigate
+  const navigate = useNavigate();
 
   return (
     <>
@@ -27,13 +27,13 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
       <aside
         className={`
         fixed lg:static inset-y-0 left-0 z-50
-        w-64 bg-white border-r border-gray-200
+        w-64 bg-cyan-50 border-r border-gray-200 h-full
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}
       >
         <div className="flex flex-col h-full">
-          <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200">
+          <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200 flex-shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-cyan-600 rounded-lg flex items-center justify-center">
                 <ToothIcon className="w-5 h-5 text-white" />
@@ -55,13 +55,13 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
                     key={item.name}
                     onClick={() => {
                       setActiveItem(item.name);
-                      navigate(item.href); // ✅ navigate to route
-                      setIsOpen(false); // optional: close sidebar on mobile
+                      navigate(item.href);
+                      setIsOpen(false);
                     }}
                     className={`
                       w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
                       text-sm font-medium transition-colors
-                      ${isActive ? 'bg-cyan-50 text-cyan-700' : 'text-gray-700 hover:bg-gray-100'}
+                      ${isActive ? 'bg-cyan-100 text-cyan-700' : 'text-gray-700 hover:bg-cyan-100/50'}
                     `}
                   >
                     <Icon className="w-5 h-5" />
@@ -72,7 +72,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
             </div>
           </nav>
 
-          <div className="p-4 border-t border-gray-200">
+          <div className="p-4 border-t border-gray-200 flex-shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
                 <span className="text-sm font-semibold text-cyan-500">AD</span>
