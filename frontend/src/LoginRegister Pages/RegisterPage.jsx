@@ -6,6 +6,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+
+
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -18,6 +20,45 @@ const RegisterPage = () => {
     confirmPassword: "",
   });
 
+
+   const [errors, setErrors] = useState({});
+   const validate = () => {
+    let newErrors = {};
+
+    if (!formData.fullName.trim())
+      newErrors.fullName = "Full name is required";
+
+    if (!formData.email)
+      newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Invalid email address";
+
+    if (!formData.phone)
+      newErrors.phone = "Phone number is required";
+    else if (!/^\d{10}$/.test(formData.phone))
+      newErrors.phone = "Phone number must be exactly 10 digits";
+
+    if (!formData.address)
+      newErrors.address = "Address is required";
+
+    if (!formData.birthDate)
+      newErrors.birthDate = "Date of birth is required";
+
+    if (!formData.gender)
+      newErrors.gender = "Please select gender";
+
+    if (!formData.password)
+      newErrors.password = "Password is required";
+    else if (formData.password.length < 6)
+      newErrors.password = "Minimum 6 characters";
+
+    if (formData.confirmPassword !== formData.password)
+      newErrors.confirmPassword = "Passwords do not match";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,26 +66,19 @@ const RegisterPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add confirmPassword check here if needed
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
+    if (!validate()) return;
+
     try {
       const response = await axios.post(
         "http://localhost:8080/api/v1/auth/register-patient",
         formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { headers: { "Content-Type": "application/json" } }
       );
+
       if (response.status === 200) {
-      
-        localStorage.setItem("register_request_email", formData.email); // Optional: set a flag in localStorage
+        localStorage.setItem("register_request_email", formData.email);
         navigate("/otp");
       }
     } catch (error) {
@@ -106,6 +140,7 @@ const RegisterPage = () => {
                 value={formData[registerpage_data.name]}
                 label={registerpage_data.label}
                 onChange={handleChange}
+                   error={errors[registerpage_data.name]}
               />
             )
           )}

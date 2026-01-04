@@ -58,15 +58,15 @@ export const PopupForm = ({
 }) => {
   return (
     <div
-      className="fixed inset-0 bg-opacity-10 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm"
       onClick={closeModal}
     >
       <div
-        className="bg-white border-2 border-cyan-400 rounded-lg w-[25%] shadow-2xl"
+        className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-cyan-300"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="pl-9 py-2">
-          <div className="flex flex-row justify-evenly items-center pt-4">
+          <div className="flex items-start justify-between px-6 py-4 ">
             <div>
               <h1 className="text-cyan-800 text-md">
                 {isEditMode ? "Update Family Member " : "Add Family Member "}
@@ -86,10 +86,10 @@ export const PopupForm = ({
             </div>
           </div>
 
-          <div className="flex flex-col pl-5">
+          <div className=" justify-center items-center mx-auto">
             <div>
               {inputs.map((input) => (
-                <div className="p-2.5" key={input.id}>
+                <div className="flex flex-col gap-1" key={input.id}>
                   {input.type === "select" ? (
                     <div className="p-2">
                       <label className="font-medium text-cyan-700 py-2.5">
@@ -97,7 +97,7 @@ export const PopupForm = ({
                       </label>
                       <br />
                       <select
-                        className="border-2 border-cyan-500 rounded-md p-1"
+                        className="border-1 border-cyan-300 rounded-lg p-3"
                         onChange={handleChange}
                         name={input.label}
                         value={formData[input.label] || ""}
@@ -111,12 +111,12 @@ export const PopupForm = ({
                       </select>
                     </div>
                   ) : input.type === "radio" ? (
-                    <div className="p-2">
+                    <div className="">
                       <label className="font-medium text-cyan-700 py-2.5">
                         {input.name}
                       </label>
                       <br />
-                      <div className="flex flex-row gap-4 pt-2">
+                      <div className="flex gap-6 pt-1">
                         {input.options.map((option) => (
                           <label key={option} className="flex items-center gap-2 cursor-pointer">
                             <input
@@ -134,13 +134,13 @@ export const PopupForm = ({
                     </div>
                   ) : (
                     <div className="">
-                      <label className="p-2 font-medium text-cyan-700 py-1.5">
+                      <label className=" font-medium text-cyan-700 py-1.5">
                         {input.name}
                       </label>
                       <br />
                       <input
                         type={input.type}
-                        className="border-2 border-cyan-500 w-[95%] rounded-md p-0.5"
+                        className="border border-cyan-300 rounded-xl px-3 py-2 w-[95%] focus:outline-none focus:ring-2 focus:ring-cyan-400"
                         placeholder={input.name}
                         onChange={handleChange}
                         name={input.label}
@@ -150,9 +150,9 @@ export const PopupForm = ({
                   )}
                 </div>
               ))}
-              <div className="py-2.5 flex flex-row">
+              <div className="flex justify-end gap-3 px-6 py-4 ">
                 <button
-                  className="p-1.5 text-white bg-cyan-500 hover:bg-cyan-700 rounded-2xl w-50"
+                  className="px-4 py-2 rounded-xl bg-cyan-600 text-white hover:bg-cyan-700"
                   onClick={handleSubmit}
                   type="button"
                 >

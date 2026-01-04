@@ -159,9 +159,9 @@ export const FamilyMembers = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg  overflow-hidden border-2 border-cyan-400">
+        <div className="bg-white rounded-lg  overflow-hidden border border-cyan-300">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-100">
+            <thead className="">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
                   Name

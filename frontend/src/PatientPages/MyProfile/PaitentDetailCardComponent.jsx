@@ -11,7 +11,7 @@ const PaitentDetailCardComponent = ({ type, name, value, onChange,label }) => {
           name={name}
           value={value || ""}
           onChange={onChange}
-          className="rounded-lg border-2 border-cyan-400 bg-gray-200 p-2"
+          className="rounded-lg border bg-gray-50 border-cyan-300  p-2"
           placeholder={name}
           readOnly={name === "email" || name === "phone"}
         />
