@@ -44,7 +44,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
         </Route> 
-        </Route>
+        {/* </Route> */}
         <Route path="/doctor" element={<DoctorLayout />}>
           <Route index element={<AppDashboard />} />
           <Route path="records" element={<h1>sfgdsfdf</h1>} />
