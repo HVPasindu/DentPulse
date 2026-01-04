@@ -25,7 +25,7 @@ export const PatientIdCard = () => {
         <PatientDetail />
       </div>
 
-      <div className="border-2 border-cyan-500 bg-white rounded-2xl   p-11">
+      <div className="border border-cyan-300 bg-white rounded-2xl   p-11">
         <div className="grid grid-cols-1 pb-10">
           <div className="flex flex-row gap-x-2">
             <IdCard />
