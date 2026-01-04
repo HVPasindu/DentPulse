@@ -53,19 +53,19 @@ const SummarySection = ({ appointments }) => {
       color: 'blue',
     },
     {
-      icon: '📅',
+      icon: '🕙',
       title: 'Scheduled',
       value: summary.scheduled,
       color: 'green',
     },
     {
-      icon: '📅',
+      icon: '✅',
       title: 'Completed',
       value: summary.completed,
       color: 'yellow',
     },
     {
-      icon: '📅',
+      icon: '❌',
       title: 'Cancelled',
       value: summary.cancelled,
       color: 'red',

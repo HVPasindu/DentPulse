@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import DashboardSidebar from '../Admin/DashboardSidebar'
+
 import DashboardHeader from '../Admin/DashboardHeader'
 
 import DashboardQuickActions from '../Admin/DashboardQuickActions'
@@ -11,8 +11,8 @@ export default function DashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-     <DashboardSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+    <div className="min-h-screen flex bg-cyan-50">
+    
       
       <div className="flex-1 flex flex-col min-w-0">
        <DashboardHeader onMenuClick={() => setSidebarOpen(true)} />

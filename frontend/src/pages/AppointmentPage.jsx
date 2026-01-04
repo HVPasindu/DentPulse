@@ -2,204 +2,120 @@ import React, { useState, useEffect } from "react";
 import WelcomeHeader from "../Admin/WelcomeHeader";
 import SummarySection from "../Admin/SummarySection";
 
-
 const AppDashboard = () => {
-  const [appointments, setAppointments] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const today = new Date().toISOString().split("T")[0];
+
+  // Load data from localStorage
+  const [appointments, setAppointments] = useState(() => {
+    const saved = localStorage.getItem("app_appointments");
+    return saved ? JSON.parse(saved) : []; 
+  });
+
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState(today);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [isReadOnly, setIsReadOnly] = useState(false);
+  const [formType, setFormType] = useState("regular"); 
 
-  /* FETCH APPOINTMENTS */
+  // Save to localStorage automatically
   useEffect(() => {
-    fetchAppointments();
-  }, []);
+    localStorage.setItem("app_appointments", JSON.stringify(appointments));
+  }, [appointments]);
 
-  const fetchAppointments = async () => {
-    try {
-      setLoading(true);
-      // Replace with your actual API endpoint
-      const response = await fetch("/api/appointments");
-      const data = await response.json();
-
-      const formattedData = data.map((appt) => ({
-        id: appt.appointmentId,
-        patientId: appt.patientId,
-        name: appt.fullName || "Unknown Patient",
-        date: appt.appointmentDate,
-        time: appt.startTime,
-        status: appt.status || "Scheduled",
-        diagnosis: appt.diagnosis || "",
-        dentistNote: appt.dentist_note || "",
-      }));
-
-      setAppointments(formattedData);
-      setError(null);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load appointments. Please try again.");
-      // Demo data for testing
-      setAppointments([
-        {
-          id: "A001",
-          patientId: "P001",
-          name: "John Doe",
-          date: today,
-          time: "09:00",
-          status: "Scheduled",
-          diagnosis: "",
-          dentistNote: "",
-        },
-        {
-          id: "A002",
-          patientId: "P002",
-          name: "Jane Smith",
-          date: today,
-          time: "10:30",
-          status: "Scheduled",
-          diagnosis: "",
-          dentistNote: "",
-        },
-        {
-          id: "A003",
-          patientId: "P003",
-          name: "Mike Johnson",
-          date: today,
-          time: "14:00",
-          status: "Completed",
-          diagnosis: "Cavity in tooth #14",
-          dentistNote: "Patient responded well to treatment",
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /* FILTER APPOINTMENTS */
+  /* FILTER LOGIC */
   const filteredAppointments = appointments.filter((appt) => {
-    const matchesName = appt.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesDate = appt.date === selectedDate;
-    return matchesName && matchesDate;
+    const matchesName = appt.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const apptDate = appt.date ? appt.date.split("T")[0] : "";
+    return matchesName && apptDate === selectedDate;
   });
 
-  /* OPEN ADD NEW APPOINTMENT FORM */
-  const openAddNew = () => {
+  /* HANDLERS */
+  const openRegular = () => {
+    setFormType("regular");
     setIsAddingNew(true);
+    setIsReadOnly(false);
     setIsPopupOpen(true);
     setSelectedAppointment(null);
   };
 
-  /* OPEN EDIT APPOINTMENT FORM */
-  const openPopup = (appt) => {
+  const openSpecial = () => {
+    setFormType("special");
+    setIsAddingNew(true);
+    setIsReadOnly(false);
+    setIsPopupOpen(true);
+    setSelectedAppointment(null);
+  };
+
+  const openViewPopup = (appt) => {
     setSelectedAppointment(appt);
     setIsAddingNew(false);
+    setIsReadOnly(true);
     setIsPopupOpen(true);
   };
 
-  /* CLOSE POPUP */
+  const openEditPopup = (appt) => {
+    setSelectedAppointment(appt);
+    setIsAddingNew(false);
+    setIsReadOnly(false);
+    setIsPopupOpen(true);
+  };
+
   const closePopup = () => {
     setIsPopupOpen(false);
     setSelectedAppointment(null);
-    setIsAddingNew(false);
   };
 
-  /* SAVE NEW APPOINTMENT */
-  const handleAddAppointment = async (e, formData) => {
+  const handleAddAppointment = (e, formData) => {
     e.preventDefault();
-
-    const newAppointmentData = {
-      patientId: formData.patientId,
-      fullName: formData.name,
-      appointmentDate: formData.date,
-      startTime: formData.time,
-      status: formData.status,
+    const newEntry = {
+      ...formData,
+      id: `APT-${Math.floor(1000 + Math.random() * 9000)}`,
     };
-
-    try {
-      // Replace with your actual API endpoint
-      const response = await fetch("/api/appointments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAppointmentData),
-      });
-
-      if (!response.ok) throw new Error("Failed to add appointment");
-
-      alert("Appointment added successfully!");
-      fetchAppointments();
-      closePopup();
-    } catch (err) {
-      console.error("Error adding appointment:", err);
-      alert("Failed to add appointment. " + err.message);
-    }
+    setAppointments([...appointments, newEntry]);
+    alert("Appointment saved permanently!");
+    closePopup();
   };
 
-  /* SAVE/UPDATE APPOINTMENT */
-  const handleSave = async (e, formData) => {
+  const handleUpdateAppointment = (e, formData) => {
     e.preventDefault();
-    if (!selectedAppointment) return;
-
-    const recordData = {
-      patient_id: selectedAppointment.patientId,
-      treatment_date: selectedAppointment.date,
-      diagnosis: formData.diagnosis || "",
-      dentist_note: formData.dentistNote || "",
-    };
-
-    try {
-      // Replace with your actual API endpoint
-      const response = await fetch("/api/records", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(recordData),
-      });
-
-      if (!response.ok) throw new Error("Save failed");
-
-      alert("Record saved successfully!");
-      fetchAppointments();
-      closePopup();
-    } catch (err) {
-      console.error("Error saving record:", err);
-      alert("Failed to save record. " + err.message);
-    }
+    const updatedList = appointments.map((appt) =>
+      appt.id === formData.id ? { ...appt, ...formData } : appt
+    );
+    setAppointments(updatedList);
+    alert("Appointment updated permanently!");
+    closePopup();
   };
 
   return (
     <div className="flex-1 p-6 md:p-8 bg-gray-50 min-h-screen">
-      <WelcomeHeader onAddNew={openAddNew} />
+      <WelcomeHeader onAddNew={openRegular} onAddSpecial={openSpecial} />
 
-      <h1 className="text-3xl font-semibold text-gray-800 mt-10 mb-10">
-        Appointments Management
-      </h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mt-10 mb-10"></h1>
 
-      <SummarySection />
+      <SummarySection appointments={appointments} />
 
-      {/* POPUP MODAL FOR ADD/EDIT */}
+      {/* POPUP MODAL */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50 p-4">
           <div className="bg-white p-6 w-full max-w-md rounded-xl shadow-xl">
-            <h2 className="text-xl font-semibold mb-4">
-              {isAddingNew ? "Add New Appointment" : "Update Appointment"}
+            <h2 className="text-xl font-semibold mb-4 text-slate-800">
+              {isAddingNew ? "Add New Appointment" : isReadOnly ? "View Appointment" : "Update Appointment"}
             </h2>
 
             {isAddingNew ? (
-              <AddAppointmentForm
-                onSubmit={handleAddAppointment}
-                onCancel={closePopup}
-              />
+              formType === "special" ? (
+                <AddSpecialForm onSubmit={handleAddAppointment} onCancel={closePopup} />
+              ) : (
+                <AddRegularForm onSubmit={handleAddAppointment} onCancel={closePopup} />
+              )
             ) : (
-              <EditAppointmentForm
-                appointment={selectedAppointment}
-                onSubmit={handleSave}
-                onCancel={closePopup}
+              <EditAppointmentForm 
+                appointment={selectedAppointment} 
+                onSubmit={handleUpdateAppointment} 
+                onCancel={closePopup} 
+                readOnly={isReadOnly} 
               />
             )}
           </div>
@@ -208,11 +124,7 @@ const AppDashboard = () => {
 
       {/* TABLE SECTION */}
       <div className="bg-white p-6 rounded-lg shadow-lg border border-dashed border-gray-300 mt-6">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Appointments
-        </h2>
-
-        {/* Search + Date Filter Row */}
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">Appointments</h2>
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
           <input
             type="text"
@@ -221,7 +133,6 @@ const AppDashboard = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full md:w-80 px-4 py-2 border border-cyan-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
-
           <input
             type="date"
             value={selectedDate}
@@ -230,325 +141,261 @@ const AppDashboard = () => {
           />
         </div>
 
-        {/* Loading State */}
-        {loading && (
-          <p className="text-center py-8 text-gray-500">
-            Loading appointments...
-          </p>
-        )}
-
-        {/* Error State */}
-        {error && (
-          <p className="text-center py-8 text-red-600">{error}</p>
-        )}
-
-        {/* Table */}
-        {!loading && !error && (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-full">
-              <thead className="bg-gray-100 border-b">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-full">
+            <thead className="bg-gray-100 border-b">
+              <tr>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Appt ID</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Patient ID</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Patient Name</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Date</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Time</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
+                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">View</th>
+                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Update</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAppointments.length === 0 ? (
                 <tr>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                    ID
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                    Patient Name
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                    Date
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                    Time
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                    Status
-                  </th>
-                  <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
-                    View
-                  </th>
-                  <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
-                    Update
-                  </th>
+                  <td colSpan="8" className="text-center py-8 text-gray-500 border-b">No appointments found.</td>
                 </tr>
-              </thead>
-
-              <tbody>
-                {filteredAppointments.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan="7"
-                      className="text-center py-8 text-gray-500 border-b"
+              ) : (
+                filteredAppointments.map((appt) => {
+                  const isSpecial = !!appt.treatmentType;
+                  return (
+                    <tr 
+                      key={appt.id} 
+                      className={`border-b transition duration-200 ${
+                        isSpecial 
+                          ? "bg-indigo-50/60 border-l-4 border-l-indigo-500 hover:bg-indigo-100/60" 
+                          : "hover:bg-gray-50"
+                      }`}
                     >
-                      No appointments found for {selectedDate}
-                    </td>
-                  </tr>
-                ) : (
-                  filteredAppointments.map((appt) => (
-                    <tr
-                      key={appt.id}
-                      className="border-b hover:bg-gray-50 transition"
-                    >
-                      <td className="px-4 py-3 text-sm text-gray-800 font-medium">
-                        {appt.id}
-                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-800 font-medium">{appt.id}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600 font-medium">{appt.patientId}</td>
                       <td className="px-4 py-3 text-sm text-gray-800">
-                        {appt.name}
+                        {appt.name} {isSpecial && <span className="ml-2 text-[10px] bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded uppercase font-bold">Special</span>}
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-800">
-                        {appt.date}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-800">
-                        {appt.time}
-                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-800">{appt.date}</td>
+                      <td className="px-4 py-3 text-sm text-gray-800">{appt.time}</td>
                       <td className="px-4 py-3">
-                        <span
-                          className={`px-3 py-1 rounded text-sm font-medium ${
-                            appt.status === "Completed"
-                              ? "bg-green-100 text-green-800"
-                              : appt.status === "Cancelled"
-                              ? "bg-red-100 text-red-800"
-                              : "bg-blue-100 text-blue-800"
-                          }`}
-                        >
+                        <span className={`px-3 py-1 rounded text-sm font-medium ${
+                          appt.status === "Completed" ? "bg-green-100 text-green-800" : "bg-blue-100 text-blue-800"
+                        }`}>
                           {appt.status}
                         </span>
                       </td>
-
                       <td className="px-4 py-3 text-center">
-                        <button
-                          onClick={() => openPopup(appt)}
-                          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-medium"
-                        >
-                          View
-                        </button>
+                        <button onClick={() => openViewPopup(appt)} className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium">View</button>
                       </td>
-
                       <td className="px-4 py-3 text-center">
-                        <button
-                          onClick={() => openPopup(appt)}
-                          className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition text-sm font-medium"
-                        >
-                          Update
-                        </button>
+                        <button onClick={() => openEditPopup(appt)} className="px-4 py-2 bg-cyan-500 text-white rounded-lg text-sm font-medium">Update</button>
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 };
 
-/* ADD APPOINTMENT FORM COMPONENT */
-const AddAppointmentForm = ({ onSubmit, onCancel }) => {
+/* --- ADD REGULAR FORM (With Time Restrictions) --- */
+const AddRegularForm = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    patientId: "",
-    name: "",
-    date: new Date().toISOString().split("T")[0],
-    time: "09:00",
-    status: "Scheduled",
+    patientId: "", name: "", date: new Date().toISOString().split("T")[0],
+    time: "17:00", status: "Scheduled", notes: ""
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const getTimeLimits = (dateString) => {
+    const selectedDate = new Date(dateString);
+    const day = selectedDate.getDay(); 
+    const isWeekend = (day === 6 || day === 0);
+    return isWeekend 
+      ? { min: "10:00", max: "17:00", label: "Weekends: 10am - 5pm" }
+      : { min: "16:00", max: "20:00", label: "Weekdays: 4pm - 8pm" };
   };
 
+  const limits = getTimeLimits(formData.date);
+
   return (
-    <form className="space-y-5" onSubmit={(e) => onSubmit(e, formData)}>
-      <div>
-        <label className="text-sm text-gray-700">Patient ID</label>
-        <input
-          type="text"
-          name="patientId"
-          value={formData.patientId}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          placeholder="Enter patient ID"
-        />
+    <form onSubmit={(e) => onSubmit(e, formData)} className="mt-6 space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Appt ID</label>
+          <input value="Auto-generated" disabled className="mt-1 w-full rounded-lg border border-slate-200 bg-gray-50 px-3 py-2 text-sm text-slate-400 italic" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Patient ID</label>
+          <input name="patientId" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+        </div>
       </div>
-
       <div>
-        <label className="text-sm text-gray-700">Patient Name</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          placeholder="Enter patient name"
-        />
+        <label className="block text-sm font-medium text-slate-700">Patient Name</label>
+        <input name="name" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
-
-      <div>
-        <label className="text-sm text-gray-700">Date</label>
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-        />
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Date</label>
+          <input name="date" type="date" value={formData.date} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Time</label>
+          <input name="time" type="time" min={limits.min} max={limits.max} value={formData.time} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+          <p className="text-[10px] text-slate-500 mt-1">{limits.label}</p>
+        </div>
       </div>
-
       <div>
-        <label className="text-sm text-gray-700">Time</label>
-        <input
-          type="time"
-          name="time"
-          value={formData.time}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-        />
-      </div>
-
-      <div>
-        <label className="text-sm text-gray-700">Status</label>
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-        >
-          <option value="Scheduled">Scheduled</option>
-          <option value="Completed">Completed</option>
-          <option value="Cancelled">Cancelled</option>
+        <label className="block text-sm font-medium text-slate-700">Status</label>
+        <select name="status" onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option>Scheduled</option>
+          <option>Completed</option>
+          <option>Cancelled</option>
         </select>
       </div>
-
-      <div className="flex justify-end gap-3 pt-4 border-t">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
-        >
-          Cancel
-        </button>
-
-        <button
-          type="submit"
-          className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition"
-        >
-          Add Appointment
-        </button>
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
+        <textarea name="notes" rows={3} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+      </div>
+      <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+        <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">Cancel</button>
+        <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">Add Appointment</button>
       </div>
     </form>
   );
 };
 
-/* EDIT APPOINTMENT FORM COMPONENT */
-const EditAppointmentForm = ({ appointment, onSubmit, onCancel }) => {
+/* --- ADD SPECIAL FORM --- */
+const AddSpecialForm = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    id: appointment?.id || "",
-    name: appointment?.name || "",
-    date: appointment?.date || "",
-    time: appointment?.time || "",
-    diagnosis: appointment?.diagnosis || "",
-    dentistNote: appointment?.dentistNote || "",
+    patientId: "", name: "", treatmentType: "Teeth Cleaning (Moderate)", 
+    date: new Date().toISOString().split("T")[0],
+    time: "17:00", status: "Scheduled", notes: ""
   });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
-    <form className="space-y-5" onSubmit={(e) => onSubmit(e, formData)}>
-      <div>
-        <label className="text-sm text-gray-700">Appointment ID</label>
-        <input
-          type="text"
-          value={formData.id}
-          disabled
-          className="w-full p-2 border rounded-lg bg-gray-100 text-gray-600"
-        />
+    <form onSubmit={(e) => onSubmit(e, formData)} className="mt-6 space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Appt ID</label>
+          <input value="Auto-generated" disabled className="mt-1 w-full rounded-lg border border-slate-200 bg-gray-50 px-3 py-2 text-sm text-slate-400 italic" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Patient ID</label>
+          <input name="patientId" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+        </div>
       </div>
-
       <div>
-        <label className="text-sm text-gray-700">Name</label>
-        <input
-          type="text"
-          value={formData.name}
-          disabled
-          className="w-full p-2 border rounded-lg bg-gray-100 text-gray-600"
-        />
+        <label className="block text-sm font-medium text-slate-700">Patient Name</label>
+        <input name="name" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
-
       <div>
-        <label className="text-sm text-gray-700">Date</label>
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-        />
+        <label className="block text-sm font-medium text-slate-700">Treatment Type</label>
+        <select name="treatmentType" value={formData.treatmentType} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option>Teeth Cleaning (Moderate)</option>
+          <option>Teeth Cleaning (Severe)</option>
+          <option>Wisdom Teeth Removal</option>
+        </select>
       </div>
-
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Date</label>
+          <input name="date" type="date" value={formData.date} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Time</label>
+          <input name="time" type="time" value={formData.time} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        </div>
+      </div>
       <div>
-        <label className="text-sm text-gray-700">Time</label>
-        <input
-          type="time"
-          name="time"
-          value={formData.time}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-        />
+        <label className="block text-sm font-medium text-slate-700">Status</label>
+        <select name="status" onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option>Scheduled</option>
+          <option>Completed</option>
+          <option>Cancelled</option>
+        </select>
       </div>
-
       <div>
-        <label className="text-sm text-gray-700">Diagnosis</label>
-        <input
-          type="text"
-          name="diagnosis"
-          value={formData.diagnosis}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          placeholder="Enter diagnosis"
-        />
+        <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
+        <textarea name="notes" rows={3} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
       </div>
+      <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+        <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">Cancel</button>
+        <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">Add Appointment</button>
+      </div>
+    </form>
+  );
+};
 
+/* --- EDIT / VIEW FORM --- */
+const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
+  const [formData, setFormData] = useState({ ...appointment });
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  return (
+    <form onSubmit={(e) => onSubmit(e, formData)} className="mt-6 space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Appt ID</label>
+          <input value={formData.id} disabled className="mt-1 w-full rounded-lg border border-slate-300 bg-gray-100 px-3 py-2 text-sm text-slate-600" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Patient ID</label>
+          <input value={formData.patientId} disabled className="mt-1 w-full rounded-lg border border-slate-300 bg-gray-100 px-3 py-2 text-sm text-slate-600" />
+        </div>
+      </div>
       <div>
-        <label className="text-sm text-gray-700">Dentist Note</label>
-        <textarea
-          rows="3"
-          name="dentistNote"
-          value={formData.dentistNote}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          placeholder="Enter dentist notes"
-        />
+        <label className="block text-sm font-medium text-slate-700">Patient Name</label>
+        <input name="name" value={formData.name} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500" />
       </div>
-
-      <div className="flex justify-end gap-3 pt-4 border-t">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
-        >
-          Cancel
+      {formData.treatmentType && (
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Treatment Type</label>
+          <select name="treatmentType" value={formData.treatmentType} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50">
+            <option>Teeth Cleaning (Moderate)</option>
+            <option>Teeth Cleaning (Severe)</option>
+            <option>Wisdom Teeth Removal</option>
+          </select>
+        </div>
+      )}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Date</label>
+          <input name="date" type="date" value={formData.date} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Time</label>
+          <input name="time" type="time" value={formData.time} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Status</label>
+        <select name="status" value={formData.status} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50">
+          <option>Scheduled</option>
+          <option>Completed</option>
+          <option>Cancelled</option>
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
+        <textarea name="notes" rows={3} value={formData.notes} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
+      </div>
+      <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end border-t pt-4">
+        <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+          {readOnly ? "Close" : "Cancel"}
         </button>
-
-        <button
-          type="submit"
-          className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition"
-        >
-          Save
-        </button>
+        {!readOnly && (
+          <button type="submit" className="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-700">
+            Update Appointment
+          </button>
+        )}
       </div>
     </form>
   );

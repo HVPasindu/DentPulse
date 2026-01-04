@@ -6,6 +6,9 @@ const SummaryCard = ({ icon, title, value, color }) => {
       border: 'border-blue-500',
       bg: 'bg-blue-100',
       text: 'text-blue-600',
+      borderColor: 'border-blue-500',
+      iconBg: 'bg-blue-50',
+      iconColor: 'text-blue-600'
     },
     green: {
       border: 'border-green-500',
