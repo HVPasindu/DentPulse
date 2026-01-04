@@ -91,7 +91,7 @@ export const PatientDetail = () => {
 
   if (loading) {
     return (
-      <div className="bg-white border-2 border-cyan-400 rounded-2xl p-8">
+      <div className="bg-white border border-cyan-300 rounded-2xl p-8">
         <p className="text-cyan-700">Loading patient details...</p>
       </div>
     );
@@ -99,7 +99,7 @@ export const PatientDetail = () => {
 
 
   return (
-  <div className="bg-white border-2 border-cyan-400 rounded-2xl p-8">
+  <div className="bg-white border border-cyan-300 rounded-2xl p-8">
       <div className="flex flex-row items-center">
         <UserRoundPen />
         <h1 className="p-1.5 text-cyan-700">Patient Details</h1>
@@ -133,7 +133,7 @@ export const PatientDetail = () => {
             name="gender"
             value={patientData.gender}
             onChange={handleChange}
-            className="rounded-lg border-2 border-cyan-400 bg-gray-200 p-2"
+            className="rounded-lg border border-cyan-300 bg-gray-50 p-2"
           >
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
@@ -147,7 +147,7 @@ export const PatientDetail = () => {
             name="address"
             value={patientData.address}
             onChange={handleChange}
-            className="rounded-lg border-2 border-cyan-400 bg-gray-200 p-2"
+            className="rounded-lg border border-cyan-300 bg-gray-50 p-2"
             placeholder="Address"
             rows={3}
           />
