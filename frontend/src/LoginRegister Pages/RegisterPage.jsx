@@ -6,6 +6,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+
+
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     fullName: "",
