@@ -12,15 +12,17 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.1.17",
+    "axios": "^1.13.2",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.553.0",
     "nodejs": "^0.0.0",
+    "qrcode.react": "^4.2.0",
     "react": "^19.1.1",
+    "react-datepicker": "^9.1.0",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.6",
     "react-router-hash-link": "^2.4.3",
-    "axios": "^1.13.2",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
