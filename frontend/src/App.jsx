@@ -1,7 +1,3 @@
-import React from "react";
-import { Header } from "./MainInterface Components/Header";
-import { Footer } from "./MainInterface Components/Footer";
-import { Hero } from "./MainInterface Components/Hero";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Services } from "./MainInterface Components/ServicesCard";
 import { MiddleSection } from "./MainInterface Components/MiddleSection";
@@ -36,6 +32,18 @@ import RegisterPage from "./LoginRegister Pages/RegisterPage";
 
 //otp page
 import OTPForm from "./LoginRegister Pages/OTPForm";
+//import TreatmentRecords from "./pages/TreatmentRecords";
+
+//Admin page
+
+import { AdminLayout } from "./Layouts/Admin.Layout";
+
+
+import DashboardPage from "./pages/DashboardPage";
+import PatientsPage from "./pages/PatientsPage";
+import BillingPage from "./pages/BillingPage";
+import InventoryPage from "./pages/InventoryPage";
+import AppointmentPage from "./pages/AppointmentPage";
 
 
 function App() {
@@ -62,6 +70,17 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/otp" element={<OTPForm/>} />
       </Routes>
+       <Routes>
+        {/* Admin layout */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="patients" element={<PatientsPage />} />
+          <Route path="billing" element={<BillingPage />} />
+          <Route path="inventory" element={<InventoryPage />} />
+          <Route path="appointment" element={<AppointmentPage />} />
+        </Route>
+        
+      </Routes>
 
     {/* ✅ ADD THIS LINE (GLOBAL CHATBOT) */}
       <ChatbotWidget />
@@ -70,4 +89,10 @@ function App() {
   );
 }
 
+
 export default App;
+
+
+
+
+
