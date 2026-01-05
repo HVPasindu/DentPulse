@@ -93,7 +93,7 @@ const BillingPage = () => {
     .reduce((sum, appt) => sum + appt.amount, 0);
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen font-sans">
+    <div className="p-8 bg-cyan-50 min-h-screen font-sans">
       <h1 className="text-3xl font-bold text-gray-900 mb-1">Billing & Invoices</h1>
       <p className="text-gray-500 mb-8 text-sm">Manage patient invoices, payments, and financial records</p>
 

@@ -2,27 +2,25 @@ import React from 'react';
 
 const SummaryCard = ({ icon, title, value, color }) => {
   const colorClasses = {
+    teal: {
+      border: 'border-teal-600',
+      bg: 'bg-teal-100',
+      text: 'text-teal-600',
+    },
     blue: {
-      border: 'border-cyan-600',
-      bg: 'bg-blue-200',
+      border: 'border-blue-600',
+      bg: 'bg-blue-100',
       text: 'text-blue-600',
-      
-      
     },
-    green: {
-      border: 'border-green-600',
-      bg: 'bg-aqua-200',
-      text: 'text-green-600',
-    },
-    yellow: {
+    orange: {
       border: 'border-orange-600',
-      bg: 'bg-yellow-200',
-      text: 'text-yellow-600',
+      bg: 'bg-orange-100',
+      text: 'text-orange-600',
     },
-    red: {
-      border: 'border-red-600',
-      bg: 'bg-magenta-200',
-      text: 'text-red-600',
+    purple: {
+      border: 'border-purple-600',
+      bg: 'bg-purple-100',
+      text: 'text-purple-600',
     },
   };
 

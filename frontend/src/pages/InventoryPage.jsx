@@ -192,9 +192,7 @@ export default function InventoryDashboard() {
         {/* Header Section */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-              Inventory Management
-            </h1>
+             <h1 className="text-3xl font-bold text-gray-900">Inventory Management</h1>
             <p className="mt-2 text-sm text-slate-600 sm:text-base">
               Manage dental supplies and equipment
             </p>
@@ -226,7 +224,7 @@ export default function InventoryDashboard() {
           />
           <StatsCard
             title="Total Value"
-            value={`$${totalValue.toFixed(2)}`}
+            value={`LKR ${totalValue.toFixed(2)}`}
             icon={Package}
             color="green"
             subtitle="Current inventory value"
