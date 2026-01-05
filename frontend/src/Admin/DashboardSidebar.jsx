@@ -4,11 +4,11 @@ import ToothIcon from '../Admin/ToothIcon';
 import { LayoutDashboard, Calendar, Users, DollarSign, Package, X } from 'lucide-react';
 
 const navItems = [
-  { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
-  { name: 'Appointments', icon: Calendar, href: '/appointments' },
-  { name: 'Patients', icon: Users, href: '/patients' },
-  { name: 'Billing', icon: DollarSign, href: '/billing' },
-  { name: 'Inventory', icon: Package, href: '/inventory' },
+  { name: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
+  { name: 'Appointments', icon: Calendar, href: '/admin/appointment' },
+  { name: 'Patients', icon: Users, href: '/admin/patients' },
+  { name: 'Billing', icon: DollarSign, href: '/admin/billing' },
+  { name: 'Inventory', icon: Package, href: '/admin/inventory' },
 ];
 
 export default function DashboardSidebar({ isOpen, setIsOpen }) {
