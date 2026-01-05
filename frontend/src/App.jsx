@@ -36,7 +36,7 @@ import RegisterPage from "./LoginRegister Pages/RegisterPage";
 
 //otp page
 import OTPForm from "./LoginRegister Pages/OTPForm";
-import TreatmentRecords from "./pages/TreatmentRecords";
+import TreatmentRecords from "./pages/PatientTreatmentRecords";
 
 function App() {
   return (
