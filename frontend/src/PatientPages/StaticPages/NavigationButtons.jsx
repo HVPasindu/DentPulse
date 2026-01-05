@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 export const NavigationButtons = () => {
 
 
-
   const navigate = useNavigate();
 
   const navigatetomyprofile=()=>{
@@ -33,7 +32,7 @@ export const NavigationButtons = () => {
     navigate('/patient/myappointments')
   }
   return (
-    <div className="bg-cyan-50 rounded-2xl grid justify-between grid-cols-1 md:grid-cols-2 lg:grid-cols-4 py-20">
+    <div className="bg-cyan-50 rounded-2xl grid justify-between gap-y-1 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 py-20">
       <button className="bg-cyan-200 hover:bg-cyan-700 rounded-lg text-black p-1  hover:text-white" onClick={navigatetomyprofile}>
         <div className="size-0.5">
           <User />

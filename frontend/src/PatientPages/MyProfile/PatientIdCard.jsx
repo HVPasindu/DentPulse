@@ -25,7 +25,7 @@ export const PatientIdCard = () => {
         <PatientDetail />
       </div>
 
-      <div className="border-2 border-cyan-500 bg-white rounded-2xl   p-11">
+      <div className="border border-cyan-300 bg-white rounded-2xl   p-11">
         <div className="grid grid-cols-1 pb-10">
           <div className="flex flex-row gap-x-2">
             <IdCard />
@@ -87,7 +87,7 @@ export const PatientIdCard = () => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 p-7 justify-items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 p-7 justify-items-center gap-y-2">
           <div>
             <button className="p-4 bg-cyan-500 rounded-xl text-white hover:bg-cyan-700">
               <div className="flex flex-row gap-x-1.5">

@@ -1,28 +1,40 @@
-export const paitentdata=[
+export const paitentInputdata=[
     {
         id:1,
         type:"text",
-        name:"Full Name"
+        name:"fullName",
+        label:"Full Name",
     },
     {
         id:2,
         type:"tel",
-        name:"Contact Number"
+        name:"phone",
+        label:"Phone Number",
     },
     {
         id:3,
         type:"email",
-        name:"Email Address"
+        name:"email",
+        label:"Email",
     },
     {
         id:4,
         type:"date",
-        name:"Date Of Birth"
+        name:"birthDate",
+        label:"Date of Birth",
+    },
+      {
+        id:5,
+        type:"radio",
+        name:"Gender",
+        genders:["Male","Female"],
+        label:"Gender",
     },
     {
-        id:5,
+        id:6,
         type:"text",
-        name:"Address"
+        name:"address",
+        label:"Address",
     },
  
 ]
