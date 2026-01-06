@@ -9,7 +9,7 @@ export const DoctorLayout = () => {
         <Sidebar />
 
         {/* Page Content */}
-        <div className="ml-64 flex-1 p-6 md:p-8">
+        <div className="ml-64 flex-1 p-6 md:p-0">
          <Outlet/>
         </div>
       </div>

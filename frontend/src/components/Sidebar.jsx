@@ -1,6 +1,8 @@
 import React from 'react';
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/logo.jpg";
+
 
 const navigation = [
   { name: 'Dashboard', href: '/doctor' },
@@ -13,12 +15,30 @@ const Sidebar = () => {
   const location = useLocation();
 
   return (
-    <div className="w-64 bg-white h-screen shadow-xl flex flex-col justify-between fixed top-0 left-0 z-10">
-      
+    <div className="w-64 bg-white-100 h-screen shadow-xl flex flex-col justify-between fixed top-0 left-0 z-10">
       <div>
+
+          <div className="flex items-center gap-2">
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-70 h-10 object-contain"
+          />
+          
+        </div>
+
         {/* Logo/Header Area */}
-        <div className="flex items-center justify-center h-20 bg-white border-b border-gray-200">
-          <span className="ml-2 text-xl font-bold text-cyan-600">Doctor Console</span>
+        <div className="flex items-center justify-center h-20 bg-cyan-100 border-b border-gray-200">
+          <span className="ml-2 text-xl font-bold text-cyan-600 ">Doctor Console</span>
+          {/* <div className="flex items-center gap-2">
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-8 h-8 object-contain"
+          />
+          
+        </div> */}
+
         </div>
 
         {/* Navigation Links */}
@@ -60,7 +80,7 @@ const Sidebar = () => {
         {/* Sign Out Button */}
         <a
           href="#"
-          className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-cyan-100 hover:bg-cyan-200 transition duration-150 ease-in-out"
+          className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-red-200 hover:bg-red-400 transition duration-150 ease-in-out"
         >
           <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-2" />
           Sign Out
