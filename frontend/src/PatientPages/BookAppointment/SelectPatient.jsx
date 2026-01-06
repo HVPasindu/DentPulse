@@ -7,7 +7,7 @@ import React from "react";
 export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) => {
   return (
     <div className="pl-10">
-      <div className="rounded-2xl bg-white border-2 border-cyan-500 h-full p-4">
+      <div className="rounded-2xl bg-white border border-cyan-300 shadow-lg h-full p-4">
         <div className="p-4">
           <h1 className="text-cyan-700 text-lg">
             Select Patient

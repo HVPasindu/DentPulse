@@ -83,7 +83,7 @@ export const TimeSlot = ({
 
   return (
     <div>
-      <div className="border-2 border-cyan-400 m-4 w-full p-4 rounded-2xl bg-white">
+      <div className="border border-cyan-300 shadow-lg m-4 w-full p-4 rounded-2xl bg-white">
         <div className="flex flex-col pb-4">
           <h1 className="p-1.5 text-cyan-700 text-lg">
             Select Time Slot

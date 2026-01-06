@@ -64,7 +64,7 @@ import { Calendar } from "lucide-react";
 export const AppointmentDate = ({ selectDate, setDate, selectedPatient }) => {
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="bg-white border-2 border-cyan-500 rounded-2xl shadow-lg p-6 w-full">
+      <div className="bg-white border border-cyan-300 rounded-2xl shadow-lg p-6 w-full">
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="size-6 text-cyan-700" />
