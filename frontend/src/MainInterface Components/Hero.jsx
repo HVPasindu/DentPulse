@@ -1,17 +1,12 @@
 import { CircleCheckBig } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { Calendar,Phone } from "lucide-react";
 export function Hero() {
   const navigate = useNavigate();
 
   const switchlologin = () => {
     navigate("/login");
   };
-
-
-
-
-
 
   return (
     <div className="grid grid-cols-1 pb-3.5 bg-cyan-50 ">
@@ -32,10 +27,24 @@ export function Hero() {
 
       <div className=" flex flex-col md:flex-row gap-4 justify-center items-center">
         <button className="rounded-lg bg-cyan-600 text-white hover:shadow-2xl px-7 py-3 hover:bg-cyan-800 "onClick={switchlologin}>
-          Book Appointment
+        <div className="flex flex-row gap-x-0.5">
+          <div>
+             <Calendar />
+          </div>
+          <div>
+            <h1>Book Appointment</h1>
+          </div>
+          </div> 
         </button>
         <button className="rounded-lg bg-white border-cyan-600 border-2 px-7 py-3 hover:bg-cyan-200" >
-          📞Call Us Now
+          <div className="flex flex-row gap-x-0.5">
+          <div >
+           <Phone  className="fill-black stroke-0"/> 
+          </div>
+          <div>
+            <h1>Contact Us</h1>
+          </div>
+          </div> 
         </button>
       </div>
       <div className=" bg-linear-to-r from-cyan-500 via-cyan-600 to-cyan-700  justify-between px-4 py-14 mt-10 text-cyan-100 font-bold grid grid-cols-1 gap-y-4  md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-6 ">

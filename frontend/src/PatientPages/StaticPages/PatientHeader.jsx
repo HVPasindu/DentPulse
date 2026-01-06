@@ -1,15 +1,17 @@
 import React from "react";
 // import headerLogo from "./";
 import { LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 const PatientHeader = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-row w-screen justify-between bg-white p-4 shadow-md">
-      <div className="bg-white flex flex-row p-2">
-        {/* <img src={headerLogo} alt="dental logo" className="size-10" /> */}
+      <div className="bg-white flex flex-row p-2 cursor-pointer" >
+       <img src="headerLogo.png" alt="dental logo" className="size-10" onClick={()=>{navigate("/")}}/> 
 
-        <h1 className="text-cyan-400 text-2xl font-bold">
+        <h1 className="text-cyan-400 text-2xl font-bold" onClick={()=>{navigate("/")}}>
           <span className="text-cyan-600">Dent</span>Pluse
         </h1>
       </div>

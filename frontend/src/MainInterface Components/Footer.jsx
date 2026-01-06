@@ -37,10 +37,10 @@ export function Footer() {
           <h1 className="text-sm font-bold text-cyan-50">Services</h1>
 
           <ul>
-            <li className="text-cyan-200">General Dentistry</li>
-            <li className="text-cyan-200">Cosmetic Dentistry</li>
-            <li className="text-cyan-200">Emergency Care</li>
-            <li className="text-cyan-200">Orthodontics</li>
+            <li className="text-cyan-200">Tooth Extraction</li>
+            <li className="text-cyan-200">Dental Fillings</li>
+            <li className="text-cyan-200">Teeth Cleaning</li>
+            <li className="text-cyan-200">Root Canal</li>
           </ul>
         </div>
 
@@ -48,9 +48,9 @@ export function Footer() {
           <h1 className="text-sm font-bold text-cyan-50">Office Hours</h1>
 
           <ul>
-            <li className="text-cyan-200">Monday - Friday: 8AM - 6PM</li>
-            <li className="text-cyan-200">Saturday: 9AM - 3PM</li>
-            <li className="text-cyan-200">Sunday: Closed</li>
+            <li className="text-cyan-200">Monday - Friday: 4PM - 7.30PM</li>
+            <li className="text-cyan-200">Saturday: 10.30AM - 4.30PM</li>
+            <li className="text-cyan-200">Sunday: 10.30AM - 4.30PM</li>
             <li className="text-cyan-200">Emergency: 24/7</li>
           </ul>
         </div>
@@ -58,12 +58,12 @@ export function Footer() {
 
       <div className=" flex flex-col  items-center border-t-2 w-[90%] max-w-6xl mx-auto border-cyan-500 ">
         <h1 className="text-cyan-50">
-          © 2025 Bright Smile Dental. All rights reserved.
+          © 2025 DentPulse Dental. All rights reserved.
         </h1>
         <br />
 
         <h1 className="text-cyan-200">
-          123 Dental Street | Phone: (555) 123-4567 | Email: info@dentpulse.com
+          No.5, Nagoda Junction , Kalutara | Phone: +94 71 546 6337 | Email: info@dentpulse.com
         </h1>
       </div>
     </div>
