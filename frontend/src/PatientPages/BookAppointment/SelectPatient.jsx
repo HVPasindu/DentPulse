@@ -1,3 +1,7 @@
+// 
+
+
+
 import React from "react";
 
 export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) => {
@@ -20,14 +24,12 @@ export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) =
             id="patient-select"
             className="border-2 border-cyan-500 rounded-lg w-full p-2"
             onChange={handleChange}
-            value={selectedPatient?.id || ""}
+            value={selectedPatient?.patientId || ""}
           >
-            <option value="">
-              -- Select a patient --
-            </option>
+            <option value="">-- Select a patient --</option>
             {FamilyDetail.map((patient) => (
-              <option key={patient.id} value={patient.id}>
-                {patient.name}
+              <option key={patient.patientId} value={patient.patientId}>
+                {patient.fullName}
               </option>
             ))}
           </select>
@@ -36,7 +38,7 @@ export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) =
           <div className="p-4 mt-2 bg-cyan-50 rounded-lg">
             <p className="text-sm text-gray-600">Selected:</p>
             <p className="text-lg font-semibold text-cyan-700">
-              {selectedPatient.name}
+              {selectedPatient.fullName}
             </p>
           </div>
         )}
