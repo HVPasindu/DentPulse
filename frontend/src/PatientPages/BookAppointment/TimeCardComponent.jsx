@@ -29,7 +29,7 @@ export const TimeCardComponent = ({ data, selectTime, setTime, disabled, isBooke
           transition-all duration-200
           ${
             isBooked
-              ? "border-red-400 bg-red-100 text-red-500 cursor-not-allowed opacity-60"
+              ? "border-gray-400 bg-gray-100 text-gray-500 cursor-not-allowed opacity-60"
               : isSelected
               ? "border-cyan-600 bg-cyan-600 text-white"
               : "border-cyan-400 text-cyan-500 bg-white"

@@ -74,10 +74,46 @@ export const TimeSlot = ({
   bookedTimes,
   isBooking,
 }) => {
-  const timedata = [
-    '09:00', '10:00', '11:00', '12:00',
-    '13:00', '14:00', '15:00', '16:00', '17:00'
-  ];
+  // const timedata = [
+  //   '09:00', '10:00', '11:00', '12:00',
+  //   '13:00', '14:00', '15:00', '16:00', '17:00'
+  // ];
+  // 🔹 Generate 30-minute time slots
+const generateTimeSlots = (startHour, startMin, endHour, endMin) => {
+  const slots = [];
+  let h = startHour;
+  let m = startMin;
+
+  while (h < endHour || (h === endHour && m <= endMin)) {
+    slots.push(
+      `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`
+    );
+
+    m += 30;
+    if (m === 60) {
+      m = 0;
+      h++;
+    }
+  }
+
+  return slots;
+};
+
+// 🔹 Decide weekday / weekend slots
+let timedata = [];
+
+if (selectDate) {
+  const day = selectDate.getDay(); // 0=Sun, 6=Sat
+
+  if (day === 0 || day === 6) {
+    // ✅ Weekend → 10:30 to 16:30
+    timedata = generateTimeSlots(10, 30, 16, 30);
+  } else {
+    // ✅ Weekday → 16:00 to 19:30
+    timedata = generateTimeSlots(16, 0, 19, 30);
+  }
+}
+
 
   console.log("TimeSlot - Booked times:", bookedTimes);
 
