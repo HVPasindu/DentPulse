@@ -5,6 +5,18 @@ import { useNavigate } from "react-router-dom";
 
 
 const PatientHeader = () => {
+
+   const handleLogout = () => {
+    // 1. Remove auth data
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user"); // if you stored user info
+
+    // 2. Redirect to login
+    navigate("/login");
+  };
+
+
+
   const navigate = useNavigate();
   return (
     <div className="flex flex-row w-screen justify-between bg-white p-4 shadow-md">
@@ -19,7 +31,7 @@ const PatientHeader = () => {
       <div className=" flex flex-row">
         <h1 className=" p-4 text-cyan-600  ">Hello Patient!</h1>
 
-        <button className="bg-white  hover:bg-cyan-100 border-2  hover:border-2 border-cyan-400 px-3 rounded-2xl ">
+        <button className="bg-white  hover:bg-cyan-100 border-2  hover:border-2 border-cyan-400 px-3 rounded-2xl " onClick={handleLogout}>
           <div className="flex p-0.5">
             <div className=" pr-3">
               <LogOut className="size-5" />
