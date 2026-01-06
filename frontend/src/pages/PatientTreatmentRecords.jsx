@@ -17,7 +17,7 @@ const TreatmentRecords = () => {
   );
 
   return (
-    <div className="p-6 bg-cyan-100 min-h-screen">
+    <div className="p-6 bg-cyan-50 min-h-screen">
       <h1 className="text-2xl font-semibold mb-4 text-cyan-600">Treatment Records</h1>
 
       <input
