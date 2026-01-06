@@ -32,9 +32,6 @@ import RegisterPage from "./LoginRegister Pages/RegisterPage";
 
 //otp page
 import OTPForm from "./LoginRegister Pages/OTPForm";
-<<<<<<< HEAD
-import TreatmentRecords from "./pages/PatientTreatmentRecords";
-=======
 //import TreatmentRecords from "./pages/TreatmentRecords";
 
 //Admin page
@@ -48,7 +45,6 @@ import BillingPage from "./pages/BillingPage";
 import InventoryPage from "./pages/InventoryPage";
 import AppointmentPage from "./pages/AppointmentPage";
 
->>>>>>> 272bd1b9219cac3b805677cb0071a0e159ef7d8f
 
 function App() {
   return (
@@ -95,7 +91,6 @@ function App() {
 
 
 export default App;
-
 
 
 
