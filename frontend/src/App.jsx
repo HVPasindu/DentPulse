@@ -60,11 +60,14 @@ function App() {
           <Route path="records" element={<PatientTreatmentRecords />} />
           <Route path="medicines" element={<DoctorMedicines />} />
         </Route>
+          <Route path="/doctor/admin/billing" element={<BillingPage  />}>
+        </Route>
         <Route path="/patient" element={<PatientLayout />}>
           <Route index element={<MainInterface />} />
           <Route path="family" element={<FamilyMembers />} />
           <Route path="bookappointments" element={<BookAppoinment />} />
           <Route path="myappointments" element={<MyAppointments />} />
+            <Route path="billing" element={<BillingPage />} />
         </Route>
         <Route path="/login" element={<MainLogin />} />
 
