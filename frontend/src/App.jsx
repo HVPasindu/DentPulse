@@ -16,6 +16,7 @@ import { DoctorLayout } from "./Layouts/Doctor.Layout";
 import AppDashboard from "./pages/AppDashboard";
 import DoctorMedicines from "./pages/DoctorMedicines";
 import { H1Icon } from "@heroicons/react/24/outline";
+import PatientTreatmentRecords from "./pages/PatientTreatmentRecords";
 
 //paitent page
 
@@ -56,7 +57,7 @@ function App() {
         {/* </Route> */}
         <Route path="/doctor" element={<DoctorLayout />}>
           <Route index element={<AppDashboard />} />
-          <Route path="records" element={<h1>sfgdsfdf</h1>} />
+          <Route path="records" element={<PatientTreatmentRecords />} />
           <Route path="medicines" element={<DoctorMedicines />} />
         </Route>
         <Route path="/patient" element={<PatientLayout />}>
@@ -91,7 +92,6 @@ function App() {
 
 
 export default App;
-
 
 
 

@@ -197,7 +197,7 @@ const AppDashboard = () => {
                   type="text"
                   value={selectedAppointment.id}
                   disabled
-                  className="w-full p-2 border rounded-lg bg-gray-100 cursor-not-allowed"
+                  className="w-full p-2 border rounded-lg bg-gray-100 cursor-not-allowed border-cyan-500"
                 />
               </div>
 

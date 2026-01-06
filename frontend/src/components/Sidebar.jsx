@@ -6,6 +6,7 @@ const navigation = [
   { name: 'Dashboard', href: '/doctor' },
   { name: 'Record', href: '/doctor/records' },
   { name: 'Medicines', href: '/doctor/medicines' },
+  { name: 'Billing', href: 'admin/billing' },
 ];
 
 const Sidebar = () => {
@@ -17,7 +18,7 @@ const Sidebar = () => {
       <div>
         {/* Logo/Header Area */}
         <div className="flex items-center justify-center h-20 bg-white border-b border-gray-200">
-          <span className="ml-2 text-xl font-bold text-gray-800">Doctor Console</span>
+          <span className="ml-2 text-xl font-bold text-cyan-600">Doctor Console</span>
         </div>
 
         {/* Navigation Links */}
