@@ -2,16 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Eye, Edit } from "lucide-react"; 
 import WelcomeHeader from "../Admin/WelcomeHeader";
 import SummarySection from "../Admin/SummarySection";
+import { fetchAllAppointments } from "../api/adminAppointmentApi";
+
+
+
 
 const AppDashboard = () => {
   const today = new Date().toISOString().split("T")[0];
-
-  // Load data from localStorage
-  const [appointments, setAppointments] = useState(() => {
-    const saved = localStorage.getItem("app_appointments");
-    return saved ? JSON.parse(saved) : []; 
-  });
-
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState(today);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -20,17 +17,35 @@ const AppDashboard = () => {
   const [isReadOnly, setIsReadOnly] = useState(false);
   const [formType, setFormType] = useState("regular"); 
 
-  // Save to localStorage automatically
+  const [appointments, setAppointments] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState("");
+
   useEffect(() => {
-    localStorage.setItem("app_appointments", JSON.stringify(appointments));
-  }, [appointments]);
+  const loadAppointments = async () => {
+    try {
+      const res = await fetchAllAppointments();
+      setAppointments(res.data);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load appointments");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadAppointments();
+}, []);
+
 
   /* FILTER LOGIC */
   const filteredAppointments = appointments.filter((appt) => {
-    const matchesName = appt.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const apptDate = appt.date ? appt.date.split("T")[0] : "";
-    return matchesName && apptDate === selectedDate;
-  });
+  const matchesName =
+    appt.fullName?.toLowerCase().includes(searchTerm.toLowerCase());
+
+  return matchesName && appt.appointmentDate === selectedDate;
+});
+
 
   /* HANDLERS */
   const openRegular = () => {
@@ -75,7 +90,7 @@ const AppDashboard = () => {
       id: `APT-${Math.floor(1000 + Math.random() * 9000)}`,
     };
     setAppointments([...appointments, newEntry]);
-    alert("Appointment saved permanently!");
+    alert("Appointment saved!");
     closePopup();
   };
 
@@ -85,9 +100,18 @@ const AppDashboard = () => {
       appt.id === formData.id ? { ...appt, ...formData } : appt
     );
     setAppointments(updatedList);
-    alert("Appointment updated permanently!");
+    alert("Appointment updated!");
     closePopup();
   };
+
+  if (loading) {
+  return <p className="p-6 text-gray-600">Loading appointments...</p>;
+}
+
+if (error) {
+  return <p className="p-6 text-red-600">{error}</p>;
+}
+
 
   return (
     <div className="flex-1 p-6 md:p-8 bg-cyan-50 min-h-screen">
@@ -173,13 +197,13 @@ const AppDashboard = () => {
                           : "hover:bg-gray-50"
                       }`}
                     >
-                      <td className="px-4 py-3 text-sm text-gray-800 font-medium">{appt.id}</td>
+                      <td className="px-4 py-3 text-sm text-gray-800 font-medium">{appt.appointmentId}</td>
                       <td className="px-4 py-3 text-sm text-gray-600 font-medium">{appt.patientId}</td>
                       <td className="px-4 py-3 text-sm text-gray-800">
-                        {appt.name} {isSpecial && <span className="ml-2 text-[10px] bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded uppercase font-bold">Special</span>}
+                        {appt.fullName} {isSpecial && <span className="ml-2 text-[10px] bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded uppercase font-bold">Special</span>}
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-800">{appt.date}</td>
-                      <td className="px-4 py-3 text-sm text-gray-800">{appt.time}</td>
+                      <td className="px-4 py-3 text-sm text-gray-800">{appt.appointmentDate}</td>
+                      <td className="px-4 py-3 text-sm text-gray-800">{appt.startTime}</td>
                       <td className="px-4 py-3">
                         <span className={`px-3 py-1 rounded text-sm font-medium ${
                           appt.status === "Completed" ? "bg-green-100 text-green-800" : "bg-blue-100 text-blue-800"

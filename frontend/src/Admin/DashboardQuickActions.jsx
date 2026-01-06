@@ -11,14 +11,14 @@ const actions = [
     description: "Schedule a patient visit",
     icon: CalendarPlus,
     color: "teal",
-    path: "/appointments",
+    path: "/admin/appointment",
   },
   {
     name: "Add Patient",
     description: "Register new patient",
     icon: UserPlus,
     color: "blue",
-    path: "/patients",
+    path: "/admin/patients",
     openAdd: true,
   },
   {
@@ -26,7 +26,7 @@ const actions = [
     description: "Update stock items",
     icon: PackagePlus,
     color: "orange",
-    path: "/inventory",
+    path: "/admin/inventory",
     openAdd: true,
   },
   {
@@ -34,7 +34,7 @@ const actions = [
     description: "View bill details",
     icon: FileText,
     color: "purple",
-    path: "/billing",
+    path: "/admin/billing",
     openAdd: true,
   },
 ]

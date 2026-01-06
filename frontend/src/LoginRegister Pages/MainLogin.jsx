@@ -23,7 +23,7 @@ const MainLogin = () => {
   };
 
 
-  const handleSubmit = async (e) => {
+  /*const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Sending POST request to the backend
@@ -46,7 +46,39 @@ const MainLogin = () => {
   
       setMessage("Invalid email or password, please try again.");
     }
-  };
+  };*/
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/v1/auth/login",
+      formData,
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    const { token, user } = response.data;
+
+    // 1️⃣ Save token & user
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("userRole", user.role);
+    localStorage.setItem("userData", JSON.stringify(user));
+
+    // 2️⃣ Role-based redirect
+    if (user.role === "ADMIN") {
+      navigate("/admin");
+    } else if (user.role === "PATIENT") {
+      navigate("/patient");
+    } else {
+      setMessage("Unauthorized role");
+    }
+
+  } catch (error) {
+    setMessage("Invalid email or password");
+  }
+};
+
 
   return (
     <div className=" bg-cyan-50 flex flex-col min-h-screen justify-center items-center ">

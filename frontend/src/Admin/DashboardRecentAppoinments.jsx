@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/*import React, { useState, useEffect } from "react";
+
 
 export default function DashboardRecentAppointments() {
   const [appointments, setAppointments] = useState([]);
@@ -96,6 +97,101 @@ export default function DashboardRecentAppointments() {
               </div>
             );
           })
+        )}
+      </div>
+    </div>
+  );
+}
+*/
+
+import React, { useState, useEffect } from "react";
+import { getTodayAppointments } from "../api/appointmentApi";
+
+export default function DashboardRecentAppointments() {
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadTodayAppointments();
+  }, []);
+
+  const loadTodayAppointments = async () => {
+    try {
+      const data = await getTodayAppointments();
+      setAppointments(data);
+    } catch (error) {
+      console.error("Failed to load today's appointments", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">
+            Today&apos;s Appointments
+          </h2>
+          <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">
+            {new Date().toLocaleDateString("en-US", {
+              weekday: "long",
+              month: "short",
+              day: "numeric",
+            })}
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        {loading ? (
+          <div className="text-center py-10">
+            <p className="text-gray-400 text-sm italic">Loading appointments...</p>
+          </div>
+        ) : appointments.length === 0 ? (
+          <div className="text-center py-10 border-2 border-dashed border-gray-100 rounded-xl">
+            <p className="text-gray-400 text-sm italic">
+              No appointments scheduled for today.
+            </p>
+          </div>
+        ) : (
+          appointments.map((appointment) => (
+            <div
+              key={appointment.appointmentId}
+              className="flex items-center justify-between p-4 rounded-lg border border-gray-100 hover:bg-gray-50 hover:shadow-sm transition"
+            >
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-gray-800 truncate">
+                  {appointment.fullName}
+                </p>
+                <p className="text-xs text-gray-500 font-mono">
+                  PID: {appointment.patientId}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-6">
+                <div className="text-right hidden md:block">
+                  <p className="text-sm font-bold text-slate-700">
+                    {appointment.startTime}
+                  </p>
+                  <p className="text-[11px] text-slate-500 truncate max-w-[120px]">
+                    {appointment.type}
+                  </p>
+                </div>
+
+                <span
+                  className={`min-w-[85px] text-center px-2.5 py-1 rounded text-[11px] font-bold uppercase
+                    ${
+                      appointment.status === "COMPLETED"
+                        ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                        : "bg-sky-100 text-sky-700 border border-sky-200"
+                    }`}
+                >
+                  {appointment.status}
+                </span>
+              </div>
+            </div>
+          ))
         )}
       </div>
     </div>
