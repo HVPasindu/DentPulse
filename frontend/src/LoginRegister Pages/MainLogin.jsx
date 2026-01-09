@@ -66,7 +66,7 @@ const MainLogin = () => {
           />
         </div>
         <div className="flex flex-col justify-center items-center">
-          <h1 className=" text-2xl ">Paitent Login</h1>
+          <h1 className=" text-3xl  font-sans">Login</h1>
           <h1 className="text-lg text-cyan-500">
             {" "}
             Access your patient portal to manage appointments

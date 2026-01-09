@@ -141,17 +141,7 @@ export const PatientDetail = () => {
           </select>
         </div>
 
-        <div className="flex flex-col p-2">
-          <label className="font-light text-cyan-600">Address</label>
-          <textarea
-            name="address"
-            value={patientData.address}
-            onChange={handleChange}
-            className="rounded-lg border border-cyan-300 bg-gray-50 p-2"
-            placeholder="Address"
-            rows={3}
-          />
-        </div>
+   
 
         <div className="flex justify-center mt-3">
           <button

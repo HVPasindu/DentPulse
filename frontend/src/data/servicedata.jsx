@@ -2,22 +2,22 @@ export const servicesData = [
 
     {
         id:1,
-        title:"General Dentistry",
-        description:"Comprehensive oral examinations, cleanings, and preventive care"
+        title:"Tooth Extraction",
+        description:"Safely remove problematic teeth with precision care and comfort."
     },
     {
         id:2,
-        title:"Cosmetic Dentistry",
-        description:"Teeth whitening, veneers, and smile makeovers"
+        title:"Dental Fillings",
+        description:"Restore decayed teeth with natural-looking, durable composite materials."
     },
     {
         id:3,
-        title:"Emergency Care",
-        description:"24/7 emergency dental services for urgent situations"
+        title:"Teeth Cleaning",
+        description:"Professional deep cleaning to prevent cavities and gum disease."
     },
     {       
         id:4,
-        title:"Orthodontics",
-        description:"Braces, aligners, and comprehensive orthodontic treatments"
+        title:"Root Canal Treatment",
+        description:"BSave infected teeth by removing damaged nerves and sealing the tooth."
     }
 ]
