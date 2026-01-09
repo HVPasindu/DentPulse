@@ -62,8 +62,8 @@ const DoctorMedicines = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <h1 className="text-2xl font-semibold mb-6">Medicines</h1>
+    <div className="max-w-12xl mx-auto p-11 bg-cyan-50 px-40 max-w-screen-full ">
+      <h1 className="text-2xl font-semibold mb-6 text-cyan-600">Medicines</h1>
 
       {/* Search */}
       <input
