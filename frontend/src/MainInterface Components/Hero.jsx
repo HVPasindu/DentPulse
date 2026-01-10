@@ -11,11 +11,11 @@ export function Hero() {
 
   return (
     <div
-      className="relative bg-cover bg-center overflow-x-hidden"
-      style={{ backgroundImage: "url('/lady.jpeg')" }}
+      className="relative bg-cover bg-center overflow-x-hidden min-h-[75vh]"
+      style={{ backgroundImage: "url('/lady.jpeg')", backgroundPosition:'right', }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-white/10"></div>
+      <div className="absolute inset-0  bg-linear-to-t from-black/40 via-black/5 to-transparent"></div>
 
       {/* CONTENT */}
       <div className="relative z-10 px-12 py-10 ">
@@ -56,7 +56,10 @@ export function Hero() {
 
         {/* BUTTONS */}
         <div className="flex flex-col md:flex-row gap-4 mt-8 justify-start items-start">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="rounded-xl bg-green-600 text-white px-10 py-6 hover:bg-green-700"
             onClick={switchlologin}
           >
@@ -64,14 +67,18 @@ export function Hero() {
               <Calendar />
               <span className="font-semibold">Book Appointment</span>
             </div>
-          </button>
-
-          <button className="rounded-lg bg-white border-green-600 border-2 px-10 py-4 hover:bg-green-200">
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="rounded-lg bg-white border-green-600 border-2 px-10 py-6 hover:bg-green-200"
+          >
             <div className="flex items-center gap-2">
               <Phone />
               <span className="font-semibold">Contact Us</span>
             </div>
-          </button>
+          </motion.button>
         </div>
 
         {/* FEATURES */}

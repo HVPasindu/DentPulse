@@ -1,8 +1,9 @@
 import { MiddleSectionCard } from "./MiddleSectionCard";
 import { middledata } from "../data/middledata";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
-export function MiddleSection({link}) {
+export function MiddleSection({ link }) {
   const navigate = useNavigate();
 
   const switchlologin = () => {
@@ -10,7 +11,7 @@ export function MiddleSection({link}) {
   };
 
   return (
-    <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64 bg-green-50  ">
+    <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64   ">
       <div className="flex flex-col justify-center items-center pl-20">
         <h1 className="text-4xl font-medium   text-green-700">
           Why Choose DentPulse Clinic
@@ -43,14 +44,19 @@ export function MiddleSection({link}) {
         <h1 className="font-semibold text-4xl text-white p-5">
           Ready to Shedule Your Visit
         </h1>
-        <h1 className="font-normal text-xl text-white p-7">
+        <h1 className="font-normal text-2xl text-white p-7">
           Our friendly staff is here to help you. Book your appointment today
           and take the first step towards a healthier smile.
         </h1>
-
-        <button className="bg-white p-3 rounded-xl px-7 shadow-lg hover:bg-green-200 hover:cursor-pointer" onClick={switchlologin}>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          className="bg-white p-3 rounded-xl px-7 shadow-lg hover:bg-green-200 hover:cursor-pointer"
+          onClick={switchlologin}
+        >
           Make An Appointment
-        </button>
+        </motion.button>
       </div>
     </div>
   );
