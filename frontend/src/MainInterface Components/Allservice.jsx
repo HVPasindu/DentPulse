@@ -4,7 +4,7 @@ import { Services } from "./ServicesCard";
 export const Allservice = () => {
   return (
     <div>
-      <div className="items-center justify-center text-center ">
+      <div className="items-center justify-center text-center overflow-x-hidden">
         <div className="bg-green-50 mt-10 p-10 ">
           <h1 className="text-4xl font-bold text-green-800 pb-4">
             Our Services

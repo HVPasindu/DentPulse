@@ -11,7 +11,7 @@ export function Hero() {
 
   return (
     <div
-      className="relative bg-cover bg-center"
+      className="relative bg-cover bg-center overflow-x-hidden"
       style={{ backgroundImage: "url('/lady.jpeg')" }}
     >
       {/* Overlay */}
