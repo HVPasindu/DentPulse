@@ -16,14 +16,14 @@ export function Header() {
       <div className=" w-[200px] flex justify-center  items-center gap-x-2 ">
         <img src={headerLogo} className="size-10 md:size-14" />
 
-        <h1 className="font-extrabold text-lg md:text-2xl text-cyan-300 ">
+        <h1 className="font-extrabold text-sm md:text-2xl text-green-600 ">
           {" "}
-          Dent<span className="font-bold text-cyan-500">Pulse</span>
+          Dent<span className="font-bold  text-green-700">Pulse</span>
         </h1>
       </div>
 
       <div className="hidden lg:block">
-        <nav className="space-x-8 cursor-pointer text-cyan-600">
+        <nav className="space-x-8 cursor-pointer text-2xl text-green-600">
           <HashLink smooth to="/#home" className="hover:text-cyan-800">
             Home
           </HashLink>
@@ -40,15 +40,15 @@ export function Header() {
       </div>
       <div className="">
         <button
-          className=" flex  justify-center w-[150px] border-cyan-500 border-2 rounded-lg p-2 m-2  font-light  text-black text-sm hover:text-cyan-500 hover:bg-cyan-50 "
+          className=" flex  justify-center w-[300px] border-green-500 border-2 rounded-lg p-2 m-2  font-light  text-black text-sm hover:text-green-500 hover:bg-green-100 "
           onClick={navigatetologinpage}
         >
           <div className="flex flex-row gap-x-1 p-0.5">
             <div>
-             <User  className="text-cyan-800 hover:text-cyan-800"/>
+             <User  className="text-green-800 hover:text-green-800"/>
             </div>
              <div>
-                <h1 className="text-cyan-700">Signup/Login</h1>
+                <h1 className="text-green-700 text-xl font-semibold">Login</h1>
               </div>
           </div>
          
