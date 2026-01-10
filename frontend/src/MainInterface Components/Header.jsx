@@ -1,4 +1,4 @@
-import headerLogo from "../assets/headerLogo.png";
+
 import { User } from "lucide-react";
 import { TextAlignJustify } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -12,12 +12,13 @@ export function Header() {
     navigate("/login");
   };
 
+
   return (
     <div className="sticky top-0 left-0 z-50 w-screen flex justify-around items-center bg-white py-5 shadow-xl mb-0.5">
       <div className=" w-[200px] flex justify-center  items-center gap-x-2 ">
-        <img src={headerLogo} className="size-30 md:size-14" />
+        <img src="logo.png" className="size-64 md:size-14"  />
 
-        <h1 className="font-extrabold text-3xl md:text-5xl tracking-tight text-green-600">
+        <h1 className="font-extrabold text-3xl md:text-5xl tracking-tight text-green-600" >
           Dent<span className="font-bold text-green-700">Pulse</span>
         </h1>
       </div>
