@@ -9,8 +9,6 @@ export function MiddleSection({link}) {
     navigate("/login");
   };
 
-
-
   return (
     <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64 bg-green-50  ">
       <div className="flex flex-col justify-center items-center pl-20">

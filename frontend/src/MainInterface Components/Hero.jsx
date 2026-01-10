@@ -1,7 +1,7 @@
 import { CircleCheckBig } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Phone } from "lucide-react";
-
+import { motion } from "framer-motion";
 export function Hero() {
   const navigate = useNavigate();
 
@@ -26,13 +26,27 @@ export function Hero() {
           </h1>
           <div className="w-16 h-1 bg-green-600 mb-3 rounded-full"></div>
 
-          <h1 className="font-extrabold text-5xl md:text-6xl tracking-tight leading-tight text-green-800 mt-4 animate-fadeUp">
-            Your Smile, <span className="text-green-600">Our Priority</span>
-          </h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="font-extrabold text-5xl md:text-6xl tracking-tight leading-tight text-green-800 mt-4"
+          >
+            Your Smile,{" "}
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="text-green-600"
+            >
+              Our Priority
+            </motion.span>
+          </motion.h1>
 
           <div className="w-full md:w-[50%] mt-4">
             <p className="text-lg md:text-xl text-gray-800 font-normal leading-relaxed text-left mt-4">
-
               Experience exceptional dental care with our team of experienced
               professionals. We're committed to providing comfortable,
               high-quality treatment for the whole family.
@@ -61,27 +75,6 @@ export function Hero() {
         </div>
 
         {/* FEATURES */}
-        <div className="bg-gradient-to-r from-green-500 via-green-600 to-green-700 text-lg px-4 py-14 mt-14 text-white font-bold grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          <div className="flex gap-2">
-            <CircleCheckBig /> Experienced Dentists
-          </div>
-          <div className="flex gap-2">
-            <CircleCheckBig /> Modern Equipment
-          </div>
-          <div className="flex gap-2">
-            <CircleCheckBig /> Flexible Payments
-          </div>
-          <div className="flex gap-2">
-            <CircleCheckBig /> Same-Day Appointments
-          </div>
-          <div className="flex gap-2">
-            <CircleCheckBig /> Family Friendly
-          </div>
-          <div className="flex gap-2">
-            <CircleCheckBig /> Digital X-Rays
-          </div>
-        </div>
-
       </div>
     </div>
   );

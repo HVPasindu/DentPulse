@@ -18,6 +18,7 @@
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.553.0",
+    "motion": "^12.25.0",
     "nodejs": "^0.0.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.1.1",
