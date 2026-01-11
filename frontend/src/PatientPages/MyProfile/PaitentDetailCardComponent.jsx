@@ -5,13 +5,13 @@ const PaitentDetailCardComponent = ({ type, name, value, onChange,label }) => {
     <>
     
       <div className="flex flex-col p-2 ">
-        <label className="font-light text-cyan-600">{label}</label>
+        <label className="font-semibold text-lg text-green-800">{label}</label>
         <input
           type={type}
           name={name}
           value={value || ""}
           onChange={onChange}
-          className="rounded-lg border bg-gray-50 border-cyan-300  p-2"
+          className="rounded-lg border  border-green-400  p-2"
           placeholder={name}
           readOnly={name === "email" || name === "phone"}
         />
