@@ -137,18 +137,18 @@
 //   };
 
 //   return (
-//     <div className="p-8 bg-cyan-50 min-h-screen">
+//     <div className="p-8 bg-green-50 min-h-screen">
 //       <div className="max-w-7xl mx-auto">
 //         <div className="flex flex-row justify-between p-4">
 //           <div>
-//             <h1 className="text-lg text-cyan-700   mb-6">Family Members</h1>
-//             <h1 className="text-md text-cyan-500">
+//             <h1 className="text-lg text-green-700   mb-6">Family Members</h1>
+//             <h1 className="text-md text-green-500">
 //               Manage family members and book appointments for them
 //             </h1>
 //           </div>
 //           <div className="">
 //             <button
-//               className=" rounded-lg bg-cyan-500 text-white hover:bg-cyan-700 p-2 "
+//               className=" rounded-lg bg-green-500 text-white hover:bg-green-700 p-2 "
 //               onClick={openModal}
 //             >
 //               <div className="flex flex-row">
@@ -159,7 +159,7 @@
 //           </div>
 //         </div>
 
-//         <div className="bg-white rounded-lg  overflow-hidden border border-cyan-300">
+//         <div className="bg-white rounded-lg  overflow-hidden border border-green-300">
 //           <table className="min-w-full divide-y divide-gray-200">
 //             <thead className="">
 //               <tr>
@@ -194,7 +194,7 @@
 //                     <span
 //                       className={`rounded-full px-2 py-1  text-xs inline-flex  ${
 //                         user.relationship == "Account Owner"
-//                           ? "bg-cyan-400 text-cyan-700"
+//                           ? "bg-green-400 text-green-700"
 //                           : "bg-green-200 text-green-700"
 //                       }`}
 //                     >
@@ -210,7 +210,7 @@
 //                     <div className="flex flex-row justify-around px-1">
 //                       <div></div>
 //                       <button
-//                         className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-cyan-700 hover:text-black border-cyan-300 bg-white p-1 hover:bg-cyan-100"
+//                         className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-green-700 hover:text-black border-green-300 bg-white p-1 hover:bg-green-100"
 //                         onClick={() => {
 //                           handleIdcard(user);
 //                         }}
@@ -226,7 +226,7 @@
 //                         <>
 //                           <div className="px-1">
 //                             <button
-//                               className="border-2 rounded-lg text-sm border-cyan-400 flex flex-row justify-evenly text-cyan-700 p-1 hover:bg-cyan-300 hover:text-black"
+//                               className="border-2 rounded-lg text-sm border-green-400 flex flex-row justify-evenly text-green-700 p-1 hover:bg-green-300 hover:text-black"
 //                               onClick={() => handleEdit(user)}
 //                             >
 //                               <SquarePen className="size-3" />
@@ -277,10 +277,11 @@
 // };
 
 import React, { useEffect, useState } from "react";
-import { IdCard, UserRoundPlus, Trash2, SquarePen } from "lucide-react";
+import { IdCard, UserRoundPlus, Trash2, SquarePen,Users } from "lucide-react";
 import { PopupForm } from "./PopupForm";
 import { PatientIdCard } from "./PatientIdCard";
 import axios from "axios";
+import { motion } from "motion/react";
 
 export const FamilyMembers = () => {
   const [Isopen, setIsOpen] = useState(false);
@@ -303,7 +304,6 @@ export const FamilyMembers = () => {
 
   const BASE_URL = "http://localhost:8080/api/v1/patient";
 
-  
   const getAuthHeaders = () => {
     const token = localStorage.getItem("authToken");
     return {
@@ -312,7 +312,6 @@ export const FamilyMembers = () => {
     };
   };
 
-  
   const fetchData = async () => {
     try {
       const headers = getAuthHeaders();
@@ -332,7 +331,7 @@ export const FamilyMembers = () => {
         address: m.address || "",
         date: (m.birthDate || "").includes("T")
           ? (m.birthDate || "").slice(0, 10)
-          : (m.birthDate || ""),
+          : m.birthDate || "",
         accountOwner: m.accountOwner || false,
       });
 
@@ -365,7 +364,6 @@ export const FamilyMembers = () => {
     }));
   };
 
-  
   const openModal = () => {
     setFormData({
       name: "",
@@ -381,7 +379,6 @@ export const FamilyMembers = () => {
     setIsOpen(true);
   };
 
-
   const closeModal = () => {
     setIsOpen(false);
     setIsEditMode(false);
@@ -396,7 +393,6 @@ export const FamilyMembers = () => {
       gender: "",
     });
   };
-
 
   const handleEdit = (member) => {
     setFormData({
@@ -451,7 +447,9 @@ export const FamilyMembers = () => {
 
       // ✅ UPDATE
       if (isEditMode && editingId) {
-        await axios.put(`${BASE_URL}/family/${editingId}`, payload, { headers });
+        await axios.put(`${BASE_URL}/family/${editingId}`, payload, {
+          headers,
+        });
 
         // ✅ easiest + safest (because your backend sometimes returns empty body)
         await fetchData();
@@ -474,28 +472,49 @@ export const FamilyMembers = () => {
 
   return (
     <div className="p-8  min-h-screen">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg border border-green-400 shadow-xl">
         <div className="flex flex-row justify-between p-4">
           <div>
-            <h1 className="text-lg text-cyan-700   mb-6">Family Members</h1>
-            <h1 className="text-md text-cyan-500">
+            <div className="flex flex-row  gap-4 items-baseline">
+              <div>
+                <Users/>
+              </div>
+              <div>
+                        <h1 className="text-4xl font-serif font-stretch-105% text-green-700   mb-6">
+
+              Family Members
+            </h1>
+              </div>
+            </div>
+      
+            <h1 className="text-2xl  text-green-500">
               Manage family members and book appointments for them
             </h1>
           </div>
           <div className="">
-            <button
-              className=" rounded-lg bg-cyan-500 text-white hover:bg-cyan-700 p-2 "
+            <motion.button
               onClick={openModal}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="rounded-lg bg-green-500 text-white hover:bg-green-700 p-2 hover:cursor-pointer"
             >
-              <div className="flex flex-row">
-                <UserRoundPlus className="size-5" />
-                <h1 className="text-sm">Add New Paitent</h1>
+              <div className="flex flex-row items-center gap-2">
+                {/* Icon micro-animation */}
+                <motion.div
+                  whileHover={{ rotate: 90 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <UserRoundPlus className="size-5" />
+                </motion.div>
+
+                <h1 className="text-xl">Add New Patient</h1>
               </div>
-            </button>
+            </motion.button>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg  overflow-hidden border border-cyan-300">
+        <div className="bg-white rounded-lg  overflow-hidden border border-green-300">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
@@ -534,7 +553,7 @@ export const FamilyMembers = () => {
                     <span
                       className={`rounded-full px-2 py-1  text-xs inline-flex  ${
                         user.relationship == "Account Owner"
-                          ? "bg-cyan-400 text-cyan-700"
+                          ? "bg-green-400 text-green-700"
                           : "bg-green-200 text-green-700"
                       }`}
                     >
@@ -552,7 +571,7 @@ export const FamilyMembers = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-row justify-around px-1">
                       <button
-                        className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-cyan-700 hover:text-black border-cyan-300 bg-white p-1 hover:bg-cyan-100"
+                        className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-green-700 hover:text-black border-green-300 bg-white p-1 hover:bg-green-100"
                         onClick={() => handleIdcard(user)}
                       >
                         <div className=" pr-2">
@@ -567,7 +586,7 @@ export const FamilyMembers = () => {
                         <>
                           <div className="px-1">
                             <button
-                              className="border-2 rounded-lg text-sm border-cyan-400 flex flex-row justify-evenly text-cyan-700 p-1 hover:bg-cyan-300 hover:text-black"
+                              className="border-2 rounded-lg text-sm border-green-400 flex flex-row justify-evenly text-green-700 p-1 hover:bg-green-300 hover:text-black"
                               onClick={() => handleEdit(user)}
                             >
                               <SquarePen className="size-4 pt-1" />
@@ -603,17 +622,19 @@ export const FamilyMembers = () => {
             formData={formData}
             isEditMode={isEditMode}
             editId={editingId}
+     
           />
         )}
       </div>
 
       <div>
         {IsIdOpen && SelectedMember && (
-          <PatientIdCard FormData={SelectedMember} closeIdModel={closeIdModel} />
+          <PatientIdCard
+            FormData={SelectedMember}
+            closeIdModel={closeIdModel}
+          />
         )}
       </div>
     </div>
   );
 };
-
-

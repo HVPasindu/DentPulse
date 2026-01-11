@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
+import { motion } from "motion/react";
 
 const inputs = [
   { id: "1", name: "Patient Name", label: "name", type: "text" },
@@ -84,22 +85,22 @@ export const PopupForm = ({
       onClick={closeModal}
     >
       <div
-        className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-cyan-300"
+        className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-green-300"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex justify-between items-start px-6 py-4">
-          <h1 className="text-cyan-800 text-md">
+          <h1 className="text-green-800 text-3xl font-serif font-stretch-105%">
             {isEditMode ? "Update Family Member" : "Add Family Member"}
             <br />
-            <span className="text-cyan-400 text-sm">
+            <span className="text-green-400 text-xl">
               {isEditMode
                 ? "Update family member to manage appointments"
                 : "Add a family member to manage appointments"}
             </span>
           </h1>
           <X
-            className="cursor-pointer hover:text-cyan-600"
+            className="cursor-pointer hover:text-green-600"
             onClick={closeModal}
           />
         </div>
@@ -111,7 +112,7 @@ export const PopupForm = ({
 
             return (
               <div key={input.id}>
-                <label className="block text-sm font-medium text-cyan-700 mb-1">
+                <label className="block text-lg font-semibold text-green-700 mb-1">
                   {input.name}
                 </label>
 
@@ -120,7 +121,7 @@ export const PopupForm = ({
                     name={input.label}
                     value={currentValue}
                     onChange={handleChangeWithValidation}
-                    className="w-full border border-cyan-300 rounded-lg px-3 py-2"
+                    className="w-full border border-green-300 rounded-lg px-3 py-2"
                   >
                     <option value="">Select A Relationship</option>
                     {input.options.map((opt) => (
@@ -137,9 +138,7 @@ export const PopupForm = ({
                           type="radio"
                           name={input.label}
                           value={opt}
-                          checked={
-                            normalize(currentValue) === normalize(opt)
-                          }
+                          checked={normalize(currentValue) === normalize(opt)}
                           onChange={handleChangeWithValidation}
                         />
                         {opt}
@@ -153,7 +152,7 @@ export const PopupForm = ({
                     value={currentValue}
                     onChange={handleChangeWithValidation}
                     max={input.type === "date" ? today : undefined}
-                    className="w-full border border-cyan-300 rounded-lg px-3 py-2"
+                    className="w-full border border-green-300 rounded-lg px-3 py-2"
                     placeholder={input.name}
                   />
                 )}
@@ -169,20 +168,27 @@ export const PopupForm = ({
 
           {/* Buttons */}
           <div className="flex justify-end gap-3 pt-4">
-            <button
-              className="px-4 py-2 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700"
+            <motion.button
               type="button"
               onClick={() => validate() && handleSubmit()}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
             >
               {isEditMode ? "Update Details" : "Add Details"}
-            </button>
-            <button
-              className="px-4 py-2 border rounded-xl hover:bg-gray-100"
-              onClick={closeModal}
+            </motion.button>
+
+            <motion.button
               type="button"
+              onClick={closeModal}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 250, damping: 22 }}
+              className="px-4 py-2 border rounded-xl hover:bg-gray-100"
             >
               Cancel
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
