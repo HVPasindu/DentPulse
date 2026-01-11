@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft,House } from "lucide-react";
 import { registerpagedata } from "../data/registerpagedata";
 import InputCommonCard from "./InputCommonCard";
 import axios from "axios";
@@ -77,15 +77,21 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className=" bg-cyan-50 flex flex-col min-h-screen justify-center items-center ">
+    <div
+      className="relative  flex flex-col min-h-screen justify-center items-center bg-cover bg-center"
+      style={{ backgroundImage: "url('/background.png')" }}
+    >
+       <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
+      <div className="relative z-10 w-full flex flex-col justify-center items-center">
       <div className="flex flex-row justify-center items-center  pr-50 md:pr-80 py-2">
-        <ArrowLeft className="text-green-600" />
-        <a href="/" className="text-green-700">
+        <ArrowLeft className="text-black text-xl" />
+        <a href="/" className="text-black text-xl">
           Back to Home
         </a>
       </div>
 
       <div className="border-2 rounded-2xl shadow-2xl border-green-400 flex flex-col  p-5 w-[95%] py-15 mx-auto max-w-lg bg-white">
+     
         <div className="flex flex-col justify-center items-center">
           <img
             src="logo.png"
@@ -172,6 +178,7 @@ const RegisterPage = () => {
         <h1 className="text-green-900 font-light font-lg">
           For assistance, call us at (555) 123-4567
         </h1>
+      </div>
       </div>
     </div>
   );

@@ -24,17 +24,17 @@ export function Header() {
       </div>
 
       <div className="hidden lg:block">
-        <nav className="space-x-8 cursor-pointer text-2xl text-green-600">
-          <HashLink smooth to="/#home" className="hover:text-cyan-800 ">
+        <nav className="space-x-8 cursor-pointer text-xl text-green-600">
+          <HashLink smooth to="/#home" className="hover:text-green-800 ">
             Home
           </HashLink>
-          <HashLink smooth to="/#services" className="hover:text-cyan-800 ">
+          <HashLink smooth to="/#services" className="hover:text-green-800 ">
             Services
           </HashLink>
-          <HashLink smooth to="/#about" className="hover:text-cyan-800 ">
+          <HashLink smooth to="/#about" className="hover:text-green-800 ">
             Testimonials
           </HashLink>
-          <HashLink smooth to="/#contact" className="hover:text-cyan-800 ">
+          <HashLink smooth to="/#contact" className="hover:text-green-800 ">
             Contact
           </HashLink>
         </nav>
