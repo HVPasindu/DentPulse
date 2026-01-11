@@ -1,11 +1,10 @@
-import dental_logo from "../assets/headerLogo.png";
+import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import loginpagedata from "../data/loginpagedata";
 import InputCommonCard from "./InputCommonCard";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 const MainLogin = () => {
   const [formData, setFormData] = useState({
@@ -16,12 +15,10 @@ const MainLogin = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +40,6 @@ const MainLogin = () => {
         navigate("/patient");
       }
     } catch (error) {
-  
       setMessage("Invalid email or password, please try again.");
     }
   };
@@ -76,26 +72,26 @@ const MainLogin = () => {
         <div className=" ">
           <form className="flex flex-col" onSubmit={handleSubmit}>
             {loginpagedata.map((login_data, index) => (
-             <InputCommonCard
-              key={login_data.id}
-              type={login_data.type}
-              name={login_data.name}
-              value={formData[login_data.name]}
-              onChange={handleChange}
-              label={login_data.label}
-            />
+              <InputCommonCard
+                key={login_data.id}
+                type={login_data.type}
+                name={login_data.name}
+                value={formData[login_data.name]}
+                onChange={handleChange}
+                label={login_data.label}
+              />
             ))}
 
-
-             {message && (
-            <div className="text-red-500 text-center mt-2">{message}</div>
-          )}
-
+            {message && (
+              <div className="text-red-500 text-center mt-2">{message}</div>
+            )}
 
             <div className="flex flex-row justify-around pt-3">
               <div className="flex flex-row gap-x-3  ">
                 <input type="checkbox" />
-                <label className="pr-4 text-green-600 text-xl">Remember Me</label>
+                <label className="pr-4 text-green-600 text-xl">
+                  Remember Me
+                </label>
               </div>
 
               <div>
@@ -105,16 +101,25 @@ const MainLogin = () => {
               </div>
             </div>
             <div className="flex justify-around items-center pt-6">
-              <button className="bg-green-600 rounded-2xl w-[90%] p-3 text-white  mx-auto hover:bg-green-800 ">
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="bg-green-600 rounded-2xl w-[90%] p-3 text-white mx-auto hover:bg-green-800"
+              >
                 Sign in
-              </button>
+              </motion.button>
             </div>
             <div className="py-6">
               <hr />
             </div>
             <div className="flex flex-row justify-center gap-4">
               <h1 className="text-green-600 text-lg">Dont Have An Account?</h1>
-              <a href="/register" className="text-green-600 hover:text-green-700">
+              <a
+                href="/register"
+                className="text-green-600 hover:text-green-700"
+              >
                 <u>Register Here</u>
               </a>
             </div>
