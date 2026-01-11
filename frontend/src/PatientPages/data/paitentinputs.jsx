@@ -23,15 +23,9 @@ export const paitentInputdata=[
         name:"birthDate",
         label:"Date of Birth",
     },
-      {
-        id:5,
-        type:"radio",
-        name:"Gender",
-        genders:["Male","Female"],
-        label:"Gender",
-    },
+  
     {
-        id:6,
+        id:5,
         type:"text",
         name:"address",
         label:"Address",

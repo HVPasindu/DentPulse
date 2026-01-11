@@ -83,7 +83,7 @@
 
 //   return (
 //     <div>
-//       <div className="flex flex-col bg-cyan-50 p-4 min-h-screen">
+//       <div className="flex flex-col bg-green-50 p-4 min-h-screen">
 //         <div className="grid grid-cols-1 md:grid-cols-2 justify-evenly gap-7">
 //           <SelectPatient
 //             FamilyDetail={FamilyDetail}
@@ -286,7 +286,7 @@ export const BookAppoinment = () => {
 
   return (
     <div>
-      <div className="flex flex-col bg-cyan-50 p-4 min-h-screen">
+      <div className="flex flex-col  p-4 min-h-screen">
         <div className="grid grid-cols-1 md:grid-cols-2 justify-evenly gap-7">
           <SelectPatient
             FamilyDetail={FamilyDetail}

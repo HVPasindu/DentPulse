@@ -1,10 +1,15 @@
-// 
-
+//
 
 import React from "react";
 import { Clock } from "lucide-react";
 
-export const TimeCardComponent = ({ data, selectTime, setTime, disabled, isBooked }) => {
+export const TimeCardComponent = ({
+  data,
+  selectTime,
+  setTime,
+  disabled,
+  isBooked,
+}) => {
   const isSelected = selectTime === data;
 
   const handleClick = () => {
@@ -31,12 +36,12 @@ export const TimeCardComponent = ({ data, selectTime, setTime, disabled, isBooke
             isBooked
               ? "border-gray-400 bg-gray-100 text-gray-500 cursor-not-allowed opacity-60"
               : isSelected
-              ? "border-cyan-600 bg-cyan-600 text-white"
-              : "border-cyan-400 text-cyan-500 bg-white"
+              ? "border-gray-600 bg-gray-600 text-white"
+              : "border-gray-400 text-gray-500 bg-white"
           }
           ${
             !isBooked && !disabled
-              ? "hover:cursor-pointer hover:bg-cyan-600 hover:text-white hover:border-cyan-600"
+              ? "hover:cursor-pointer  hover:text-black hover:border-black"
               : ""
           }
           ${disabled && !isBooked ? "opacity-50 cursor-not-allowed" : ""}

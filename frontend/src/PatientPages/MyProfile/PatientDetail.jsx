@@ -4,10 +4,10 @@ import PaitentDetailCardComponent from "./PaitentDetailCardComponent";
 import { UserRoundPen } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+import { motion } from "motion/react";
 
 export const PatientDetail = () => {
-
   const navigate = useNavigate();
 
   const [patientData, setPatientData] = useState({
@@ -20,10 +20,8 @@ export const PatientDetail = () => {
   });
 
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("error"); 
+  const [messageType, setMessageType] = useState("error");
   const [loading, setLoading] = useState(true);
-
-
 
   useEffect(() => {
     const fetchPatientProfile = async () => {
@@ -38,9 +36,10 @@ export const PatientDetail = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-     
         const data = res.data;
-        const birthDate = data.birthDate ? String(data.birthDate).slice(0, 10) : "";
+        const birthDate = data.birthDate
+          ? String(data.birthDate).slice(0, 10)
+          : "";
 
         setPatientData({
           fullName: data.fullName ?? "",
@@ -68,7 +67,7 @@ export const PatientDetail = () => {
     setPatientData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => { 
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("authToken");
@@ -77,9 +76,13 @@ export const PatientDetail = () => {
         return;
       }
 
-      await axios.put("http://localhost:8080/api/v1/patient/update", patientData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.put(
+        "http://localhost:8080/api/v1/patient/update",
+        patientData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       setMessageType("success");
       setMessage("Profile updated successfully!");
@@ -91,20 +94,21 @@ export const PatientDetail = () => {
 
   if (loading) {
     return (
-      <div className="bg-white border border-cyan-300 rounded-2xl p-8">
-        <p className="text-cyan-700">Loading patient details...</p>
+      <div className="bg-white border border-green-300 rounded-2xl p-8">
+        <p className="text-green-700">Loading patient details...</p>
       </div>
     );
   }
 
-
   return (
-  <div className="bg-white border border-cyan-300 rounded-2xl p-8">
+    <div className="bg-white border border-green-300 rounded-2xl p-8">
       <div className="flex flex-row items-center">
         <UserRoundPen />
-        <h1 className="p-1.5 text-cyan-700">Patient Details</h1>
+        <h1 className="p-1.5 text-4xl font-stretch-125% font-serif text-green-700">Patient Details</h1>
       </div>
-      <h2 className="p-1.5 text-cyan-400">Update your personal information</h2>
+      <h2 className="p-1.5 text-2xl text-green-400">
+        Update your personal information
+      </h2>
 
       {message && (
         <p
@@ -117,23 +121,23 @@ export const PatientDetail = () => {
       )}
 
       <form onSubmit={handleSubmit}>
-          {paitentInputdata.map((input) => (
-            <PaitentDetailCardComponent
-              key={input.id}  
-              type={input.type}
-              name={input.name}
-              label={input.label}
-              value={patientData[input.name]}
-              onChange={handleChange}
-            />
-          ))}
+        {paitentInputdata.map((input) => (
+          <PaitentDetailCardComponent
+            key={input.id}
+            type={input.type}
+            name={input.name}
+            label={input.label}
+            value={patientData[input.name]}
+            onChange={handleChange}
+          />
+        ))}
         <div className="flex flex-col p-2">
-          <label className="font-light text-cyan-600">Gender</label>
+          <label className="font-bold text-green-800">Gender</label>
           <select
             name="gender"
             value={patientData.gender}
             onChange={handleChange}
-            className="rounded-lg border border-cyan-300 bg-gray-50 p-2"
+            className="rounded-lg border border-green-400 bg-gray-50 p-2"
           >
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
@@ -141,23 +145,21 @@ export const PatientDetail = () => {
           </select>
         </div>
 
-   
-
         <div className="flex justify-center mt-3">
-          <button
+          <motion.button
             type="submit"
-            className="p-2 w-[90%] text-white bg-cyan-600 hover:bg-cyan-800 rounded-2xl"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="p-2 w-[90%] text-white bg-green-600 hover:bg-green-800 rounded-2xl hover:cursor-pointer"
           >
             Update Details
-          </button>
+          </motion.button>
         </div>
       </form>
     </div>
   );
 };
-
-
-
 
 //  <div>
 //               {inputs.map((input) => (
