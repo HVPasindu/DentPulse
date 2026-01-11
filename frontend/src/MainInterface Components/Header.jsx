@@ -16,7 +16,7 @@ export function Header() {
   return (
     <div className="sticky top-0 left-0 z-50 w-screen flex justify-around items-center bg-white py-5 shadow-xl mb-0.5">
       <div className=" w-[200px] flex justify-center  items-center gap-x-2 ">
-        <img src="logo.png" className="size-64 md:size-14"  />
+        <img src="logo.png" className="size-14 md:size-14"  />
 
         <h1 className="font-extrabold text-3xl md:text-5xl tracking-tight text-green-600" >
           Dent<span className="font-bold text-green-700">Pulse</span>
@@ -44,9 +44,9 @@ export function Header() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.96 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="flex justify-center w-[300px] border-green-500 border-2 
+          className="flex justify-center min-w-[120px] md:min-w-[140px] border-green-500 border-2 
                    rounded-lg p-2 m-2 font-light text-black text-sm 
-                   hover:text-green-500 hover:bg-green-100"
+                   hover:text-green-500 hover:bg-green-100 hover:cursor-pointer"
           onClick={navigatetologinpage}
         >
           <div className="flex flex-row items-center gap-x-2 p-0.5">

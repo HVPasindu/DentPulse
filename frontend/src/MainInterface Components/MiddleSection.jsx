@@ -11,8 +11,8 @@ export function MiddleSection({ link }) {
   };
 
   return (
-    <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64   ">
-      <div className="flex flex-col justify-center items-center pl-20">
+    <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64">
+      <div className="flex flex-col justify-center items-center ">
         <h1 className="text-4xl font-medium   text-green-700">
           Why Choose DentPulse Clinic
         </h1>

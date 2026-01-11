@@ -60,7 +60,7 @@ export function Hero() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="rounded-xl bg-green-600 text-white px-10 py-6 hover:bg-green-700"
+            className="rounded-xl bg-green-600 text-white px-10 py-6 hover:bg-green-700 hover:cursor-pointer"
             onClick={switchlologin}
           >
             <div className="flex items-center gap-2">
@@ -72,7 +72,7 @@ export function Hero() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="rounded-lg bg-white border-green-600 border-2 px-10 py-6 hover:bg-green-200"
+            className="rounded-lg bg-white border-green-600 border-2 px-10 py-6 hover:bg-green-200 hover:cursor-pointer"
           >
             <div className="flex items-center gap-2">
               <Phone />
