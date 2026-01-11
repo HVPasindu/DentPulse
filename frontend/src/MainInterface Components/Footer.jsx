@@ -21,14 +21,14 @@ export function Footer() {
             <HashLink
               smooth
               to="/#home"
-              className="text-green-300 hover:text-white"
+              className="text-green-300 text-lg hover:text-white"
             >
               Home
             </HashLink>
             <HashLink
               smooth
               to="/#services"
-              className="text-green-300 hover:text-white"
+              className="text-green-300 text-lg hover:text-white"
             >
               <br />
               Services
@@ -36,7 +36,7 @@ export function Footer() {
             <HashLink
               smooth
               to="/#about"
-              className="text-green-300 hover:text-white"
+              className="text-green-300 text-lg hover:text-white"
             >
               <br />
               Testimonials
@@ -44,7 +44,7 @@ export function Footer() {
             <HashLink
               smooth
               to="/#contact"
-              className="text-green-300 hover:text-white"
+              className="text-green-300 text-lg hover:text-white"
             >
               <br />
               Contact
@@ -56,10 +56,10 @@ export function Footer() {
           <h1 className="text-2xl font-bold text-cyan-50">Services</h1>
 
           <ul>
-            <li className="text-green-200 text-xl">Tooth Extraction</li>
-            <li className="text-green-200 text-xl">Dental Fillings</li>
-            <li className="text-green-200 text-xl">Teeth Cleaning</li>
-            <li className="text-green-200 text-xl">Root Canal</li>
+            <li className="text-green-200 text-lg">Tooth Extraction</li>
+            <li className="text-green-200 text-lg">Dental Fillings</li>
+            <li className="text-green-200 text-lg">Teeth Cleaning</li>
+            <li className="text-green-200 text-lg">Root Canal</li>
           </ul>
         </div>
 
@@ -67,14 +67,14 @@ export function Footer() {
           <h1 className="text-2xl font-bold text-cyan-50">Office Hours</h1>
 
           <ul>
-            <li className="text-green-200 text-xl">
+            <li className="text-green-200 text-lg">
               Monday - Friday: 4PM - 7.30PM
             </li>
-            <li className="text-green-200 text-xl">
+            <li className="text-green-200 text-lg">
               Saturday: 10.30AM - 4.30PM
             </li>
-            <li className="text-green-200 text-xl">Sunday: 10.30AM - 4.30PM</li>
-            <li className="text-green-200 text-xl">Emergency: 24/7</li>
+            <li className="text-green-200 text-lg">Sunday: 10.30AM - 4.30PM</li>
+            <li className="text-green-200 text-lg">Emergency: 24/7</li>
           </ul>
         </div>
       </div>

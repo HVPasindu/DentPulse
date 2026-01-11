@@ -133,8 +133,8 @@ export const MyAppointments = () => {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-cyan-600 mx-auto"></div>
-          <p className="mt-4 text-cyan-700 font-semibold">Loading appointments...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-600 mx-auto"></div>
+          <p className="mt-4 text-green-700 font-semibold">Loading appointments...</p>
         </div>
       </div>
     );
