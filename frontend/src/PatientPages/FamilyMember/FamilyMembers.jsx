@@ -518,22 +518,22 @@ export const FamilyMembers = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
                   Relationship
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
                   Gender
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
                   Email
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
                   Phone Number
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
                   Action
                 </th>
               </tr>

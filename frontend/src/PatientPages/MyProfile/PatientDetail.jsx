@@ -132,7 +132,7 @@ export const PatientDetail = () => {
           />
         ))}
         <div className="flex flex-col p-2">
-          <label className="font-light text-green-600">Gender</label>
+          <label className="font-bold text-green-800">Gender</label>
           <select
             name="gender"
             value={patientData.gender}
