@@ -99,11 +99,11 @@ import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
   }, [canGoPrevious, canGoNext]);
 
   return (
-    <div className=" bg-cyan-200 flex items-center justify-center p-4 md:p-8">
+    <div className=" bg-green-600 flex items-center justify-center p-4 md:p-8 overflow-x-hidden">
       <div className="w-full max-w-7xl">
         <div className="mb-8 flex flex-col justify-center items-center">
-          <h1 className="text-2xl font-bold text-white mb-2">What Our Patients Say</h1>
-          <p className="text-cyan-700">Real stories from our satisfied patients</p>
+          <h1 className="text-4xl font-bold text-white mb-2">What Our Patients Say</h1>
+          <p className="text-green-200 font-2xl">Real stories from our satisfied patients</p>
         </div>
 
         {/* Carousel Container */}
@@ -183,7 +183,7 @@ import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
                 onClick={() => setCurrentIndex(index)}
                 className={`h-2 rounded-full transition-all ${
                   index === currentIndex 
-                    ? 'bg-blue-500 w-8' 
+                    ? 'bg-green-500 w-8' 
                     : 'bg-gray-600 w-2 hover:bg-gray-500'
                 }`}
                 aria-label={`Go to page ${index + 1}`}

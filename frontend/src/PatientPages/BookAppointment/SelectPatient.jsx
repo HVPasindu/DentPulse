@@ -1,7 +1,5 @@
 // 
 
-
-
 import React from "react";
 
 export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) => {

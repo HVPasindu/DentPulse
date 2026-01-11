@@ -1,6 +1,7 @@
 import { CircleCheckBig } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Calendar,Phone } from "lucide-react";
+import { Calendar, Phone } from "lucide-react";
+import { motion } from "framer-motion";
 export function Hero() {
   const navigate = useNavigate();
 
@@ -9,81 +10,78 @@ export function Hero() {
   };
 
   return (
-    <div className="grid grid-cols-1 pb-3.5 bg-cyan-50 ">
-      <div className="flex flex-col justify-center items-center py-8">
-        <h1 className="text-cyan-600 rounded-3xl bg-cyan-300 my-8 py-1.5 px-1.5">
-          🌟 Trusted by 100000+ Happy Patients
-        </h1>
-        <h1 className="py-0.5">Your Smile,Our Priority</h1>
-        <br />
-        <div className=" w-[50%] md:w-[50%] items-center">
-          <h1>
-            Experience exceptional dental care with our team of experienced
-            professionals. We're committed to providing comfortable,
-            high-quality treatment for the whole family.
+    <div
+      className="relative bg-cover bg-center overflow-x-hidden min-h-[75vh]"
+      style={{ backgroundImage: "url('/lady.jpeg')", backgroundPosition:'right', }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0  bg-linear-to-t from-black/40 via-black/5 to-transparent"></div>
+
+      {/* CONTENT */}
+      <div className="relative z-10 px-12 py-10 ">
+        {/* TEXT SECTION */}
+        <div className="flex flex-col items-start">
+          <h1 className="text-white rounded-3xl bg-green-700 my-6 py-1.5 px-4">
+            🌟 Trusted by 100000+ Happy Patients
           </h1>
+          <div className="w-16 h-1 bg-green-600 mb-3 rounded-full"></div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="font-extrabold text-5xl md:text-6xl tracking-tight leading-tight text-green-800 mt-4"
+          >
+            Your Smile,{" "}
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="text-green-600"
+            >
+              Our Priority
+            </motion.span>
+          </motion.h1>
+
+          <div className="w-full md:w-[50%] mt-4">
+            <p className="text-lg md:text-xl text-gray-800 font-normal leading-relaxed text-left mt-4">
+              Experience exceptional dental care with our team of experienced
+              professionals. We're committed to providing comfortable,
+              high-quality treatment for the whole family.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div className=" flex flex-col md:flex-row gap-4 justify-center items-center">
-        <button className="rounded-lg bg-cyan-600 text-white hover:shadow-2xl px-7 py-3 hover:bg-cyan-800 "onClick={switchlologin}>
-        <div className="flex flex-row gap-x-0.5">
-          <div>
-             <Calendar />
-          </div>
-          <div>
-            <h1>Book Appointment</h1>
-          </div>
-          </div> 
-        </button>
-        <button className="rounded-lg bg-white border-cyan-600 border-2 px-7 py-3 hover:bg-cyan-200" >
-          <div className="flex flex-row gap-x-0.5">
-          <div >
-           <Phone  className="fill-black stroke-0"/> 
-          </div>
-          <div>
-            <h1>Contact Us</h1>
-          </div>
-          </div> 
-        </button>
-      </div>
-      <div className=" bg-linear-to-r from-cyan-500 via-cyan-600 to-cyan-700  justify-between px-4 py-14 mt-10 text-cyan-100 font-bold grid grid-cols-1 gap-y-4  md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-6 ">
-        <h1 className="flex gap-x-0.5">
-          {" "}
-          <CircleCheckBig />
-          Experienced & Certified Dentists{" "}
-        </h1>
-        <h1 className="flex gap-x-0.5">
-          {" "}
-          <CircleCheckBig />
-          State-of-the-Art Equipment{" "}
-        </h1>
-        <h1 className="flex gap-x-0.5">
-          {" "}
-          <CircleCheckBig />
-          Flexible Payment Options{" "}
-        </h1>
-        <h1 className="flex gap-x-0.5">
-          {" "}
-          <CircleCheckBig />
-          Same-Day Appointments Available{" "}
-        </h1>
-        <h1 className="flex gap-x-0.5">
-          <CircleCheckBig />
-          Family-Friendly Environment
-        </h1>
-        <h1 className="flex gap-x-0.5">
-          <CircleCheckBig />
-          Digital X-Rays & Imaging
-        </h1>
-      </div>
+        {/* BUTTONS */}
+        <div className="flex flex-col md:flex-row gap-4 mt-8 justify-start items-start">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="rounded-xl bg-green-600 text-white px-10 py-6 hover:bg-green-700"
+            onClick={switchlologin}
+          >
+            <div className="flex items-center gap-2">
+              <Calendar />
+              <span className="font-semibold">Book Appointment</span>
+            </div>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="rounded-lg bg-white border-green-600 border-2 px-10 py-6 hover:bg-green-200"
+          >
+            <div className="flex items-center gap-2">
+              <Phone />
+              <span className="font-semibold">Contact Us</span>
+            </div>
+          </motion.button>
+        </div>
 
-      <div className=" flex flex-col bg-cyan-50  items-center justify-center p-10">
-        <h1 className="text-2xl font-bold text-cyan-800 pb-10">Our Services</h1>
-        <h1 className="text-lg font-medium text-cyan-500">
-          {" "}
-          Comprehensive dental care tailored all your needs
-        </h1>
+        {/* FEATURES */}
       </div>
     </div>
   );
