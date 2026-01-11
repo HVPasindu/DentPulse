@@ -473,7 +473,7 @@ export const FamilyMembers = () => {
   };
 
   return (
-    <div className="p-8 bg-cyan-50 min-h-screen">
+    <div className="p-8  min-h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-row justify-between p-4">
           <div>
