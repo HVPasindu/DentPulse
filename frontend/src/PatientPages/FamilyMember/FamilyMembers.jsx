@@ -1,283 +1,5 @@
-// import React from "react";
-// import { paitentdata } from "../data/paitentdata";
-// import { IdCard, UserRoundPlus, Trash2, SquarePen } from "lucide-react";
-// import { PopupForm } from "./PopupForm";
-// import { useState } from "react";
-// import { PatientIdCard } from "./PatientIdCard";
-
-// export const FamilyMembers = () => {
-//   // table data in the data/patientdata
-
-//   const [Isopen, setIsOpen] = useState(false);
-//   const [FamilyDetail, setFamilyDetail] = useState(paitentdata);
-//   const [isEditMode, setIsEditMode] = useState(false);
-//   const [editingId, setEditingId] = useState(null);
-//   const [IsIdOpen, setIsIdOpen] = useState(false);
-//   const [SelectedMember, setSelectedMember] = useState(null);
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     relationship: "",
-//     phone: "",
-//     email: "",
-//     address: "",
-//     date: "",
-//     gender: "",
-//   });
-
-//   const handleIdcard = (member) => {
-//     setSelectedMember(member);
-//     setIsIdOpen(true);
-//   };
-
-//   const closeIdModel = () => {
-//     setIsIdOpen(false);
-//   };
-
-//   const handleChange = (e) => {
-//     setFormData({
-//       ...formData,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-
-//     if (isEditMode) {
-//       setFamilyDetail(
-//         FamilyDetail.map((member) =>
-//           member.id === editingId
-//             ? {
-//                 ...member,
-//                 name: formData.name,
-//                 email: formData.email,
-//                 phone: formData.phone,
-//                 relationship: formData.relationship,
-//                 address: formData.address,
-//                 date: formData.date,
-//                 gender: formData.gender,
-//               }
-//             : member
-//         )
-//       );
-//     } else {
-//       const new_member = {
-//         name: formData.name,
-//         email: formData.email,
-//         phone: formData.phone,
-//         relationship: formData.relationship,
-//         gender: formData.gender,
-//       };
-//       setFamilyDetail([...FamilyDetail, new_member]);
-
-//       setIsOpen(false);
-//       setIsEditMode(false);
-//       setEditingId(null);
-//       setFormData({
-//         name: "",
-//         relationship: "",
-//         phone: "",
-//         email: "",
-//         address: "",
-//         date: "",
-//         gender: "",
-//       });
-//     }
-//   };
-
-//   const handleEdit = (member) => {
-//     setFormData({
-//       name: member.name,
-//       relationship: member.relationship,
-//       phone: member.phone,
-//       email: member.email,
-//       address: member.address,
-//       date: member.date,
-//       gender: member.gender,
-//     });
-
-//     setEditingId(member.id);
-//     setIsEditMode(true);
-//     setIsOpen(true);
-//   };
-
-//   const openModal = () => {
-//     setFormData({
-//       name: "",
-//       relationship: "",
-//       phone: "",
-//       email: "",
-//       address: "",
-//       date: "",
-//     });
-//     setIsEditMode(false);
-//     setEditingId(null);
-//     setIsOpen(true);
-//   };
-
-//   const closeModal = () => {
-//     setIsOpen(false);
-//     setIsEditMode(false);
-//     setEditingId(null);
-//     setFormData({
-//       name: "",
-//       relationship: "",
-//       phone: "",
-//       email: "",
-//       address: "",
-//       date: "",
-//       gender: "",
-//     });
-//   };
-
-//   const handleDelete = (id) => {
-//     if (window.confirm("Are u Sure Want to Delete this Record?")) {
-//       setFamilyDetail(FamilyDetail.filter((member) => member.id !== id));
-//     }
-//   };
-
-//   return (
-//     <div className="p-8 bg-green-50 min-h-screen">
-//       <div className="max-w-7xl mx-auto">
-//         <div className="flex flex-row justify-between p-4">
-//           <div>
-//             <h1 className="text-lg text-green-700   mb-6">Family Members</h1>
-//             <h1 className="text-md text-green-500">
-//               Manage family members and book appointments for them
-//             </h1>
-//           </div>
-//           <div className="">
-//             <button
-//               className=" rounded-lg bg-green-500 text-white hover:bg-green-700 p-2 "
-//               onClick={openModal}
-//             >
-//               <div className="flex flex-row">
-//                 <UserRoundPlus className="size-5" />
-//                 <h1 className="text-sm">Add New Paitent</h1>
-//               </div>
-//             </button>
-//           </div>
-//         </div>
-
-//         <div className="bg-white rounded-lg  overflow-hidden border border-green-300">
-//           <table className="min-w-full divide-y divide-gray-200">
-//             <thead className="">
-//               <tr>
-//                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//                   Name
-//                 </th>
-//                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//                   Relationship
-//                 </th>
-//                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//                   Email
-//                 </th>
-//                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//                   Phone Number
-//                 </th>
-//                 <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//                   Action
-//                 </th>
-//               </tr>
-//             </thead>
-//             <tbody className="bg-white divide-y divide-gray-200">
-//               {FamilyDetail.map((user) => (
-//                 <tr
-//                   key={user.id}
-//                   className="hover:bg-gray-50 transition-colors"
-//                 >
-//                   <td className="px-6 py-4 whitespace-nowrap">
-//                     <div className="text-sm  text-gray-900">{user.name}</div>
-//                   </td>
-
-//                   <td className="px-6 py-4 whitespace-nowrap">
-//                     <span
-//                       className={`rounded-full px-2 py-1  text-xs inline-flex  ${
-//                         user.relationship == "Account Owner"
-//                           ? "bg-green-400 text-green-700"
-//                           : "bg-green-200 text-green-700"
-//                       }`}
-//                     >
-//                       {" "}
-//                       {user.relationship}{" "}
-//                     </span>
-//                   </td>
-//                   <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
-//                   <td className="px-6 py-4 whitespace-nowrap">
-//                     <div className="text-sm  text-gray-900">{user.phone}</div>
-//                   </td>
-//                   <td className="px-6 py-4 whitespace-nowrap">
-//                     <div className="flex flex-row justify-around px-1">
-//                       <div></div>
-//                       <button
-//                         className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-green-700 hover:text-black border-green-300 bg-white p-1 hover:bg-green-100"
-//                         onClick={() => {
-//                           handleIdcard(user);
-//                         }}
-//                       >
-//                         <div className=" pr-2">
-//                           <IdCard className="size-6" />
-//                         </div>
-//                         <div className="pt-1">
-//                           <h1>Id card</h1>
-//                         </div>
-//                       </button>
-//                       {user.relationship !== "Account Owner" && (
-//                         <>
-//                           <div className="px-1">
-//                             <button
-//                               className="border-2 rounded-lg text-sm border-green-400 flex flex-row justify-evenly text-green-700 p-1 hover:bg-green-300 hover:text-black"
-//                               onClick={() => handleEdit(user)}
-//                             >
-//                               <SquarePen className="size-3" />
-//                               <span className="pl-1">Edit</span>
-//                             </button>
-//                           </div>
-
-//                           <div className="pt-1">
-//                             <button
-//                               className="border-2 rounded-md p-1 border-red-300 text-red-500 hover:bg-red-200"
-//                               onClick={() => handleDelete(user.id)}
-//                             >
-//                               <Trash2 className="size-3" />
-//                             </button>
-//                           </div>
-//                         </>
-//                       )}
-//                     </div>
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//       <div>
-//         {Isopen && (
-//           <PopupForm
-//             closeModal={closeModal}
-//             handleChange={handleChange}
-//             handleSubmit={handleSubmit}
-//             formData={formData}
-//             isEditMode={isEditMode}
-//             editId={editingId}
-//           />
-//         )}
-//       </div>
-//       <div>
-//         {IsIdOpen && SelectedMember && (
-//           <PatientIdCard
-//             FormData={SelectedMember}
-//             closeIdModel={closeIdModel}
-//           />
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
 import React, { useEffect, useState } from "react";
-import { IdCard, UserRoundPlus, Trash2, SquarePen,Users } from "lucide-react";
+import { IdCard, UserRoundPlus, Trash2, SquarePen, Users } from "lucide-react";
 import { PopupForm } from "./PopupForm";
 import { PatientIdCard } from "./PatientIdCard";
 import axios from "axios";
@@ -321,18 +43,27 @@ export const FamilyMembers = () => {
         axios.get(`${BASE_URL}/family`, { headers }),
       ]);
 
+ 
       const mapMember = (m) => ({
-        id: m.patientId, // IMPORTANT: used for PUT/DELETE URL
-        name: m.fullName,
-        email: m.email,
-        phone: m.phone,
-        relationship: m.relationship,
-        gender: m.gender,
-        address: m.address || "",
-        date: (m.birthDate || "").includes("T")
-          ? (m.birthDate || "").slice(0, 10)
+        // ✅ works for BOTH account owner & family
+        id: m.patientId ?? m.id,
+
+        // ✅ normalize names
+       name: m.fullName ?? m.name ?? "",
+
+
+        phone: m.phone ?? "",
+        email: m.email ?? "",
+        gender: m.gender ?? "",
+        address: m.address ?? "",
+
+        // ✅ normalize date
+        birthDate: (m.birthDate || "").includes("T")
+          ? m.birthDate.slice(0, 10)
           : m.birthDate || "",
-        accountOwner: m.accountOwner || false,
+
+        relationship: m.relationship ?? "Account Owner",
+        accountOwner: m.accountOwner ?? false,
       });
 
       const owner = meRes?.data ? mapMember(meRes.data) : null;
@@ -442,7 +173,9 @@ export const FamilyMembers = () => {
         relationship: formData.relationship,
         birthDate: formData.date, // yyyy-mm-dd
         address: formData.address,
-        gender: (formData.gender || "").toString().toLowerCase(), // backend expects "male"/"female"
+        gender: (formData.gender || "").toString().toLowerCase(),
+        hasNic: formData.nic === "With NIC",
+        nic: formData.nic === "With NIC" ? formData.nicnumber : null,
       };
 
       // ✅ UPDATE
@@ -477,16 +210,15 @@ export const FamilyMembers = () => {
           <div>
             <div className="flex flex-row  gap-4 items-baseline">
               <div>
-                <Users/>
+                <Users />
               </div>
               <div>
-                        <h1 className="text-4xl font-serif font-stretch-105% text-green-700   mb-6">
-
-              Family Members
-            </h1>
+                <h1 className="text-4xl font-serif font-stretch-105% text-green-700   mb-6">
+                  Family Members
+                </h1>
               </div>
             </div>
-      
+
             <h1 className="text-2xl  text-green-500">
               Manage family members and book appointments for them
             </h1>
@@ -622,7 +354,6 @@ export const FamilyMembers = () => {
             formData={formData}
             isEditMode={isEditMode}
             editId={editingId}
-     
           />
         )}
       </div>

@@ -332,7 +332,7 @@ export const PatientIdCard = ({ patient }) => {
       </div>
 
       {/* Buttons */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 p-7 justify-items-center gap-y-2">
+      <div className="p-10">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -341,13 +341,7 @@ export const PatientIdCard = ({ patient }) => {
           <Download /> Download Card
         </motion.button>
 
-        <motion.button
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.96 }}
-          className="p-4 bg-white border-2 border-green-600 rounded-xl text-green-600 hover:bg-green-50 flex gap-2"
-        >
-          <Printer /> Print Card
-        </motion.button>
+      
       </div>
     </div>
   );
