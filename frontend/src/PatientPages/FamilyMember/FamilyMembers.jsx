@@ -43,14 +43,12 @@ export const FamilyMembers = () => {
         axios.get(`${BASE_URL}/family`, { headers }),
       ]);
 
- 
       const mapMember = (m) => ({
         // ✅ works for BOTH account owner & family
         id: m.patientId ?? m.id,
 
         // ✅ normalize names
-       name: m.fullName ?? m.name ?? "",
-
+        name: m.fullName ?? m.name ?? "",
 
         phone: m.phone ?? "",
         email: m.email ?? "",
@@ -82,7 +80,10 @@ export const FamilyMembers = () => {
   }, []);
 
   const handleIdcard = (member) => {
-    setSelectedMember(member);
+    setSelectedMember({
+      ...member,
+      date: member.birthDate,
+    });
     setIsIdOpen(true);
   };
 
@@ -132,9 +133,8 @@ export const FamilyMembers = () => {
       phone: member.phone || "",
       email: member.email || "",
       address: member.address || "",
-      date: (member.date || "").includes("T")
-        ? (member.date || "").slice(0, 10)
-        : member.date || "",
+      date: member.birthDate || "",
+
       gender: member.gender || "",
     });
 
