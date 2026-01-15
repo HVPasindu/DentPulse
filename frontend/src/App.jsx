@@ -45,6 +45,8 @@ import PatientsPage from "./pages/PatientsPage";
 import BillingPage from "./pages/BillingPage";
 import InventoryPage from "./pages/InventoryPage";
 import AppointmentPage from "./pages/AppointmentPage";
+import AdminQrScanner from "./pages/AdminQrScanner";
+
 
 
 function App() {
@@ -82,6 +84,7 @@ function App() {
           <Route path="billing" element={<BillingPage />} />
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="appointment" element={<AppointmentPage />} />
+          <Route path="qr" element={<AdminQrScanner />} />
         </Route>
         
       </Routes>
