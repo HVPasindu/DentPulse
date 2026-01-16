@@ -25,7 +25,7 @@ import MainInterface from "./PatientPages/MyProfile/PaitentProfile";
 import { FamilyMembers } from "./PatientPages/FamilyMember/FamilyMembers";
 import { BookAppoinment } from "./PatientPages/BookAppointment/BookAppoinment";
 import { MyAppointments } from "./PatientPages/MyAppointments/MyAppointments";
-
+import { PatientIdCard } from "./PatientPages/MyProfile/PatientIdCard";
 
 //login page
 import MainLogin from "./LoginRegister Pages/MainLogin";
@@ -45,6 +45,8 @@ import PatientsPage from "./pages/PatientsPage";
 import BillingPage from "./pages/BillingPage";
 import InventoryPage from "./pages/InventoryPage";
 import AppointmentPage from "./pages/AppointmentPage";
+import AdminQrScanner from "./Admin/AdminQrScanner";
+
 
 
 function App() {
@@ -67,6 +69,7 @@ function App() {
           <Route path="bookappointments" element={<BookAppoinment />} />
           <Route path="myappointments" element={<MyAppointments />} />
             <Route path="billing" element={<BillingPage />} />
+            <Route path=":id" element={<PatientIdCard />} />
         </Route>
         <Route path="/login" element={<MainLogin />} />
 
@@ -81,6 +84,7 @@ function App() {
           <Route path="billing" element={<BillingPage />} />
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="appointment" element={<AppointmentPage />} />
+          <Route path="qr" element={<AdminQrScanner />} />
         </Route>
         
       </Routes>

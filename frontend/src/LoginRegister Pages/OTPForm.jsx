@@ -61,11 +61,11 @@ export default function OTPForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-blue-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">DentPluse</h1>
-          <div className="w-16 h-1 bg-cyan-500 mx-auto rounded-full"></div>
+          <div className="w-16 h-1 bg-green-500 mx-auto rounded-full"></div>
         </div>
 
         <div className="space-y-6">
@@ -73,7 +73,7 @@ export default function OTPForm() {
             <h2 className="text-2xl font-semibold text-gray-700 mb-2 text-center">
               Enter OTP
             </h2>
-            <p className="text-cyan-600 text-sm text-center mb-6">
+            <p className="text-green-600 text-sm text-center mb-6">
               Check your email for the OTP
             </p>
 
@@ -88,7 +88,7 @@ export default function OTPForm() {
                   onChange={handleOTPChange}
                   placeholder="000000"
                   maxLength="6"
-                  className="w-full px-4 py-3 border-2 border-cyan-300 rounded-lg focus:outline-none focus:border-cyan-500 transition-colors text-gray-700 text-center text-2xl font-mono tracking-widest placeholder-gray-400"
+                  className="w-full px-4 py-3 border-2 border-green-300 rounded-lg focus:outline-none focus:border-green-500 transition-colors text-gray-700 text-center text-2xl font-mono tracking-widest placeholder-gray-400"
                 />
                 <p className="text-xs text-gray-500 text-center mt-2">
                   Enter 6-digit code
@@ -113,7 +113,7 @@ export default function OTPForm() {
 
           <button
             onClick={handleConfirm}
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg transition-colors shadow-lg hover:shadow-xl"
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition-colors shadow-lg hover:shadow-xl"
           >
             Confirm
           </button>

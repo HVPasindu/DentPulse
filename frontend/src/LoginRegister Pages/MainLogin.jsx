@@ -36,8 +36,17 @@ const MainLogin = () => {
 
       if (response.status === 200) {
         localStorage.setItem("authToken", response.data.token);
-
+        localStorage.setItem("userRole", response.data.user.role);
+       
+      }
+      if (response.data.user.role === "PATIENT") {
         navigate("/patient");
+      } else if (response.data.user.role === "DOCTOR") {
+        navigate("/doctor");
+      } else if (response.data.user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        setMessage("Unknown user role.");
       }
     } catch (error) {
       setMessage("Invalid email or password, please try again.");
