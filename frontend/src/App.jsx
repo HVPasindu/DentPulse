@@ -45,7 +45,7 @@ import PatientsPage from "./pages/PatientsPage";
 import BillingPage from "./pages/BillingPage";
 import InventoryPage from "./pages/InventoryPage";
 import AppointmentPage from "./pages/AppointmentPage";
-import AdminQrScanner from "./pages/AdminQrScanner";
+import AdminQrScanner from "./Admin/AdminQrScanner";
 
 
 

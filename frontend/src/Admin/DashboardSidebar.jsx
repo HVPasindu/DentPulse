@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ToothIcon from '../Admin/ToothIcon';
-import { LayoutDashboard, Calendar, Users, DollarSign, Package, X } from 'lucide-react';
+import { LayoutDashboard, Calendar, Users, DollarSign, Package, X ,IdCardLanyard} from 'lucide-react';
 
 const navItems = [
   { name: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
@@ -9,6 +9,7 @@ const navItems = [
   { name: 'Patients', icon: Users, href: '/admin/patients' },
   { name: 'Billing', icon: DollarSign, href: '/admin/billing' },
   { name: 'Inventory', icon: Package, href: '/admin/inventory' },
+  { name: 'QR Scanner', icon: IdCardLanyard, href: '/admin/qr' },
 ];
 
 export default function DashboardSidebar({ isOpen, setIsOpen }) {

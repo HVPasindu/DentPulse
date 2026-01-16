@@ -1,40 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
-import PatientProfile from "../Admin/PatientProfile";
+import PatientProfile from "./PatientProfile";
 
 const AdminQrScanner = () => {
   const [patient, setPatient] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const [scannerActive, setScannerActive] = useState(true);
 
-  useEffect(() => {
-    if (!scannerActive) return;
+  const scannerRef = useRef(null);
 
-    const scanner = new Html5QrcodeScanner(
-      "qr-reader",
-      {
-        fps: 10,
-        qrbox: { width: 250, height: 250 },
-      },
-      false
-    );
 
-    scanner.render(onScanSuccess, onScanError);
 
-    function onScanSuccess(decodedText) {
-      scanner.clear();
-      setScannerActive(false);
-      handleQrResult(decodedText);
+useEffect(() => {
+  if (!scannerActive) return;
+
+
+  if (scannerRef.current) return;
+
+  const scanner = new Html5QrcodeScanner(
+    "qr-reader",
+    {
+      fps: 10,
+      qrbox: { width: 250, height: 250 },
+    },
+    false
+  );
+
+  scannerRef.current = scanner;
+
+  scanner.render(onScanSuccess, onScanError);
+
+  function onScanSuccess(decodedText) {
+    scanner.clear();
+    scannerRef.current = null;
+    setScannerActive(false);
+    handleQrResult(decodedText);
+  }
+
+  function onScanError(error) {}
+
+  return () => {
+    if (scannerRef.current) {
+      scannerRef.current.clear().catch(() => {});
+      scannerRef.current = null;
     }
+  };
+}, [scannerActive]);
 
-    function onScanError(error) {
-      // silently ignore scan errors
-    }
-
-    return () => {
-      scanner.clear().catch(() => {});
-    };
-  }, [scannerActive]);
 
   const handleQrResult = async (qrText) => {
     try {
@@ -42,7 +54,6 @@ const AdminQrScanner = () => {
       const patientId = qrText.trim().split("/patient/")[1];
       console.log("QR RAW TEXT:", qrText);
       console.log("FINAL patientId:", patientId);
-
 
       if (!patientId) throw new Error("Invalid QR Code");
 
@@ -57,7 +68,7 @@ const AdminQrScanner = () => {
           },
         }
       );
-console.log("PROFILE STATUS:", profileRes.status);
+      console.log("PROFILE STATUS:", profileRes.status);
       if (!profileRes.ok) throw new Error("Patient not found");
 
       const profileData = await profileRes.json();
@@ -103,9 +114,7 @@ console.log("PROFILE STATUS:", profileRes.status);
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold text-green-700 mb-4">
-        Admin QR Scanner
-      </h1>
+      <h1 className="text-3xl font-bold text-black mb-4">Admin QR Scanner</h1>
 
       {scannerActive && (
         <div
