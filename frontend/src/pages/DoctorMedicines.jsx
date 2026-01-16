@@ -62,8 +62,8 @@ const DoctorMedicines = () => {
   };
 
   return (
-    <div className="max-w-12xl mx-auto p-11 bg-cyan-50 px-40 max-w-screen-full ">
-      <h1 className="text-2xl font-semibold mb-6 text-cyan-600">Medicines</h1>
+    <div className="max-w-12xl mx-auto p-11 bg-white px-40 max-w-screen-full ">
+      <h1 className="text-2xl font-semibold mb-6 text-green-600">Medicines</h1>
 
       {/* Search */}
       <input
@@ -71,7 +71,7 @@ const DoctorMedicines = () => {
         placeholder="Search medicines..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4 w-full px-4 py-2 border border-cyan-500 rounded-lg"
+        className="mb-4 w-full px-4 py-2 border border-green-500 rounded-lg"
       />
 
       {/* Filters */}
@@ -81,7 +81,7 @@ const DoctorMedicines = () => {
             key={f}
             onClick={() => setFilter(f)}
             className={`px-3 py-1 rounded border ${
-              filter === f ? "bg-cyan-500 text-white" : ""
+              filter === f ? "bg-green-500 text-white" : ""
             }`}
           >
             {f}
@@ -105,7 +105,7 @@ const DoctorMedicines = () => {
           {filteredMedicines.map((m) => (
             <div
               key={m.id}
-              className="border p-4 rounded-lg border-cyan-500 shadow-sm flex justify-between"
+              className="border p-4 rounded-lg border-green-500 shadow-sm flex justify-between"
             >
               <div>
                 <h2 className="font-semibold">{m.name}</h2>
