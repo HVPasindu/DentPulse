@@ -39,7 +39,11 @@ const AdminQrScanner = () => {
   const handleQrResult = async (qrText) => {
     try {
       // Expected QR: http://localhost:3000/patient/{id}
-      const patientId = qrText.split("/patient/")[1];
+      const patientId = qrText.trim().split("/patient/")[1];
+      console.log("QR RAW TEXT:", qrText);
+      console.log("FINAL patientId:", patientId);
+
+
       if (!patientId) throw new Error("Invalid QR Code");
 
       const token = localStorage.getItem("authToken");
@@ -53,7 +57,7 @@ const AdminQrScanner = () => {
           },
         }
       );
-
+console.log("PROFILE STATUS:", profileRes.status);
       if (!profileRes.ok) throw new Error("Patient not found");
 
       const profileData = await profileRes.json();
@@ -69,7 +73,12 @@ const AdminQrScanner = () => {
       );
 
       const historyData = historyRes.ok ? await historyRes.json() : [];
-
+      const historyDataFormatted = historyData.map((record) => ({
+        id: record.treatment_id,
+        procedure: record.diagnosis,
+        date: new Date(record.treatment_date).toISOString().slice(0, 10),
+        cost: "-",
+      }));
       /* 3️⃣ Map backend → PatientProfile UI */
       const mappedPatient = {
         id: profileData.id,
@@ -79,14 +88,13 @@ const AdminQrScanner = () => {
         phone: profileData.phone,
         email: profileData.email,
         address: profileData.address,
-        status: profileData.active ? "Active" : "Inactive",
-        lastVisit: profileData.lastVisit,
-        treatments: historyData,
+        status: "Active",
+        lastVisit: "-",
+        treatments: historyDataFormatted,
       };
 
       setPatient(mappedPatient);
       setShowProfile(true);
-
     } catch (err) {
       alert(err.message);
       setScannerActive(true);
