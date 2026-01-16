@@ -12,11 +12,11 @@ const PatientProfile = ({ patient, onClose }) => {
         {/* Header */}
         <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-4 md:px-6 py-4 md:py-6 flex items-center justify-between">
           <div className="flex items-center gap-3 md:gap-4">
-            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center text-primary-600 font-bold text-lg md:text-2xl">
+            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-green-600 flex items-center justify-center text-primary-600 font-bold text-lg md:text-2xl">
               {patient.name.split(' ').map(n => n[0]).join('')}
             </div>
             <div>
-              <h2 className="text-xl md:text-2xl font-bold text-white">{patient.name}</h2>
+              <h2 className="text-xl md:text-2xl font-bold text-black">{patient.name}</h2>
               <p className="text-sm md:text-base text-primary-100">Patient ID: {patient.id}</p>
             </div>
           </div>
