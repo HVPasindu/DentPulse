@@ -51,7 +51,7 @@ function App() {
         <Route path="/otp" element={<OTPForm />} />
 
         {/* ================= DOCTOR ================= */}
-        </Route> 
+
         <Route path="/doctor" element={<DoctorLayout />}>
           <Route index element={<AppDashboard />} />
           <Route path="records" element={<PatientTreatmentRecords />} />
@@ -94,6 +94,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
