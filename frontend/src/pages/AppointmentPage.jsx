@@ -100,25 +100,29 @@ const AppDashboard = () => {
       {/* POPUP MODAL */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-          <div className="bg-white p-6 w-full max-w-md rounded-xl shadow-xl">
-            <h2 className="text-xl font-semibold mb-4 text-slate-800">
-              {isAddingNew ? "Add New Appointment" : isReadOnly ? "View Appointment" : "Update Appointment"}
-            </h2>
+          <div className="bg-white w-full max-w-md rounded-xl shadow-xl flex flex-col max-h-[90vh]">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-slate-800">
+                {isAddingNew ? "Add New Appointment" : isReadOnly ? "View Appointment" : "Update Appointment"}
+              </h2>
+            </div>
 
-            {isAddingNew ? (
-              formType === "special" ? (
-                <AddSpecialForm onSubmit={handleAddAppointment} onCancel={closePopup} />
+            <div className="flex-1 overflow-y-auto px-6 py-4">
+              {isAddingNew ? (
+                formType === "special" ? (
+                  <AddSpecialForm onSubmit={handleAddAppointment} onCancel={closePopup} />
+                ) : (
+                  <AddRegularForm onSubmit={handleAddAppointment} onCancel={closePopup} />
+                )
               ) : (
-                <AddRegularForm onSubmit={handleAddAppointment} onCancel={closePopup} />
-              )
-            ) : (
-              <EditAppointmentForm 
-                appointment={selectedAppointment} 
-                onSubmit={handleUpdateAppointment} 
-                onCancel={closePopup} 
-                readOnly={isReadOnly} 
-              />
-            )}
+                <EditAppointmentForm 
+                  appointment={selectedAppointment} 
+                  onSubmit={handleUpdateAppointment} 
+                  onCancel={closePopup} 
+                  readOnly={isReadOnly} 
+                />
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -220,7 +224,8 @@ const AppDashboard = () => {
 /* --- ADD REGULAR FORM (With Time Restrictions) --- */
 const AddRegularForm = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    patientId: "", name: "", date: new Date().toISOString().split("T")[0],
+    patientId: "", name: "", contact: "", email: "", address: "", 
+    date: new Date().toISOString().split("T")[0],
     time: "17:00", status: "Scheduled", notes: ""
   });
 
@@ -238,20 +243,27 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
   const limits = getTimeLimits(formData.date);
 
   return (
-    <form onSubmit={(e) => onSubmit(e, formData)} className="mt-6 space-y-4">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-slate-700">Appt ID</label>
-          <input value="Auto-generated" disabled className="mt-1 w-full rounded-lg border border-slate-200 bg-gray-50 px-3 py-2 text-sm text-slate-400 italic" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700">Patient ID</label>
-          <input name="patientId" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
-        </div>
+    <form onSubmit={(e) => onSubmit(e, formData)} className="space-y-4 flex flex-col h-full">
+      <div className="flex-1 space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Patient ID</label>
+        <input name="patientId" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
       <div>
         <label className="block text-sm font-medium text-slate-700">Patient Name</label>
         <input name="name" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Contact *</label>
+        <input name="contact" type="tel" required onChange={handleChange} placeholder="Phone number" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Email</label>
+        <input name="email" type="email" onChange={handleChange} placeholder="email@example.com" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Address *</label>
+        <input name="address" required onChange={handleChange} placeholder="Street address, City, State" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -276,7 +288,8 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
         <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
         <textarea name="notes" rows={3} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
       </div>
-      <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+      </div>
+      <div className="border-t border-gray-200 pt-4 mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">Cancel</button>
         <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">Add Appointment</button>
       </div>
@@ -287,7 +300,8 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
 /* --- ADD SPECIAL FORM (Weekends only, 5pm - 8pm) --- */
 const AddSpecialForm = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    patientId: "", name: "", treatmentType: "Teeth Cleaning (Moderate)", 
+    patientId: "", name: "", contact: "", email: "", address: "",
+    treatmentType: "Teeth Cleaning (Moderate)", 
     date: "", 
     time: "17:00", status: "Scheduled", notes: ""
   });
@@ -313,20 +327,27 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
   };
 
   return (
-    <form onSubmit={(e) => onSubmit(e, formData)} className="mt-6 space-y-4">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-slate-700">Appt ID</label>
-          <input value="Auto-generated" disabled className="mt-1 w-full rounded-lg border border-slate-200 bg-gray-50 px-3 py-2 text-sm text-slate-400 italic" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700">Patient ID</label>
-          <input name="patientId" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
-        </div>
+    <form onSubmit={(e) => onSubmit(e, formData)} className="space-y-4 flex flex-col h-full">
+      <div className="flex-1 space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Patient ID</label>
+        <input name="patientId" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
       <div>
         <label className="block text-sm font-medium text-slate-700">Patient Name</label>
         <input name="name" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Contact *</label>
+        <input name="contact" type="tel" required onChange={handleChange} placeholder="Phone number" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Email</label>
+        <input name="email" type="email" onChange={handleChange} placeholder="email@example.com" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-slate-700">Address *</label>
+        <input name="address" required onChange={handleChange} placeholder="Street address, City, State" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
       <div>
         <label className="block text-sm font-medium text-slate-700">Treatment Type</label>
@@ -375,7 +396,8 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
         <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
         <textarea name="notes" rows={3} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
       </div>
-      <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+      </div>
+      <div className="border-t border-gray-200 pt-4 mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">Cancel</button>
         <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">Add Appointment</button>
       </div>
@@ -389,8 +411,8 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
-    <form onSubmit={(e) => onSubmit(e, formData)} className="mt-6 space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+    <form onSubmit={(e) => onSubmit(e, formData)} className="space-y-4 flex flex-col h-full">
+      <div className="flex-1 space-y-4">
         <div>
           <label className="block text-sm font-medium text-slate-700">Appt ID</label>
           <input value={formData.id} disabled className="mt-1 w-full rounded-lg border border-slate-300 bg-gray-100 px-3 py-2 text-sm text-slate-600" />
@@ -399,44 +421,56 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
           <label className="block text-sm font-medium text-slate-700">Patient ID</label>
           <input value={formData.patientId} disabled className="mt-1 w-full rounded-lg border border-slate-300 bg-gray-100 px-3 py-2 text-sm text-slate-600" />
         </div>
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-700">Patient Name</label>
-        <input name="name" value={formData.name} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500" />
-      </div>
-      {formData.treatmentType && (
         <div>
-          <label className="block text-sm font-medium text-slate-700">Treatment Type</label>
-          <select name="treatmentType" value={formData.treatmentType} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50">
-            <option>Teeth Cleaning (Moderate)</option>
-            <option>Teeth Cleaning (Severe)</option>
-            <option>Wisdom Teeth Removal</option>
+          <label className="block text-sm font-medium text-slate-700">Patient Name</label>
+          <input name="name" value={formData.name} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Contact</label>
+          <input name="contact" type="tel" value={formData.contact || ''} onChange={handleChange} disabled={readOnly} placeholder="Phone number" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Email</label>
+          <input name="email" type="email" value={formData.email || ''} onChange={handleChange} disabled={readOnly} placeholder="email@example.com" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Address</label>
+          <input name="address" value={formData.address || ''} onChange={handleChange} disabled={readOnly} placeholder="Street address, City, State" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500" />
+        </div>
+        {formData.treatmentType && (
+          <div>
+            <label className="block text-sm font-medium text-slate-700">Treatment Type</label>
+            <select name="treatmentType" value={formData.treatmentType} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50">
+              <option>Teeth Cleaning (Moderate)</option>
+              <option>Teeth Cleaning (Severe)</option>
+              <option>Wisdom Teeth Removal</option>
+            </select>
+          </div>
+        )}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-700">Date</label>
+            <input name="date" type="date" value={formData.date} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700">Time</label>
+            <input name="time" type="time" value={formData.time} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Status</label>
+          <select name="status" value={formData.status} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50">
+            <option>Scheduled</option>
+            <option>Completed</option>
+            <option>Cancelled</option>
           </select>
         </div>
-      )}
-      <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Date</label>
-          <input name="date" type="date" value={formData.date} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700">Time</label>
-          <input name="time" type="time" value={formData.time} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
+          <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
+          <textarea name="notes" rows={3} value={formData.notes} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
         </div>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-700">Status</label>
-        <select name="status" value={formData.status} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50">
-          <option>Scheduled</option>
-          <option>Completed</option>
-          <option>Cancelled</option>
-        </select>
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
-        <textarea name="notes" rows={3} value={formData.notes} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
-      </div>
-      <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end border-t pt-4">
+      <div className="border-t border-gray-200 pt-4 mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
           {readOnly ? "Close" : "Cancel"}
         </button>
