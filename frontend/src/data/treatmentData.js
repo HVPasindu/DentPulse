@@ -1,0 +1,66 @@
+// dummyTreatmentRecords.js
+export const dummyTreatmentRecords = [
+  {
+    treatment_id: 10,
+    patient: { patient_id: 1, name: "Nimal Perera" },
+    treatment_date: "2026-01-01",
+    diagnosis: "Dental Caries",
+    dentist_note: "Filling completed successfully",
+    attachment: false, // true = file available, false = no file
+    treatment_type: "Filling", // optional, used for weekly summary
+  },
+  {
+    treatment_id: 11,
+    patient: { patient_id: 2, name: "Kamal Fernando" },
+    treatment_date: "2026-01-02",
+    diagnosis: "Root Canal Infection",
+    dentist_note: "Prescribed antibiotics and scheduled follow-up",
+    attachment: false,
+    treatment_type: "Nerve Filling",
+  },
+  {
+    treatment_id: 12,
+    patient: { patient_id: 3, name: "Saman Jayasinghe" },
+    treatment_date: "2026-01-02",
+    diagnosis: "Tooth Extraction",
+    dentist_note: "Extraction planned for next visit",
+    attachment: false,
+    treatment_type: "Extraction",
+  },
+  {
+    treatment_id: 13,
+    patient: { patient_id: 4, name: "Amal Silva" },
+    treatment_date: "2026-01-03",
+    diagnosis: "Teeth Cleaning",
+    dentist_note: "Routine cleaning completed",
+    attachment: false,
+    treatment_type: "Teeth Cleaning",
+  },
+  {
+    treatment_id: 14,
+    patient: { patient_id: 5, name: "Keshan Perera" },
+    treatment_date: "2026-01-04",
+    diagnosis: "Teeth Whitening",
+    dentist_note: "Procedure completed, advised follow-up",
+    attachment: false,
+    treatment_type: "Teeth Whitening",
+  },
+  {
+    treatment_id: 15,
+    patient: { patient_id: 6, name: "Dinuka Jayasuriya" },
+    treatment_date: "2026-01-04",
+    diagnosis: "Dental Filling",
+    dentist_note: "Filling done successfully",
+    attachment: false,
+    treatment_type: "Filling",
+  },
+  {
+    treatment_id: 16,
+    patient: { patient_id: 7, name: "Ruwan Fernando" },
+    treatment_date: "2026-01-05",
+    diagnosis: "Extraction",
+    dentist_note: "Wisdom tooth extraction completed",
+    attachment: false,
+    treatment_type: "Extraction",
+  },
+];

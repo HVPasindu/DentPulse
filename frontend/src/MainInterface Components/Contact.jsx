@@ -5,13 +5,13 @@ export function Contact() {
     
   return (
     <section>
-      <div className="flex flex-col justify-center items-center bg-cyan-50 py-9 ">
-        <h1 className="font-bold text-2xl text-cyan-900 py-2">Get In Touch</h1>
-        <h1 className="font-semibold text-sm  text-cyan-600 py-2">
+      <div className="flex flex-col justify-center items-center  py-9 ">
+        <h1 className="font-bold text-4xl text-green-900 py-2">Get In Touch</h1>
+        <h1 className="font-semibold text-xl  text-green-600 py-10">
           We are here to answer to your questions
         </h1>
 
-        <div className="flex flex-col md:flex-row gap-4 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-5 ">
           {contactdata.map((contact, index) => (
             <ContactCard
               id={contact.id}

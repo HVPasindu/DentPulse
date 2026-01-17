@@ -79,10 +79,19 @@ const AppDashboard = () => {
   /**
    * Opens the update popup with selected appointment data
    */
+  // const openPopup = (appt) => {
+  //   setSelectedAppointment({ ...appt });
+  //   setIsPopupOpen(true);
+  // };
+
   const openPopup = (appt) => {
-    setSelectedAppointment({ ...appt });
-    setIsPopupOpen(true);
-  };
+  setSelectedAppointment({ 
+    ...appt, 
+    treatmentType: appt.treatmentType || "FILLING" // default value
+  });
+  setIsPopupOpen(true);
+};
+
 
   /**
    * Closes the update popup and resets state
@@ -105,6 +114,7 @@ const AppDashboard = () => {
       patient_id: selectedAppointment.patientId,
       treatment_date: selectedAppointment.date,
       diagnosis: selectedAppointment.diagnosis || "",
+      treatmentType: selectedAppointment.treatmentType,  // ✅ new field
       dentist_note:  selectedAppointment.dentistNote || "",
     };
 
@@ -172,10 +182,10 @@ const AppDashboard = () => {
 
   /* ================= RENDER ================= */
   return (
-    <div className="flex-1 p-6 md:p-8 bg-gray-50 min-h-screen">
+    <div className="flex-1 p-6 md:p-8 bg-white min-h-screen">
       <WelcomeHeader />
 
-      <h1 className="text-3xl font-semibold text-cyan-600 mt-10 mb-10">
+      <h1 className="text-3xl font-semibold text-green-600 mt-10 mb-10">
         Appointments Management
       </h1>
 
@@ -197,7 +207,7 @@ const AppDashboard = () => {
                   type="text"
                   value={selectedAppointment.id}
                   disabled
-                  className="w-full p-2 border rounded-lg bg-gray-100 cursor-not-allowed"
+                  className="w-full p-2 border rounded-lg bg-gray-100 cursor-not-allowed border-green-500"
                 />
               </div>
 
@@ -246,9 +256,35 @@ const AppDashboard = () => {
                       time: e.target.value,
                     })
                   }
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
+
+              {/* Treatment Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Treatment Type
+                </label>
+                <select
+                  value={selectedAppointment.treatmentType}
+                  onChange={(e) =>
+                    setSelectedAppointment({
+                      ...selectedAppointment,
+                      treatmentType: e.target.value,
+                    })
+                  }
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                >
+                  <option value="FILLING">Filling</option>
+                  <option value="EXTRACTION">Extraction</option>
+                  <option value="CLEANING">Cleaning</option>
+                  <option value="ROOT_CANAL">Root Canal</option>
+                  <option value="IMPLANT">Implant</option>
+                  <option value="WHITENING">Whitening</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
 
               {/* Diagnosis */}
               <div>
@@ -265,7 +301,7 @@ const AppDashboard = () => {
                     })
                   }
                   placeholder="Enter diagnosis..."
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
 
@@ -284,7 +320,7 @@ const AppDashboard = () => {
                     })
                   }
                   placeholder="Enter notes..."
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
 
@@ -299,7 +335,7 @@ const AppDashboard = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
                 >
                   Save Changes
                 </button>
@@ -311,7 +347,7 @@ const AppDashboard = () => {
 
       {/* ================= APPOINTMENTS TABLE ================= */}
       <div className="bg-white p-6 rounded-lg shadow-lg border border-dashed border-gray-300 mt-6">
-        <h2 className="text-xl font-semibold text-cyan-600 mb-4">
+        <h2 className="text-xl font-semibold text-green-600 mb-4">
           Appointments Schedule
         </h2>
 
@@ -322,13 +358,13 @@ const AppDashboard = () => {
             placeholder="Search by patient name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 px-4 py-2 border border-cyan-500 rounded-lg focus: ring-2 focus:ring-cyan-500 focus:border-transparent"
+            className="flex-1 px-4 py-2 border border-green-500 rounded-lg focus: ring-2 focus:ring-green-500 focus:border-transparent"
           />
           <input
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="px-4 py-2 border border-cyan-500 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+            className="px-4 py-2 border border-green-500 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
           />
         </div>
 
@@ -415,7 +451,7 @@ const AppDashboard = () => {
                         <button
                           onClick={() => handleViewPatient(appt)}
                           disabled={patientLoading}
-                          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
+                          className="px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
                         >
                           {patientLoading ?  "Loading..." : "View"}
                         </button>
@@ -423,7 +459,7 @@ const AppDashboard = () => {
                       <td className="px-4 py-3 text-center">
                         <button
                           onClick={() => openPopup(appt)}
-                          className="px-3 py-1 bg-cyan-500 text-white rounded hover:bg-cyan-600 transition-colors text-sm"
+                          className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition-colors text-sm"
                         >
                           Update
                         </button>

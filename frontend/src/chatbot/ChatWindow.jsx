@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
@@ -13,9 +13,20 @@ export default function ChatWindow({ onClose }) {
   ]);
 
   const [isTyping, setIsTyping] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
+
+  // ✅ Create session once
+  useEffect(() => {
+    let storedSession = localStorage.getItem("chatSessionId");
+    if (!storedSession) {
+      storedSession = crypto.randomUUID();
+      localStorage.setItem("chatSessionId", storedSession);
+    }
+    setSessionId(storedSession);
+  }, []);
 
   async function sendMessage(text) {
-    if (!text.trim() || isTyping) return;
+    if (!text.trim() || isTyping || !sessionId) return;
 
     const newMessages = [...messages, { sender: "user", text }];
 
@@ -26,10 +37,14 @@ export default function ChatWindow({ onClose }) {
       const response = await axios.post(
         "http://localhost:8080/api/chat",
         { message: text },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Session-Id": sessionId,
+          },
+        }
       );
 
-      // ⏳ small delay for realism
       setTimeout(() => {
         setMessages([
           ...newMessages,

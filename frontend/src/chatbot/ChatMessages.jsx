@@ -30,17 +30,22 @@ export default function ChatMessages({ messages, isTyping, onQuickSend }) {
       {/* ✅ QUICK ACTION BUTTONS */}
       {!isTyping && (
         <div className="quick-actions">
-          <button onClick={() => onQuickSend("I have tooth pain")}>
-            🦷 Tooth Pain
+          <button onClick={() => onQuickSend("Where is your clinic located?")}>
+            📍 Location
           </button>
 
-          <button onClick={() => onQuickSend("I want to book an appointment")}>
-            📅 Book Appointment
+          <button onClick={() => onQuickSend("Who are the doctors?")}>
+            👨‍⚕️ Doctors
           </button>
 
-          <button onClick={() => onQuickSend("Give me aftercare tips")}>
-            💊 Aftercare Tips
+          <button onClick={() => onQuickSend("What are your opening hours?")}>
+            ⏰ Opening Hours
           </button>
+
+          <button onClick={() => onQuickSend("What services do you provide?")}>
+            🦷 Services
+          </button>
+
         </div>
       )}
     </div>
