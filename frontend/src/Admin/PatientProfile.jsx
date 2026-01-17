@@ -72,10 +72,12 @@ const PatientProfile = ({ patient, onClose }) => {
                     {patient.status}
                   </span>
                 </div>
-                <div>
-                  <label className="text-xs font-medium text-gray-500 uppercase">Last Visit</label>
-                  <p className="text-sm md:text-base text-gray-800">{patient.lastVisit}</p>
-                </div>
+                {patient.hasNIC === 'yes' && (
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase">NIC Number</label>
+                    <p className="text-sm md:text-base text-gray-800 font-medium">{patient.nicNumber}</p>
+                  </div>
+                )}
               </div>
             </div>
 

@@ -16,6 +16,8 @@ const PatientsPage = () => {
       address: '123 Main St, New York, NY',
       lastVisit: '2024-01-15',
       status: 'Active',
+      hasNIC: 'yes',
+      nicNumber: '1234567890123',
       treatments: [
         { id: 1, date: '2024-01-15', procedure: 'Dental Cleaning', cost: 150 },
         { id: 2, date: '2023-12-10', procedure: 'Filling', cost: 200 },
@@ -35,6 +37,8 @@ const PatientsPage = () => {
       address: '456 Oak Ave, Los Angeles, CA',
       lastVisit: '2024-01-18',
       status: 'Active',
+      hasNIC: 'no',
+      nicNumber: '',
       treatments: [
         { id: 1, date: '2024-01-18', procedure: 'Root Canal', doctor: 'Dr. Brown', cost: 800 },
       ],
@@ -52,6 +56,8 @@ const PatientsPage = () => {
       address: '789 Pine Rd, Chicago, IL',
       lastVisit: '2023-12-20',
       status: 'Inactive',
+      hasNIC: 'yes',
+      nicNumber: '9876543210987',
       treatments: [
         { id: 1, date: '2023-12-20', procedure: 'Teeth Whitening', doctor: 'Dr. Lee', cost: 300 },
       ],
@@ -69,6 +75,8 @@ const PatientsPage = () => {
       address: '321 Elm St, Houston, TX',
       lastVisit: '2024-01-22',
       status: 'Active',
+      hasNIC: 'yes',
+      nicNumber: '5555555555555',
       treatments: [
         { id: 1, date: '2024-01-22', procedure: 'Crown Placement', doctor: 'Dr. Smith', cost: 1200 },
       ],
@@ -191,7 +199,9 @@ const PatientsPage = () => {
                   <p className="text-gray-600"><span className="font-medium">Age:</span> {patient.age}</p>
                   <p className="text-gray-600"><span className="font-medium">Gender:</span> {patient.gender}</p>
                   <p className="text-gray-600"><span className="font-medium">Phone:</span> {patient.phone}</p>
-                  <p className="text-gray-600"><span className="font-medium">Last Visit:</span> {patient.lastVisit}</p>
+                  {patient.hasNIC === 'yes' && (
+                    <p className="text-gray-600"><span className="font-medium">NIC:</span> {patient.nicNumber}</p>
+                  )}
                 </div>
                 <div className="flex gap-2">
                   <button
@@ -227,7 +237,7 @@ const PatientsPage = () => {
                     Phone
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Last Visit
+                    NIC Number
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Status
@@ -261,7 +271,7 @@ const PatientsPage = () => {
                       <span className="text-sm text-gray-600">{patient.phone}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm text-gray-600">{patient.lastVisit}</span>
+                      <span className="text-sm text-gray-600">{patient.hasNIC === 'yes' ? patient.nicNumber : '-'}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button

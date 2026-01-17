@@ -10,11 +10,9 @@ const AddPatientModal = ({ onClose, onAdd }) => {
     phone: '',
     email: '',
     address: '',
-    lastVisit: new Date().toISOString().split('T')[0],
-    treatments: [], // Array to store multiple treatments
+    hasNIC: '',
+    nicNumber: '',
   });
-
-  const [newTreatment, setNewTreatment] = useState({ procedure: '', date: '', cost: '' });
 
   // Handle form input change
   const handleChange = (e) => {
@@ -22,28 +20,6 @@ const AddPatientModal = ({ onClose, onAdd }) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
-
-  // Handle treatment input change
-  const handleTreatmentChange = (e) => {
-    setNewTreatment({
-      ...newTreatment,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // Add a treatment to the treatments array
-  const addTreatment = () => {
-    if (newTreatment.procedure && newTreatment.date && newTreatment.cost) {
-      setFormData({
-        ...formData,
-        treatments: [
-          ...formData.treatments,
-          { ...newTreatment, cost: parseFloat(newTreatment.cost), id: Date.now() },
-        ],
-      });
-      setNewTreatment({ procedure: '', date: '', cost: '' });
-    }
   };
 
   // Submit patient form
@@ -145,14 +121,13 @@ const AddPatientModal = ({ onClose, onAdd }) => {
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email Address *</label>
+            <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email Address</label>
             <input
               id="email"
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              required
               placeholder="email@example.com"
               className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
@@ -173,67 +148,53 @@ const AddPatientModal = ({ onClose, onAdd }) => {
             />
           </div>
 
-          {/* Last Visit */}
+          {/* Does patient have NIC */}
           <div>
-            <label htmlFor="lastVisit" className="block text-sm font-medium text-slate-700">Last Visit Date *</label>
-            <input
-              id="lastVisit"
-              type="date"
-              name="lastVisit"
-              value={formData.lastVisit}
-              onChange={handleChange}
-              required
-              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-            />
-          </div>
-
-          {/* Past Treatments */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Add Past Treatment</label>
-            <div className="flex gap-2 mb-2">
-              <input
-                type="text"
-                name="procedure"
-                value={newTreatment.procedure}
-                onChange={handleTreatmentChange}
-                placeholder="Procedure"
-                className="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-              />
-              <input
-                type="date"
-                name="date"
-                value={newTreatment.date}
-                onChange={handleTreatmentChange}
-                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-              />
-              <input
-                type="number"
-                name="cost"
-                value={newTreatment.cost}
-                onChange={handleTreatmentChange}
-                placeholder="Cost"
-                className="w-24 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-              />
-              <button
-                type="button"
-                onClick={addTreatment}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                Add
-              </button>
+            <label className="block text-sm font-medium text-slate-700 mb-3">Does patient have NIC? *</label>
+            <div className="flex gap-6">
+              <div className="flex items-center">
+                <input
+                  id="hasNIC-yes"
+                  type="radio"
+                  name="hasNIC"
+                  value="yes"
+                  checked={formData.hasNIC === 'yes'}
+                  onChange={handleChange}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                />
+                <label htmlFor="hasNIC-yes" className="ml-2 text-sm font-medium text-slate-700">Yes</label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  id="hasNIC-no"
+                  type="radio"
+                  name="hasNIC"
+                  value="no"
+                  checked={formData.hasNIC === 'no'}
+                  onChange={handleChange}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                />
+                <label htmlFor="hasNIC-no" className="ml-2 text-sm font-medium text-slate-700">No</label>
+              </div>
             </div>
-
-            {/* List of added treatments */}
-            {formData.treatments.length > 0 && (
-              <ul className="list-disc list-inside space-y-1">
-                {formData.treatments.map((t) => (
-                  <li key={t.id}>
-                    {t.procedure} | {t.date} | ${t.cost}
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
+
+          {/* NIC Number - Show only if hasNIC is 'yes' */}
+          {formData.hasNIC === 'yes' && (
+            <div>
+              <label htmlFor="nicNumber" className="block text-sm font-medium text-slate-700">NIC Number *</label>
+              <input
+                id="nicNumber"
+                type="text"
+                name="nicNumber"
+                value={formData.nicNumber}
+                onChange={handleChange}
+                required={formData.hasNIC === 'yes'}
+                placeholder="Enter NIC number"
+                className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              />
+            </div>
+          )}
 
           {/* Buttons */}
           <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
