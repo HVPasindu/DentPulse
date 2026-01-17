@@ -12,11 +12,13 @@ export function Header() {
     navigate("/login");
   };
 
-
+  const navigatetohome=()=>{
+    navigate("/");
+  }
   return (
     <div className="sticky top-0 left-0 z-50 w-screen flex justify-around items-center bg-white py-5 shadow-xl mb-0.5">
       <div className=" w-[200px] flex justify-center  items-center gap-x-2 ">
-        <img src="logo.png" className="size-14 md:size-14"  />
+        <img src="logo.png" className="size-14 md:size-14 hover:cursor-pointer"  onClick={navigatetohome} />
 
         <h1 className="font-extrabold text-3xl md:text-5xl tracking-tight text-green-600" >
           Dent<span className="font-bold text-green-700">Pulse</span>

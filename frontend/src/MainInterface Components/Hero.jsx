@@ -12,7 +12,8 @@ export function Hero() {
   return (
     <div
       className="relative bg-cover bg-center overflow-x-hidden min-h-[75vh]"
-      style={{ backgroundImage: "url('/lady.jpeg')", backgroundPosition:'right', }}
+      style={{ backgroundImage: "url('/lady.jpeg')", backgroundPosition:'right',backgroundSize:'60%',backgroundRepeat: "no-repeat"
+ }}
     >
       {/* Overlay */}
       <div className="absolute inset-0  bg-linear-to-t from-black/40 via-black/5 to-transparent"></div>
