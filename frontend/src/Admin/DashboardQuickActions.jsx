@@ -1,88 +1,92 @@
-import { useNavigate } from 'react-router-dom'
-import { CalendarPlus, UserPlus, PackagePlus, FileText } from 'lucide-react'
+import { Users, Calendar, Package, TrendingUp } from 'lucide-react'
 
+const DashboardQuickActions = ({ patients = [], appointments = [], inventoryItems = [], billings = [] }) => {
+  // Calculate statistics
+  const totalPatients = patients.length || 0
+  
+  const todayAppointments = appointments.filter(appt => {
+    const today = new Date().toISOString().split('T')[0]
+    return appt.date && appt.date.split('T')[0] === today
+  }).length || 0
+  
+  const totalInventoryItems = [...new Set(inventoryItems.map(item => item.name))].length || 0
+  
+  const dailyRevenue = billings
+    .filter(bill => {
+      const today = new Date().toISOString().split('T')[0]
+      return bill.date && bill.date.split('T')[0] === today
+    })
+    .reduce((sum, bill) => sum + (bill.amount || 0), 0) || 0
 
-
-
-
-const actions = [
-  {
-    name: "New Appointment",
-    description: "Schedule a patient visit",
-    icon: CalendarPlus,
-    color: "teal",
-    path: "/appointments",
-  },
-  {
-    name: "Add Patient",
-    description: "Register new patient",
-    icon: UserPlus,
-    color: "blue",
-    path: "/patients",
-    openAdd: true,
-  },
-  {
-    name: "Add Inventory",
-    description: "Update stock items",
-    icon: PackagePlus,
-    color: "orange",
-    path: "/inventory",
-    openAdd: true,
-  },
-  {
-    name: "Add a Bill",
-    description: "View bill details",
-    icon: FileText,
-    color: "purple",
-    path: "/billing",
-    openAdd: true,
-  },
-]
-
-const colorClasses = {
-  teal: 'bg-teal-100 text-teal-600 hover:bg-teal-200',
-  blue: 'bg-blue-100 text-blue-600 hover:bg-blue-200',
-  orange: 'bg-orange-100 text-orange-600 hover:bg-orange-200',
-  purple: 'bg-purple-100 text-purple-600 hover:bg-purple-200',
-}
-
-export default function DashboardQuickActions() {
-  const navigate = useNavigate()
+  const stats = [
+    {
+      name: "Total Patients",
+      value: totalPatients,
+      description: "Active patients",
+      icon: Users,
+      color: "blue",
+      bgColor: "bg-blue-100",
+      iconColor: "text-blue-600"
+    },
+    {
+      name: "Today's Appointments",
+      value: todayAppointments,
+      description: "Scheduled today",
+      icon: Calendar,
+      color: "teal",
+      bgColor: "bg-teal-100",
+      iconColor: "text-teal-600"
+    },
+    {
+      name: "Inventory Items",
+      value: totalInventoryItems,
+      description: "Total item types",
+      icon: Package,
+      color: "orange",
+      bgColor: "bg-orange-100",
+      iconColor: "text-orange-600"
+    },
+    {
+      name: "Daily Revenue",
+      value: `LKR ${dailyRevenue.toFixed(2)}`,
+      description: "Today's earnings",
+      icon: TrendingUp,
+      color: "green",
+      bgColor: "bg-green-100",
+      iconColor: "text-green-600"
+    },
+  ]
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">Dashboard Overview</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {actions.map((action) => {
-          const Icon = action.icon
+        {stats.map((stat) => {
+          const Icon = stat.icon
 
           return (
-            <button
-                key={action.name}
-                onClick={() => {
-                  if (action.openAdd) {
-                    navigate(action.path, { state: { openAdd: true } })
-                  } else {
-                    navigate(action.path)
-                  }
-                }}
-              className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-all text-left h-full"
+            <div
+              key={stat.name}
+              className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-all"
             >
-              <div
-                className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 transition-colors ${colorClasses[action.color]}`}
-              >
-                <Icon className="w-6 h-6" />
+              <div className="flex items-start justify-between mb-4">
+                <div
+                  className={`w-12 h-12 rounded-lg flex items-center justify-center ${stat.bgColor}`}
+                >
+                  <Icon className={`w-6 h-6 ${stat.iconColor}`} />
+                </div>
               </div>
 
-              <h3 className="font-semibold text-gray-900">{action.name}</h3>
-              <p className="text-sm text-gray-600 mt-1">
-                {action.description}
-              </p>
-            </button>
+              <h3 className="font-semibold text-gray-900 text-lg">{stat.value}</h3>
+              <p className="text-sm text-gray-600 mt-1">{stat.name}</p>
+              <p className="text-xs text-gray-500 mt-2">{stat.description}</p>
+            </div>
           )
         })}
       </div>
     </div>
   )
 }
+
+export default DashboardQuickActions
