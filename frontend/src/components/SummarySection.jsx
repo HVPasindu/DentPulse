@@ -3,10 +3,9 @@ import { CalendarIcon } from "@heroicons/react/24/outline";
 import { getAllAppointmentSummary } from "../api/countApi";
 
 /* ==================== Summary Card Component ==================== */
-// මේක එක එක summary card එක display කරන component එක
 // Props: icon, title, value (count), color (blue/green/yellow/red)
 const SummaryCard = ({ icon, title, value, color }) => {
-  // Color classes - හැම color එකකටම border, background, text colors define කරලා තියෙනවා
+ 
   const colorClasses = {
     blue: {
       border: "border-blue-500",
@@ -30,7 +29,6 @@ const SummaryCard = ({ icon, title, value, color }) => {
     },
   };
 
-  // Pass කරන color එක තිබ්බොත් ඒක use කරනවා, නැත්තං default blue use කරනවා
   const colors = colorClasses[color] || colorClasses.blue;
 
   return (
@@ -38,15 +36,15 @@ const SummaryCard = ({ icon, title, value, color }) => {
       className={`bg-white p-4 rounded-lg shadow-md flex items-center justify-between border-l-4 ${colors.border}`}
     >
       <div className="flex items-center space-x-3">
-        {/* Icon එක color කරලා rounded background එකක දානවා */}
+        
         <div className={`p-3 rounded-full ${colors.bg} ${colors.text}`}>
           {icon}
         </div>
         <div>
-          {/* Title එක (Scheduled, Completed, etc.) */}
+         
           <p className="text-sm font-medium text-gray-500">{title}</p>
-          {/* Count value එක bold කරලා display කරනවා */}
-          <p className="text-2xl font-bold text-gray-800">{value}</p>
+        
+          <p className="text-2xl font-bold text-green-600">{value}</p>
         </div>
       </div>
     </div>
@@ -54,7 +52,7 @@ const SummaryCard = ({ icon, title, value, color }) => {
 };
 
 /* ==================== Summary Section Component ==================== */
-// මේක main component එක - backend එකෙන් data fetch කරලා summary cards display කරනවා
+
 const SummarySection = () => {
   const [summary, setSummary] = useState({
     total: 0,

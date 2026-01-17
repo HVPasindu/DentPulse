@@ -22,3 +22,8 @@ export const getTreatmentRecordsByPatient = async (patientId) => {
     return [];
   }
 };
+
+export const getTreatmentCharts = async () => {
+  const response = await axios.get(`${BASE_URL}/treatment-stats`);
+  return response.data;
+};
