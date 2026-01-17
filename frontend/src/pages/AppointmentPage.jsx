@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Eye, Edit } from "lucide-react"; 
 import WelcomeHeader from "../Admin/WelcomeHeader";
 import SummarySection from "../Admin/SummarySection";
-
+//import { fetchAllAppointments } from "../api/adminAppointmentApi";
 const AppDashboard = () => {
   const today = new Date().toISOString().split("T")[0];
 
-  // Load data from localStorage
-  const [appointments, setAppointments] = useState(() => {
-    const saved = localStorage.getItem("app_appointments");
-    return saved ? JSON.parse(saved) : []; 
-  });
+ 
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState(today);
@@ -20,10 +16,27 @@ const AppDashboard = () => {
   const [isReadOnly, setIsReadOnly] = useState(false);
   const [formType, setFormType] = useState("regular"); 
 
-  // Save to localStorage automatically
-  useEffect(() => {
-    localStorage.setItem("app_appointments", JSON.stringify(appointments));
-  }, [appointments]);
+   const [appointments, setAppointments] = useState([]);
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState("");
+
+ useEffect(() => {
+    /*
+  const loadAppointments = async () => {
+    try {
+      const res = await fetchAllAppointments();
+      setAppointments(res.data);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load appointments");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadAppointments();*/
+}, []);
+
 
   /* FILTER LOGIC */
   const filteredAppointments = appointments.filter((appt) => {
