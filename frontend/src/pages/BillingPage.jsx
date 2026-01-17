@@ -60,6 +60,17 @@ const BillingPage = () => {
     updateLocalStorage(updated);
   };
 
+  // NEW: Toggle Method between Cash and Card
+  const toggleMethod = (id) => {
+    const updated = appointments.map((appt) => {
+      if (appt.id === id) {
+        return { ...appt, paymentMethod: appt.paymentMethod === "Cash" ? "Card" : "Cash" };
+      }
+      return appt;
+    });
+    updateLocalStorage(updated);
+  };
+
   const handleUpdateDetails = (e) => {
     e.preventDefault();
     if (!activeAppt) return;
@@ -99,10 +110,10 @@ const BillingPage = () => {
 
       {/* STATS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <StatCard title="Total Revenue" value={`LKR ${dailyPaidRevenue.toLocaleString()}`} change="+12.5% from last month" symbol="💰" />
-        <StatCard title="Total Invoices" value={totalInvoicesAllTime} change="+8 new today" symbol="📄" />
-        <StatCard title="Paid Invoices" value={dailyPaidCount} change={`${dailyPaidCount > 0 ? '91%' : '0%'} from today`} symbol="🕒" />
-        <StatCard title="Pending Payments" value={`LKR ${dailyPendingAmount.toLocaleString()}`} change="-5.2% from last month" isNegative symbol="⌛" />
+        <StatCard title="Total Revenue" value={`LKR ${dailyPaidRevenue.toLocaleString()}`} symbol="💰" />
+        <StatCard title="Total Invoices" value={totalInvoicesAllTime}  symbol="📄" />
+        <StatCard title="Paid Invoices" value={dailyPaidCount}  symbol="🕒" />
+        <StatCard title="Pending Payments" value={`LKR ${dailyPendingAmount.toLocaleString()}`} isNegative symbol="⌛" />
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
@@ -125,9 +136,6 @@ const BillingPage = () => {
               onChange={(e) => setSelectedDate(e.target.value)}
               className="border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-600 outline-none"
             />
-            <button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
-              <span>📥</span> Export
-            </button>
           </div>
         </div>
 
@@ -178,7 +186,14 @@ const BillingPage = () => {
                       {appt.billingStatus}
                     </button>
                   </td>
-                  <td className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-tighter">{appt.paymentMethod}</td>
+                  <td className="px-6 py-4">
+                    <button 
+                      onClick={() => toggleMethod(appt.id)}
+                      className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-gray-100 text-gray-600 hover:bg-gray-200 uppercase tracking-tight transition-all"
+                    >
+                      {appt.paymentMethod}
+                    </button>
+                  </td>
                   <td className="px-6 py-4 text-right relative">
                     <button 
                       onClick={() => setActiveMenu(activeMenu === appt.id ? null : appt.id)}
