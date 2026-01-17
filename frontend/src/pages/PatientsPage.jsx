@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Plus, Eye, Edit, Trash2 } from 'lucide-react';
+import { Search, Plus, Eye } from 'lucide-react';
 import AddPatientModal from '../Admin/AddPatientModal';
 import PatientProfile from '../Admin/PatientProfile';
 import { useLocation } from 'react-router-dom';
@@ -111,10 +111,10 @@ const PatientsPage = () => {
     }
   }, [location]);
 
-  const deletePatient = (id) => {
-    if (window.confirm('Are you sure you want to delete this patient?')) {
-      setPatients(patients.filter(p => p.id !== id));
-    }
+  const togglePatientStatus = (id) => {
+    setPatients(patients.map(p => 
+      p.id === id ? { ...p, status: p.status === 'Active' ? 'Inactive' : 'Active' } : p
+    ));
   };
 
   return (
@@ -176,13 +176,16 @@ const PatientsPage = () => {
                     <h3 className="font-semibold text-gray-800">{patient.name}</h3>
                     <p className="text-sm text-gray-500">{patient.id}</p>
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    patient.status === 'Active' 
-                      ? 'bg-green-100 text-green-700' 
-                      : 'bg-gray-100 text-gray-700'
-                  }`}>
+                  <button
+                    onClick={() => togglePatientStatus(patient.id)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                      patient.status === 'Active'
+                        ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
                     {patient.status}
-                  </span>
+                  </button>
                 </div>
                 <div className="space-y-1 mb-3 text-sm">
                   <p className="text-gray-600"><span className="font-medium">Age:</span> {patient.age}</p>
@@ -197,12 +200,6 @@ const PatientsPage = () => {
                   >
                     <Eye size={16} />
                     View
-                  </button>
-                  <button
-                    onClick={() => deletePatient(patient.id)}
-                    className="flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
-                  >
-                    <Trash2 size={16} />
                   </button>
                 </div>
               </div>
@@ -267,13 +264,16 @@ const PatientsPage = () => {
                       <span className="text-sm text-gray-600">{patient.lastVisit}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        patient.status === 'Active' 
-                          ? 'bg-green-100 text-green-700' 
-                          : 'bg-gray-100 text-gray-700'
-                      }`}>
+                      <button
+                        onClick={() => togglePatientStatus(patient.id)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                          patient.status === 'Active'
+                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
                         {patient.status}
-                      </span>
+                      </button>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
@@ -283,12 +283,6 @@ const PatientsPage = () => {
                         >
                           <Eye size={16} />
                           View
-                        </button>
-                        <button
-                          onClick={() => deletePatient(patient.id)}
-                          className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        >
-                          <Trash2 size={16} />
                         </button>
                       </div>
                     </td>

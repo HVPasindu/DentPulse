@@ -59,54 +59,68 @@ const AddPatientModal = ({ onClose, onAdd }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 bg-cyan-500 border-b border-gray-200 px-4 md:px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl md:text-2xl font-bold text-white">Add New Patient</h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <X size={24} className="text-white" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+
+      {/* Dialog Content */}
+      <div className="relative z-50 w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-2xl sm:max-w-lg max-h-[90vh] overflow-y-auto">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-slate-900">Add New Patient</h2>
+            <p className="mt-1 text-sm text-slate-600">
+              Enter the details for the new patient.
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="rounded-lg p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
+          >
+            <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           {/* Full Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+            <label htmlFor="name" className="block text-sm font-medium text-slate-700">Full Name *</label>
             <input
+              id="name"
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               placeholder="Enter patient name"
+              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
 
           {/* Date of Birth */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth *</label>
+            <label htmlFor="dob" className="block text-sm font-medium text-slate-700">Date of Birth *</label>
             <input
+              id="dob"
               type="date"
               name="dob"
               value={formData.dob}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
 
           {/* Gender */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Gender *</label>
+            <label htmlFor="gender" className="block text-sm font-medium text-slate-700">Gender *</label>
             <select
+              id="gender"
               name="gender"
               value={formData.gender}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             >
               <option value="Male">Male</option>
               <option value="Female">Female</option>
@@ -116,62 +130,66 @@ const AddPatientModal = ({ onClose, onAdd }) => {
 
           {/* Phone */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+            <label htmlFor="phone" className="block text-sm font-medium text-slate-700">Phone Number *</label>
             <input
+              id="phone"
               type="tel"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               placeholder="+1 (555) 123-4567"
+              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+            <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email Address *</label>
             <input
+              id="email"
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               placeholder="email@example.com"
+              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
 
           {/* Address */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+            <label htmlFor="address" className="block text-sm font-medium text-slate-700">Address *</label>
             <input
+              id="address"
               type="text"
               name="address"
               value={formData.address}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               placeholder="Street address, City, State"
+              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
 
           {/* Last Visit */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Last Visit Date *</label>
+            <label htmlFor="lastVisit" className="block text-sm font-medium text-slate-700">Last Visit Date *</label>
             <input
+              id="lastVisit"
               type="date"
               name="lastVisit"
               value={formData.lastVisit}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
 
           {/* Past Treatments */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Add Past Treatment</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Add Past Treatment</label>
             <div className="flex gap-2 mb-2">
               <input
                 type="text"
@@ -179,14 +197,14 @@ const AddPatientModal = ({ onClose, onAdd }) => {
                 value={newTreatment.procedure}
                 onChange={handleTreatmentChange}
                 placeholder="Procedure"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg"
+                className="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               />
               <input
                 type="date"
                 name="date"
                 value={newTreatment.date}
                 onChange={handleTreatmentChange}
-                className="px-3 py-2 border border-gray-300 rounded-lg"
+                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               />
               <input
                 type="number"
@@ -194,12 +212,12 @@ const AddPatientModal = ({ onClose, onAdd }) => {
                 value={newTreatment.cost}
                 onChange={handleTreatmentChange}
                 placeholder="Cost"
-                className="w-24 px-3 py-2 border border-gray-300 rounded-lg"
+                className="w-24 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               />
               <button
                 type="button"
                 onClick={addTreatment}
-                className="px-4 py-2 bg-cyan-600 text-white rounded-lg"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 Add
               </button>
@@ -218,17 +236,17 @@ const AddPatientModal = ({ onClose, onAdd }) => {
           </div>
 
           {/* Buttons */}
-          <div className="flex flex-col-reverse sm:flex-row gap-3 mt-6">
+          <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
             <button
               type="button"
               onClick={onClose}
-              className="w-full sm:w-auto px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+              className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="w-full sm:w-auto px-6 py-2.5 bg-cyan-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Add Patient
             </button>
