@@ -41,7 +41,7 @@ const MainLogin = () => {
       }
       if (response.data.user.role === "PATIENT") {
         navigate("/patient");
-      } else if (response.data.user.role === "DOCTOR") {
+      } else if (response.data.user.role === "DENTIST") {
         navigate("/doctor");
       } else if (response.data.user.role === "ADMIN") {
         navigate("/admin");
