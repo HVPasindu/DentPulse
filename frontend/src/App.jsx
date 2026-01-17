@@ -47,6 +47,8 @@ import InventoryPage from "./pages/InventoryPage";
 import AppointmentPage from "./pages/AppointmentPage";
 import AdminQrScanner from "./Admin/AdminQrScanner";
 
+//protected route
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 function App() {
