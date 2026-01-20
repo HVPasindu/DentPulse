@@ -11,13 +11,13 @@ const WelcomeHeader = ({ onAddNew, onAddSpecial }) => {
       <div className="flex gap-3">
         <button 
           onClick={onAddNew} 
-          className="px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition shadow-sm"
+          className="px-6 py-3 bg-green-700 text-white rounded-lg hover:bg-green-800 transition shadow-sm"
         >
           + Regular Appointment
         </button>
         <button 
           onClick={onAddSpecial} 
-          className="px-6 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition shadow-sm"
+          className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition shadow-sm"
         >
           + Special Appointment
         </button>
