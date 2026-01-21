@@ -1,12 +1,20 @@
 import React from 'react';
-import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
+// add this import at the top (point to your logo path)
+import logo from '../assets/dentPulse_logo.jpeg'; // adjust path to your actual logo file
+import {
+  ArrowLeftOnRectangleIcon,
+  HomeIcon,
+  ClipboardDocumentListIcon,
+  BeakerIcon,
+  BanknotesIcon,
+} from '@heroicons/react/24/outline';
 import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
-  { name: 'Dashboard', href: '/doctor' },
-  { name: 'Record', href: '/doctor/records' },
-  { name: 'Medicines', href: '/doctor/medicines' },
-  { name: 'Billing', href: 'admin/billing' },
+  { name: 'Dashboard', href: '/doctor', icon: HomeIcon },
+  { name: 'Record', href: '/doctor/records', icon: ClipboardDocumentListIcon },
+  { name: 'Medicines', href: '/doctor/medicines', icon: BeakerIcon },
+  { name: 'Billing', href: 'admin/billing', icon: BanknotesIcon },
 ];
 
 const Sidebar = () => {
@@ -15,24 +23,27 @@ const Sidebar = () => {
   return (
     <div className="w-64 bg-white h-screen shadow-xl flex flex-col justify-between fixed top-0 left-0 z-10">
       <div>
-        {/* Logo/Header Area */}
-        <div className="flex items-center justify-center h-20 bg-green-50 border-b border-gray-200">
-          <span className="ml-2 text-xl font-bold text-green-600 ">Doctor Console</span>
-          {/* <div className="flex items-center gap-2">
-          <img
-            src={logo}
-            alt="Logo"
-            className="w-8 h-8 object-contain"
-          />
-          
-        </div> */}
-
-        </div>
+          {/* Logo/Header Area */}
+          <div className="flex items-center justify-center h-20 bg-white/70 border-b border-green-100 backdrop-blur">
+            {/* added logo + stacked text */}
+            <div className="flex items-center gap-3">
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-10 h-10 object-contain"
+              />
+              <div className="leading-tight">
+                <div className="text-lg font-bold text-green-700">Doctor</div>
+                <div className="text-lg font-bold text-green-700">Console</div>
+              </div>
+            </div>
+          </div>
 
         {/* Navigation Links */}
         <nav className="mt-6 px-4 space-y-2">
           {navigation.map((item) => {
             const isActive = location.pathname === item.href;
+            const Icon = item.icon;
 
             return (
               <Link
@@ -46,6 +57,7 @@ const Sidebar = () => {
                   }
                 `}
               >
+                 {Icon && <Icon className="h-5 w-5 mr-3" />} {/* NEW: render icon */}
                 {item.name}
               </Link>
             );
@@ -66,13 +78,13 @@ const Sidebar = () => {
         </div>
 
         {/* Sign Out Button */}
-        <a
-          href="#"
+        <Link
+          to="/" // NEW: navigate to homepage on sign-out click
           className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-green-200 hover:bg-green-400 transition duration-150 ease-in-out"
         >
           <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-2" />
           Sign Out
-        </a>
+        </Link>
       </div>
     </div>
   );
