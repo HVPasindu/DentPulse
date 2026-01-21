@@ -103,7 +103,7 @@ const [error, setError] = useState("");
   };
 
   return (
-    <div className="flex-1 p-6 md:p-8 bg-cyan-50 min-h-screen">
+    <div className="flex-1 p-6 md:p-8 bg-green-50 min-h-screen">
       <WelcomeHeader onAddNew={openRegular} onAddSpecial={openSpecial} />
 
       <h1 className="text-3xl font-semibold text-gray-800 mt-10 mb-10"></h1>
@@ -149,13 +149,13 @@ const [error, setError] = useState("");
             placeholder="Search by patient name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full md:w-80 px-4 py-2 border border-cyan-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="w-full md:w-80 px-4 py-2 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
           <input
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="w-full md:w-auto px-4 py-2 border border-cyan-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="w-full md:w-auto px-4 py-2 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
         </div>
 
@@ -193,13 +193,13 @@ const [error, setError] = useState("");
                       <td className="px-4 py-3 text-sm text-gray-800 font-medium">{appt.id}</td>
                       <td className="px-4 py-3 text-sm text-gray-600 font-medium">{appt.patientId}</td>
                       <td className="px-4 py-3 text-sm text-gray-800">
-                        {appt.name} {isSpecial && <span className="ml-2 text-[10px] bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded uppercase font-bold">Special</span>}
+                        {appt.name} {isSpecial && <span className="ml-2 text-[10px] bg-green-200 text-green-800 px-1.5 py-0.5 rounded uppercase font-bold">Special</span>}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-800">{appt.date}</td>
                       <td className="px-4 py-3 text-sm text-gray-800">{appt.time}</td>
                       <td className="px-4 py-3">
                         <span className={`px-3 py-1 rounded text-sm font-medium ${
-                          appt.status === "Completed" ? "bg-green-100 text-green-800" : "bg-blue-100 text-blue-800"
+                          appt.status === "Completed" ? "bg-green-100 text-green-800" : "bg-green-100 text-green-800"
                         }`}>
                           {appt.status}
                         </span>
@@ -207,7 +207,7 @@ const [error, setError] = useState("");
                       <td className="px-4 py-3 text-center">
                         <button 
                           onClick={() => openViewPopup(appt)} 
-                          className="text-blue-500 hover:text-blue-700 transition-colors inline-flex items-center justify-center p-1" 
+                          className="text-green-500 hover:text-green-700 transition-colors inline-flex items-center justify-center p-1" 
                           title="View"
                         >
                           <Eye size={20} />
@@ -216,7 +216,7 @@ const [error, setError] = useState("");
                       <td className="px-4 py-3 text-center">
                         <button 
                           onClick={() => openEditPopup(appt)} 
-                          className="text-cyan-500 hover:text-cyan-700 transition-colors inline-flex items-center justify-center p-1" 
+                          className="text-green-500 hover:text-green-700 transition-colors inline-flex items-center justify-center p-1" 
                           title="Update"
                         >
                           <Edit size={20} />
@@ -304,7 +304,7 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
       </div>
       <div className="border-t border-gray-200 pt-4 mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">Cancel</button>
-        <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">Add Appointment</button>
+        <button type="submit" className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700">Add Appointment</button>
       </div>
     </form>
   );
@@ -412,7 +412,7 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
       </div>
       <div className="border-t border-gray-200 pt-4 mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">Cancel</button>
-        <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">Add Appointment</button>
+        <button type="submit" className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700">Add Appointment</button>
       </div>
     </form>
   );
@@ -488,7 +488,7 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
           {readOnly ? "Close" : "Cancel"}
         </button>
         {!readOnly && (
-          <button type="submit" className="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-700">
+          <button type="submit" className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700">
             Update Appointment
           </button>
         )}
