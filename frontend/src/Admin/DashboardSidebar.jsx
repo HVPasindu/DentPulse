@@ -1,14 +1,14 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Calendar, 
-  Users, 
-  DollarSign, 
-  Package, 
-  X, 
-  IdCardLanyard, 
-  LogOut 
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  Calendar,
+  Users,
+  DollarSign,
+  Package,
+  X,
+  IdCardLanyard,
+  LogOut
 } from 'lucide-react';
 
 const navItems = [
@@ -22,6 +22,14 @@ const navItems = [
 
 export default function DashboardSidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Navigate to home page
+    navigate('/');
+    // Close sidebar (useful for mobile view)
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -48,7 +56,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
             </div>
             <button 
               onClick={() => setIsOpen(false)} 
-              className="lg:hidden text-gray-500 hover:text-gray-700"
+              className="lg:hidden text-gray-500 hover:text-gray-700 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -96,8 +104,8 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
 
           {/* Sign Out Button - Matches Doctor style */}
           <button
-            onClick={() => {/* Handle Logout */}}
-            className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-green-200 hover:bg-green-400 transition duration-150 ease-in-out"
+            onClick={handleLogout}
+            className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-green-200 hover:bg-green-400 transition duration-150 ease-in-out cursor-pointer"
           >
             <LogOut className="h-5 w-5 mr-2" />
             Sign Out

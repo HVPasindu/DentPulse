@@ -119,15 +119,8 @@ const PatientsPage = () => {
     }
   }, [location]);
 
-  const togglePatientStatus = (id) => {
-    setPatients(patients.map(p => 
-      p.id === id ? { ...p, status: p.status === 'Active' ? 'Inactive' : 'Active' } : p
-    ));
-  };
-
   return (
     <div className="min-h-screen bg-green-50 p-4 md:p-8">
-
       {/* Header Section */}
       <div className="max-w-7xl mx-auto mb-6 md:mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
@@ -137,7 +130,7 @@ const PatientsPage = () => {
           </div>
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-lg transition-colors font-bold shadow-md hover:shadow-lg w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-lg transition-colors font-bold shadow-md hover:shadow-lg w-full sm:w-auto cursor-pointer"
           >
             <Plus size={20} />
             <span>New Patient</span>
@@ -157,7 +150,6 @@ const PatientsPage = () => {
         </div>
       </div>
 
-
       {/* Patients Table */}
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-xl shadow-sm border border-green-100 overflow-hidden">
@@ -168,7 +160,7 @@ const PatientsPage = () => {
             {filteredPatients.length > 5 && (
               <button
                 onClick={() => setShowAllPatients(!showAllPatients)}
-                className="text-green-600 hover:text-green-700 font-bold text-sm md:text-base"
+                className="text-green-600 hover:text-green-700 font-bold text-sm md:text-base cursor-pointer"
               >
                 {showAllPatients ? 'Show Less' : 'View All'}
               </button>
@@ -184,29 +176,16 @@ const PatientsPage = () => {
                     <h3 className="font-bold text-slate-800">{patient.name}</h3>
                     <p className="text-sm text-slate-500">{patient.id}</p>
                   </div>
-                  <button
-                    onClick={() => togglePatientStatus(patient.id)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${
-                      patient.status === 'Active'
-                        ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                    }`}
-                  >
-                    {patient.status}
-                  </button>
                 </div>
                 <div className="space-y-1 mb-3 text-sm">
                   <p className="text-slate-600"><span className="font-semibold text-slate-400">Age:</span> {patient.age}</p>
                   <p className="text-slate-600"><span className="font-semibold text-slate-400">Gender:</span> {patient.gender}</p>
                   <p className="text-slate-600"><span className="font-semibold text-slate-400">Phone:</span> {patient.phone}</p>
-                  {patient.hasNIC === 'yes' && (
-                    <p className="text-slate-600"><span className="font-semibold text-slate-400">NIC:</span> {patient.nicNumber}</p>
-                  )}
                 </div>
                 <div className="flex gap-2">
                   <button
                     onClick={() => setSelectedPatient(patient)}
-                    className="flex-1 flex items-center justify-center gap-2 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors font-bold text-sm"
+                    className="flex-1 flex items-center justify-center gap-2 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors font-bold text-sm cursor-pointer"
                   >
                     <Eye size={16} />
                     View
@@ -226,8 +205,6 @@ const PatientsPage = () => {
                   <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Age</th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Gender</th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Phone</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">NIC Number</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Status</th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -248,24 +225,11 @@ const PatientsPage = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{patient.age}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{patient.gender}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{patient.phone}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{patient.hasNIC === 'yes' ? patient.nicNumber : '-'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        onClick={() => togglePatientStatus(patient.id)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${
-                          patient.status === 'Active'
-                            ? 'bg-green-500 text-white'
-                            : 'bg-slate-200 text-slate-700'
-                        }`}
-                      >
-                        {patient.status}
-                      </button>
-                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setSelectedPatient(patient)}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors font-bold text-sm border border-purple-100"
+                          className="flex items-center gap-1 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors font-bold text-sm border border-purple-100 cursor-pointer"
                         >
                           <Eye size={16} />
                           View
@@ -286,7 +250,6 @@ const PatientsPage = () => {
         </div>
       </div>
 
-      {/* Modals */}
       {showAddModal && (
         <AddPatientModal
           onClose={() => setShowAddModal(false)}
