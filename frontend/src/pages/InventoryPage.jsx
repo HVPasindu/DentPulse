@@ -196,7 +196,7 @@ export default function InventoryDashboard() {
           </div>
           <button
             onClick={handleAddItem}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-green-100 transition-all hover:bg-green-700 focus:outline-none active:scale-95 sm:w-auto uppercase tracking-tighter"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-green-100 transition-all hover:bg-green-700 focus:outline-none active:scale-95 sm:w-auto uppercase tracking-tighter cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             Add Item
@@ -236,7 +236,6 @@ export default function InventoryDashboard() {
               <SearchBar
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                // Note: Ensure your SearchBar component accepts custom classes or uses the theme
               />
             </div>
           </div>

@@ -34,6 +34,11 @@ const AddPatientModal = ({ onClose, onAdd }) => {
     onAdd(formData);
   };
 
+  // Logic to check if patient is under 16 based on DOB
+  const isUnder16 = formData.dob 
+    ? (new Date().getFullYear() - new Date(formData.dob).getFullYear()) < 16 
+    : false;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
@@ -50,7 +55,7 @@ const AddPatientModal = ({ onClose, onAdd }) => {
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
+            className="rounded-lg p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 cursor-pointer"
           >
             <X className="h-5 w-5" />
           </button>
@@ -96,7 +101,7 @@ const AddPatientModal = ({ onClose, onAdd }) => {
               value={formData.gender}
               onChange={handleChange}
               required
-              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="Male">Male</option>
               <option value="Female">Female</option>
@@ -160,9 +165,9 @@ const AddPatientModal = ({ onClose, onAdd }) => {
                   value="yes"
                   checked={formData.hasNIC === 'yes'}
                   onChange={handleChange}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 cursor-pointer"
                 />
-                <label htmlFor="hasNIC-yes" className="ml-2 text-sm font-medium text-slate-700">Yes</label>
+                <label htmlFor="hasNIC-yes" className="ml-2 text-sm font-medium text-slate-700 cursor-pointer">Yes</label>
               </div>
               <div className="flex items-center">
                 <input
@@ -172,9 +177,9 @@ const AddPatientModal = ({ onClose, onAdd }) => {
                   value="no"
                   checked={formData.hasNIC === 'no'}
                   onChange={handleChange}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 cursor-pointer"
                 />
-                <label htmlFor="hasNIC-no" className="ml-2 text-sm font-medium text-slate-700">No</label>
+                <label htmlFor="hasNIC-no" className="ml-2 text-sm font-medium text-slate-700 cursor-pointer">No</label>
               </div>
             </div>
           </div>
@@ -182,16 +187,23 @@ const AddPatientModal = ({ onClose, onAdd }) => {
           {/* NIC Number - Show only if hasNIC is 'yes' */}
           {formData.hasNIC === 'yes' && (
             <div>
-              <label htmlFor="nicNumber" className="block text-sm font-medium text-slate-700">NIC Number *</label>
+              <label htmlFor="nicNumber" className="block text-sm font-medium text-slate-700">
+                NIC Number * {isUnder16 && <span className="text-xs text-red-500 font-normal ml-2">(Disabled: Patient under 16)</span>}
+              </label>
               <input
                 id="nicNumber"
                 type="text"
                 name="nicNumber"
                 value={formData.nicNumber}
                 onChange={handleChange}
-                required={formData.hasNIC === 'yes'}
-                placeholder="Enter NIC number"
-                className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                disabled={isUnder16}
+                required={formData.hasNIC === 'yes' && !isUnder16}
+                placeholder={isUnder16 ? "Not applicable for under 16" : "Enter NIC number"}
+                className={`mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-2 
+                  ${isUnder16 
+                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed' 
+                    : 'bg-white text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-blue-500/20'
+                  }`}
               />
             </div>
           )}
@@ -201,13 +213,13 @@ const AddPatientModal = ({ onClose, onAdd }) => {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-500"
+              className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-500 cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
             >
               Add Patient
             </button>
