@@ -12,9 +12,11 @@ import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
   { name: 'Dashboard', href: '/doctor', icon: HomeIcon },
-  { name: 'Record', href: '/doctor/records', icon: ClipboardDocumentListIcon },
+  { name: 'Prescriptions', href: '/doctor/notes', icon: ClipboardDocumentListIcon }, // NEW
+  { name: 'Past Records', href: '/doctor/records', icon: ClipboardDocumentListIcon },
   { name: 'Medicines', href: '/doctor/medicines', icon: BeakerIcon },
   { name: 'Billing', href: 'admin/billing', icon: BanknotesIcon },
+
 ];
 
 const Sidebar = () => {
