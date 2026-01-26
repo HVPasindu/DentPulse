@@ -116,6 +116,7 @@ import { AppointmentDate } from "./AppointmentDate";
 import { SelectPatient } from "./SelectPatient";
 import { TimeSlot } from "./TimeSlot";
 import axios from "axios";
+import Recommendation from "../../components/Recommendation";
 
 export const BookAppoinment = () => {
   const [FamilyDetail, setFamilyDetail] = useState([]);
@@ -134,6 +135,9 @@ export const BookAppoinment = () => {
   const [selectDate, setSelectDate] = useState(null);
   const [selectTime, setSelectTime] = useState(null);
   const [isBooking, setIsBooking] = useState(false);
+    // AI slots state
+    const [aiSlots, setAiSlots] = useState([]);
+
 
   // Fetch patients from backend
   useEffect(() => {
@@ -299,6 +303,9 @@ export const BookAppoinment = () => {
             selectDate={selectDate}
           />
         </div>
+
+        {/* AI Recommendation Component */}
+        <Recommendation selectDate={selectDate} setAiSlots={setAiSlots} />
         <div className="gap-6">
           <TimeSlot
             selectTime={selectTime}
@@ -308,6 +315,7 @@ export const BookAppoinment = () => {
             selectDate={selectDate}
             bookedTimes={bookedTimes}
             isBooking={isBooking}
+            aiSlots={aiSlots}
           />
         </div>
       </div>
