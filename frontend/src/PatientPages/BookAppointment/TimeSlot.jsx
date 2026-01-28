@@ -73,7 +73,12 @@ export const TimeSlot = ({
   selectDate,
   bookedTimes,
   isBooking,
+  aiSlots,
 }) => {
+    const getBusyLevel = (time) => {
+    const slot = aiSlots.find((s) => s.time === time);
+    return slot ? slot.busyLevel : null;
+  };
   // const timedata = [
   //   '09:00', '10:00', '11:00', '12:00',
   //   '13:00', '14:00', '15:00', '16:00', '17:00'
@@ -153,6 +158,7 @@ export const TimeSlot = ({
                 setTime={setTime}
                 disabled={!selectedPatient || !selectDate}
                 isBooked={isThisBooked}
+                aiBusyLevel={getBusyLevel(data)}
               />
             );
           })}
