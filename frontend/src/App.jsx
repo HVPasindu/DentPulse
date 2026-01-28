@@ -10,6 +10,7 @@ import { DoctorLayout } from "./Layouts/Doctor.Layout";
 import AppDashboard from "./pages/AppDashboard";
 import DoctorMedicines from "./pages/DoctorMedicines";
 import PatientTreatmentRecords from "./pages/PatientTreatmentRecords";
+import DoctorNotes from "./pages/DoctorNotes";
 
 // Patient
 import { PatientLayout } from "./Layouts/Patient.Layout";
@@ -56,6 +57,7 @@ function App() {
           <Route index element={<AppDashboard />} />
           <Route path="records" element={<PatientTreatmentRecords />} />
           <Route path="medicines" element={<DoctorMedicines />} />
+           <Route path="notes" element={<DoctorNotes />} />
         </Route>
           <Route path="/doctor/admin/billing" element={<BillingPage  />}>
         </Route>

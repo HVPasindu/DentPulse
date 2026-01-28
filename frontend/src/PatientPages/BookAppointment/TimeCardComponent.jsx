@@ -9,8 +9,16 @@ export const TimeCardComponent = ({
   setTime,
   disabled,
   isBooked,
+  aiBusyLevel,
 }) => {
   const isSelected = selectTime === data;
+    const getAiStyle = () => {
+    if (aiBusyLevel === "Low Busy")
+      return "border-green-500 bg-green-50 text-green-700";
+    if (aiBusyLevel === "High Busy")
+      return "border-red-500 bg-red-50 text-red-700";
+    return "border-gray-400 text-gray-500 bg-white";
+  };
 
   const handleClick = () => {
     // Prevent clicking if disabled or already booked
@@ -37,8 +45,10 @@ export const TimeCardComponent = ({
               ? "border-gray-400 bg-gray-100 text-gray-500 cursor-not-allowed opacity-60"
               : isSelected
               ? "border-gray-600 bg-gray-600 text-white"
-              : "border-gray-400 text-gray-500 bg-white"
+              // : "border-gray-400 text-gray-500 bg-white"
+              : getAiStyle()
           }
+           
           ${
             !isBooked && !disabled
               ? "hover:cursor-pointer  hover:text-black hover:border-black"
