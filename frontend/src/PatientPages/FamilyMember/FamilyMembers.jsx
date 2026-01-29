@@ -204,7 +204,7 @@ export const FamilyMembers = () => {
   };
 
   return (
-    <div className="p-8  min-h-screen">
+    <div className="p-8  min-h-screen overflow-x-hidden">
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg border border-green-400 shadow-xl">
         <div className="flex flex-row justify-between p-4">
           <div>
@@ -246,7 +246,7 @@ export const FamilyMembers = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg  overflow-hidden border border-green-300">
+        <div className="bg-white rounded-lg border border-green-300 overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
