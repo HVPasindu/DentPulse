@@ -5,7 +5,7 @@ import InputCommonCard from "./InputCommonCard";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import toast from "react-hot-toast";
 const MainLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -31,24 +31,27 @@ const MainLogin = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       if (response.status === 200) {
         localStorage.setItem("authToken", response.data.token);
         localStorage.setItem("userRole", response.data.user.role);
-       
       }
       if (response.data.user.role === "PATIENT") {
+        toast.success("Patient Login Successful!");
         navigate("/patient");
       } else if (response.data.user.role === "DENTIST") {
+        toast.success("Dentist Login Successful!");
         navigate("/doctor");
       } else if (response.data.user.role === "ADMIN") {
+        toast.success("Admin Login Successful!");
         navigate("/admin");
       } else {
         setMessage("Unknown user role.");
       }
     } catch (error) {
+      toast.error("Login Failed!");
       setMessage("Invalid email or password, please try again.");
     }
   };

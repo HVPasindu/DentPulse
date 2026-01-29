@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import toast from "react-hot-toast";
 export default function OTPForm() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -42,6 +42,7 @@ export default function OTPForm() {
       // If OTP is successfully verified
       if (response.ok) {
         setMessage("OTP verified successfully!");
+        toast.success("Verified!");
         // Redirect to login page after 2 seconds
         setTimeout(() => {
           window.location.href = "/login";
@@ -51,6 +52,7 @@ export default function OTPForm() {
         setMessage(errorData || "OTP verification failed. Please try again.");
       }
     } catch (error) {
+      toast.error("Verfication Failed!");
       setMessage("OTP verification failed. Please try again.");
     }
   };
