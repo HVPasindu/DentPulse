@@ -74,23 +74,24 @@ export const PatientIdCard = ({ patient }) => {
         <div className="flex flex-row justify-around p-6">
           {/* Left details */}
           <div className="pl-4 space-y-0.1">
-            <h1 className="text-green-400 text-lg font-bold">Full Name</h1>
-            <h1 className="text-green-800 text-lg font-semibold">
+            <h1 className="text-green-400 text-lg font-bold ">Full Name</h1>
+            <h1 className="text-green-800 text-lg font-semibold break-words max-w-xs">
               {patient.fullName}
             </h1>
 
             <h1 className="text-green-400 text-lg font-bold">Contact</h1>
-            <h1 className="text-green-800 text-lg font-semibold">
+            <h1 className="text-green-800 text-lg font-semibold break-words max-w-xs">
               {patient.phone}
             </h1>
 
             <h1 className="text-green-400 text-lg font-bold">Gender</h1>
-            <h1 className="text-green-800 text-lg font-semibold">
+            <h1 className="text-green-800 text-lg font-semibold break-words max-w-xs">
               {patient.gender}
             </h1>
 
             <h1 className="text-green-400 text-lg font-bold">Address</h1>
-            <h1 className="text-green-800 text-lg font-semibold">
+           
+            <h1 className="text-green-800 text-lg font-semibold break-words max-w-xs">
               {patient.address}
             </h1>
 
