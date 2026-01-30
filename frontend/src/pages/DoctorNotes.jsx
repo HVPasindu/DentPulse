@@ -240,7 +240,7 @@ const buildDocDefinition = () => ({
 });
 
   return (
-    <div className="flex min-h-screen bg-slate-50 text-slate-900">
+    <div className="flex min-h-screen bg-emerald-50 text-slate-900">
       <Sidebar />
 
       <div className="flex-1 mx-auto max-w-6xl px-6 py-6">
@@ -358,6 +358,28 @@ const buildDocDefinition = () => ({
               <div key={idx} className="rounded-xl border border-slate-200 p-4 bg-slate-50">
                 <div className="grid md:grid-cols-3 gap-3">
                   {/* Drug field changes depending on source */}
+
+                    <div className="flex items-center gap-4">
+                    <label className="inline-flex items-center gap-2 text-sm">
+                      <input
+                        type="radio"
+                        className="text-emerald-600"
+                        checked={row.source === "clinic"}
+                        onChange={() => handleRowChange(idx, "source", "clinic")}
+                      />
+                      <span>Clinic</span>
+                    </label>
+                    <label className="inline-flex items-center gap-2 text-sm">
+                      <input
+                        type="radio"
+                        className="text-emerald-600"
+                        checked={row.source === "outside"}
+                        onChange={() => handleRowChange(idx, "source", "outside")}
+                      />
+                      <span>Outside pharmacy</span>
+                    </label>
+                  </div>
+
                   {row.source === "clinic" ? (
                   <select
                     required
@@ -384,14 +406,9 @@ const buildDocDefinition = () => ({
                       onChange={(e) => handleRowChange(idx, "drug", e.target.value)}
                     />
                   )}
+                  
 
-                  <input
-                    required
-                    className="rounded-lg border border-emerald-300 px-3 py-2 focus:ring-2 focus:ring-emerald-400"
-                    placeholder="Medicine Brand"
-                    value={row.brand}
-                    onChange={(e) => handleRowChange(idx, "brand", e.target.value)}
-                  />
+        
                   <input
                     required
                     className="rounded-lg border border-emerald-300 px-3 py-2 focus:ring-2 focus:ring-emerald-400"
@@ -406,26 +423,7 @@ const buildDocDefinition = () => ({
                     value={row.duration}
                     onChange={(e) => handleRowChange(idx, "duration", e.target.value)}
                   />
-                  <div className="flex items-center gap-4">
-                    <label className="inline-flex items-center gap-2 text-sm">
-                      <input
-                        type="radio"
-                        className="text-emerald-600"
-                        checked={row.source === "clinic"}
-                        onChange={() => handleRowChange(idx, "source", "clinic")}
-                      />
-                      <span>Clinic</span>
-                    </label>
-                    <label className="inline-flex items-center gap-2 text-sm">
-                      <input
-                        type="radio"
-                        className="text-emerald-600"
-                        checked={row.source === "outside"}
-                        onChange={() => handleRowChange(idx, "source", "outside")}
-                      />
-                      <span>Outside pharmacy</span>
-                    </label>
-                  </div>
+                
                   <input
                     className="rounded-lg border border-emerald-300 px-3 py-2 focus:ring-2 focus:ring-emerald-400 md:col-span-2"
                     placeholder="Remark (e.g., after meals)"

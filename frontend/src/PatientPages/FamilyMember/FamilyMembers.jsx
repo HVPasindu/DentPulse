@@ -3,6 +3,8 @@ import { IdCard, UserRoundPlus, Trash2, SquarePen, Users } from "lucide-react";
 import { PopupForm } from "./PopupForm";
 import { PatientIdCard } from "./PatientIdCard";
 import axios from "axios";
+import Swal from "sweetalert2";
+
 import { motion } from "motion/react";
 
 export const FamilyMembers = () => {
@@ -145,17 +147,38 @@ export const FamilyMembers = () => {
 
   // ✅ DELETE (BACKEND + UI)
   const handleDelete = async (id) => {
-    if (!window.confirm("Are u Sure Want to Delete this Record?")) return;
+    const result = await Swal.fire({
+      title: "Delete Family Member?",
+      text: "This action cannot be undone",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#9ca3af",
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       const headers = getAuthHeaders();
-
       await axios.delete(`${BASE_URL}/family/${id}`, { headers });
 
-      // ✅ remove from UI immediately
       setFamilyDetail((prev) => prev.filter((m) => m.id !== id));
+
+      Swal.fire({
+        icon: "success",
+        title: "Deleted",
+        text: "Family member removed successfully",
+        confirmButtonColor: "#16a34a",
+      });
     } catch (error) {
-      console.log("Delete failed:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Delete Failed",
+        text: "Unable to delete family member",
+        confirmButtonColor: "#dc2626",
+      });
     }
   };
 
@@ -165,46 +188,68 @@ export const FamilyMembers = () => {
     try {
       const headers = getAuthHeaders();
 
-      // ✅ frontend -> backend mapping (Postman body එකට match)
       const payload = {
         fullName: formData.name,
         email: formData.email,
         phone: formData.phone,
         relationship: formData.relationship,
-        birthDate: formData.date, // yyyy-mm-dd
+        birthDate: formData.date,
         address: formData.address,
-        gender: (formData.gender || "").toString().toLowerCase(),
+        gender: (formData.gender || "").toLowerCase(),
         hasNic: formData.nic === "With NIC",
         nic: formData.nic === "With NIC" ? formData.nicnumber : null,
       };
 
-      // ✅ UPDATE
+      Swal.fire({
+        title: isEditMode ? "Updating..." : "Saving...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+      });
+
+      // UPDATE
       if (isEditMode && editingId) {
         await axios.put(`${BASE_URL}/family/${editingId}`, payload, {
           headers,
         });
-
-        // ✅ easiest + safest (because your backend sometimes returns empty body)
         await fetchData();
+
+        Swal.fire({
+          icon: "success",
+          title: "Updated Successfully",
+          text: "Family member details updated",
+          confirmButtonColor: "#16a34a",
+        });
 
         closeModal();
         return;
       }
 
-      // ✅ ADD
+      // ADD
       await axios.post(`${BASE_URL}/family`, payload, { headers });
-
-      // ✅ refresh list (because backend response can be empty)
       await fetchData();
+
+      Swal.fire({
+        icon: "success",
+        title: "Added Successfully",
+        text: "New family member added",
+        confirmButtonColor: "#16a34a",
+      });
 
       closeModal();
     } catch (error) {
-      console.log("Save/Update failed:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Operation Failed",
+        text:
+          error?.response?.data?.message ||
+          "Something went wrong. Please try again.",
+        confirmButtonColor: "#dc2626",
+      });
     }
   };
 
   return (
-    <div className="p-8  min-h-screen overflow-x-hidden">
+    <div className="p-8  min-h-screen">
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg border border-green-400 shadow-xl">
         <div className="flex flex-row justify-between p-4">
           <div>
@@ -246,7 +291,7 @@ export const FamilyMembers = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-green-300 overflow-x-auto">
+        <div className="bg-white rounded-lg  overflow-hidden border border-green-300">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>

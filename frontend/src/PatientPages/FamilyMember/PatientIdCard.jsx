@@ -99,7 +99,7 @@ export const PatientIdCard = ({ FormData, closeIdModel }) => {
           <div className="flex justify-around p-6">
             <div className="space-y-1">
               <p className="text-green-400 font-bold text-xl">Full Name</p>
-              <p className="text-green-800 text-lg font-semibold break-words max-w-xs">
+              <p className="text-green-800 text-lg font-semibold">
                 {patient.fullName}
               </p>
 
@@ -114,7 +114,7 @@ export const PatientIdCard = ({ FormData, closeIdModel }) => {
               </p>
 
               <p className="text-green-400 font-bold text-xl">Address</p>
-              <p className="text-green-800 text-lg font-semibold break-words max-w-xs">
+              <p className="text-green-800 text-lg font-semibold">
                 {patient.address}
               </p>
 
