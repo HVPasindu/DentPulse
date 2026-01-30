@@ -6,6 +6,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -69,11 +71,24 @@ const RegisterPage = () => {
 
       if (response.status === 200) {
         localStorage.setItem("register_request_email", formData.email);
-        toast.success("Registration Successful!");
+         await Swal.fire({
+        icon: "success",
+        title: "Registration Successful 🎉",
+        text: "Please verify your account using the OTP sent to your email",
+        confirmButtonText: "Continue",
+        confirmButtonColor: "#16a34a",
+      });
         navigate("/otp");
       }
     } catch (error) {
-      toast.error("Registration Failed!");
+      Swal.fire({
+      icon: "error",
+      title: "Registration Failed ❌",
+      text:
+        error?.response?.data?.message ||
+        "Something went wrong. Please try again.",
+      confirmButtonColor: "#dc2626",
+    });
       console.error("Registration failed", error);
     }
   };
