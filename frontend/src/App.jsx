@@ -36,14 +36,20 @@ import InventoryPage from "./pages/InventoryPage";
 import AppointmentPage from "./pages/AppointmentPage";
 import AdminQrScanner from "./Admin/AdminQrScanner";
 
+import { Toaster } from "react-hot-toast";
 //protected route
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <Routes>
-
         {/* ================= PUBLIC ================= */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -69,8 +75,8 @@ function App() {
           <Route path="family" element={<FamilyMembers />} />
           <Route path="bookappointments" element={<BookAppoinment />} />
           <Route path="myappointments" element={<MyAppointments />} />
-            <Route path="billing" element={<BillingPage />} />
-            <Route path=":id" element={<PatientIdCard />} />
+          <Route path="billing" element={<BillingPage />} />
+          <Route path=":id" element={<PatientIdCard />} />
         </Route>
 
         {/* ================= ADMIN ================= */}
@@ -89,7 +95,6 @@ function App() {
           <Route path="appointment" element={<AppointmentPage />} />
           <Route path="qr" element={<AdminQrScanner />} />
         </Route>
-
       </Routes>
 
       {/* Global chatbot */}
@@ -99,8 +104,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-

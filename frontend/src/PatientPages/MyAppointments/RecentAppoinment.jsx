@@ -1,102 +1,6 @@
-// import React from "react";
-
-// // id: "apt_001",
-// // patientId: "owner_001",
-// // patientName: "John Doe",
-// // date: "2024-12-28",
-// // time: "10:00 AM",
-// // status: "Confirmed",
-// // type: "Checkup",
-// // notes: "Regular dental checkup",
-
-// export const RecentAppoinment = ({ AppointmentList,OpenReviewCard}) => {
-//   return (
-//     <div className="bg-white rounded-lg  overflow-hidden border-2 border-green-400 ">
-//       <div>
-//         <h1 className="p-1.5 text-green-700">
-//           Upcoming Appoinments/Past Appoinments
-//         </h1>
-//         <h1 className="p-1.5 text-green-400">
-//           View your scheduled appointments
-//         </h1>
-//       </div>
-//       <table className="min-w-full divide-y divide-gray-200">
-//         <thead className="bg-gray-100">
-//           <tr>
-//             <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//               Name
-//             </th>
-//             <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//               Status
-//             </th>
-//             <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//               Date
-//             </th>
-//             <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//               Time
-//             </th>
-//             <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//               Type
-//             </th>
-//             <th className="px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
-//               Action
-//             </th>
-//           </tr>
-//         </thead>
-//         <tbody className="bg-white divide-y divide-gray-200">
-//           {AppointmentList.map((user) => (
-//             <tr key={user.id} className="hover:bg-gray-50 transition-colors">
-//               <td className="px-6 py-4 whitespace-nowrap">
-//                 <div className="text-sm  text-gray-900">{user.patientName}</div>
-//               </td>
-
-//               <td className="px-6 py-4 whitespace-nowrap">
-//                 {user.status == "Confirmed" ? (
-//                   <span className="bg-blue-200 rounded-2xl p-1.5 text-sm">
-//                     {" "}
-//                     {user.status}{" "}
-//                   </span>
-//                 ) : user.status == "Completed" ? (
-//                   <span className="bg-green-200 rounded-2xl p-1.5 text-sm">
-//                     {" "}
-//                     {user.status}{" "}
-//                   </span>
-//                 ) : user.status == "Pending" ? (
-//                   <span className="bg-yellow-200 rounded-2xl p-1.5 text-sm">
-//                     {" "}
-//                     {user.status}{" "}
-//                   </span>
-//                 ) : null}
-//               </td>
-//               <td className="px-6 py-4 whitespace-nowrap">{user.date}</td>
-//               <td className="px-6 py-4 whitespace-nowrap">
-//                 <div className="text-sm  text-gray-900">{user.time}</div>
-//               </td>
-//               <td className="px-6 py-4 whitespace-nowrap">{user.type}</td>
-//               <td className="px-6 py-4 whitespace-nowrap">
-//                 {user.status == "Confirmed" ? (
-//                   <button className="p-3 rounded-2xl border-2 border-green-300 text-green-800 hover:text-black hover:border-black hover:bg-green-100">
-//                     Contact Us{" "}
-//                   </button>
-//                 ) : user.status == "Pending" ? (
-//                   <button className="flex flex-row justify-evenly border-2 rounded-2xl text-red-500 hover:bg-red-200 border-red-400 bg-white p-2 ">
-//                     Cancel
-//                   </button>
-//                 ) : user.status == "Completed" ? (
-//                   <button className="flex flex-row justify-evenly border-2 rounded-2xl text-green-500 hover:bg-green-100 border-green-400 bg-white p-2 " onClick={OpenReviewCard}>
-//                     Review Us!
-//                   </button>
-//                 ) : null}
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
 import React from "react";
 import { CalendarClock } from "lucide-react";
+import Swal from "sweetalert2";
 
 export const RecentAppoinment = ({
   AppointmentList,
@@ -105,9 +9,16 @@ export const RecentAppoinment = ({
 }) => {
   // Handle cancel appointment - DELETE request to backend
   const handleCancelAppointment = async (appointmentId) => {
-    const confirmCancel = window.confirm(
-      "Are you sure you want to cancel this appointment?"
-    );
+    const confirmCancel = await Swal.fire({
+      title: "Cancel Appointment?",
+      text: "This action cannot be undone",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Cancel",
+      cancelButtonText: "No",
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#9ca3af",
+    });
 
     if (!confirmCancel) {
       return;
@@ -117,9 +28,19 @@ export const RecentAppoinment = ({
       const token = localStorage.getItem("authToken");
 
       if (!token) {
-        alert("Please login to cancel appointments");
+        Swal.fire({
+          icon: "warning",
+          title: "Login Required",
+          text: "Please login to cancel appointments",
+          confirmButtonColor: "#16a34a",
+        });
         return;
       }
+      Swal.fire({
+        title: "Canceling Appointment...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+      });
 
       console.log("🗑️ Canceling appointment:", appointmentId);
 
@@ -131,12 +52,17 @@ export const RecentAppoinment = ({
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (response.ok) {
         console.log("✅ Appointment canceled successfully");
-        alert("Appointment canceled successfully!");
+        Swal.fire({
+          icon: "success",
+          title: "Appointment Canceled",
+          text: "Your appointment has been canceled successfully",
+          confirmButtonColor: "#16a34a",
+        });
 
         // Refresh appointments list after cancellation
         if (refreshAppointments) {
@@ -144,8 +70,13 @@ export const RecentAppoinment = ({
         }
       } else {
         const errorData = await response.text();
-        console.error("❌ Failed to cancel appointment:", errorData);
-        alert(`Failed to cancel appointment: ${errorData}`);
+
+        Swal.fire({
+          icon: "error",
+          title: "Cancellation Failed",
+          text: errorData || "Unable to cancel appointment",
+          confirmButtonColor: "#dc2626",
+        });
       }
     } catch (error) {
       console.error("❌ Error canceling appointment:", error);
