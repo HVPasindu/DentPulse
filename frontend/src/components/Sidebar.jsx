@@ -1,6 +1,5 @@
 import React from 'react';
-// add this import at the top (point to your logo path)
-import logo from '../assets/dentPulse_logo.jpeg'; // adjust path to your actual logo file
+import logo from '../assets/dentPulse_logob.png';
 import {
   ArrowLeftOnRectangleIcon,
   HomeIcon,
@@ -15,7 +14,7 @@ const navigation = [
   { name: 'Prescriptions', href: '/doctor/notes', icon: ClipboardDocumentListIcon }, // NEW
   { name: 'Past Records', href: '/doctor/records', icon: ClipboardDocumentListIcon },
   { name: 'Medicines', href: '/doctor/medicines', icon: BeakerIcon },
-  { name: 'Billing', href: 'admin/billing', icon: BanknotesIcon },
+  { name: 'Weekly Revenue', href: '/doctor/weekly-revenue', icon: BanknotesIcon },
 
 ];
 
@@ -32,11 +31,11 @@ const Sidebar = () => {
               <img
                 src={logo}
                 alt="Logo"
-                className="w-10 h-10 object-contain"
+                className="w-12 h-12 object-contain"
               />
               <div className="leading-tight">
-                <div className="text-lg font-bold text-green-700">Doctor</div>
-                <div className="text-lg font-bold text-green-700">Console</div>
+                <div className="text-xl font-bold text-green-700">Doctor Console</div>
+                
               </div>
             </div>
           </div>
