@@ -5,7 +5,7 @@ import InputCommonCard from "./InputCommonCard";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 const MainLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -21,40 +21,72 @@ const MainLogin = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Sending POST request to the backend
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/auth/login",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+  e.preventDefault();
 
-      if (response.status === 200) {
-        localStorage.setItem("authToken", response.data.token);
-        localStorage.setItem("userRole", response.data.user.role);
+  if (!formData.email || !formData.password) {
+    Swal.fire({
+      icon: "warning",
+      title: "Missing Fields",
+      text: "Please enter email and password",
+      confirmButtonColor: "#16a34a",
+    });
+    return;
+  }
+
+  Swal.fire({
+    title: "Signing in...",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/v1/auth/login",
+      formData,
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    if (response.status === 200) {
+      const { token, user } = response.data;
+
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userRole", user.role);
+
+      let redirectPath = "/";
+      let roleTitle = "Login Successful";
+
+      if (user.role === "PATIENT") {
+        redirectPath = "/patient";
+        roleTitle = "Patient Login Successful 🦷";
+      } else if (user.role === "DENTIST") {
+        redirectPath = "/doctor";
+        roleTitle = "Dentist Login Successful 🩺";
+      } else if (user.role === "ADMIN") {
+        redirectPath = "/admin";
+        roleTitle = "Admin Login Successful 🔐";
       }
-      if (response.data.user.role === "PATIENT") {
-        toast.success("Patient Login Successful!");
-        navigate("/patient");
-      } else if (response.data.user.role === "DENTIST") {
-        toast.success("Dentist Login Successful!");
-        navigate("/doctor");
-      } else if (response.data.user.role === "ADMIN") {
-        toast.success("Admin Login Successful!");
-        navigate("/admin");
-      } else {
-        setMessage("Unknown user role.");
-      }
-    } catch (error) {
-      toast.error("Login Failed!");
-      setMessage("Invalid email or password, please try again.");
+
+      Swal.fire({
+        icon: "success",
+        title: roleTitle,
+        confirmButtonColor: "#16a34a",
+      }).then(() => {
+        navigate(redirectPath);
+      });
     }
-  };
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text:
+        error?.response?.data?.message ||
+        "Invalid email or password. Please try again.",
+      confirmButtonColor: "#dc2626",
+    });
+  }
+};
 
   return (
     <div
