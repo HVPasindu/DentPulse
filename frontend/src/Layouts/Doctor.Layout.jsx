@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 export const DoctorLayout = () => {
   return (
     <div>
-      <div className="bg-blue-50 min-h-screen flex">
+      <div className="bg-emerald-50 min-h-screen flex">
         {/* Sidebar */}
         <Sidebar />
 
