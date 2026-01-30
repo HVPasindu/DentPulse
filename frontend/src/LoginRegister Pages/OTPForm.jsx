@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 export default function OTPForm() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -19,9 +20,22 @@ export default function OTPForm() {
       return;
     }
     if (otp.length !== 6) {
-      setMessage("Please enter a 6-digit OTP");
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid OTP",
+        text: "Please enter a 6-digit OTP",
+        confirmButtonColor: "#16a34a",
+      });
       return;
     }
+
+    Swal.fire({
+      title: "Verifying OTP...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
     try {
       // Send OTP verification request
@@ -36,22 +50,36 @@ export default function OTPForm() {
             email: email,
             otp: otp,
           }),
-        }
+        },
       );
 
       // If OTP is successfully verified
       if (response.ok) {
-        setMessage("OTP verified successfully!");
-        // Redirect to login page after 2 seconds
-        setTimeout(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Verified 🎉",
+          text: "Your account has been activated",
+          confirmButtonColor: "#16a34a",
+        }).then(() => {
+          localStorage.removeItem("register_request_email");
           window.location.href = "/login";
-        }, 2000);
+        });
       } else {
         const errorData = await response.text();
-        setMessage(errorData || "OTP verification failed. Please try again.");
+        Swal.fire({
+          icon: "error",
+          title: "Verification Failed",
+          text: errorData || "Invalid OTP. Please try again.",
+          confirmButtonColor: "#dc2626",
+        });
       }
     } catch (error) {
-      setMessage("OTP verification failed. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Server Error",
+        text: "Something went wrong. Please try again later.",
+        confirmButtonColor: "#dc2626",
+      });
     }
   };
 

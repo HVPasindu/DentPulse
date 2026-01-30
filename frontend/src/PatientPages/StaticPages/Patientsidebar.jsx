@@ -2,6 +2,8 @@ import React from "react";
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from "react-router-dom";
 import { User, Users, Calendar, Clock } from 'lucide-react';
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const navigation = [
   { name: 'My Profile', href: '/patient',icon:<User  className="size-6 "/>},
@@ -12,7 +14,38 @@ const navigation = [
   
    
 export const Patientsidebar = () => {
-      const location = useLocation();
+  
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Sign Out?",
+      text: "Are you sure you want to log out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Sign Out",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#16a34a",
+      cancelButtonColor: "#9ca3af",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // clear auth data
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userRole");
+
+        Swal.fire({
+          icon: "success",
+          title: "Logged Out",
+          text: "You have been successfully logged out",
+          confirmButtonColor: "#16a34a",
+        }).then(() => {
+          navigate("/");
+        });
+      }
+    });
+  };
+
 
   return (
     <div>
@@ -72,13 +105,14 @@ export const Patientsidebar = () => {
           </div>
 
           {/* Sign Out Button */}
-          <a
-            href="/"
-            className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-green-200 hover:bg-green-400 transition duration-150 ease-in-out"
-          >
-            <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-2" />
-            Sign Out
-          </a>
+<button
+  onClick={handleLogout}
+  className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-green-200 hover:bg-green-400 transition duration-150 ease-in-out"
+>
+  <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-2" />
+  Sign Out
+</button>
+
         </div>
       </div>
     </div>
