@@ -335,7 +335,7 @@ export const PopupForm = ({
       onClick={closeModal}
     >
       <div
-        className="bg-white w-full max-w-md max-h-[90vh] flex flex-col rounded-2xl shadow-2xl border border-green-300"
+        className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-green-300"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -356,10 +356,13 @@ export const PopupForm = ({
         </div>
 
         {/* Form */}
-        <div className="px-6 pb-6 space-y-3 overflow-y-auto flex-1">
+        <div className="px-6 pb-6 space-y-3">
           {inputs.map((input) => {
             /* 🔴 ADD: HIDE NIC NUMBER FIELD CONDITIONALLY */
-            if (input.label === "nicnumber" && formData.nic !== "With NIC") {
+            if (
+              input.label === "nicnumber" &&
+              formData.nic !== "With NIC"
+            ) {
               return null;
             }
 
