@@ -335,7 +335,8 @@ export const PopupForm = ({
       onClick={closeModal}
     >
       <div
-        className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-green-300"
+        className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-green-300
+                max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

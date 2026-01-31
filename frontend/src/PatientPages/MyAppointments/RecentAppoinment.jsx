@@ -20,7 +20,7 @@ export const RecentAppoinment = ({
       cancelButtonColor: "#9ca3af",
     });
 
-    if (!confirmCancel) {
+    if (!confirmCancel.isConfirmed) {
       return;
     }
 

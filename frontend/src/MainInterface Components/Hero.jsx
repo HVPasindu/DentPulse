@@ -2,25 +2,26 @@ import { CircleCheckBig } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Phone } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 export function Hero() {
   const navigate = useNavigate();
+
+
+  const [messageStatus,setMessageStatus]=useState(true);
+
 
   const switchlologin = () => {
     navigate("/login");
   };
 
 
-
-
-
-  
   const contactClick=()=>{
 
     setMessageStatus(false);
-    setMessage("+(94) 77 1234 567");
+
     setTimeout(() => {
       setMessageStatus(true);
-      setMessage("Contact Us Now");
+
     }, 4000);
   }
 
@@ -92,8 +93,9 @@ export function Hero() {
             onClick={contactClick}
           >
             <div className="flex items-center gap-2">
-              <Phone />
-              <span className="font-semibold">Contact Us</span>
+            {messageStatus?   <Phone className="border-0"/>: <Phone className= " fill-black scale-125 duration-300"/>}
+              
+              <span className="font-semibold">{messageStatus?"Contact us":"+11 1432323"}</span>
             </div>
           </motion.button>
         </div>
