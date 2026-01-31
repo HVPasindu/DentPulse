@@ -356,7 +356,7 @@ export const PopupForm = ({
         </div>
 
         {/* Form */}
-        <div className="px-6 pb-6 space-y-3">
+        <div className="px-6 pb-6 space-y-3  overflow-y-auto flex-1">
           {inputs.map((input) => {
             /* 🔴 ADD: HIDE NIC NUMBER FIELD CONDITIONALLY */
             if (

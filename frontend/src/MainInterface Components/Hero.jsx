@@ -9,6 +9,21 @@ export function Hero() {
     navigate("/login");
   };
 
+
+
+
+
+  
+  const contactClick=()=>{
+
+    setMessageStatus(false);
+    setMessage("+(94) 77 1234 567");
+    setTimeout(() => {
+      setMessageStatus(true);
+      setMessage("Contact Us Now");
+    }, 4000);
+  }
+
   return (
     <div
       className="relative bg-cover bg-center overflow-x-hidden min-h-[75vh]"
@@ -74,6 +89,7 @@ export function Hero() {
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="rounded-lg bg-white border-green-600 border-2 px-10 py-6 hover:bg-green-200 hover:cursor-pointer"
+            onClick={contactClick}
           >
             <div className="flex items-center gap-2">
               <Phone />
