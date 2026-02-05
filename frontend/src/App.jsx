@@ -13,7 +13,6 @@ import PatientTreatmentRecords from "./pages/PatientTreatmentRecords";
 import DoctorNotes from "./pages/DoctorNotes";
 import WeeklyIncomeDashboard from "./pages/WeeklyIncomeDashboard";
 
-
 // Patient
 import { PatientLayout } from "./Layouts/Patient.Layout";
 import MainInterface from "./PatientPages/MyProfile/PaitentProfile";
@@ -39,7 +38,9 @@ import AdminQrScanner from "./Admin/AdminQrScanner";
 import { Toaster } from "react-hot-toast";
 //protected route
 import ProtectedRoute from "./components/ProtectedRoute";
+//help pages
 
+import Toothache from "./MainInterface Components/help pages/Toothache";
 function App() {
   return (
     <BrowserRouter>
@@ -65,10 +66,10 @@ function App() {
           <Route index element={<AppDashboard />} />
           <Route path="records" element={<PatientTreatmentRecords />} />
           <Route path="medicines" element={<DoctorMedicines />} />
-           <Route path="notes" element={<DoctorNotes />} />
+          <Route path="notes" element={<DoctorNotes />} />
           <Route path="weekly-revenue" element={<WeeklyIncomeDashboard />} />
         </Route>
-          {/* <Route path="/doctor/admin/billing" element={<BillingPage  />}>
+        {/* <Route path="/doctor/admin/billing" element={<BillingPage  />}>
         </Route> */}
         <Route path="/patient" element={<PatientLayout />}>
           <Route index element={<MainInterface />} />
@@ -95,6 +96,10 @@ function App() {
           <Route path="appointment" element={<AppointmentPage />} />
           <Route path="qr" element={<AdminQrScanner />} />
         </Route>
+      </Routes>
+      <Routes>
+        {/* Other routes */}
+        <Route path="/help/toothache" element={<Toothache />} />
       </Routes>
 
       {/* Global chatbot */}
