@@ -24,7 +24,7 @@ export const Allservice = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-xl font-medium text-green-500"
+            className="text-2xl font-medium text-green-500"
           >
             Comprehensive dental care tailored to all your needs
           </motion.p>
@@ -56,11 +56,13 @@ export const Allservice = () => {
           >
             <Services
               title={service.title}
+              img={service.img}
               description={service.description}
             />
           </motion.div>
         ))}
       </motion.div>
+     
     </div>
   );
 };
