@@ -41,6 +41,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 //help pages
 
 import Toothache from "./MainInterface Components/help pages/Toothache";
+import Cavity from "./MainInterface Components/help pages/Cavity";
+import BrokenTooth from "./MainInterface Components/help pages/BrokenTooth";
+import MissingTooth from "./MainInterface Components/help pages/MissingTooth";
+import BleedingGums from "./MainInterface Components/help pages/BleedingGums";
+import WisdomTeeth from "./MainInterface Components/help pages/WisdomTeeth";
 function App() {
   return (
     <BrowserRouter>
@@ -100,6 +105,11 @@ function App() {
       <Routes>
         {/* Other routes */}
         <Route path="/help/toothache" element={<Toothache />} />
+        <Route path="/help/cavity" element={<Cavity />} />
+        <Route path="/help/broken-tooth" element={<BrokenTooth />} />
+        <Route path="/help/missing-tooth" element={<MissingTooth />} />
+        <Route path="/help/bleeding-gums" element={<BleedingGums />} />
+        <Route path="/help/wisdom-teeth" element={<WisdomTeeth />} />
       </Routes>
 
       {/* Global chatbot */}
