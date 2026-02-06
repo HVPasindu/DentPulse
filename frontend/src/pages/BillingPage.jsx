@@ -13,6 +13,15 @@ const BillingPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("view");
   const [activeAppt, setActiveAppt] = useState(null);
+  // Add Invoice modal state
+const [isAddInvoiceOpen, setIsAddInvoiceOpen] = useState(false);
+const [newInvoice, setNewInvoice] = useState({
+  name: "",
+  treatmentType: "",
+  date: today,
+  amount: 0,
+});
+
 
   const treatmentPrices = {
     "Routine Checkup": 2500,
@@ -23,6 +32,38 @@ const BillingPage = () => {
     "Wisdom Teeth Removal": 25000,
     "Cavity Filling": 4500,
   };
+
+  const handleAddInvoice = (e) => {
+  e.preventDefault();
+
+  if (!newInvoice.name || !newInvoice.treatmentType || !newInvoice.amount) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const invoice = {
+    id: `inv-${Date.now()}`,
+    invoiceId: `INV-2026-${Math.floor(100 + Math.random() * 900)}`,
+    name: newInvoice.name,
+    treatmentType: newInvoice.treatmentType,
+    date: newInvoice.date,
+    amount: Number(newInvoice.amount),
+    billingStatus: "Unpaid",
+    paymentMethod: "Cash",
+  };
+
+  const updated = [...appointments, invoice];
+  updateLocalStorage(updated);
+
+  setIsAddInvoiceOpen(false);
+  setNewInvoice({
+    name: "",
+    treatmentType: "",
+    date: today,
+    amount: 0,
+  });
+};
+
 
   useEffect(() => {
     const loadData = () => {
