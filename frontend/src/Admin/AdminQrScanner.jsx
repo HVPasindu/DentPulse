@@ -9,8 +9,6 @@ const AdminQrScanner = () => {
 
   const scannerRef = useRef(null);
 
-
-
 useEffect(() => {
   if (!scannerActive) return;
 
@@ -113,7 +111,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 ">
       <h1 className="text-3xl font-bold text-black mb-4">Admin QR Scanner</h1>
 
       {scannerActive && (

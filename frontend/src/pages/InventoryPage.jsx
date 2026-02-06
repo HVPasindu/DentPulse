@@ -4,6 +4,7 @@ import StatsCard from '../Admin/StatsCard'
 import SearchBar from '../Admin/SearchBar'
 import InventoryTable from '../Admin/InventoryTable'
 import ItemDialog from '../Admin/ItemDialog'
+import { useLocation } from 'react-router-dom'
 
 const initialInventoryData = [
   {
@@ -88,8 +89,6 @@ const initialInventoryData = [
   },
 ]
 
-import { useLocation } from 'react-router-dom'
-
 export default function InventoryDashboard() {
   const location = useLocation()
   const [inventoryData, setInventoryData] = useState(initialInventoryData)
@@ -157,14 +156,12 @@ export default function InventoryDashboard() {
 
   const handleSave = () => {
     if (editingItem) {
-      // Update existing item
       setInventoryData(
         inventoryData.map((item) =>
           item.id === editingItem.id ? { ...item, ...formData } : item,
         ),
       )
     } else {
-      // Add new item
       const newItem = {
         id: Math.max(...inventoryData.map((i) => i.id), 0) + 1,
         ...formData,
@@ -187,19 +184,19 @@ export default function InventoryDashboard() {
   }, [location])
 
   return (
-    <div className="min-h-screen bg-cyan-50 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-green-50 p-4 sm:p-6 lg:p-8 font-sans">
       <div className="mx-auto max-w-7xl space-y-6">
         {/* Header Section */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-             <h1 className="text-3xl font-bold text-gray-900">Inventory Management</h1>
-            <p className="mt-2 text-sm text-slate-600 sm:text-base">
+            <h1 className="text-3xl font-bold text-slate-800">Inventory Management</h1>
+            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">
               Manage dental supplies and equipment
             </p>
           </div>
           <button
             onClick={handleAddItem}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95 sm:w-auto"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-green-100 transition-all hover:bg-green-700 focus:outline-none active:scale-95 sm:w-auto uppercase tracking-tighter cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             Add Item
@@ -212,7 +209,7 @@ export default function InventoryDashboard() {
             title="Total Items"
             value={inventoryData.length}
             icon={Package}
-            color="blue"
+            color="purple"
             subtitle="Across all categories"
           />
           <StatsCard
@@ -231,22 +228,24 @@ export default function InventoryDashboard() {
           />
         </div>
 
-        {/* Inventory Table */}
-        <div className="rounded-xl  bg- tranparent ">
-          <div className="border-b border-slate-200 p-4">
+        {/* Inventory Table Container */}
+        <div className="rounded-xl bg-white border border-green-100 shadow-sm overflow-hidden">
+          <div className="border-b border-green-50 p-4 bg-white">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">Inventory List</h2>
+              <h2 className="text-lg font-bold text-slate-800">Inventory List</h2>
               <SearchBar
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
-          <InventoryTable
-            items={filteredInventory}
-            onEdit={handleEditItem}
-            onDelete={handleDelete}
-          />
+          <div className="bg-white">
+            <InventoryTable
+              items={filteredInventory}
+              onEdit={handleEditItem}
+              onDelete={handleDelete}
+            />
+          </div>
         </div>
       </div>
 

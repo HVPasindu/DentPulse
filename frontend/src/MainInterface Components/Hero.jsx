@@ -2,12 +2,28 @@ import { CircleCheckBig } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Calendar, Phone } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 export function Hero() {
   const navigate = useNavigate();
+
+
+  const [messageStatus,setMessageStatus]=useState(true);
+
 
   const switchlologin = () => {
     navigate("/login");
   };
+
+
+  const contactClick=()=>{
+
+    setMessageStatus(false);
+
+    setTimeout(() => {
+      setMessageStatus(true);
+
+    }, 4000);
+  }
 
   return (
     <div
@@ -74,10 +90,12 @@ export function Hero() {
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="rounded-lg bg-white border-green-600 border-2 px-10 py-6 hover:bg-green-200 hover:cursor-pointer"
+            onClick={contactClick}
           >
             <div className="flex items-center gap-2">
-              <Phone />
-              <span className="font-semibold">Contact Us</span>
+            {messageStatus?   <Phone className="border-0"/>: <Phone className= " fill-black scale-125 duration-300"/>}
+              
+              <span className="font-semibold">{messageStatus?"Contact us":"+11 1432323"}</span>
             </div>
           </motion.button>
         </div>
