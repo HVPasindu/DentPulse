@@ -24,13 +24,17 @@
     "lucide-react": "^0.553.0",
     "motion": "^12.25.0",
     "nodejs": "^0.0.0",
+    "pdfmake": "^0.3.3",
     "qrcode.react": "^4.2.0",
     "react": "^19.1.1",
     "react-chartjs-2": "^5.3.1",
     "react-datepicker": "^9.1.0",
     "react-dom": "^19.1.1",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.9.6",
     "react-router-hash-link": "^2.4.3",
+    "recharts": "^3.7.0",
+    "sweetalert2": "^11.26.17",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {

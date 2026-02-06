@@ -58,15 +58,14 @@
 //         time: selectTime,
 //         status: "Confirmed",
 //       };
-      
+
 //       setAppointments(newAppointment);
 //       console.log("Patient scheduled successfully!", newAppointment);
-      
-      
+
 //       setSelectTime(null);
 //       setSelectDate(null);
 //       setSelectedPatient(null);
-      
+
 //       alert("Appointment booked successfully!");
 //     } else {
 //       alert("Please select patient, date, and time");
@@ -110,13 +109,13 @@
 //   );
 // };
 
-
 import React, { useState, useEffect } from "react";
 import { AppointmentDate } from "./AppointmentDate";
 import { SelectPatient } from "./SelectPatient";
 import { TimeSlot } from "./TimeSlot";
 import axios from "axios";
-
+import Recommendation from "../../components/Recommendation";
+import Swal from "sweetalert2";
 export const BookAppoinment = () => {
   const [FamilyDetail, setFamilyDetail] = useState([]);
   const [bookedTimes, setBookedTimes] = useState([]);
@@ -134,6 +133,8 @@ export const BookAppoinment = () => {
   const [selectDate, setSelectDate] = useState(null);
   const [selectTime, setSelectTime] = useState(null);
   const [isBooking, setIsBooking] = useState(false);
+  // AI slots state
+  const [aiSlots, setAiSlots] = useState([]);
 
   // Fetch patients from backend
   useEffect(() => {
@@ -146,7 +147,7 @@ export const BookAppoinment = () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         setFamilyDetail(response.data);
       } catch (error) {
@@ -168,7 +169,12 @@ export const BookAppoinment = () => {
       setSelectDate(date);
       fetchBookedTimes(date);
     } else {
-      alert("Select a Patient First!");
+      Swal.fire({
+        icon: "warning",
+        title: "Patient Required",
+        text: "Please select a patient before choosing a date",
+        confirmButtonColor: "#16a34a",
+      });
     }
   };
 
@@ -177,7 +183,12 @@ export const BookAppoinment = () => {
     if (selectDate && selectedPatient) {
       setSelectTime(time);
     } else {
-      alert("Please select date and patient first");
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Selection",
+        text: "Please select patient and date first",
+        confirmButtonColor: "#16a34a",
+      });
     }
   };
 
@@ -185,28 +196,28 @@ export const BookAppoinment = () => {
   const fetchBookedTimes = async (date) => {
     try {
       const token = localStorage.getItem("authToken");
-      
+
       // Format date to YYYY-MM-DD (local timezone)
       let formattedDate = date;
       if (date instanceof Date) {
         // Use local date without timezone conversion
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
         formattedDate = `${year}-${month}-${day}`;
       }
-      
+
       console.log("🔍 Fetching booked times for date:", formattedDate);
-      
+
       const response = await axios.get(
         `http://localhost:8080/api/appointments/booked-times?date=${formattedDate}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
-      
+
       console.log("✅ Fetched booked times:", response.data);
       setBookedTimes(response.data);
     } catch (error) {
@@ -218,22 +229,35 @@ export const BookAppoinment = () => {
   // Book appointment - POST request to backend
   const bookAppointment = async () => {
     if (!selectedPatient || !selectDate || !selectTime) {
-      alert("Please select patient, date, and time");
+      Swal.fire({
+        icon: "warning",
+        title: "Incomplete Booking",
+        text: "Please select patient, date, and time",
+        confirmButtonColor: "#16a34a",
+      });
       return;
     }
 
     setIsBooking(true);
+    Swal.fire({
+      title: "Booking Appointment...",
+      text: "Please wait",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
     try {
       const token = localStorage.getItem("authToken");
-      
+
       // Format date to YYYY-MM-DD (local timezone)
       let formattedDate = selectDate;
       if (selectDate instanceof Date) {
         // Use local date without timezone conversion
         const year = selectDate.getFullYear();
-        const month = String(selectDate.getMonth() + 1).padStart(2, '0');
-        const day = String(selectDate.getDate()).padStart(2, '0');
+        const month = String(selectDate.getMonth() + 1).padStart(2, "0");
+        const day = String(selectDate.getDate()).padStart(2, "0");
         formattedDate = `${year}-${month}-${day}`;
       }
 
@@ -255,27 +279,44 @@ export const BookAppoinment = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       console.log("✅ Appointment booked successfully:", response.data);
-      
+
       // Show success message
-      alert(`Appointment booked successfully for ${selectedPatient.fullName} on ${formattedDate} at ${selectTime}`);
-      
+      Swal.fire({
+        icon: "success",
+        title: "Appointment Booked 🎉",
+        html: `
+        <b>Patient:</b> ${selectedPatient.fullName}<br/>
+        <b>Date:</b> ${formattedDate}<br/>
+        <b>Time:</b> ${selectTime}
+      `,
+        confirmButtonColor: "#16a34a",
+      });
       // Reset form
       setSelectTime(null);
       setSelectDate(null);
       setSelectedPatient(null);
       setBookedTimes([]);
-
     } catch (error) {
       console.error("❌ Failed to book appointment:", error);
-      
+
       // Handle specific error messages
       if (error.response) {
-        const errorMessage = error.response.data?.message || error.response.data || "Failed to book appointment";
-        alert(`Error: ${errorMessage}`);
+        const errorMessage =
+          error?.response?.data?.message ||
+          error?.response?.data ||
+          "Failed to book appointment. Please try again.";
+
+        // ✅ Error popup (no alert)
+        Swal.fire({
+          icon: "error",
+          title: "Booking Failed",
+          text: errorMessage,
+          confirmButtonColor: "#dc2626",
+        });
       } else {
         alert("Failed to book appointment. Please try again.");
       }
@@ -299,6 +340,9 @@ export const BookAppoinment = () => {
             selectDate={selectDate}
           />
         </div>
+
+        {/* AI Recommendation Component */}
+        <Recommendation selectDate={selectDate} setAiSlots={setAiSlots} />
         <div className="gap-6">
           <TimeSlot
             selectTime={selectTime}
@@ -308,10 +352,10 @@ export const BookAppoinment = () => {
             selectDate={selectDate}
             bookedTimes={bookedTimes}
             isBooking={isBooking}
+            aiSlots={aiSlots}
           />
         </div>
       </div>
     </div>
   );
 };
-

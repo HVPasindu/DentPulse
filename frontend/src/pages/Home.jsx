@@ -6,6 +6,8 @@ import { MiddleSection } from "../MainInterface Components/MiddleSection";
 import { Contact } from "../MainInterface Components/Contact";
 import { Allservice } from "../MainInterface Components/Allservice";
 import { Features } from "../MainInterface Components/Features";
+import MeetDoctorHero from "../MainInterface Components/MeetDoctor";
+import ClinicLocation from "../MainInterface Components/Location";
 const Home = () => {
   return (
     <>
@@ -23,7 +25,12 @@ const Home = () => {
 
         <MiddleSection />
       </div>
-
+      <div>
+        <MeetDoctorHero/>
+      </div>
+      <div>
+        <ClinicLocation/>
+      </div>
       <div id="contact">
         <Contact />
       </div>
