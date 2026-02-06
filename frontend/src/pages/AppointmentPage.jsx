@@ -98,7 +98,7 @@ const [error, setError] = useState("");
       appt.id === formData.id ? { ...appt, ...formData } : appt
     );
     setAppointments(updatedList);
-    alert("Appointment updated permanently!");
+    alert("Appointment updated!");
     closePopup();
   };
 
@@ -267,7 +267,7 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
         <input name="name" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Contact *</label>
+        <label className="block text-sm font-medium text-slate-700">Phone Number *</label>
         <input name="contact" type="tel" required onChange={handleChange} placeholder="Phone number" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
       <div>
@@ -297,10 +297,9 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
           <option>Cancelled</option>
         </select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
-        <textarea name="notes" rows={3} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-      </div>
+      
+        
+  
       </div>
       <div className="border-t border-gray-200 pt-4 mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">Cancel</button>
@@ -351,7 +350,7 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
         <input name="name" required onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Contact *</label>
+        <label className="block text-sm font-medium text-slate-700">Phone Number *</label>
         <input name="contact" type="tel" required onChange={handleChange} placeholder="Phone number" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
       </div>
       <div>
@@ -405,10 +404,7 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
           <option>Cancelled</option>
         </select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
-        <textarea name="notes" rows={3} onChange={handleChange} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-      </div>
+      
       </div>
       <div className="border-t border-gray-200 pt-4 mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">Cancel</button>
@@ -478,10 +474,7 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
             <option>Cancelled</option>
           </select>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
-          <textarea name="notes" rows={3} value={formData.notes} onChange={handleChange} disabled={readOnly} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50" />
-        </div>
+        
       </div>
       <div className="border-t border-gray-200 pt-4 mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <button type="button" onClick={onCancel} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
