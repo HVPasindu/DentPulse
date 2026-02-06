@@ -4,9 +4,10 @@ import loginpagedata from "../data/loginpagedata";
 import InputCommonCard from "./InputCommonCard";
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import Swal from "sweetalert2";
 const MainLogin = () => {
+ 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -87,6 +88,10 @@ const MainLogin = () => {
     });
   }
 };
+const navigateToHome = () => {
+
+  navigate("/");
+}
 
   return (
     <div
@@ -96,10 +101,10 @@ const MainLogin = () => {
       <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
       <div className="relative z-10 w-full flex flex-col justify-center items-center">
         <div className="flex flex-row justify-center items-center  pr-50 md:pr-80 py-2">
-          <ArrowLeft className="text-black" />
-          <a href="/" className="text-black">
-            Back to Home
-          </a>
+          <ArrowLeft className="text-black hover:cursor-pointer" onClick={navigateToHome}/>
+          <h1 className="hover:cursor-pointer" onClick={navigateToHome}>    Back to Home</h1>
+        
+  
         </div>
 
         <div className="border-2 rounded-2xl shadow-2xl border-green-400 flex flex-col  p-5 w-[95%] py-15 mx-auto max-w-lg bg-white">
