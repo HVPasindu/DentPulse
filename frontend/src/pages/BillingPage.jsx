@@ -229,8 +229,7 @@ const BillingPage = () => {
                 <th className="px-6 py-4">Patient</th>
                 <th className="px-6 py-4">Description</th>
                 <th className="px-6 py-4">Amount</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4">Method</th>
+             
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -276,27 +275,8 @@ const BillingPage = () => {
                   <td className="px-6 py-4 text-sm font-black text-slate-900">
                     LKR {appt.amount.toLocaleString()}
                   </td>
-                  <td className="px-6 py-4">
-                    <button
-                      onClick={() => toggleStatus(appt.id)}
-                      disabled={appt.billingStatus === "Paid"}
-                      className={`px-2.5 py-1 rounded-md text-[11px] font-black transition-all uppercase tracking-tighter ${
-                        appt.billingStatus === "Paid"
-                          ? "bg-green-500 text-white cursor-default"
-                          : "bg-orange-100 text-orange-600 hover:bg-orange-200"
-                      }`}
-                    >
-                      {appt.billingStatus}
-                    </button>
-                  </td>
-                  <td className="px-6 py-4">
-                    <button
-                      onClick={() => toggleMethod(appt.id)}
-                      className="px-2.5 py-1 rounded-md text-[10px] font-black bg-purple-100 text-purple-700 hover:bg-purple-200 uppercase tracking-tight transition-all border border-purple-200"
-                    >
-                      {appt.paymentMethod}
-                    </button>
-                  </td>
+           
+                  
                   <td className="px-6 py-4 text-right relative">
                     <button
                       onClick={() =>
