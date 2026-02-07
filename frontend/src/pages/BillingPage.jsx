@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { createInvoice } from "../api/billingApi";
+import { fetchInvoices } from "../api/billingApi";
+import { deleteInvoice } from "../api/billingApi";
+
 
 const BillingPage = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -32,101 +36,40 @@ const BillingPage = () => {
     "Cavity Filling": 4500,
   };
 
-  const handleAddInvoice = (e) => {
+  const handleAddInvoice = async (e) => {
     e.preventDefault();
 
-    if (!newInvoice.name || !newInvoice.treatmentType || !newInvoice.amount) {
-      alert("Please fill all fields");
-      return;
+    try {
+      await createInvoice(newInvoice);
+      setIsAddInvoiceOpen(false);
+
+      const data = await fetchInvoices(selectedDate);
+      setAppointments(data);
+
+      setNewInvoice({
+        name: "",
+        treatmentType: "",
+        date: today,
+        amount: 0,
+      });
+    } catch (err) {
+      alert("Failed to add invoice");
     }
-
-    const invoice = {
-      id: `inv-${Date.now()}`,
-      invoiceId: `INV-2026-${Math.floor(100 + Math.random() * 900)}`,
-      name: newInvoice.name,
-      treatmentType: newInvoice.treatmentType,
-      date: newInvoice.date,
-      amount: Number(newInvoice.amount),
-      billingStatus: "Unpaid",
-      paymentMethod: "Cash",
-    };
-
-    const updated = [...appointments, invoice];
-    updateLocalStorage(updated);
-
-    setIsAddInvoiceOpen(false);
-    setNewInvoice({
-      name: "",
-      treatmentType: "",
-      date: today,
-      amount: 0,
-    });
   };
 
-  useEffect(() => {
-    const loadData = () => {
-      const saved = localStorage.getItem("app_appointments");
-      if (saved) {
-        const data = JSON.parse(saved);
-        const initializedData = data.map((appt) => ({
-          ...appt,
-          amount: appt.amount || 0,
-          billingStatus: appt.billingStatus || "Unpaid",
-          paymentMethod: appt.paymentMethod || "Cash",
-          invoiceId:
-            appt.invoiceId ||
-            `INV-2026-${appt.id.split("-")[1] || Math.floor(100 + Math.random() * 900)}`,
-        }));
-        setAppointments(initializedData);
-      }
-    };
-    loadData();
-    window.addEventListener("focus", loadData);
-    return () => window.removeEventListener("focus", loadData);
-  }, []);
-
-  const updateLocalStorage = (updatedList) => {
-    setAppointments(updatedList);
-    localStorage.setItem("app_appointments", JSON.stringify(updatedList));
-  };
-
-  const toggleStatus = (id) => {
-    const updated = appointments.map((appt) => {
-      if (appt.id === id && appt.billingStatus === "Unpaid") {
-        return { ...appt, billingStatus: "Paid" };
-      }
-      return appt;
-    });
-    updateLocalStorage(updated);
-  };
-
-  const toggleMethod = (id) => {
-    const updated = appointments.map((appt) => {
-      if (appt.id === id) {
-        return {
-          ...appt,
-          paymentMethod: appt.paymentMethod === "Cash" ? "Card" : "Cash",
-        };
-      }
-      return appt;
-    });
-    updateLocalStorage(updated);
-  };
-
-  const handleUpdateDetails = (e) => {
-    e.preventDefault();
-    if (!activeAppt) return;
-    const exists = appointments.some((appt) => appt.id === activeAppt.id);
-    if (exists) {
-      const updated = appointments.map((appt) =>
-        appt.id === activeAppt.id ? { ...activeAppt } : appt,
-      );
-      updateLocalStorage(updated);
-    } else {
-      updateLocalStorage([...appointments, activeAppt]);
+ useEffect(() => {
+  const loadInvoices = async () => {
+    try {
+      const data = await fetchInvoices();
+      setAppointments(data);
+    } catch (err) {
+      console.error("Failed to load invoices", err);
     }
-    setIsModalOpen(false);
   };
+
+  loadInvoices();
+}, []);
+
 
   const totalInvoicesAllTime = appointments.length;
   const filteredInvoices = appointments.filter((appt) => {
@@ -229,7 +172,7 @@ const BillingPage = () => {
                 <th className="px-6 py-4">Patient</th>
                 <th className="px-6 py-4">Description</th>
                 <th className="px-6 py-4">Amount</th>
-             
+
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -251,16 +194,17 @@ const BillingPage = () => {
                         className="bg-green-50/50 border border-green-100 rounded px-2 py-1 text-xs outline-none focus:border-green-500"
                         onChange={(e) => {
                           const price = treatmentPrices[e.target.value] || 0;
-                          const updated = appointments.map((a) =>
-                            a.id === appt.id
-                              ? {
-                                  ...a,
-                                  treatmentType: e.target.value,
-                                  amount: price,
-                                }
-                              : a,
+                          setAppointments((prev) =>
+                            prev.map((a) =>
+                              a.id === appt.id
+                                ? {
+                                    ...a,
+                                    treatmentType: e.target.value,
+                                    amount: price,
+                                  }
+                                : a,
+                            ),
                           );
-                          updateLocalStorage(updated);
                         }}
                       >
                         <option value="">Select Treatment</option>
@@ -275,8 +219,7 @@ const BillingPage = () => {
                   <td className="px-6 py-4 text-sm font-black text-slate-900">
                     LKR {appt.amount.toLocaleString()}
                   </td>
-           
-                  
+
                   <td className="px-6 py-4 text-right relative">
                     <button
                       onClick={() =>
@@ -310,12 +253,35 @@ const BillingPage = () => {
                         >
                           ✏️ Edit Invoice
                         </button>
-                        {appt.billingStatus === "Paid" && (
+                        {appt.billingStatus === "Unpaid" && (
                           <button
-                            onClick={() => alert("Downloading PDF...")}
+                            onClick={async () => {
+                              await markInvoicePaid(appt.id);
+                              setAppointments(
+                                await fetchInvoices(selectedDate),
+                              );
+                              setActiveMenu(null);
+                            }}
                             className="w-full px-4 py-2 text-xs font-bold text-green-600 hover:bg-green-50 flex items-center gap-2"
                           >
-                            📥 Download PDF
+                            ✅ Mark as Paid
+                          </button>
+                        )}
+
+                        {appt.billingStatus === "Paid" && (
+                          <button
+                            onClick={async () => {
+                              if (!window.confirm("Delete this invoice?"))
+                                return;
+                              await deleteInvoice(appt.id);
+                              setAppointments(
+                                await fetchInvoices(selectedDate),
+                              );
+                              setActiveMenu(null);
+                            }}
+                            className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 flex items-center gap-2 border-t mt-1"
+                          >
+                            🗑️ Delete
                           </button>
                         )}
                         <button className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 flex items-center gap-2 border-t mt-1">
@@ -330,109 +296,106 @@ const BillingPage = () => {
           </table>
         </div>
         {isAddInvoiceOpen && (
-  <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-    <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-green-100">
-      
-      {/* Header */}
-      <div className="p-5 border-b border-green-100 flex justify-between items-center">
-        <h2 className="text-xl font-black text-slate-800">
-          Add New Invoice
-        </h2>
-        <button
-          onClick={() => setIsAddInvoiceOpen(false)}
-          className="text-xl font-bold text-slate-400 hover:text-red-500"
-        >
-          ✕
-        </button>
-      </div>
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+            <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-green-100">
+              {/* Header */}
+              <div className="p-5 border-b border-green-100 flex justify-between items-center">
+                <h2 className="text-xl font-black text-slate-800">
+                  Add New Invoice
+                </h2>
+                <button
+                  onClick={() => setIsAddInvoiceOpen(false)}
+                  className="text-xl font-bold text-slate-400 hover:text-red-500"
+                >
+                  ✕
+                </button>
+              </div>
 
-      {/* Form */}
-      <form onSubmit={handleAddInvoice} className="p-6 space-y-4">
+              {/* Form */}
+              <form onSubmit={handleAddInvoice} className="p-6 space-y-4">
+                {/* Patient Name */}
+                <div>
+                  <label className="block text-xs font-black text-slate-500 uppercase mb-1">
+                    Patient Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter patient name"
+                    value={newInvoice.name}
+                    onChange={(e) =>
+                      setNewInvoice({ ...newInvoice, name: e.target.value })
+                    }
+                    className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
+                  />
+                </div>
 
-        {/* Patient Name */}
-        <div>
-          <label className="block text-xs font-black text-slate-500 uppercase mb-1">
-            Patient Name
-          </label>
-          <input
-            type="text"
-            placeholder="Enter patient name"
-            value={newInvoice.name}
-            onChange={(e) =>
-              setNewInvoice({ ...newInvoice, name: e.target.value })
-            }
-            className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
-          />
-        </div>
+                {/* Treatment Type */}
+                <div>
+                  <label className="block text-xs font-black text-slate-500 uppercase mb-1">
+                    Treatment Type
+                  </label>
+                  <select
+                    value={newInvoice.treatmentType}
+                    onChange={(e) => {
+                      const price = treatmentPrices[e.target.value] || 0;
+                      setNewInvoice({
+                        ...newInvoice,
+                        treatmentType: e.target.value,
+                        amount: price,
+                      });
+                    }}
+                    className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
+                  >
+                    <option value="">Select treatment</option>
+                    {Object.keys(treatmentPrices).map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-        {/* Treatment Type */}
-        <div>
-          <label className="block text-xs font-black text-slate-500 uppercase mb-1">
-            Treatment Type
-          </label>
-          <select
-            value={newInvoice.treatmentType}
-            onChange={(e) => {
-              const price = treatmentPrices[e.target.value] || 0;
-              setNewInvoice({
-                ...newInvoice,
-                treatmentType: e.target.value,
-                amount: price,
-              });
-            }}
-            className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
-          >
-            <option value="">Select treatment</option>
-            {Object.keys(treatmentPrices).map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
-        </div>
+                {/* Invoice Date */}
+                <div>
+                  <label className="block text-xs font-black text-slate-500 uppercase mb-1">
+                    Invoice Date
+                  </label>
+                  <input
+                    type="date"
+                    value={newInvoice.date}
+                    onChange={(e) =>
+                      setNewInvoice({ ...newInvoice, date: e.target.value })
+                    }
+                    className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
+                  />
+                </div>
 
-        {/* Invoice Date */}
-        <div>
-          <label className="block text-xs font-black text-slate-500 uppercase mb-1">
-            Invoice Date
-          </label>
-          <input
-            type="date"
-            value={newInvoice.date}
-            onChange={(e) =>
-              setNewInvoice({ ...newInvoice, date: e.target.value })
-            }
-            className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
-          />
-        </div>
+                {/* Amount */}
+                <div>
+                  <label className="block text-xs font-black text-slate-500 uppercase mb-1">
+                    Amount (LKR)
+                  </label>
+                  <input
+                    type="number"
+                    value={newInvoice.amount}
+                    onChange={(e) =>
+                      setNewInvoice({ ...newInvoice, amount: e.target.value })
+                    }
+                    className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
+                  />
+                </div>
 
-        {/* Amount */}
-        <div>
-          <label className="block text-xs font-black text-slate-500 uppercase mb-1">
-            Amount (LKR)
-          </label>
-          <input
-            type="number"
-            value={newInvoice.amount}
-            onChange={(e) =>
-              setNewInvoice({ ...newInvoice, amount: e.target.value })
-            }
-            className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
-          />
-        </div>
-
-        {/* Submit */}
-        <button
-          type="submit"
-          className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700 transition-colors shadow-lg shadow-green-100"
-        >
-          Save Invoice
-        </button>
-      </form>
-    </div>
-  </div>
-)}
-
+                {/* Submit */}
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700 transition-colors shadow-lg shadow-green-100"
+                >
+                  Save Invoice
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* VIEW/EDIT MODAL */}
@@ -456,7 +419,7 @@ const BillingPage = () => {
               </button>
             </div>
 
-            <form onSubmit={handleUpdateDetails}>
+            <form onSubmit={(e) => e.preventDefault()}>
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-2 gap-8 text-sm">
                   <div>
@@ -577,16 +540,28 @@ const BillingPage = () => {
                       🖨️ Print
                     </button>
                     <button
-                      type="button"
-                      className="px-6 py-2.5 bg-white border border-red-100 text-red-500 rounded-lg text-sm font-black hover:bg-red-50"
+                      onClick={async () => {
+                        if (!window.confirm("Delete this invoice?")) return;
+                        await deleteInvoice(activeAppt.id);
+                        setIsModalOpen(false);
+                        setAppointments(await fetchInvoices(selectedDate));
+                      }}
+                      className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50"
                     >
-                      🗑️
+                      🗑️ Delete
                     </button>
                   </>
                 ) : (
                   <button
-                    type="submit"
-                    className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700 transition-colors shadow-lg shadow-green-100"
+                    type="button"
+                    onClick={async () => {
+                      if (activeAppt.billingStatus === "Paid") {
+                        await markInvoicePaid(activeAppt.id);
+                        setAppointments(await fetchInvoices(selectedDate));
+                      }
+                      setIsModalOpen(false);
+                    }}
+                    className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700"
                   >
                     Update Payment Records
                   </button>
@@ -622,8 +597,6 @@ const StatCard = ({ title, value, change, isNegative, symbol, iconBg }) => (
     >
       {change}
     </p>
-
-    
   </div>
 );
 

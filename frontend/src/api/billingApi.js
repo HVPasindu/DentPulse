@@ -1,10 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/v1/billing";
-
-
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: "http://localhost:8080/api/v1/bills",
 });
 
 api.interceptors.request.use((config) => {
@@ -15,40 +12,35 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-/* ===================== APIs ===================== */
-
-
-export const fetchInvoices = async (date) => {
-  const res = date
-    ? await api.get(`?date=${date}`)
-    : await api.get();
-  return res.data;
+// 📋 Fetch ALL bills
+export const fetchInvoices = async () => {
+  const res = await api.get("");
+  return res.data.map((b) => ({
+    id: b.id,
+    invoiceId: b.billNumber,
+    name: b.patientName,
+    treatmentType: b.description,
+    amount: b.amount,
+    billingStatus: b.status,
+    paymentMethod: b.paymentMethod,
+    date: b.billDate,
+  }));
 };
 
-// ➕ Add invoice
+// ➕ Create bill
 export const createInvoice = async (invoice) => {
   const res = await api.post("", {
-    name: invoice.name,
-    treatmentType: invoice.treatmentType,
+    patientName: invoice.name,
+    description: invoice.treatmentType,
     amount: invoice.amount,
-    date: invoice.date,
+    billDate: invoice.date,
   });
   return res.data;
 };
 
-// ✏️ Update invoice
-export const updateInvoice = async (id, invoice) => {
-  const res = await api.put(`/${id}`, invoice);
-  return res.data;
-};
-
-// 🗑️ Delete invoice
+// 🗑️ Delete bill
 export const deleteInvoice = async (id) => {
   await api.delete(`/${id}`);
 };
+// ✅ Mark bill as paid
 
-// ✅ Mark as paid
-export const markInvoicePaid = async (id) => {
-  const res = await api.put(`/${id}/pay`);
-  return res.data;
-};
