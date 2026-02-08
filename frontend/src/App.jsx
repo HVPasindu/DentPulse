@@ -107,8 +107,8 @@ function App() {
           <Route path="appointment" element={<AppointmentPage />} />
           <Route path="qr" element={<AdminQrScanner />} />
         </Route>
-      </Routes>
-      <Routes>
+   
+    
         {/* Other routes */}
         <Route path="/help/toothache" element={<Toothache />} />
         <Route path="/help/cavity" element={<Cavity />} />
