@@ -1,7 +1,14 @@
 import { Navigate, useNavigate } from "react-router-dom";
-
+import  { useState } from "react";
 export function Services(props) {
+
+  const [expanded, setExpanded] = useState(false);
+
+
+
   const navigate = useNavigate();
+
+
   const handleBookAppointment = () => {
     navigate("/login");
   };
@@ -19,18 +26,23 @@ export function Services(props) {
         }
       </div>
       <div className=" items-center justify-center">
-        <h1 className="text-lg text-black font-stretch-expanded">
-          {props.description}
-        </h1>
-      </div>
-      <div className="p-4">
+         <p
+        className={`text-lg text-black text-center transition-all duration-300 ${
+          expanded ? "" : "line-clamp-1"
+        }`}
+      >
+        {props.description}
+      </p>
+      {props.description.length > 30 && (
         <button
-          className="p-4 bg-green-600 rounded-2xl text-white hover:scale-110 duration-500 hover:bg-green-700"
-          onClick={handleBookAppointment}
+          onClick={() => setExpanded(!expanded)}
+          className="mt-2 text-green-600 font-bold hover:underline text-sm"
         >
-          Book Appoinment
+          {expanded ? "See less" : "See more"}
         </button>
+      )}
       </div>
+
     </div>
   );
 }
