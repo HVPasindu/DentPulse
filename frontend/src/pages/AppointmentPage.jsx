@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Eye, Edit } from "lucide-react"; 
+import { Eye, Edit } from "lucide-react";
+import Swal from "sweetalert2";
 import WelcomeHeader from "../Admin/WelcomeHeader";
 import SummarySection from "../Admin/SummarySection";
 //import { fetchAllAppointments } from "../api/adminAppointmentApi";
@@ -88,7 +89,13 @@ const [error, setError] = useState("");
       id: `APT-${Math.floor(1000 + Math.random() * 9000)}`,
     };
     setAppointments([...appointments, newEntry]);
-    alert("Appointment saved permanently!");
+    Swal.fire({
+      title: "Success!",
+      text: "Appointment saved permanently!",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#10b981",
+    });
     closePopup();
   };
 
@@ -98,7 +105,13 @@ const [error, setError] = useState("");
       appt.id === formData.id ? { ...appt, ...formData } : appt
     );
     setAppointments(updatedList);
-    alert("Appointment updated!");
+    Swal.fire({
+      title: "Updated!",
+      text: "Appointment updated!",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#10b981",
+    });
     closePopup();
   };
 
