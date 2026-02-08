@@ -27,3 +27,7 @@ Endpoint: GET /api/v1/admin/appointments/stats
 */
 export const fetchAppointmentStats = () =>
   axios.get(`${BASE_URL}/stats`, authHeader());
+
+
+export const fetchAppointmentById = (id) =>
+  axios.get(`${BASE_URL}/${id}`, authHeader());
