@@ -141,12 +141,7 @@ const navigateToHome = () => {
               )}
 
               <div className="flex flex-row justify-around pt-3">
-                <div className="flex flex-row gap-x-3  ">
-                  <input type="checkbox" />
-                  <label className="pr-4 text-green-600 text-xl">
-                    Remember Me
-                  </label>
-                </div>
+           
 
                 <div>
                   <a href="" className="hover:text-green-500">
