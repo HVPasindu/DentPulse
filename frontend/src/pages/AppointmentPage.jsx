@@ -5,6 +5,10 @@ import WelcomeHeader from "../Admin/WelcomeHeader";
 import SummarySection from "../Admin/SummarySection";
 import { fetchAllAppointments } from "../api/adminAppointmentApi";
 import { fetchAppointmentById } from "../api/adminAppointmentApi";
+import { updateAppointmentStatus } from "../api/adminAppointmentApi";
+import { fetchAppointmentStats } from "../api/adminAppointmentApi";
+import { createAppointment } from "../api/adminAppointmentApi";
+import { fetchPatientById } from "../api/adminPatientApi";
 
 const AppDashboard = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -20,57 +24,47 @@ const AppDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [stats, setStats] = useState(null);
 
-  // ===================== BACKEND CONFIG (ADDED) =====================
-  const BASE_URL = "http://localhost:8080/api/v1/admin/appointments";
-
-  const authConfig = () => ({
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+  const loadStats = async () => {
+    try {
+      const res = await fetchAppointmentStats();
+      setStats(res.data);
+    } catch (err) {
+      console.error("Failed to load stats");
+    }
+  };
 
   /* ================= FETCH APPOINTMENTS FROM BACKEND ================= */
+  const loadAppointments = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await fetchAllAppointments();
+
+      const mappedAppointments = res.data.map((appt) => ({
+        id: appt.appointmentId,
+        patientId: appt.patientId,
+        name: appt.fullName,
+        date: appt.appointmentDate,
+        time: appt.startTime,
+        status: appt.status,
+        type: appt.type,
+      }));
+
+      setAppointments(mappedAppointments);
+    } catch (err) {
+      console.error("Failed to load appointments", err);
+      setError("Failed to load appointments");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadAppointments = async () => {
-      try {
-        setLoading(true);
-        setError("");
-
-        const res = await fetchAllAppointments();
-
-        /*
-      BACKEND → FRONTEND MAPPING
-      --------------------------------
-      appointmentId   → id
-      patientId       → patientId
-      fullName        → name
-      appointmentDate → date
-      startTime       → time
-      status          → status
-      type            → type
-      */
-
-        const mappedAppointments = res.data.map((appt) => ({
-          id: appt.appointmentId,
-          patientId: appt.patientId,
-          name: appt.fullName,
-          date: appt.appointmentDate,
-          time: appt.startTime,
-          status: appt.status,
-          type: appt.type,
-        }));
-
-        setAppointments(mappedAppointments);
-      } catch (err) {
-        console.error("Failed to load appointments", err);
-        setError("Failed to load appointments");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadAppointments();
+    loadStats();
   }, []);
 
   /* FILTER LOGIC */
@@ -116,6 +110,8 @@ const AppDashboard = () => {
         time: data.startTime,
         status: data.status,
         type: data.type,
+        email: data.email,
+        address: data.address,
       };
 
       setSelectedAppointment(mappedAppointment);
@@ -130,11 +126,36 @@ const AppDashboard = () => {
     }
   };
 
-  const openEditPopup = (appt) => {
-    setSelectedAppointment(appt);
-    setIsAddingNew(false);
-    setIsReadOnly(false);
-    setIsPopupOpen(true);
+  const openEditPopup = async (appt) => {
+    try {
+      setLoading(true);
+
+      const res = await fetchAppointmentById(appt.id);
+      const data = res.data;
+
+      const mappedAppointment = {
+        id: data.appointmentId,
+        patientId: data.patientId,
+        name: data.patientName,
+        contact: data.patientPhone,
+        email: data.email,
+        address: data.address,
+        date: data.appointmentDate,
+        time: data.startTime,
+        status: data.status,
+        type: data.type,
+      };
+
+      setSelectedAppointment(mappedAppointment);
+      setIsAddingNew(false);
+      setIsReadOnly(false); // 🔥 editable
+      setIsPopupOpen(true);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to load appointment details");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const closePopup = () => {
@@ -142,25 +163,59 @@ const AppDashboard = () => {
     setSelectedAppointment(null);
   };
 
-  const handleAddAppointment = (e, formData) => {
+  const handleAddAppointment = async (e, formData) => {
     e.preventDefault();
-    const newEntry = {
-      ...formData,
-      id: `APT-${Math.floor(1000 + Math.random() * 9000)}`,
-    };
-    setAppointments([...appointments, newEntry]);
-    alert("Appointment saved permanently!");
-    closePopup();
+
+    try {
+      const payload = {
+        patientId: Number(formData.patientId),
+        appointmentDate: formData.date,
+        startTime: formData.time,
+        appointmentType: formType === "special" ? "SPECIAL" : "NORMAL",
+        status: formData.status,
+      };
+
+      // 👇 only for special appointments
+      //  if (formType === "special") {
+      //    payload.treatmentType = mapTreatment(formData.treatmentType);
+      //  }
+
+      await createAppointment(payload);
+
+      alert("Appointment added successfully!");
+      closePopup();
+
+      // reload table + summary
+      loadAppointments();
+      loadStats();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to add appointment");
+    }
   };
 
-  const handleUpdateAppointment = (e, formData) => {
+  const handleUpdateAppointment = async (e, formData) => {
     e.preventDefault();
-    const updatedList = appointments.map((appt) =>
-      appt.id === formData.id ? { ...appt, ...formData } : appt
-    );
-    setAppointments(updatedList);
-    alert("Appointment updated!");
-    closePopup();
+
+    try {
+      await updateAppointmentStatus(formData.id, formData.status);
+
+      // update appointment list UI
+      setAppointments((prev) =>
+        prev.map((appt) =>
+          appt.id === formData.id ? { ...appt, status: formData.status } : appt
+        )
+      );
+
+      // 🔥 IMPORTANT: reload summary stats
+      await loadStats();
+
+      alert("Appointment status updated!");
+      closePopup();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update appointment status");
+    }
   };
 
   return (
@@ -169,7 +224,7 @@ const AppDashboard = () => {
 
       <h1 className="text-3xl font-semibold text-gray-800 mt-10 mb-10"></h1>
 
-      <SummarySection appointments={appointments} />
+      <SummarySection stats={stats} />
 
       {/* POPUP MODAL */}
       {isPopupOpen && (
@@ -274,7 +329,8 @@ const AppDashboard = () => {
                 </tr>
               ) : (
                 filteredAppointments.map((appt) => {
-                  const isSpecial = !!appt.treatmentType;
+                  const isSpecial = appt.type === "SPECIAL";
+
                   return (
                     <tr
                       key={appt.id}
@@ -355,9 +411,11 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
     address: "",
     date: new Date().toISOString().split("T")[0],
     time: "17:00",
-    status: "Scheduled",
+    status: "PENDING",
     notes: "",
   });
+
+  const [error, setError] = useState("");
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -385,10 +443,58 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
           </label>
           <input
             name="patientId"
-            required
-            onChange={handleChange}
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            value={formData.patientId}
+            onChange={async (e) => {
+              const patientId = e.target.value;
+
+              setFormData((prev) => ({
+                ...prev,
+                patientId,
+              }));
+
+              // 🟢 ID clear nam → error + data clear
+              if (!patientId) {
+                setError("");
+                setFormData((prev) => ({
+                  ...prev,
+                  name: "",
+                  contact: "",
+                  email: "",
+                  address: "",
+                }));
+                return;
+              }
+
+              try {
+                const res = await fetchPatientById(patientId);
+                const patient = res.data;
+
+                // 🟢 VALID ID → error clear
+                setError("");
+
+                setFormData((prev) => ({
+                  ...prev,
+                  name: patient.fullName,
+                  contact: patient.phone,
+                  email: patient.email,
+                  address: patient.address,
+                }));
+              } catch (err) {
+                // 🔴 INVALID ID → error set + clear data
+                setError("Patient not found");
+
+                setFormData((prev) => ({
+                  ...prev,
+                  name: "",
+                  contact: "",
+                  email: "",
+                  address: "",
+                }));
+              }
+            }}
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
+          {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium text-slate-700">
@@ -396,6 +502,8 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
           </label>
           <input
             name="name"
+            value={formData.name}
+            readOnly
             required
             onChange={handleChange}
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
@@ -408,6 +516,8 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
           <input
             name="contact"
             type="tel"
+            value={formData.contact}
+            readOnly
             required
             onChange={handleChange}
             placeholder="Phone number"
@@ -421,6 +531,8 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
           <input
             name="email"
             type="email"
+            value={formData.email}
+            readOnly
             onChange={handleChange}
             placeholder="email@example.com"
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
@@ -432,6 +544,8 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
           </label>
           <input
             name="address"
+            value={formData.address}
+            readOnly
             required
             onChange={handleChange}
             placeholder="Street address, City, State"
@@ -473,12 +587,14 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
           </label>
           <select
             name="status"
+            value={formData.status}
             onChange={handleChange}
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
           >
-            <option>Scheduled</option>
-            <option>Completed</option>
-            <option>Cancelled</option>
+            <option>PENDING</option>
+            <option>SCHEDULED</option>
+            <option>COMPLETED</option>
+            <option>CANCELLED</option>
           </select>
         </div>
       </div>
@@ -512,11 +628,12 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
     treatmentType: "Teeth Cleaning (Moderate)",
     date: "",
     time: "17:00",
-    status: "Scheduled",
+    status: "PENDING",
     notes: "",
   });
 
-  const [error, setError] = useState("");
+  const [patientError, setPatientError] = useState("");
+  const [dateError, setDateError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -524,12 +641,13 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
     if (name === "date") {
       const selectedDate = new Date(value);
       const day = selectedDate.getUTCDay();
+
       if (day === 0 || day === 6) {
-        setFormData({ ...formData, [name]: value });
-        setError("");
+        setFormData({ ...formData, date: value });
+        setDateError("");
       } else {
-        setFormData({ ...formData, [name]: "" });
-        setError("Please choose a weekend (Saturday or Sunday).");
+        setFormData({ ...formData, date: "" });
+        setDateError("Please choose a weekend (Saturday or Sunday).");
       }
     } else {
       setFormData({ ...formData, [name]: value });
@@ -548,10 +666,54 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
           </label>
           <input
             name="patientId"
-            required
-            onChange={handleChange}
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            value={formData.patientId}
+            onChange={async (e) => {
+              const patientId = e.target.value;
+
+              setFormData((prev) => ({ ...prev, patientId }));
+
+              if (!patientId) {
+                setPatientError("");
+                setFormData((prev) => ({
+                  ...prev,
+                  name: "",
+                  contact: "",
+                  email: "",
+                  address: "",
+                }));
+                return;
+              }
+
+              try {
+                const res = await fetchPatientById(patientId);
+                const patient = res.data;
+
+                setPatientError("");
+
+                setFormData((prev) => ({
+                  ...prev,
+                  name: patient.fullName,
+                  contact: patient.phone,
+                  email: patient.email,
+                  address: patient.address,
+                }));
+              } catch (err) {
+                setPatientError("Patient not found");
+
+                setFormData((prev) => ({
+                  ...prev,
+                  name: "",
+                  contact: "",
+                  email: "",
+                  address: "",
+                }));
+              }
+            }}
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
+          {patientError && (
+            <p className="text-xs text-red-500 mt-1">{patientError}</p>
+          )}
         </div>
         <div>
           <label className="block text-sm font-medium text-slate-700">
@@ -559,6 +721,7 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
           </label>
           <input
             name="name"
+            value={formData.name}
             required
             onChange={handleChange}
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
@@ -572,6 +735,7 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
             name="contact"
             type="tel"
             required
+            value={formData.contact}
             onChange={handleChange}
             placeholder="Phone number"
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
@@ -584,6 +748,7 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
           <input
             name="email"
             type="email"
+            value={formData.email}
             onChange={handleChange}
             placeholder="email@example.com"
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
@@ -596,6 +761,7 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
           <input
             name="address"
             required
+            value={formData.address}
             onChange={handleChange}
             placeholder="Street address, City, State"
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
@@ -611,9 +777,13 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
             onChange={handleChange}
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
           >
-            <option>Teeth Cleaning (Moderate)</option>
-            <option>Teeth Cleaning (Severe)</option>
-            <option>Wisdom Teeth Removal</option>
+            <option>FILLING</option>
+            <option>EXTRACTION</option>
+            <option>CLEANING</option>
+            <option>WHITENING</option>
+            <option>IMPLANT</option>
+            <option>ROOT_CANAL</option>
+            <option>OTHER</option>
           </select>
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -629,7 +799,9 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
               onChange={handleChange}
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
             />
-            {error && <p className="text-[10px] text-red-500 mt-1">{error}</p>}
+            {dateError && (
+              <p className="text-[10px] text-red-500 mt-1">{dateError}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700">
@@ -653,12 +825,14 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
           </label>
           <select
             name="status"
+            value={formData.status}
             onChange={handleChange}
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
           >
-            <option>Scheduled</option>
-            <option>Completed</option>
-            <option>Cancelled</option>
+            <option>PENDING</option>
+            <option>SCHEDULED</option>
+            <option>COMPLETED</option>
+            <option>CANCELLED</option>
           </select>
         </div>
       </div>
@@ -721,7 +895,7 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            disabled={readOnly}
+            disabled
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500"
           />
         </div>
@@ -734,7 +908,7 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
             type="tel"
             value={formData.contact || ""}
             onChange={handleChange}
-            disabled={readOnly}
+            disabled
             placeholder="Phone number"
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500"
           />
@@ -748,7 +922,7 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
             type="email"
             value={formData.email || ""}
             onChange={handleChange}
-            disabled={readOnly}
+            disabled
             placeholder="email@example.com"
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500"
           />
@@ -761,7 +935,7 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
             name="address"
             value={formData.address || ""}
             onChange={handleChange}
-            disabled={readOnly}
+            disabled
             placeholder="Street address, City, State"
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50 disabled:text-gray-500"
           />
@@ -778,9 +952,13 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
               disabled={readOnly}
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50"
             >
-              <option>Teeth Cleaning (Moderate)</option>
-              <option>Teeth Cleaning (Severe)</option>
-              <option>Wisdom Teeth Removal</option>
+              <option>FILLING</option>
+              <option>EXTRACTION</option>
+              <option>CLEANING</option>
+              <option>WHITENING</option>
+              <option>IMPLANT</option>
+              <option>ROOT_CANAL</option>
+              <option>OTHER</option>
             </select>
           </div>
         )}
@@ -821,11 +999,11 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
             value={formData.status}
             onChange={handleChange}
             disabled={readOnly}
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-gray-50"
           >
-            <option>Scheduled</option>
-            <option>Completed</option>
-            <option>Cancelled</option>
+            <option value="PENDING">Pending</option>
+            <option value="SCHEDULED">Scheduled</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
           </select>
         </div>
       </div>

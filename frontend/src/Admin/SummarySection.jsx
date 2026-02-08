@@ -36,7 +36,7 @@ GET /api/v1/admin/appointments/stats
 ====================================================
 */
 
-const SummarySection = () => {
+const SummarySection = ({stats}) => {
   const [summary, setSummary] = useState({
     total: 0,
     scheduled: 0,
@@ -47,7 +47,7 @@ const SummarySection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  /*useEffect(() => {
     loadSummary();
   }, []);
 
@@ -71,6 +71,20 @@ const SummarySection = () => {
       setLoading(false);
     }
   };
+  */
+
+  useEffect(() => {
+  if (stats) {
+    setSummary({
+      total: stats.total,
+      scheduled: stats.scheduled,
+      completed: stats.completed,
+      cancelled: stats.cancelled,
+    });
+    setLoading(false);
+  }
+}, [stats]);
+
 
   const summaryData = [
     { icon: "📅", title: "Total Appointments", value: summary.total, color: "blue" },
