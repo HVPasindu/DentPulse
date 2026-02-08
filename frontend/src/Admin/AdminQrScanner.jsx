@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import PatientProfile from "./PatientProfile";
@@ -9,76 +10,57 @@ const AdminQrScanner = () => {
 
   const scannerRef = useRef(null);
 
-useEffect(() => {
-  if (!scannerActive) return;
+  useEffect(() => {
+    if (!scannerActive) return;
+    if (scannerRef.current) return;
 
+    const scanner = new Html5QrcodeScanner(
+      "qr-reader",
+      {
+        fps: 10,
+        qrbox: { width: 250, height: 250 },
+      },
+      false
+    );
 
-  if (scannerRef.current) return;
+    scannerRef.current = scanner;
+    scanner.render(onScanSuccess, onScanError);
 
-  const scanner = new Html5QrcodeScanner(
-    "qr-reader",
-    {
-      fps: 10,
-      qrbox: { width: 250, height: 250 },
-    },
-    false
-  );
-
-  scannerRef.current = scanner;
-
-  scanner.render(onScanSuccess, onScanError);
-
-  function onScanSuccess(decodedText) {
-    scanner.clear();
-    scannerRef.current = null;
-    setScannerActive(false);
-    handleQrResult(decodedText);
-  }
-
-  function onScanError(error) {}
-
-  return () => {
-    if (scannerRef.current) {
-      scannerRef.current.clear().catch(() => {});
+    function onScanSuccess(decodedText) {
+      scanner.clear();
       scannerRef.current = null;
+      setScannerActive(false);
+      handleQrResult(decodedText);
     }
-  };
-}, [scannerActive]);
 
+    function onScanError() {}
+
+    return () => {
+      if (scannerRef.current) {
+        scannerRef.current.clear().catch(() => {});
+        scannerRef.current = null;
+      }
+    };
+  }, [scannerActive]);
 
   const handleQrResult = async (qrText) => {
     try {
-      // Expected QR: http://localhost:3000/patient/{id}
       const patientId = qrText.trim().split("/patient/")[1];
-      console.log("QR RAW TEXT:", qrText);
-      console.log("FINAL patientId:", patientId);
-
       if (!patientId) throw new Error("Invalid QR Code");
 
       const token = localStorage.getItem("authToken");
 
-      /* 1️⃣ Fetch profile */
       const profileRes = await fetch(
         `http://localhost:8080/api/v1/patient/admin/${patientId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log("PROFILE STATUS:", profileRes.status);
       if (!profileRes.ok) throw new Error("Patient not found");
 
       const profileData = await profileRes.json();
 
-      /* 2️⃣ Fetch treatment history */
       const historyRes = await fetch(
         `http://localhost:8080/api/v1/patient/admin/${patientId}/history`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       const historyData = historyRes.ok ? await historyRes.json() : [];
@@ -88,8 +70,8 @@ useEffect(() => {
         date: new Date(record.treatment_date).toISOString().slice(0, 10),
         cost: "-",
       }));
-      /* 3️⃣ Map backend → PatientProfile UI */
-      const mappedPatient = {
+
+      setPatient({
         id: profileData.id,
         name: profileData.fullName,
         age: profileData.age,
@@ -100,9 +82,8 @@ useEffect(() => {
         status: "Active",
         lastVisit: "-",
         treatments: historyDataFormatted,
-      };
+      });
 
-      setPatient(mappedPatient);
       setShowProfile(true);
     } catch (err) {
       alert(err.message);
@@ -111,24 +92,48 @@ useEffect(() => {
   };
 
   return (
-    <div className="p-6 ">
-      <h1 className="text-3xl font-bold text-black mb-4">Admin QR Scanner</h1>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 p-8">
+      {/* Header */}
+      <div className="max-w-5xl align-middle mb-8">
+        <h1 className="text-4xl font-serif font-bold text-green-800">
+          Admin QR Scanner
+        </h1>
+        <p className="text-green-600 mt-2">
+          Scan patient QR codes to view profile & treatment history
+        </p>
+      </div>
 
+      {/* Scanner Card */}
       {scannerActive && (
-        <div
-          id="qr-reader"
-          className="w-[300px] border-2 border-green-500 rounded-lg"
-        />
+        <div className="max-w-md mx-auto bg-white border border-green-300 rounded-2xl shadow-xl p-6 text-center">
+          <div className="mb-4">
+            <span className="inline-block px-4 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
+              Scanning Active
+            </span>
+          </div>
+
+          <div
+            id="qr-reader"
+            className="mx-auto w-[280px] border-2 border-dashed border-green-400 rounded-xl p-2"
+          />
+
+          <p className="mt-4 text-sm text-gray-500">
+            Align the QR code inside the box
+          </p>
+        </div>
       )}
 
+      {/* Patient Profile */}
       {showProfile && patient && (
-        <PatientProfile
-          patient={patient}
-          onClose={() => {
-            setShowProfile(false);
-            setScannerActive(true);
-          }}
-        />
+        <div className="max-w-6xl mx-auto mt-8">
+          <PatientProfile
+            patient={patient}
+            onClose={() => {
+              setShowProfile(false);
+              setScannerActive(true);
+            }}
+          />
+        </div>
       )}
     </div>
   );

@@ -99,8 +99,8 @@ export const Patientsidebar = () => {
               
             </div>
             <div className="ml-3">
-              <p className="text-xl font-semibold text-gray-900">Paitent</p>
-              <p className="text-lg text-green-500">online</p>
+              <p className="text-lg font-semibold text-gray-900">Patient</p>
+              <p className="text-sm text-green-500">online</p>
             </div>
           </div>
 
