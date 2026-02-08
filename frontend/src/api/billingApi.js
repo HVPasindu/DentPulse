@@ -12,7 +12,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// 📋 Fetch ALL bills
+/* ===================== FETCH ===================== */
 export const fetchInvoices = async () => {
   const res = await api.get("");
   return res.data.map((b) => ({
@@ -21,26 +21,29 @@ export const fetchInvoices = async () => {
     name: b.patientName,
     treatmentType: b.description,
     amount: b.amount,
-    billingStatus: b.status,
-    paymentMethod: b.paymentMethod,
     date: b.billDate,
+    paymentMethod: b.paymentMethod,
   }));
 };
 
-// ➕ Create bill
+/* ===================== CREATE ===================== */
 export const createInvoice = async (invoice) => {
   const res = await api.post("", {
     patientName: invoice.name,
     description: invoice.treatmentType,
     amount: invoice.amount,
-    billDate: invoice.date,
+    billDate: invoice.date, // only here
   });
   return res.data;
 };
 
-// 🗑️ Delete bill
+/* ===================== UPDATE (THIS WAS MISSING / WRONG) ===================== */
+export const updateInvoice = async (id, payload) => {
+  const res = await api.put(`/${id}`, payload);
+  return res.data;
+};
+
+/* ===================== DELETE ===================== */
 export const deleteInvoice = async (id) => {
   await api.delete(`/${id}`);
 };
-// ✅ Mark bill as paid
-

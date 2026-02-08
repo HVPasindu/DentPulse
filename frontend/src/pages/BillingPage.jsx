@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { createInvoice } from "../api/billingApi";
 import { fetchInvoices } from "../api/billingApi";
 import { deleteInvoice } from "../api/billingApi";
-
+import { updateInvoice } from "../api/billingApi";
 
 const BillingPage = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -38,12 +37,19 @@ const BillingPage = () => {
 
   const handleAddInvoice = async (e) => {
     e.preventDefault();
-
+    if (
+      !newInvoice.name ||
+      !newInvoice.treatmentType ||
+      newInvoice.amount <= 0
+    ) {
+      alert("Please fill all required fields");
+      return;
+    }
     try {
       await createInvoice(newInvoice);
       setIsAddInvoiceOpen(false);
 
-      const data = await fetchInvoices(selectedDate);
+      const data = await fetchInvoices();
       setAppointments(data);
 
       setNewInvoice({
@@ -57,19 +63,18 @@ const BillingPage = () => {
     }
   };
 
- useEffect(() => {
-  const loadInvoices = async () => {
-    try {
-      const data = await fetchInvoices();
-      setAppointments(data);
-    } catch (err) {
-      console.error("Failed to load invoices", err);
-    }
-  };
+  useEffect(() => {
+    const loadInvoices = async () => {
+      try {
+        const data = await fetchInvoices();
+        setAppointments(data);
+      } catch (err) {
+        console.error("Failed to load invoices", err);
+      }
+    };
 
-  loadInvoices();
-}, []);
-
+    loadInvoices();
+  }, []);
 
   const totalInvoicesAllTime = appointments.length;
   const filteredInvoices = appointments.filter((appt) => {
@@ -79,16 +84,12 @@ const BillingPage = () => {
     return matchesSearch && appt.date?.split("T")[0] === selectedDate;
   });
 
-  const dailyPaidRevenue = filteredInvoices
-    .filter((a) => a.billingStatus === "Paid")
-    .reduce((sum, appt) => sum + appt.amount, 0);
+  const dailyPaidRevenue = filteredInvoices.reduce(
+    (sum, appt) => sum + appt.amount,
+    0,
+  );
 
-  const dailyPaidCount = filteredInvoices.filter(
-    (a) => a.billingStatus === "Paid",
-  ).length;
-  const dailyPendingAmount = filteredInvoices
-    .filter((a) => a.billingStatus === "Unpaid")
-    .reduce((sum, appt) => sum + appt.amount, 0);
+  const dailyPaidCount = filteredInvoices.length;
 
   return (
     <div className="p-8 bg-green-50 min-h-screen font-sans">
@@ -103,7 +104,7 @@ const BillingPage = () => {
             onClick={() => setIsAddInvoiceOpen(true)}
             className="p-4 bg-green-600 text-white rounded-lg text-lg font-black hover:bg-green-700 hover:scale-110 duration-400 transition"
           >
-            ➕ Add Invoice
+            + Add Invoice
           </button>
         </div>
       </div>
@@ -131,13 +132,6 @@ const BillingPage = () => {
           value={dailyPaidCount}
           symbol="🕒"
           iconBg="bg-green-100"
-        />
-        <StatCard
-          title="Pending Payments"
-          value={`LKR ${dailyPendingAmount.toLocaleString()}`}
-          isNegative
-          symbol="⌛"
-          iconBg="bg-orange-100"
         />
       </div>
 
@@ -253,38 +247,16 @@ const BillingPage = () => {
                         >
                           ✏️ Edit Invoice
                         </button>
-                        {appt.billingStatus === "Unpaid" && (
-                          <button
-                            onClick={async () => {
-                              await markInvoicePaid(appt.id);
-                              setAppointments(
-                                await fetchInvoices(selectedDate),
-                              );
-                              setActiveMenu(null);
-                            }}
-                            className="w-full px-4 py-2 text-xs font-bold text-green-600 hover:bg-green-50 flex items-center gap-2"
-                          >
-                            ✅ Mark as Paid
-                          </button>
-                        )}
 
-                        {appt.billingStatus === "Paid" && (
-                          <button
-                            onClick={async () => {
-                              if (!window.confirm("Delete this invoice?"))
-                                return;
-                              await deleteInvoice(appt.id);
-                              setAppointments(
-                                await fetchInvoices(selectedDate),
-                              );
-                              setActiveMenu(null);
-                            }}
-                            className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 flex items-center gap-2 border-t mt-1"
-                          >
-                            🗑️ Delete
-                          </button>
-                        )}
-                        <button className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 flex items-center gap-2 border-t mt-1">
+                        <button
+                          onClick={async () => {
+                            if (!window.confirm("Delete this invoice?")) return;
+                            await deleteInvoice(appt.id);
+                            setAppointments(await fetchInvoices());
+                            setActiveMenu(null);
+                          }}
+                          className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50"
+                        >
                           🗑️ Delete
                         </button>
                       </div>
@@ -407,9 +379,20 @@ const BillingPage = () => {
                 <h2 className="text-2xl font-bold text-slate-800">
                   {activeAppt.invoiceId}
                 </h2>
-                <p className="text-sm text-slate-500 mt-0.5 font-bold uppercase tracking-widest">
-                  {activeAppt.name}
-                </p>
+                {modalMode === "view" ? (
+                  <p className="text-sm text-slate-500 mt-0.5 font-bold uppercase tracking-widest">
+                    {activeAppt.name}
+                  </p>
+                ) : (
+                  <input
+                    type="text"
+                    value={activeAppt.name}
+                    onChange={(e) =>
+                      setActiveAppt({ ...activeAppt, name: e.target.value })
+                    }
+                    className="mt-1 w-full border border-green-200 rounded-lg p-2 text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-green-400/20"
+                  />
+                )}
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -429,32 +412,6 @@ const BillingPage = () => {
                     <p className="font-bold text-slate-800">
                       {activeAppt.date}
                     </p>
-                  </div>
-                  <div>
-                    <p className="text-slate-400 font-bold uppercase text-[10px] mb-1">
-                      Status
-                    </p>
-                    {modalMode === "view" ? (
-                      <span
-                        className={`px-2 py-0.5 rounded font-black text-[10px] uppercase ${activeAppt.billingStatus === "Paid" ? "bg-green-500 text-white" : "bg-orange-100 text-orange-600"}`}
-                      >
-                        {activeAppt.billingStatus}
-                      </span>
-                    ) : (
-                      <select
-                        value={activeAppt.billingStatus}
-                        onChange={(e) =>
-                          setActiveAppt({
-                            ...activeAppt,
-                            billingStatus: e.target.value,
-                          })
-                        }
-                        className="border border-green-200 rounded px-2 py-1 font-bold text-xs outline-none focus:border-green-500"
-                      >
-                        <option value="Unpaid">Unpaid</option>
-                        <option value="Paid">Paid</option>
-                      </select>
-                    )}
                   </div>
                 </div>
 
@@ -544,7 +501,7 @@ const BillingPage = () => {
                         if (!window.confirm("Delete this invoice?")) return;
                         await deleteInvoice(activeAppt.id);
                         setIsModalOpen(false);
-                        setAppointments(await fetchInvoices(selectedDate));
+                        setAppointments(await fetchInvoices());
                       }}
                       className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50"
                     >
@@ -555,15 +512,22 @@ const BillingPage = () => {
                   <button
                     type="button"
                     onClick={async () => {
-                      if (activeAppt.billingStatus === "Paid") {
-                        await markInvoicePaid(activeAppt.id);
-                        setAppointments(await fetchInvoices(selectedDate));
+                      try {
+                        await updateInvoice(activeAppt.id, {
+                          patientName: activeAppt.name,
+                          description: activeAppt.treatmentType,
+                          amount: activeAppt.amount,
+                        });
+
+                        setAppointments(await fetchInvoices());
+                        setIsModalOpen(false);
+                      } catch (err) {
+                        alert("Failed to update invoice");
                       }
-                      setIsModalOpen(false);
                     }}
                     className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700"
                   >
-                    Update Payment Records
+                    Update Invoice
                   </button>
                 )}
               </div>
