@@ -3,15 +3,30 @@ import { TextAlignJustify } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export function Header() {
   const [helpOpen, setHelpOpen] = useState(false);
+  const helpRef = useRef(null);
 
   const openNewWindow = (url) => {
     window.open(url, "_blank", "noopener,noreferrer");
     setHelpOpen(false);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (helpRef.current && !helpRef.current.contains(event.target)) {
+        setHelpOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const navigate = useNavigate();
 
@@ -50,49 +65,50 @@ export function Header() {
           <HashLink smooth to="/#contact" className="hover:text-green-800 ">
             Contact
           </HashLink>
-          <div className="relative inline-block">
-  <button
-    onClick={() => setHelpOpen(!helpOpen)}
-    className="hover:text-green-800 focus:outline-none"
-  >
-    Help
-  </button>
+          <div ref={helpRef} className="relative inline-block >">
+            <button
+              onClick={() => setHelpOpen(!helpOpen)}
+              className="hover:text-green-800 focus:outline-none"
+            >
+              Help
+            </button>
 
-  {helpOpen && (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0 }}
-      className="absolute top-10 right-0 bg-white border border-green-200 rounded-xl shadow-lg w-56 z-50"
-    >
-     <ul className="flex flex-col py-2 text-green-700 text-base">
-  {[
-    { label: "A Toothache", link: "/help/toothache" },
-    { label: "A Cavity", link: "/help/cavity" },
-    { label: "A Broken Tooth", link: "/help/broken-tooth" },
-    { label: "A Missing Tooth", link: "/help/missing-tooth" },
-    { label: "Discoloured Teeth", link: "/help/discoloured-teeth" },
-    { label: "Sensitive Teeth", link: "/help/sensitive-teeth" },
-    { label: "Bleeding Gums", link: "/help/bleeding-gums" },
-    { label: "Tooth Mobility", link: "/help/tooth-mobility" },
-    { label: "Receding Gum", link: "/help/receding-gum" },
-    { label: "Bad Breath", link: "/help/bad-breath" },
-    { label: "Wisdom Teeth", link: "/help/wisdom-teeth" },
-  ].map((item) => (
-    <li
-      key={item.label}
-      className="px-4 py-2 hover:bg-green-100 cursor-pointer transition"
-      onClick={() => openNewWindow(item.link)}
-    >
-      {item.label}
-    </li>
-  ))}
-</ul>
-
-    </motion.div>
-  )}
-</div>
-
+            {helpOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="absolute top-10 right-0 bg-white border border-green-200 rounded-xl shadow-lg w-56 z-50"
+              >
+                <ul className="flex flex-col py-2 text-green-700 text-base">
+                  {[
+                    { label: "A Toothache", link: "/help/toothache" },
+                    { label: "A Cavity", link: "/help/cavity" },
+                    { label: "A Broken Tooth", link: "/help/broken-tooth" },
+                    { label: "A Missing Tooth", link: "/help/missing-tooth" },
+                    {
+                      label: "Discoloured Teeth",
+                      link: "/help/discoloured-teeth",
+                    },
+                    { label: "Sensitive Teeth", link: "/help/sensitive-teeth" },
+                    { label: "Bleeding Gums", link: "/help/bleeding-gums" },
+                    { label: "Tooth Mobility", link: "/help/tooth-mobility" },
+                    { label: "Receding Gum", link: "/help/receding-gum" },
+                    { label: "Bad Breath", link: "/help/bad-breath" },
+                    { label: "Wisdom Teeth", link: "/help/wisdom-teeth" },
+                  ].map((item) => (
+                    <li
+                      key={item.label}
+                      className="px-4 py-2 hover:bg-green-100 cursor-pointer transition"
+                      onClick={() => openNewWindow(item.link)}
+                    >
+                      {item.label}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            )}
+          </div>
         </nav>
       </div>
       <div className="">
