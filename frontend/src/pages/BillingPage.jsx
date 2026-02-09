@@ -4,6 +4,11 @@ import { fetchInvoices } from "../api/billingApi";
 import { deleteInvoice } from "../api/billingApi";
 import { updateInvoice } from "../api/billingApi";
 
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
+
+
 const BillingPage = () => {
   const today = new Date().toISOString().split("T")[0];
 
@@ -62,6 +67,109 @@ const BillingPage = () => {
       alert("Failed to add invoice");
     }
   };
+
+  const downloadInvoicePdf = (invoice) => {
+  const doc = new jsPDF();
+
+  // ===== COLORS =====
+  const green = "#16a34a";
+  const gray = "#6b7280";
+
+  // ===== HEADER =====
+  doc.setFillColor(22, 163, 74);
+  doc.rect(0, 0, 210, 30, "F");
+
+  doc.setTextColor("#ffffff");
+  doc.setFontSize(18);
+  doc.text("DentPulse Dental Clinic", 14, 18);
+
+  doc.setFontSize(10);
+  doc.text("Professional Dental Care", 14, 24);
+
+  // ===== INVOICE META =====
+  doc.setTextColor("#000000");
+  doc.setFontSize(11);
+
+  doc.text(`Invoice No:`, 140, 38);
+  doc.text(invoice.invoiceId, 170, 38);
+
+  doc.text(`Date:`, 140, 45);
+  doc.text(invoice.date, 170, 45);
+
+  // ===== PATIENT INFO =====
+  doc.setFontSize(12);
+  doc.text("Bill To:", 14, 45);
+
+  doc.setFontSize(11);
+  doc.text(`Patient Name: ${invoice.name}`, 14, 53);
+
+  // ===== LINE =====
+  doc.setDrawColor(200);
+  doc.line(14, 58, 196, 58);
+
+  // ===== TABLE =====
+  autoTable(doc, {
+  startY: 65,
+  head: [["Description", "Amount (LKR)"]],
+  body: [
+    [
+      invoice.treatmentType || "Dental Service",
+      `LKR ${invoice.amount.toLocaleString()}`
+    ]
+  ],
+  theme: "grid",
+  headStyles: {
+    fillColor: [22, 163, 74],
+    textColor: [255, 255, 255],
+    fontStyle: "bold"
+  },
+  styles: {
+    fontSize: 11,
+    cellPadding: 6
+  },
+  columnStyles: {
+    1: { halign: "right" }
+  }
+});
+
+
+  const finalY = doc.lastAutoTable.finalY;
+
+  // ===== TOTAL BOX =====
+  doc.setFillColor(240, 253, 244);
+  doc.rect(120, finalY + 10, 76, 15, "F");
+
+  doc.setFontSize(12);
+  doc.text("Total", 125, finalY + 20);
+  doc.setFont(undefined, "bold");
+  doc.text(
+    `LKR ${invoice.amount.toLocaleString()}`,
+    165,
+    finalY + 20,
+    { align: "right" }
+  );
+
+  // ===== FOOTER =====
+  doc.setFont(undefined, "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(gray);
+
+  doc.text(
+    "Thank you for trusting DentPulse with your smile 🦷",
+    14,
+    finalY + 40
+  );
+
+  doc.text("Authorized Signature:", 14, finalY + 55);
+  doc.line(60, finalY + 55, 120, finalY + 55);
+
+  // ===== SAVE =====
+  doc.save(`${invoice.invoiceId}.pdf`);
+};
+
+
+
+
 
   useEffect(() => {
     const loadInvoices = async () => {
@@ -486,6 +594,7 @@ const BillingPage = () => {
                   <>
                     <button
                       type="button"
+                       onClick={() => downloadInvoicePdf(activeAppt)}
                       className="flex-1 py-2.5 bg-green-600 text-white rounded-lg text-sm font-black flex items-center justify-center gap-2 hover:bg-green-700 transition-colors"
                     >
                       📥 Download
