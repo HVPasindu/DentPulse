@@ -7,8 +7,6 @@ import { updateInvoice } from "../api/billingApi";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-
-
 const BillingPage = () => {
   const today = new Date().toISOString().split("T")[0];
 
@@ -68,108 +66,117 @@ const BillingPage = () => {
     }
   };
 
+  const InvoicePdf = (invoice) => {
+    const doc = new jsPDF();
+
+    // ===== COLORS =====
+    const green = "#16a34a";
+    const gray = "#6b7280";
+
+    // ===== HEADER =====
+    doc.setFillColor(22, 163, 74);
+    doc.rect(0, 0, 210, 30, "F");
+
+    doc.setTextColor("#ffffff");
+    doc.setFontSize(18);
+    doc.text("DentPulse Dental Clinic", 14, 18);
+
+    doc.setFontSize(10);
+    doc.text("Professional Dental Care", 14, 24);
+
+    // ===== INVOICE META =====
+    doc.setTextColor("#000000");
+    doc.setFontSize(11);
+
+    doc.text(`Invoice No:`, 140, 38);
+    doc.text(invoice.invoiceId, 170, 38);
+
+    doc.text(`Date:`, 140, 45);
+    doc.text(invoice.date, 170, 45);
+
+    // ===== PATIENT INFO =====
+    doc.setFontSize(12);
+    doc.text("Bill To:", 14, 45);
+
+    doc.setFontSize(11);
+    doc.text(`Patient Name: ${invoice.name}`, 14, 53);
+
+    // ===== LINE =====
+    doc.setDrawColor(200);
+    doc.line(14, 58, 196, 58);
+
+    // ===== TABLE =====
+    autoTable(doc, {
+      startY: 65,
+      head: [["Description", "Amount (LKR)"]],
+      body: [
+        [
+          invoice.treatmentType || "Dental Service",
+          `LKR ${invoice.amount.toLocaleString()}`,
+        ],
+      ],
+      theme: "grid",
+      headStyles: {
+        fillColor: [22, 163, 74],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+      },
+      styles: {
+        fontSize: 11,
+        cellPadding: 6,
+      },
+      columnStyles: {
+        1: { halign: "right" },
+      },
+    });
+
+    const finalY = doc.lastAutoTable.finalY;
+
+    // ===== TOTAL BOX =====
+    doc.setFillColor(240, 253, 244);
+    doc.rect(120, finalY + 10, 76, 15, "F");
+
+    doc.setFontSize(12);
+    doc.text("Total", 125, finalY + 20);
+    doc.setFont(undefined, "bold");
+    doc.text(`LKR ${invoice.amount.toLocaleString()}`, 165, finalY + 20, {
+      align: "right",
+    });
+
+    // ===== FOOTER =====
+    doc.setFont(undefined, "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(gray);
+
+    doc.text(
+      "Thank you for trusting DentPulse with your smile 🦷",
+      14,
+      finalY + 40,
+    );
+
+    doc.text("Authorized Signature:", 14, finalY + 55);
+    doc.line(60, finalY + 55, 120, finalY + 55);
+
+    // ===== SAVE =====
+    return doc;
+  };
+
   const downloadInvoicePdf = (invoice) => {
-  const doc = new jsPDF();
+    const doc = InvoicePdf(invoice);
+    doc.save(`${invoice.invoiceId}.pdf`);
+  };
+  const printInvoicePdf = (invoice) => {
+    const doc = InvoicePdf(invoice);
 
-  // ===== COLORS =====
-  const green = "#16a34a";
-  const gray = "#6b7280";
+    const pdfBlob = doc.output("blob");
+    const blobUrl = URL.createObjectURL(pdfBlob);
 
-  // ===== HEADER =====
-  doc.setFillColor(22, 163, 74);
-  doc.rect(0, 0, 210, 30, "F");
-
-  doc.setTextColor("#ffffff");
-  doc.setFontSize(18);
-  doc.text("DentPulse Dental Clinic", 14, 18);
-
-  doc.setFontSize(10);
-  doc.text("Professional Dental Care", 14, 24);
-
-  // ===== INVOICE META =====
-  doc.setTextColor("#000000");
-  doc.setFontSize(11);
-
-  doc.text(`Invoice No:`, 140, 38);
-  doc.text(invoice.invoiceId, 170, 38);
-
-  doc.text(`Date:`, 140, 45);
-  doc.text(invoice.date, 170, 45);
-
-  // ===== PATIENT INFO =====
-  doc.setFontSize(12);
-  doc.text("Bill To:", 14, 45);
-
-  doc.setFontSize(11);
-  doc.text(`Patient Name: ${invoice.name}`, 14, 53);
-
-  // ===== LINE =====
-  doc.setDrawColor(200);
-  doc.line(14, 58, 196, 58);
-
-  // ===== TABLE =====
-  autoTable(doc, {
-  startY: 65,
-  head: [["Description", "Amount (LKR)"]],
-  body: [
-    [
-      invoice.treatmentType || "Dental Service",
-      `LKR ${invoice.amount.toLocaleString()}`
-    ]
-  ],
-  theme: "grid",
-  headStyles: {
-    fillColor: [22, 163, 74],
-    textColor: [255, 255, 255],
-    fontStyle: "bold"
-  },
-  styles: {
-    fontSize: 11,
-    cellPadding: 6
-  },
-  columnStyles: {
-    1: { halign: "right" }
-  }
-});
-
-
-  const finalY = doc.lastAutoTable.finalY;
-
-  // ===== TOTAL BOX =====
-  doc.setFillColor(240, 253, 244);
-  doc.rect(120, finalY + 10, 76, 15, "F");
-
-  doc.setFontSize(12);
-  doc.text("Total", 125, finalY + 20);
-  doc.setFont(undefined, "bold");
-  doc.text(
-    `LKR ${invoice.amount.toLocaleString()}`,
-    165,
-    finalY + 20,
-    { align: "right" }
-  );
-
-  // ===== FOOTER =====
-  doc.setFont(undefined, "normal");
-  doc.setFontSize(10);
-  doc.setTextColor(gray);
-
-  doc.text(
-    "Thank you for trusting DentPulse with your smile 🦷",
-    14,
-    finalY + 40
-  );
-
-  doc.text("Authorized Signature:", 14, finalY + 55);
-  doc.line(60, finalY + 55, 120, finalY + 55);
-
-  // ===== SAVE =====
-  doc.save(`${invoice.invoiceId}.pdf`);
-};
-
-
-
-
+    const printWindow = window.open(blobUrl);
+    printWindow.onload = () => {
+      printWindow.focus();
+      printWindow.print();
+    };
+  };
 
   useEffect(() => {
     const loadInvoices = async () => {
@@ -322,53 +329,60 @@ const BillingPage = () => {
                     LKR {appt.amount.toLocaleString()}
                   </td>
 
-                  <td className="px-6 py-4 text-right relative">
-                    <button
-                      onClick={() =>
-                        setActiveMenu(activeMenu === appt.id ? null : appt.id)
-                      }
-                      className="text-slate-400 hover:text-green-600 font-bold text-lg px-2"
-                    >
-                      •••
-                    </button>
-                    {activeMenu === appt.id && (
-                      <div className="absolute right-6 top-12 w-48 bg-white border border-green-100 rounded-xl shadow-xl z-10 py-1 text-left overflow-hidden animate-in fade-in slide-in-from-top-1 duration-150">
-                        <button
-                          onClick={() => {
-                            setActiveAppt(appt);
-                            setModalMode("view");
-                            setIsModalOpen(true);
-                            setActiveMenu(null);
-                          }}
-                          className="w-full px-4 py-2 text-xs font-bold text-slate-600 hover:bg-green-50 flex items-center gap-2"
-                        >
-                          👁️ View Details
-                        </button>
-                        <button
-                          onClick={() => {
-                            setActiveAppt(appt);
-                            setModalMode("edit");
-                            setIsModalOpen(true);
-                            setActiveMenu(null);
-                          }}
-                          className="w-full px-4 py-2 text-xs font-bold text-slate-600 hover:bg-green-50 flex items-center gap-2"
-                        >
-                          ✏️ Edit Invoice
-                        </button>
+                  <td className="px-6 py-4">
+                    <div className="flex justify-end gap-2">
+                      {/* View */}
+                      <button
+                        onClick={() => {
+                          setActiveAppt(appt);
+                          setModalMode("view");
+                          setIsModalOpen(true);
+                        }}
+                        className="px-3 py-1 text-xs font-bold text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50"
+                      >
+                        View
+                      </button>
 
-                        <button
-                          onClick={async () => {
-                            if (!window.confirm("Delete this invoice?")) return;
-                            await deleteInvoice(appt.id);
-                            setAppointments(await fetchInvoices());
-                            setActiveMenu(null);
-                          }}
-                          className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50"
-                        >
-                          🗑️ Delete
-                        </button>
-                      </div>
-                    )}
+                      {/* Edit */}
+                      <button
+                        onClick={() => {
+                          setActiveAppt(appt);
+                          setModalMode("edit");
+                          setIsModalOpen(true);
+                        }}
+                        className="px-3 py-1 text-xs font-bold text-amber-600 border border-amber-200 rounded-lg hover:bg-amber-50"
+                      >
+                        Edit
+                      </button>
+
+                      {/* Download */}
+                      <button
+                        onClick={() => downloadInvoicePdf(appt)}
+                        className="px-3 py-1 text-xs font-bold text-green-600 border border-green-200 rounded-lg hover:bg-green-50"
+                      >
+                        PDF
+                      </button>
+
+                      {/* Print */}
+                      <button
+                        onClick={() => printInvoicePdf(appt)}
+                        className="px-3 py-1 text-xs font-bold text-slate-700 border border-slate-200 rounded-lg hover:bg-slate-100"
+                      >
+                        Print
+                      </button>
+
+                      {/* Delete */}
+                      <button
+                        onClick={async () => {
+                          if (!window.confirm("Delete this invoice?")) return;
+                          await deleteInvoice(appt.id);
+                          setAppointments(await fetchInvoices());
+                        }}
+                        className="px-3 py-1 text-xs font-bold text-red-600 border border-red-200 rounded-lg hover:bg-red-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -594,14 +608,15 @@ const BillingPage = () => {
                   <>
                     <button
                       type="button"
-                       onClick={() => downloadInvoicePdf(activeAppt)}
-                      className="flex-1 py-2.5 bg-green-600 text-white rounded-lg text-sm font-black flex items-center justify-center gap-2 hover:bg-green-700 transition-colors"
+                      onClick={() => downloadInvoicePdf(activeAppt)}
+                      className="flex-1 p-2.5 bg-green-600 text-white rounded-lg text-sm font-black flex items-center justify-center gap-2 hover:bg-green-700 transition-colors"
                     >
                       📥 Download
                     </button>
                     <button
                       type="button"
-                      className="flex-1 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-black flex items-center justify-center gap-2 hover:bg-slate-50"
+                      className="flex-1 p-2.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-black flex items-center justify-center gap-2 hover:bg-slate-50"
+                      onClick={() => printInvoicePdf(activeAppt)}
                     >
                       🖨️ Print
                     </button>
