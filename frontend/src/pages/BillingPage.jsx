@@ -3,10 +3,9 @@ import { createInvoice } from "../api/billingApi";
 import { fetchInvoices } from "../api/billingApi";
 import { deleteInvoice } from "../api/billingApi";
 import { updateInvoice } from "../api/billingApi";
-import {errorAlert} from  "../utils/alert";
+import { errorAlert, confirmAction, successAlert } from "../utils/alert";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-
 
 const BillingPage = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -49,8 +48,16 @@ const BillingPage = () => {
       errorAlert("Please fill in all fields with valid values");
       return;
     }
+    const result = await confirmAction({
+      title: "Create Invoice?",
+      text: "Do you want to add this invoice?",
+      confirmText: "Yes, add",
+    });
+
+    if (!result.isConfirmed) return;
     try {
       await createInvoice(newInvoice);
+      successAlert("Invoice created successfully");
       setIsAddInvoiceOpen(false);
 
       const data = await fetchInvoices();
@@ -375,8 +382,17 @@ const BillingPage = () => {
                       {/* Delete */}
                       <button
                         onClick={async () => {
-                          if (!window.confirm("Delete this invoice?")) return;
+                          const result = await confirmAction({
+                            title: "Delete Invoice?",
+                            text: "This action cannot be undone!",
+                            confirmText: "Delete",
+                            icon: "warning",
+                          });
+
+                          if (!result.isConfirmed) return;
+
                           await deleteInvoice(appt.id);
+                          successAlert("Invoice deleted");
                           setAppointments(await fetchInvoices());
                         }}
                         className="px-3 py-1 text-xs font-bold text-red-600 border border-red-200 rounded-lg hover:bg-red-50"
@@ -615,9 +631,21 @@ const BillingPage = () => {
                       📥 Download
                     </button>
                     <button
-                      type="button"
-                      className="flex-1 p-2.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-black flex items-center justify-center gap-2 hover:bg-slate-50"
-                      onClick={() => printInvoicePdf(activeAppt)}
+                      onClick={async () => {
+                        const result = await confirmAction({
+                          title: "Delete Invoice?",
+                          text: "This action cannot be undone!",
+                          confirmText: "Delete",
+                          icon: "warning",
+                        });
+
+                        if (!result.isConfirmed) return;
+
+                        await deleteInvoice(activeAppt.id);
+                        successAlert("Invoice deleted");
+                        setAppointments(await fetchInvoices());
+                      }}
+                      className="px-3 py-1 text-xs font-bold text-red-600 border border-red-200 rounded-lg hover:bg-red-50"
                     >
                       🖨️ Print
                     </button>
@@ -637,6 +665,14 @@ const BillingPage = () => {
                   <button
                     type="button"
                     onClick={async () => {
+                      const result = await confirmAction({
+                        title: "Update Invoice?",
+                        text: "Save changes to this invoice?",
+                        confirmText: "Yes, update",
+                      });
+
+                      if (!result.isConfirmed) return;
+
                       try {
                         await updateInvoice(activeAppt.id, {
                           patientName: activeAppt.name,
@@ -644,10 +680,11 @@ const BillingPage = () => {
                           amount: activeAppt.amount,
                         });
 
+                        successAlert("Invoice updated");
                         setAppointments(await fetchInvoices());
                         setIsModalOpen(false);
-                      } catch (err) {
-                        alert("Failed to update invoice");
+                      } catch {
+                        errorAlert("Failed to update invoice");
                       }
                     }}
                     className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700"
