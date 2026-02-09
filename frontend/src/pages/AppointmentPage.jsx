@@ -89,13 +89,7 @@ const [error, setError] = useState("");
       id: `APT-${Math.floor(1000 + Math.random() * 9000)}`,
     };
     setAppointments([...appointments, newEntry]);
-    Swal.fire({
-      title: "Success!",
-      text: "Appointment saved permanently!",
-      icon: "success",
-      confirmButtonText: "OK",
-      confirmButtonColor: "#10b981",
-    });
+    alert("Appointment saved permanently!");
     closePopup();
   };
 
@@ -105,13 +99,7 @@ const [error, setError] = useState("");
       appt.id === formData.id ? { ...appt, ...formData } : appt
     );
     setAppointments(updatedList);
-    Swal.fire({
-      title: "Updated!",
-      text: "Appointment updated!",
-      icon: "success",
-      confirmButtonText: "OK",
-      confirmButtonColor: "#10b981",
-    });
+    alert("Appointment updated!");
     closePopup();
   };
 

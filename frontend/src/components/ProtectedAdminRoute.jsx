@@ -7,7 +7,6 @@ const ProtectedAdminRoute = ({ children }) => {
   if (!token || role !== "ADMIN") {
     return <Navigate to="/login" />;
   }
-  
 
   return children;
 };
