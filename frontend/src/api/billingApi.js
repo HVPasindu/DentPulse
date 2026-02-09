@@ -26,7 +26,7 @@ export const fetchInvoices = async () => {
   }));
 };
 
-/* ===================== CREATE ===================== */
+
 export const createInvoice = async (invoice) => {
   const res = await api.post("", {
     patientName: invoice.name,
@@ -37,7 +37,7 @@ export const createInvoice = async (invoice) => {
   return res.data;
 };
 
-/* ===================== UPDATE (THIS WAS MISSING / WRONG) ===================== */
+
 export const updateInvoice = async (id, payload) => {
   const res = await api.put(`/${id}`, payload);
   return res.data;

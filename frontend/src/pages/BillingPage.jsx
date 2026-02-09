@@ -3,9 +3,10 @@ import { createInvoice } from "../api/billingApi";
 import { fetchInvoices } from "../api/billingApi";
 import { deleteInvoice } from "../api/billingApi";
 import { updateInvoice } from "../api/billingApi";
-
+import {errorAlert} from  "../utils/alert";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+
 
 const BillingPage = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -15,7 +16,7 @@ const BillingPage = () => {
   const [selectedDate, setSelectedDate] = useState(today);
 
   // UI States
-  const [activeMenu, setActiveMenu] = useState(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("view");
   const [activeAppt, setActiveAppt] = useState(null);
@@ -45,7 +46,7 @@ const BillingPage = () => {
       !newInvoice.treatmentType ||
       newInvoice.amount <= 0
     ) {
-      alert("Please fill all required fields");
+      errorAlert("Please fill in all fields with valid values");
       return;
     }
     try {
@@ -62,7 +63,7 @@ const BillingPage = () => {
         amount: 0,
       });
     } catch (err) {
-      alert("Failed to add invoice");
+      errorAlert("Failed to create invoice");
     }
   };
 
