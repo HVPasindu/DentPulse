@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Plus, Package, AlertTriangle } from 'lucide-react'
+import Swal from 'sweetalert2'
 import StatsCard from '../Admin/StatsCard'
 import SearchBar from '../Admin/SearchBar'
 import InventoryTable from '../Admin/InventoryTable'
@@ -161,20 +162,51 @@ export default function InventoryDashboard() {
           item.id === editingItem.id ? { ...item, ...formData } : item,
         ),
       )
+      Swal.fire({
+        title: "Updated!",
+        text: "Item updated successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#16a34a",
+      })
     } else {
       const newItem = {
         id: Math.max(...inventoryData.map((i) => i.id), 0) + 1,
         ...formData,
       }
       setInventoryData([...inventoryData, newItem])
+      Swal.fire({
+        title: "Success!",
+        text: "Item added successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#16a34a",
+      })
     }
     setIsDialogOpen(false)
   }
 
   const handleDelete = (id) => {
-    if (confirm('Are you sure you want to delete this item?')) {
-      setInventoryData(inventoryData.filter((item) => item.id !== id))
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setInventoryData(inventoryData.filter((item) => item.id !== id))
+        Swal.fire({
+          title: "Deleted!",
+          text: "Item has been deleted.",
+          icon: "success",
+          confirmButtonColor: "#16a34a",
+        })
+      }
+    })
   }
 
   useEffect(() => {

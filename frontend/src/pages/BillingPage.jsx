@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import { createInvoice } from "../api/billingApi";
 import { fetchInvoices } from "../api/billingApi";
 import { deleteInvoice } from "../api/billingApi";
@@ -75,6 +76,53 @@ const BillingPage = () => {
 
     loadInvoices();
   }, []);
+
+  const updateLocalStorage = (updatedList) => {
+    setAppointments(updatedList);
+    localStorage.setItem("app_appointments", JSON.stringify(updatedList));
+  };
+
+  const toggleStatus = (id) => {
+    const updated = appointments.map((appt) => {
+      if (appt.id === id && appt.billingStatus === "Unpaid") {
+        return { ...appt, billingStatus: "Paid" };
+      }
+      return appt;
+    });
+    updateLocalStorage(updated);
+  };
+
+  const toggleMethod = (id) => {
+    const updated = appointments.map((appt) => {
+      if (appt.id === id) {
+        return { ...appt, paymentMethod: appt.paymentMethod === "Cash" ? "Card" : "Cash" };
+      }
+      return appt;
+    });
+    updateLocalStorage(updated);
+  };
+
+  const handleUpdateDetails = (e) => {
+    e.preventDefault();
+    if (!activeAppt) return;
+    const exists = appointments.some((appt) => appt.id === activeAppt.id);
+    if (exists) {
+      const updated = appointments.map((appt) =>
+        appt.id === activeAppt.id ? { ...activeAppt } : appt
+      );
+      updateLocalStorage(updated);
+    } else {
+      updateLocalStorage([...appointments, activeAppt]);
+    }
+    Swal.fire({
+      title: "Updated!",
+      text: "Invoice updated successfully!",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#16a34a",
+    });
+    setIsModalOpen(false);
+  };
 
   const totalInvoicesAllTime = appointments.length;
   const filteredInvoices = appointments.filter((appt) => {

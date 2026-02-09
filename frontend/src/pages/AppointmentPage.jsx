@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Eye, Edit } from "lucide-react"; 
+import { Eye, Edit } from "lucide-react";
+import Swal from "sweetalert2";
 import WelcomeHeader from "../Admin/WelcomeHeader";
 import SummarySection from "../Admin/SummarySection";
 //import { fetchAllAppointments } from "../api/adminAppointmentApi";

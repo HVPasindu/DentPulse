@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import Swal from 'sweetalert2';
 
 const AddPatientModal = ({ onClose, onAdd }) => {
   const [formData, setFormData] = useState({
@@ -32,6 +33,13 @@ const AddPatientModal = ({ onClose, onAdd }) => {
       formData.age = age;
     }
     onAdd(formData);
+    Swal.fire({
+      title: "Success!",
+      text: "Patient added successfully!",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#2563eb",
+    });
   };
 
   // Logic to check if patient is under 16 based on DOB
