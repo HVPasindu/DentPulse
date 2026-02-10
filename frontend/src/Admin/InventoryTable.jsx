@@ -1,6 +1,12 @@
 import { Edit, Trash2, AlertTriangle, Package } from 'lucide-react'
 
 export default function InventoryTable({ items, onEdit, onDelete }) {
+  const categoryTotals = items.reduce((acc, it) => {
+    const qty = Number(it.quantity) || 0
+    acc[it.category] = (acc[it.category] || 0) + qty
+    return acc
+  }, {})
+
   return (
     <div className="overflow-x-auto rounded-xl shadow-sm border border-green-100 bg-white">
       <table className="w-full table-auto">
@@ -19,7 +25,10 @@ export default function InventoryTable({ items, onEdit, onDelete }) {
         <tbody className="divide-y divide-green-50">
           {items.length > 0 ? (
             items.map((item) => {
-              const isLowStock = item.quantity < item.minStock
+              const catTotal = categoryTotals[item.category] ?? 0
+              const isCategoryEmpty = catTotal === 0
+              const isOutOfStock = isCategoryEmpty || Number(item.quantity) === 0
+              const isLowStock = !isOutOfStock && item.quantity < item.minStock
               return (
                 <tr
                   key={item.id}
@@ -45,14 +54,19 @@ export default function InventoryTable({ items, onEdit, onDelete }) {
                     <div className="text-sm text-slate-400 font-bold">{item.minStock}</div>
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {isLowStock ? (
+                    {isOutOfStock ? (
+                      <span className="inline-flex items-center gap-1 rounded-md bg-slate-200 px-2 py-1 text-[10px] font-black text-slate-700 uppercase border border-slate-300">
+                        <AlertTriangle className="h-3 w-3" />
+                        Out of Stock
+                      </span>
+                    ) : isLowStock ? (
                       <span className="inline-flex items-center gap-1 rounded-md bg-red-100 px-2 py-1 text-[10px] font-black text-red-700 uppercase border border-red-200">
                         <AlertTriangle className="h-3 w-3" />
-                        Low Stock
+                        Limited
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1 rounded-md bg-green-500 px-2 py-1 text-[10px] font-black text-white uppercase border border-green-600">
-                        In Stock
+                        Available
                       </span>
                     )}
                   </td>

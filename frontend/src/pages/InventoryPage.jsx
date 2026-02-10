@@ -119,6 +119,9 @@ export default function InventoryDashboard() {
 
   // Calculate total inventory value
   const totalValue = inventoryData.reduce((sum, item) => sum + item.quantity * item.price, 0)
+ 
+  // Calculate out of stock items (quantity === 0)
+  const outOfStockCount = inventoryData.filter((item) => Number(item.quantity) === 0).length
 
   const handleAddItem = () => {
     setEditingItem(null)
@@ -236,7 +239,7 @@ export default function InventoryDashboard() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           <StatsCard
             title="Total Items"
             value={inventoryData.length}
@@ -250,6 +253,13 @@ export default function InventoryDashboard() {
             icon={AlertTriangle}
             color="red"
             subtitle="Require restocking"
+          />
+          <StatsCard
+            title="Out of Stock"
+            value={outOfStockCount}
+            icon={AlertTriangle}
+            color="gray"
+            subtitle="No units available"
           />
           <StatsCard
             title="Total Value"

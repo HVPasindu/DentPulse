@@ -1,7 +1,35 @@
 import { X } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formData, onFormChange }) {
+  // Local state to track validation errors
+  const [errors, setErrors] = useState({})
+
+  // Reset errors when the dialog opens or closes
+  useEffect(() => {
+    setErrors({})
+  }, [isOpen])
+
   if (!isOpen) return null
+
+  const validate = () => {
+    const newErrors = {}
+    if (!formData.name?.trim()) newErrors.name = "Item name is required"
+    if (!formData.sku?.trim()) newErrors.sku = "SKU is required"
+    if (!formData.category?.trim()) newErrors.category = "Category is required"
+    if (formData.quantity < 0) newErrors.quantity = "Cannot be negative"
+    if (formData.minStock < 0) newErrors.minStock = "Cannot be negative"
+    if (formData.price <= 0) newErrors.price = "Price must be greater than 0"
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSaveAttempt = () => {
+    if (validate()) {
+      onSave()
+    }
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -31,6 +59,7 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
         </div>
 
         <div className="mt-6 space-y-4">
+          {/* Item Name */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-slate-700">
               Item Name
@@ -41,10 +70,12 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
               value={formData.name}
               onChange={(e) => onFormChange('name', e.target.value)}
               placeholder="e.g., Dental Gloves"
-              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className={`mt-1 w-full rounded-lg border ${errors.name ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'} bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
             />
+            {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
           </div>
 
+          {/* SKU */}
           <div>
             <label htmlFor="sku" className="block text-sm font-medium text-slate-700">
               SKU
@@ -55,10 +86,12 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
               value={formData.sku}
               onChange={(e) => onFormChange('sku', e.target.value)}
               placeholder="e.g., DG-001"
-              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className={`mt-1 w-full rounded-lg border ${errors.sku ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'} bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
             />
+            {errors.sku && <p className="mt-1 text-xs text-red-500">{errors.sku}</p>}
           </div>
 
+          {/* Category */}
           <div>
             <label htmlFor="category" className="block text-sm font-medium text-slate-700">
               Category
@@ -69,11 +102,13 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
               value={formData.category}
               onChange={(e) => onFormChange('category', e.target.value)}
               placeholder="e.g., PPE"
-              className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className={`mt-1 w-full rounded-lg border ${errors.category ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'} bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
             />
+            {errors.category && <p className="mt-1 text-xs text-red-500">{errors.category}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
+            {/* Quantity */}
             <div>
               <label htmlFor="quantity" className="block text-sm font-medium text-slate-700">
                 Quantity
@@ -81,11 +116,15 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
               <input
                 id="quantity"
                 type="number"
+                min={0}
+                step={1}
                 value={formData.quantity}
-                onChange={(e) => onFormChange('quantity', Number(e.target.value))}
-                className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                onChange={(e) => onFormChange('quantity', Math.max(0, Number(e.target.value))) }
+                className={`mt-1 w-full rounded-lg border ${errors.quantity ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'} bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
               />
+              {errors.quantity && <p className="mt-1 text-xs text-red-500">{errors.quantity}</p>}
             </div>
+            {/* Min Stock */}
             <div>
               <label htmlFor="minStock" className="block text-sm font-medium text-slate-700">
                 Min Stock
@@ -93,14 +132,18 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
               <input
                 id="minStock"
                 type="number"
+                min={0}
+                step={1}
                 value={formData.minStock}
-                onChange={(e) => onFormChange('minStock', Number(e.target.value))}
-                className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                onChange={(e) => onFormChange('minStock', Math.max(0, Number(e.target.value))) }
+                className={`mt-1 w-full rounded-lg border ${errors.minStock ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'} bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
               />
+              {errors.minStock && <p className="mt-1 text-xs text-red-500">{errors.minStock}</p>}
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
+            {/* Unit */}
             <div>
               <label htmlFor="unit" className="block text-sm font-medium text-slate-700">
                 Unit
@@ -114,18 +157,21 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
                 className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               />
             </div>
+            {/* Price */}
             <div>
               <label htmlFor="price" className="block text-sm font-medium text-slate-700">
-                Price ($)
+                Price (LKR)
               </label>
               <input
                 id="price"
                 type="number"
-                step="0.01"
+                min={0}
+                step="1"
                 value={formData.price}
-                onChange={(e) => onFormChange('price', Number(e.target.value))}
-                className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                onChange={(e) => onFormChange('price', Math.max(0, Number(e.target.value))) }
+                className={`mt-1 w-full rounded-lg border ${errors.price ? 'border-red-500 ring-1 ring-red-500' : 'border-slate-300'} bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
               />
+              {errors.price && <p className="mt-1 text-xs text-red-500">{errors.price}</p>}
             </div>
           </div>
         </div>
@@ -138,8 +184,8 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
             Cancel
           </button>
           <button
-            onClick={onSave}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+            onClick={handleSaveAttempt}
+            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 cursor-pointer"
           >
             {editingItem ? 'Update Item' : 'Add Item'}
           </button>
