@@ -64,7 +64,7 @@ const DashboardQuickActions = ({ summary }) => {
     },
     {
       name: "Inventory Items",
-      value: summary.inventoryItems,
+      value: summary.inventoryItems || 0,
       description: "Total item types",
       icon: Package,
       bgColor: "bg-orange-100",

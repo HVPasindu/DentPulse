@@ -1,19 +1,83 @@
 import { X, Save } from 'lucide-react'
+import Swal from 'sweetalert2'
 
 export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formData, onFormChange }) {
   if (!isOpen) return null;
 
-  // Function to handle the save click to prevent default form behavior
+  // Helper: check if category is Medicine
+  const isMedicine = (formData.category === 'Medicine');
+
   const handleSaveClick = (e) => {
     e.preventDefault();
-    onSave();
+
+    const requiredFields = [
+      { key: 'name', label: 'Item Name' },
+      { key: 'sku', label: 'SKU' },
+      { key: 'category', label: 'Category' },
+      { key: 'quantity', label: 'Quantity' },
+      { key: 'minStock', label: 'Min Stock Level' },
+      { key: 'price', label: 'Price' },
+      { key: 'brand', label: 'Brand' },
+      { key: 'expiryDate', label: 'Expiry Date' }
+    ];
+    if (isMedicine) {
+      requiredFields.push({ key: 'dosage', label: 'Dosage' });
+    }
+
+    for (const field of requiredFields) {
+      const value = formData[field.key];
+      // Check if value is null, undefined, or an empty string
+      if (value === undefined || value === null || value.toString().trim() === "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Missing Field',
+          text: `${field.label} is required.`,
+          confirmButtonColor: '#22c55e',
+        });
+        return;
+      }
+    }
+    // --- END OF VALIDATION ---
+
+    const quantity = Math.max(0, parseInt(formData.quantity) || 0);
+    const minStock = Math.max(0, parseInt(formData.minStock) || 0);
+    const price = Math.max(0, parseFloat(formData.price) || 0);
+
+    let expiryDate = formData.expiryDate || '';
+    if (expiryDate) {
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const selected = new Date(expiryDate);
+      selected.setHours(0,0,0,0);
+      if (selected < today) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Expiry Date',
+          text: 'Expiry date cannot be before today.',
+          confirmButtonColor: '#22c55e',
+        });
+        return;
+      }
+    }
+
+    const cleanedData = {
+      ...formData,
+      quantity,
+      minStock,
+      price,
+      medicineId: formData.medicineId ? parseInt(formData.medicineId) : null,
+      medicineStatus: formData.medicineStatus || 'AVAILABLE',
+      expiryDate,
+      dosage: isMedicine ? (formData.dosage || '') : null
+    };
+
+    onSave(cleanedData); 
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
       <div className="w-full max-w-2xl rounded-2xl bg-white shadow-2xl animate-in fade-in zoom-in duration-200 overflow-hidden">
         
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 p-6">
           <div>
             <h2 className="text-xl font-bold text-slate-800">{editingItem ? 'Edit Item' : 'Add New Item'}</h2>
@@ -24,12 +88,11 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
           </button>
         </div>
 
-        {/* Form Body */}
         <div className="p-6 overflow-y-auto max-h-[70vh]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             
             <div className="md:col-span-2 space-y-1">
-              <label className="text-[10px] font-black uppercase text-slate-500">Item Name</label>
+              <label className="text-[10px] font-black uppercase text-slate-500">Item Name *</label>
               <input
                 type="text"
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-800 focus:border-green-500 focus:outline-none transition-all"
@@ -40,7 +103,7 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-black uppercase text-slate-500">SKU</label>
+              <label className="text-[10px] font-black uppercase text-slate-500">SKU *</label>
               <input
                 type="text"
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold font-mono text-slate-800 focus:border-green-500 focus:outline-none"
@@ -51,7 +114,7 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-black uppercase text-slate-500">Category</label>
+              <label className="text-[10px] font-black uppercase text-slate-500">Category *</label>
               <select
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-800 focus:border-green-500 focus:outline-none"
                 value={formData.category || ''}
@@ -64,39 +127,55 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
                 <option value="Equipment">Equipment</option>
               </select>
             </div>
+            {/* Dosage field only for Medicine */}
+            {isMedicine && (
+              <div className="space-y-1">
+                <label className="text-[10px] font-black uppercase text-slate-500">Dosage *</label>
+                <input
+                  type="text"
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-800 focus:border-green-500 focus:outline-none"
+                  value={formData.dosage || ''}
+                  onChange={(e) => onFormChange('dosage', e.target.value)}
+                  placeholder="e.g., 500mg, 1 tablet"
+                />
+              </div>
+            )}
 
             <div className="space-y-1">
-              <label className="text-[10px] font-black uppercase text-slate-500">Quantity</label>
+              <label className="text-[10px] font-black uppercase text-slate-500">Quantity *</label>
               <input
                 type="number"
+                min="0"
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-800 focus:border-green-500 focus:outline-none"
                 value={formData.quantity || 0}
-                onChange={(e) => onFormChange('quantity', parseInt(e.target.value) || 0)}
+                onChange={(e) => onFormChange('quantity', e.target.value)}
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-black uppercase text-slate-500">Min Stock Level</label>
+              <label className="text-[10px] font-black uppercase text-slate-500">Min Stock Level *</label>
               <input
                 type="number"
+                min="0"
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-800 focus:border-green-500 focus:outline-none"
                 value={formData.minStock || 0}
-                onChange={(e) => onFormChange('minStock', parseInt(e.target.value) || 0)}
+                onChange={(e) => onFormChange('minStock', e.target.value)}
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-black uppercase text-slate-500">Price (LKR)</label>
+              <label className="text-[10px] font-black uppercase text-slate-500">Price (LKR) *</label>
               <input
                 type="number"
+                min="0"
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-800 focus:border-green-500 focus:outline-none"
                 value={formData.price || 0}
-                onChange={(e) => onFormChange('price', parseFloat(e.target.value) || 0)}
+                onChange={(e) => onFormChange('price', e.target.value)}
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-black uppercase text-slate-500">Unit</label>
+              <label className="text-[10px] font-black uppercase text-slate-500">Unit (Optional)</label>
               <input
                 type="text"
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-800 focus:border-green-500 focus:outline-none"
@@ -106,9 +185,8 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
               />
             </div>
 
-            {/* Always show Brand and Expiry to avoid state initialization issues */}
             <div className="space-y-1">
-              <label className="text-[10px] font-black uppercase text-slate-500">Brand</label>
+              <label className="text-[10px] font-black uppercase text-slate-500">Brand *</label>
               <input
                 type="text"
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-800 focus:border-green-500 focus:outline-none"
@@ -119,9 +197,10 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-black uppercase text-slate-500">Expiry Date</label>
+              <label className="text-[10px] font-black uppercase text-slate-500">Expiry Date *</label>
               <input
                 type="date"
+                min={new Date().toISOString().split('T')[0]}
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-800 focus:border-green-500 focus:outline-none"
                 value={formData.expiryDate || ''}
                 onChange={(e) => onFormChange('expiryDate', e.target.value)}
@@ -130,7 +209,6 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
           </div>
         </div>
 
-        {/* Footer Actions */}
         <div className="flex items-center justify-end gap-3 border-t border-slate-100 p-6 bg-slate-50/50">
           <button 
             type="button"

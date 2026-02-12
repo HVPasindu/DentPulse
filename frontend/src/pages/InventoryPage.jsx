@@ -55,7 +55,12 @@ export default function InventoryDashboard() {
         fetchInventoryStats()
       ]);
       setInventoryData(inventoryRes.data);
-      setStats(statsRes.data);
+      setStats({
+      totalItems: statsRes.data.totalItems || 0,
+      lowStockCount: statsRes.data.lowStockCount || 0,
+      outOfStockCount: statsRes.data.outOfStockCount || 0,
+      totalValue: statsRes.data.totalValue || 0
+    });
     } catch (error) {
       console.error("Error fetching inventory data:", error);
     }
