@@ -1,41 +1,14 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Essential for the redirect logic
 
 import DashboardQuickActions from "../Admin/DashboardQuickActions";
 import DashboardRecentAppointments from "../Admin/DashboardRecentAppoinments";
 
-/*
-====================================================
-OLD VERSION (COMMENTED – DO NOT DELETE)
-----------------------------------------------------
-Previously this dashboard:
-- Did NOT fetch backend data
-- Rendered DashboardQuickActions and
-  DashboardRecentAppointments without props
-- Stats and appointments were calculated elsewhere
-
-<DashboardQuickActions />
-<DashboardRecentAppointments />
-====================================================
-*/
-
-/*
-====================================================
-NEW VERSION (BACKEND-CONNECTED)
-----------------------------------------------------
-This dashboard now:
-- Calls admin dashboard summary API ONCE
-- Stores result in `summary` state
-- Passes data down to child components
-====================================================
-*/
-
-//import admin dashboard API
+// import admin dashboard API
 import { getAdminDashboardSummary } from "../api/adminDashboardApi";
 
 export default function DashboardPage() {
-  //const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  //state to hold backend dashboard summary
+  const navigate = useNavigate(); // Hook added to handle redirects
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,23 +20,38 @@ export default function DashboardPage() {
         setLoading(true);
         setError(null);
 
-        //JWT token from localStorage (admin login)
+        // JWT token from localStorage using your specific key
         const token = localStorage.getItem("authToken");
 
-        //Backend call
-        const data = await getAdminDashboardSummary(token);
+        // If no token exists, immediately redirect to login
+        if (!token) {
+          navigate('/login');
+          return;
+        }
 
+        // Backend call
+        const data = await getAdminDashboardSummary(token);
         setSummary(data);
+
       } catch (err) {
         console.error("Failed to load dashboard summary", err);
-        setError("Failed to load dashboard data");
+        
+        // Handle 403 Forbidden or 401 Unauthorized errors
+        // This clears the 'stuck' session and redirects to login
+        if (err.response?.status === 403 || err.response?.status === 401) {
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("userRole");
+          navigate('/login');
+        } else {
+          setError("Failed to load dashboard data");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchDashboardSummary();
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="min-h-screen flex bg-green-50">
@@ -93,12 +81,12 @@ export default function DashboardPage() {
           {/* ================= DASHBOARD CONTENT ================= */}
           {!loading && !error && summary && (
             <>
-              {/*pass backend summary */}
+              {/* pass backend summary */}
               <DashboardQuickActions summary={summary} />
 
-              {/*pass today's appointments from backend */}
+              {/* pass today's appointments from backend */}
               <DashboardRecentAppointments
-                appointments={summary.todayAppointments}
+                appointments={summary.todayAppointments || []}
               />
             </>
           )}

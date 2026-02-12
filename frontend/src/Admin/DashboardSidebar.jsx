@@ -24,10 +24,17 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
 
+  /* ================= FIXED LOGOUT LOGIC ================= */
   const handleLogout = () => {
-    // Navigate to home page
+    // 1. Remove the specific keys used by your app
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
+
+    // 2. Navigate to the login/home page
+    // This triggers the ProtectedRoute to see you are logged out
     navigate('/');
-    // Close sidebar (useful for mobile view)
+
+    // 3. Close sidebar (useful for mobile view)
     setIsOpen(false);
   };
 
@@ -49,7 +56,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
         `}
       >
         <div>
-          {/* Logo/Header Area - Matches Doctor Console style */}
+          {/* Logo/Header Area */}
           <div className="flex items-center justify-between h-20 bg-green-50 border-b border-gray-200 px-6">
             <div className="flex items-center">
               <span className="text-xl font-bold text-green-600">DentPulse</span>
@@ -91,7 +98,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
 
         {/* Bottom Section */}
         <div className="p-4 border-t border-gray-100">
-          {/* User Profile Card - Matches Purple style */}
+          {/* User Profile Card */}
           <div className="flex items-center p-3 mb-4 rounded-lg bg-purple-100">
             <div className="flex items-center justify-center w-10 h-10 bg-green-500 rounded-full text-white font-bold text-sm">
               AD
@@ -102,7 +109,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
             </div>
           </div>
 
-          {/* Sign Out Button - Matches Doctor style */}
+          {/* Sign Out Button */}
           <button
             onClick={handleLogout}
             className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-green-200 hover:bg-green-400 transition duration-150 ease-in-out cursor-pointer"
