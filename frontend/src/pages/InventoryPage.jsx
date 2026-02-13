@@ -7,95 +7,32 @@ import InventoryTable from '../Admin/InventoryTable'
 import ItemDialog from '../Admin/ItemDialog'
 import { useLocation } from 'react-router-dom'
 
-const initialInventoryData = [
-  {
-    id: 1,
-    name: 'Dental Gloves (Box)',
-    sku: 'DG-001',
-    category: 'PPE',
-    quantity: 5,
-    minStock: 10,
-    unit: 'box',
-    price: 25.0,
-  },
-  {
-    id: 2,
-    name: 'Surgical Masks',
-    sku: 'SM-002',
-    category: 'PPE',
-    quantity: 150,
-    minStock: 50,
-    unit: 'pcs',
-    price: 0.5,
-  },
-  {
-    id: 3,
-    name: 'Anesthetic Cartridges',
-    sku: 'AC-003',
-    category: 'Anesthesia',
-    quantity: 8,
-    minStock: 20,
-    unit: 'box',
-    price: 45.0,
-  },
-  {
-    id: 4,
-    name: 'Dental Burs Set',
-    sku: 'DB-004',
-    category: 'Instruments',
-    quantity: 25,
-    minStock: 15,
-    unit: 'set',
-    price: 85.0,
-  },
-  {
-    id: 5,
-    name: 'Composite Resin',
-    sku: 'CR-005',
-    category: 'Materials',
-    quantity: 12,
-    minStock: 10,
-    unit: 'unit',
-    price: 120.0,
-  },
-  {
-    id: 6,
-    name: 'Cotton Rolls',
-    sku: 'CT-006',
-    category: 'Consumables',
-    quantity: 3,
-    minStock: 15,
-    unit: 'bag',
-    price: 12.0,
-  },
-  {
-    id: 7,
-    name: 'Impression Material',
-    sku: 'IM-007',
-    category: 'Materials',
-    quantity: 18,
-    minStock: 8,
-    unit: 'unit',
-    price: 95.0,
-  },
-  {
-    id: 8,
-    name: 'X-Ray Films',
-    sku: 'XR-008',
-    category: 'Imaging',
-    quantity: 45,
-    minStock: 30,
-    unit: 'pack',
-    price: 55.0,
-  },
-]
+// Import the new named exports including Stats and Search
+import { 
+  fetchAllInventory, 
+  createInventoryItem, 
+  updateInventoryItem, 
+  deleteInventoryItem,
+  fetchInventoryStats,   
+  searchInventoryItems   
+} from '../api/inventoryApi'
 
 export default function InventoryDashboard() {
   const location = useLocation()
-  const [inventoryData, setInventoryData] = useState(initialInventoryData)
+  const [inventoryData, setInventoryData] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
+  
+  // New State for Backend Stats
+  const [stats, setStats] = useState({
+    totalItems: 0,
+    lowStockCount: 0,
+    outOfStockCount: 0,
+    totalValue: 0
+  })
+
+  // Updated formData to include brand, expiryDate, and medicine fields
   const [formData, setFormData] = useState({
     name: '',
     sku: '',
@@ -104,107 +41,119 @@ export default function InventoryDashboard() {
     minStock: 0,
     unit: '',
     price: 0,
+    brand: '',
+    expiryDate: '',
+    medicineId: '',
+    medicineStatus: 'In Stock'
   })
 
-  // Filter inventory based on search query
-  const filteredInventory = inventoryData.filter(
-    (item) =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+  // --- REFRESH DATA (Updated to fetch Stats and List from Backend) ---
+  const loadData = async () => {
+    try {
+      const [inventoryRes, statsRes] = await Promise.all([
+        fetchAllInventory(),
+        fetchInventoryStats()
+      ]);
+      setInventoryData(inventoryRes.data);
+      setStats({
+      totalItems: statsRes.data.totalItems || 0,
+      lowStockCount: statsRes.data.lowStockCount || 0,
+      outOfStockCount: statsRes.data.outOfStockCount || 0,
+      totalValue: statsRes.data.totalValue || 0
+    });
+    } catch (error) {
+      console.error("Error fetching inventory data:", error);
+    }
+  };
 
-  // Calculate low stock items
-  const lowStockCount = inventoryData.filter((item) => item.quantity < item.minStock).length
+  useEffect(() => {
+    loadData();
+  }, []);
 
-  // Calculate total inventory value
-  const totalValue = inventoryData.reduce((sum, item) => sum + item.quantity * item.price, 0)
+  // --- NEW SEARCH HANDLER (Server-side Search) ---
+  const handleSearchChange = async (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    try {
+      if (value.trim() === "") {
+        const response = await fetchAllInventory();
+        setInventoryData(response.data);
+      } else {
+        const response = await searchInventoryItems(value);
+        setInventoryData(response.data);
+      }
+    } catch (error) {
+      console.error("Search failed:", error);
+    }
+  };
 
   const handleAddItem = () => {
     setEditingItem(null)
-    setFormData({
-      name: '',
-      sku: '',
-      category: '',
-      quantity: 0,
-      minStock: 0,
-      unit: '',
+    setFormData({ 
+      name: '', 
+      sku: '', 
+      category: '', 
+      quantity: 0, 
+      minStock: 0, 
+      unit: '', 
       price: 0,
+      brand: '',
+      expiryDate: '',
+      medicineId: '',
+      medicineStatus: 'In Stock'
     })
     setIsDialogOpen(true)
   }
 
   const handleEditItem = (item) => {
     setEditingItem(item)
-    setFormData({
-      name: item.name,
-      sku: item.sku,
-      category: item.category,
-      quantity: item.quantity,
-      minStock: item.minStock,
-      unit: item.unit,
-      price: item.price,
-    })
+    setFormData({ ...item }) 
     setIsDialogOpen(true)
   }
 
   const handleFormChange = (field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }))
+    setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleSave = () => {
-    if (editingItem) {
-      setInventoryData(
-        inventoryData.map((item) =>
-          item.id === editingItem.id ? { ...item, ...formData } : item,
-        ),
-      )
-      Swal.fire({
-        title: "Updated!",
-        text: "Item updated successfully!",
-        icon: "success",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#16a34a",
-      })
-    } else {
-      const newItem = {
-        id: Math.max(...inventoryData.map((i) => i.id), 0) + 1,
-        ...formData,
+  const handleSave = async () => {
+    try {
+      if (editingItem) {
+        await updateInventoryItem(editingItem.id, formData);
+      } else {
+        await createInventoryItem(formData);
       }
-      setInventoryData([...inventoryData, newItem])
+      
+      await loadData(); 
+      setIsDialogOpen(false);
       Swal.fire({
         title: "Success!",
-        text: "Item added successfully!",
+        text: `Item ${editingItem ? 'updated' : 'added'} successfully!`,
         icon: "success",
-        confirmButtonText: "OK",
         confirmButtonColor: "#16a34a",
-      })
+      });
+    } catch (error) {
+      Swal.fire("Error", "Action failed", "error");
     }
-    setIsDialogOpen(false)
   }
 
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#dc2626",
-      cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setInventoryData(inventoryData.filter((item) => item.id !== id))
-        Swal.fire({
-          title: "Deleted!",
-          text: "Item has been deleted.",
-          icon: "success",
-          confirmButtonColor: "#16a34a",
-        })
+        try {
+          await deleteInventoryItem(id);
+          await loadData();
+          Swal.fire("Deleted!", "Item removed.", "success");
+        } catch (error) {
+          Swal.fire("Error", "Delete failed", "error");
+        }
       }
     })
   }
@@ -218,77 +167,46 @@ export default function InventoryDashboard() {
   return (
     <div className="min-h-screen bg-green-50 p-4 sm:p-6 lg:p-8 font-sans">
       <div className="mx-auto max-w-7xl space-y-6">
-        {/* Header Section */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold text-slate-800">Inventory Management</h1>
-            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">
-              Manage dental supplies and equipment
-            </p>
+            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">Manage dental supplies</p>
           </div>
-          <button
-            onClick={handleAddItem}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-green-100 transition-all hover:bg-green-700 focus:outline-none active:scale-95 sm:w-auto uppercase tracking-tighter cursor-pointer"
-          >
-            <Plus className="h-4 w-4" />
-            Add Item
+          <button onClick={handleAddItem} className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-green-100 hover:bg-green-700 active:scale-95 uppercase tracking-tighter">
+            <Plus className="h-4 w-4" /> Add Item
           </button>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <StatsCard
-            title="Total Items"
-            value={inventoryData.length}
-            icon={Package}
-            color="purple"
-            subtitle="Across all categories"
-          />
-          <StatsCard
-            title="Low Stock Items"
-            value={lowStockCount}
-            icon={AlertTriangle}
-            color="red"
-            subtitle="Require restocking"
-          />
-          <StatsCard
-            title="Total Value"
-            value={`LKR ${totalValue.toFixed(2)}`}
-            icon={Package}
-            color="green"
-            subtitle="Current inventory value"
-          />
+        {/* --- STATS CARDS (Updated to use dynamic 'stats' from backend) --- */}
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <StatsCard title="Total Items" value={stats.totalItems} icon={Package} color="purple" subtitle="Across all categories" />
+          <StatsCard title="Low Stock Items" value={stats.lowStockCount} icon={AlertTriangle} color="red" subtitle="Require restocking" />
+          <StatsCard title="Out of Stock" value={stats.outOfStockCount} icon={AlertTriangle} color="gray" subtitle="No units available" />
+          <StatsCard title="Total Value" value={`LKR ${stats.totalValue.toLocaleString(undefined, {minimumFractionDigits: 2})}`} icon={Package} color="green" subtitle="Current value" />
         </div>
 
-        {/* Inventory Table Container */}
         <div className="rounded-xl bg-white border border-green-100 shadow-sm overflow-hidden">
           <div className="border-b border-green-50 p-4 bg-white">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-bold text-slate-800">Inventory List</h2>
-              <SearchBar
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+              {/* SearchBar updated with backend search handler */}
+              <SearchBar value={searchQuery} onChange={handleSearchChange} />
             </div>
           </div>
           <div className="bg-white">
-            <InventoryTable
-              items={filteredInventory}
-              onEdit={handleEditItem}
-              onDelete={handleDelete}
-            />
+            {/* Table uses inventoryData directly (filtered by backend) */}
+            <InventoryTable items={inventoryData} onEdit={handleEditItem} onDelete={handleDelete} />
           </div>
         </div>
       </div>
 
-      {/* Item Dialog */}
-      <ItemDialog
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        onSave={handleSave}
-        editingItem={editingItem}
-        formData={formData}
-        onFormChange={handleFormChange}
+      <ItemDialog 
+        isOpen={isDialogOpen} 
+        onClose={() => setIsDialogOpen(false)} 
+        onSave={handleSave} 
+        editingItem={editingItem} 
+        formData={formData} 
+        onFormChange={handleFormChange} 
       />
     </div>
   )

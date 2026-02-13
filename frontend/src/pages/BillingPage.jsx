@@ -699,7 +699,17 @@ const BillingPage = () => {
                     </button>
                     <button
                       onClick={async () => {
-                        if (!window.confirm("Delete this invoice?")) return;
+                        const result = await Swal.fire({
+                          title: "Delete Invoice?",
+                          text: "This action cannot be undone.",
+                          icon: "warning",
+                          showCancelButton: true,
+                          confirmButtonColor: "#dc2626",
+                          cancelButtonColor: "#6b7280",
+                          confirmButtonText: "Yes, Delete",
+                          cancelButtonText: "Cancel",
+                        });
+                        if (!result.isConfirmed) return;
                         await deleteInvoice(activeAppt.id);
                         setIsModalOpen(false);
                         setAppointments(await fetchInvoices());

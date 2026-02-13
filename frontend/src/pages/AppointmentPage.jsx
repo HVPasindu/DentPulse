@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Eye, Edit } from "lucide-react";
+import Swal from "sweetalert2";
+import { errorAlert } from "../utils/alert";
 import WelcomeHeader from "../Admin/WelcomeHeader";
 import SummarySection from "../Admin/SummarySection";
 import { fetchAllAppointments } from "../api/adminAppointmentApi";
@@ -120,7 +122,7 @@ const AppDashboard = () => {
       setIsPopupOpen(true);
     } catch (err) {
       console.error(err);
-      alert("Failed to load appointment details");
+      errorAlert("Failed to load appointment details");
     } finally {
       setLoading(false);
     }
@@ -152,7 +154,7 @@ const AppDashboard = () => {
       setIsPopupOpen(true);
     } catch (err) {
       console.error(err);
-      alert("Failed to load appointment details");
+      errorAlert("Failed to load appointment details");
     } finally {
       setLoading(false);
     }
@@ -182,7 +184,12 @@ const AppDashboard = () => {
 
       await createAppointment(payload);
 
-      alert("Appointment added successfully!");
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Appointment added successfully!",
+        confirmButtonColor: "#16a34a",
+      });
       closePopup();
 
       // reload table + summary
@@ -190,7 +197,7 @@ const AppDashboard = () => {
       loadStats();
     } catch (err) {
       console.error(err);
-      alert("Failed to add appointment");
+      errorAlert("Failed to add appointment");
     }
   };
 
@@ -210,11 +217,16 @@ const AppDashboard = () => {
       // 🔥 IMPORTANT: reload summary stats
       await loadStats();
 
-      alert("Appointment status updated!");
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Appointment status updated!",
+        confirmButtonColor: "#16a34a",
+      });
       closePopup();
     } catch (err) {
       console.error(err);
-      alert("Failed to update appointment status");
+      errorAlert("Failed to update appointment status");
     }
   };
 
