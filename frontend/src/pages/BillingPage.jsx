@@ -756,23 +756,11 @@ const BillingPage = () => {
                       📥 Download
                     </button>
                     <button
-                      onClick={async () => {
-                        const result = await confirmAction({
-                          title: "Delete Invoice?",
-                          text: "This action cannot be undone!",
-                          confirmText: "Delete",
-                          icon: "warning",
-                        });
-
-                        if (!result.isConfirmed) return;
-
-                        await deleteInvoice(activeAppt.id);
-                        successAlert("Invoice deleted");
-                        setAppointments(await fetchInvoices());
-                      }}
+                     
                       className="px-3 py-1 text-xs font-bold text-red-600 border border-red-200 rounded-lg hover:bg-red-50 cursor-pointer"
-                    >
+                    onClick={() => printInvoicePdf(activeAppt)} >
                       🖨️ Print
+                      
                     </button>
                     <button
                       onClick={async () => {
