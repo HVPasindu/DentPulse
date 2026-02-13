@@ -15,11 +15,14 @@ api.interceptors.request.use((config) => {
 /* ===================== FETCH ===================== */
 export const fetchInvoices = async () => {
   const res = await api.get("");
+
   return res.data.map((b) => ({
     id: b.id,
     invoiceId: b.billNumber,
+    patientId: b.patientId,                // ADD
+    treatmentServiceId: b.treatmentServiceId, // ADD
     name: b.patientName,
-    treatmentType: b.description,
+    treatmentType: b.treatmentDescription,
     amount: b.amount,
     date: b.billDate,
     paymentMethod: b.paymentMethod,
@@ -27,12 +30,13 @@ export const fetchInvoices = async () => {
 };
 
 
+
+
 export const createInvoice = async (invoice) => {
   const res = await api.post("", {
-    patientName: invoice.name,
-    description: invoice.treatmentType,
-    amount: invoice.amount,
-    billDate: invoice.date, // only here
+    patientId: invoice.patientId,
+    billDate: invoice.date,
+    treatmentServiceId: invoice.treatmentServiceId,
   });
   return res.data;
 };
