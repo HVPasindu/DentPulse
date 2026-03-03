@@ -92,7 +92,7 @@ export const RecentAppoinment = ({
             <CalendarClock />
           </div>
           <div>
-            <h1 className="p-1.5 text-green-700 text-4xl font-serif font-stretch-125%">
+            <h1 className="p-1.5 text-green-700 text-4xl  font-stretch-125%">
               Upcoming Appoinments/Past Appoinments
             </h1>
           </div>
