@@ -28,7 +28,7 @@ export default function MeetDoctorHero() {
         >
           <div className="relative">
             <img
-              src="doctor.png"
+              src="doctor_gen.png"
               alt="Our Doctor"
               className="w-[320px] h-[420px] object-cover rounded-3xl shadow-xl border-4 border-green-200"
             />
