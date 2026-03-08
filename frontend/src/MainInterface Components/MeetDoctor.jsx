@@ -1,6 +1,20 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function MeetDoctorHero() {
+
+
+  const navigate = useNavigate();
+
+
+  const handleBookAppointment = () => {
+
+    navigate("/login");
+  }
+
+
   return (
     <section className="bg-gradient-to-b from-green-100 to-green-50 py-16 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -14,7 +28,7 @@ export default function MeetDoctorHero() {
         >
           <div className="relative">
             <img
-              src="doctor.png"
+              src="doctor_gen.png"
               alt="Our Doctor"
               className="w-[320px] h-[420px] object-cover rounded-3xl shadow-xl border-4 border-green-200"
             />
@@ -67,7 +81,7 @@ export default function MeetDoctorHero() {
 
           {/* CTA */}
           <div className="pt-4">
-            <button className="px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition shadow-md">
+            <button className="px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition shadow-md" onClick={handleBookAppointment}>
               Book Appointment
             </button>
           </div>

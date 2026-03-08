@@ -128,7 +128,7 @@ export const TimeSlot = ({
               <ClockCheck />
             </div>
             <div>
-              <h1 className="p-1.5 text-green-700  font-serif text-4xl">
+              <h1 className="p-1.5 text-green-700   text-4xl">
                 Select Time Slot
               </h1>
             </div>
