@@ -1,4 +1,4 @@
-import { MapPin, Phone, Clock } from "lucide-react";
+
 import { motion } from "framer-motion";
 
 export default function ClinicLocation() {
