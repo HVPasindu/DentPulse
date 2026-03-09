@@ -6,9 +6,9 @@ const SimpleError404 = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-green-50 px-4">
       <div className="text-center max-w-md">
-        <div className="text-9xl font-bold text-indigo-200 mb-4">404</div>
+        <div className="text-9xl font-bold text-green-800 mb-4">404</div>
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Page Not Found</h1>
         <p className="text-gray-600 mb-8">
           The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
@@ -17,7 +17,7 @@ const SimpleError404 = () => {
         <div className="space-y-4">
           <button
             onClick={() => navigate('/')}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center"
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center"
           >
             <HomeIcon className="h-5 w-5 mr-2" />
             Back to Homepage
@@ -33,7 +33,7 @@ const SimpleError404 = () => {
         </div>
         
         <p className="mt-8 text-gray-500 text-sm">
-          If you need help, contact us at <span className="text-indigo-600">support@myapp.com</span>
+          If you need help, contact us at <span className="text-green-600">support@dentpulse.com</span>
         </p>
       </div>
     </div>

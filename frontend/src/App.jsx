@@ -38,6 +38,7 @@ import AdminQrScanner from "./Admin/AdminQrScanner";
 import { Toaster } from "react-hot-toast";
 //protected route
 import ProtectedRoute from "./components/ProtectedRoute";
+import SimpleError404 from "./MainInterface Components/SimpleError404";
 //help pages
 
 import Toothache from "./MainInterface Components/help pages/Toothache";
@@ -106,8 +107,8 @@ function App() {
           <Route path="appointment" element={<AppointmentPage />} />
           <Route path="qr" element={<AdminQrScanner />} />
         </Route>
-      </Routes>
-      <Routes>
+   
+    
         {/* Other routes */}
         <Route path="/help/toothache" element={<Toothache />} />
         <Route path="/help/cavity" element={<Cavity />} />
@@ -120,7 +121,7 @@ function App() {
         <Route path="/help/tooth-mobility" element={<ToothMobility />} />
         <Route path="/help/bad-breath" element={<BadBreath />} />
           <Route path="/help/receding-gum" element={<RecedingGum />} />
-
+      <Route path="*" element={<SimpleError404 />} /> 
       </Routes>
       
 

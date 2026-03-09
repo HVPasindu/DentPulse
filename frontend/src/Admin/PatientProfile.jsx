@@ -12,6 +12,7 @@ const PatientProfile = ({ patient, onClose }) => {
         <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-4 md:px-6 py-4 md:py-6 flex items-center justify-between">
           <div className="flex items-center gap-3 md:gap-4">
             <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-green-600 flex items-center justify-center text-primary-600 font-bold text-lg md:text-2xl">
+         
               {patient.name.split(' ').map(n => n[0]).join('')}
             </div>
             <div>

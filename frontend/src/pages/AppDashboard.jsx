@@ -6,6 +6,7 @@ import { getAllAppointments } from "../api/appointmentApi";
 import { saveTreatmentRecord } from "../api/recordsApi";
 import { getPatientById } from "../api/patientApi";
 import { getTreatmentsByPatient } from "../api/recordsApi";
+import SuccessModal from "../components/SuccessModal";
 
 const AppDashboard = () => {
   // ============= STATE MANAGEMENT =============
@@ -17,6 +18,8 @@ const AppDashboard = () => {
   // Popup state for updating appointments
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  // Success modal state
+const [showSuccessModal, setShowSuccessModal] = useState(false);
   
   // Loading and error states
   const [loading, setLoading] = useState(true);
@@ -75,14 +78,6 @@ const AppDashboard = () => {
     return matchesName && matchesDate;
   });
 
-  /* ================= UPDATE APPOINTMENT POPUP ================= */
-  /**
-   * Opens the update popup with selected appointment data
-   */
-  // const openPopup = (appt) => {
-  //   setSelectedAppointment({ ...appt });
-  //   setIsPopupOpen(true);
-  // };
 
   const openPopup = (appt) => {
   setSelectedAppointment({ 
@@ -105,32 +100,36 @@ const AppDashboard = () => {
   /**
    * Saves or updates a treatment record
    */
+
   const handleSave = async (e) => {
-    e.preventDefault();
-    if (!selectedAppointment) return;
+  e.preventDefault();
+  if (!selectedAppointment) return;
 
-    // Prepare data for API
-    const recordData = {
-      patient_id: selectedAppointment.patientId,
-      treatment_date: selectedAppointment.date,
-      diagnosis: selectedAppointment.diagnosis || "",
-      treatmentType: selectedAppointment.treatmentType,  // ✅ new field
-      dentist_note:  selectedAppointment.dentistNote || "",
-    };
-
-    try {
-      await saveTreatmentRecord(recordData);
-      alert("Record saved successfully!");
-
-      // Refresh appointments list to show updated data
-      await fetchAppointments();
-      closePopup();
-    } catch (err) {
-      console.error("Error saving record:", err);
-      const errorMessage = err.response?.data?.message || err.message || "Unknown error";
-      alert("Failed to save record:  " + errorMessage);
-    }
+  // Prepare data for API
+  const recordData = {
+    patient_id: selectedAppointment.patientId,
+    treatment_date: selectedAppointment.date,
+    diagnosis: selectedAppointment.diagnosis || "",
+    treatmentType: selectedAppointment.treatmentType,
+    dentist_note: selectedAppointment.dentistNote || "",
   };
+
+  try {
+    await saveTreatmentRecord(recordData);
+    
+    // ✅ CHANGED: Show custom modal instead of alert
+    closePopup(); // Close the update form first
+    setShowSuccessModal(true); // Show success modal
+
+    // Refresh appointments list to show updated data
+    await fetchAppointments();
+    
+  } catch (err) {
+    console.error("Error saving record:", err);
+    const errorMessage = err.response?.data?.message || err.message || "Unknown error";
+    alert("Failed to save record: " + errorMessage);
+  }
+};
 
   /* ================= VIEW PATIENT DETAILS ================= */
   /**
@@ -479,6 +478,12 @@ const AppDashboard = () => {
         onClose={handleClosePatientModal}
         patient={selectedPatient}
         treatments={patientTreatments}
+      />
+      {/* ================= SUCCESS MODAL ================= */}
+      <SuccessModal 
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        message="Updated Successfully!"
       />
     </div>
   );

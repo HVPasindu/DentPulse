@@ -38,7 +38,7 @@ export const PatientIdCard = ({ patient }) => {
       <div className="grid grid-cols-1 pb-10">
         <div className="flex flex-row gap-x-2 items-center">
           <IdCard />
-          <h1 className="text-green-800 text-3xl font-stretch-105% font-serif">
+          <h1 className="text-green-800 text-3xl font-stretch-105% ">
             Patient ID Card
           </h1>
         </div>

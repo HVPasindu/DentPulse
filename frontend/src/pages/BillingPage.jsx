@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import Swal from "sweetalert2";
+import { createInvoice } from "../api/billingApi";
+import { fetchInvoices } from "../api/billingApi";
+import { deleteInvoice } from "../api/billingApi";
+import { updateInvoice } from "../api/billingApi";
+import { errorAlert, confirmAction, successAlert } from "../utils/alert";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { fetchTreatmentServices } from "../api/treatmentServiceApi";
+//import { getAllPatients } from "../api/patientApi";
+import { getPatientById } from "../api/patientApi";
 
 const BillingPage = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -7,41 +17,210 @@ const BillingPage = () => {
   const [appointments, setAppointments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState(today);
+
+  const [treatmentServices, setTreatmentServices] = useState([]);
+  //const [patients, setPatients] = useState([]);
+  const [patientError, setPatientError] = useState("");
   
   // UI States
-  const [activeMenu, setActiveMenu] = useState(null); 
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("view");
   const [activeAppt, setActiveAppt] = useState(null);
+  // Add Invoice modal state
+  const [isAddInvoiceOpen, setIsAddInvoiceOpen] = useState(false);
+  const [newInvoice, setNewInvoice] = useState({
+    patientId: "",
+    patientName: "",
+    treatmentServiceId: "",
+    date: today,
+  });
 
-  const treatmentPrices = {
-    "Routine Checkup": 2500,
-    "Dental Cleaning & Checkup": 5500,
-    "Root Canal Treatment": 15000,
-    "Teeth Cleaning (Moderate)": 8000,
-    "Teeth Cleaning (Severe)": 12000,
-    "Wisdom Teeth Removal": 25000,
-    "Cavity Filling": 4500,
+  /*useEffect(() => {
+  const loadPatients = async () => {
+    try {
+      const data = await getAllPatients();
+      setPatients(data);
+    } catch (err) {
+      console.error("Failed to load patients", err);
+    }
+  };
+
+  loadPatients();
+}, []);*/
+
+
+
+  useEffect(() => {
+  const loadServices = async () => {
+    try {
+      const data = await fetchTreatmentServices();
+      setTreatmentServices(data);
+    } catch (err) {
+      console.error("Failed to load services", err);
+    }
+  };
+
+  loadServices();
+}, []);
+
+
+  const handleAddInvoice = async (e) => {
+    e.preventDefault();
+     if (!newInvoice.patientId || !newInvoice.treatmentServiceId) {
+    errorAlert("Please enter patient ID and select treatment");
+    return;
+  }
+
+
+    const result = await confirmAction({
+      title: "Create Invoice?",
+      text: "Do you want to add this invoice?",
+      confirmText: "Yes, add",
+    });
+
+    if (!result.isConfirmed) return;
+    try {
+      await createInvoice(newInvoice);
+      successAlert("Invoice created successfully");
+      setIsAddInvoiceOpen(false);
+
+      const data = await fetchInvoices();
+      setAppointments(data);
+
+      setNewInvoice({
+        patientId: "",
+        treatmentServiceId: "",
+        date: today,
+      });
+    } catch (err) {
+      errorAlert("Failed to create invoice");
+    }
+  };
+
+  const InvoicePdf = (invoice) => {
+    const doc = new jsPDF();
+
+    // ===== COLORS =====
+    const green = "#16a34a";
+    const gray = "#6b7280";
+
+    // ===== HEADER =====
+    doc.setFillColor(22, 163, 74);
+    doc.rect(0, 0, 210, 30, "F");
+
+    doc.setTextColor("#ffffff");
+    doc.setFontSize(18);
+    doc.text("DentPulse Dental Clinic", 14, 18);
+
+    doc.setFontSize(10);
+    doc.text("Professional Dental Care", 14, 24);
+
+    // ===== INVOICE META =====
+    doc.setTextColor("#000000");
+    doc.setFontSize(11);
+
+    doc.text(`Invoice No:`, 140, 38);
+    doc.text(invoice.invoiceId, 170, 38);
+
+    doc.text(`Date:`, 140, 45);
+    doc.text(invoice.date, 170, 45);
+
+    // ===== PATIENT INFO =====
+    doc.setFontSize(12);
+    doc.text("Bill To:", 14, 45);
+
+    doc.setFontSize(11);
+    doc.text(`Patient Name: ${invoice.name}`, 14, 53);
+
+    // ===== LINE =====
+    doc.setDrawColor(200);
+    doc.line(14, 58, 196, 58);
+
+    // ===== TABLE =====
+    autoTable(doc, {
+      startY: 65,
+      head: [["Description", "Amount (LKR)"]],
+      body: [
+        [
+          invoice.treatmentType || "Dental Service",
+          `LKR ${invoice.amount.toLocaleString()}`,
+        ],
+      ],
+      theme: "grid",
+      headStyles: {
+        fillColor: [22, 163, 74],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+      },
+      styles: {
+        fontSize: 11,
+        cellPadding: 6,
+      },
+      columnStyles: {
+        1: { halign: "right" },
+      },
+    });
+
+    const finalY = doc.lastAutoTable.finalY;
+
+    // ===== TOTAL BOX =====
+    doc.setFillColor(240, 253, 244);
+    doc.rect(120, finalY + 10, 76, 15, "F");
+
+    doc.setFontSize(12);
+    doc.text("Total", 125, finalY + 20);
+    doc.setFont(undefined, "bold");
+    doc.text(`LKR ${invoice.amount.toLocaleString()}`, 165, finalY + 20, {
+      align: "right",
+    });
+
+    // ===== FOOTER =====
+    doc.setFont(undefined, "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(gray);
+
+    doc.text(
+      "Thank you for trusting DentPulse with your smile 🦷",
+      14,
+      finalY + 40,
+    );
+
+    doc.text("Authorized Signature:", 14, finalY + 55);
+    doc.line(60, finalY + 55, 120, finalY + 55);
+
+    // ===== SAVE =====
+    return doc;
+  };
+
+  const downloadInvoicePdf = (invoice) => {
+    const doc = InvoicePdf(invoice);
+    doc.save(`${invoice.invoiceId}.pdf`);
+  };
+  const printInvoicePdf = (invoice) => {
+    const doc = InvoicePdf(invoice);
+
+    const pdfBlob = doc.output("blob");
+    const blobUrl = URL.createObjectURL(pdfBlob);
+
+    const printWindow = window.open(blobUrl);
+    printWindow.onload = () => {
+      printWindow.focus();
+      printWindow.print();
+    };
   };
 
   useEffect(() => {
-    const loadData = () => {
-      const saved = localStorage.getItem("app_appointments");
-      if (saved) {
-        const data = JSON.parse(saved);
-        const initializedData = data.map((appt) => ({
-          ...appt,
-          amount: appt.amount || 0,
-          billingStatus: appt.billingStatus || "Unpaid",
-          paymentMethod: appt.paymentMethod || "Cash",
-          invoiceId: appt.invoiceId || `INV-2026-${appt.id.split('-')[1] || Math.floor(100 + Math.random() * 900)}`,
-        }));
-        setAppointments(initializedData);
+    const loadInvoices = async () => {
+      try {
+        const data = await fetchInvoices();
+        setAppointments(data);
+      } catch (err) {
+        console.error("Failed to load invoices", err);
       }
     };
-    loadData();
-    window.addEventListener('focus', loadData);
-    return () => window.removeEventListener('focus', loadData);
+
+    loadInvoices();
   }, []);
 
   const updateLocalStorage = (updatedList) => {
@@ -81,36 +260,73 @@ const BillingPage = () => {
     } else {
       updateLocalStorage([...appointments, activeAppt]);
     }
+    Swal.fire({
+      title: "Updated!",
+      text: "Invoice updated successfully!",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#16a34a",
+    });
     setIsModalOpen(false);
   };
 
   const totalInvoicesAllTime = appointments.length;
   const filteredInvoices = appointments.filter((appt) => {
-    const matchesSearch = appt.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          appt.invoiceId.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesSearch && (appt.date?.split("T")[0] === selectedDate);
+    const matchesSearch =
+      appt.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      appt.invoiceId.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch && appt.date?.split("T")[0] === selectedDate;
   });
 
-  const dailyPaidRevenue = filteredInvoices
-    .filter(a => a.billingStatus === "Paid")
-    .reduce((sum, appt) => sum + appt.amount, 0);
+  const dailyPaidRevenue = filteredInvoices.reduce(
+    (sum, appt) => sum + appt.amount,
+    0,
+  );
 
-  const dailyPaidCount = filteredInvoices.filter(a => a.billingStatus === "Paid").length;
-  const dailyPendingAmount = filteredInvoices
-    .filter(a => a.billingStatus === "Unpaid")
-    .reduce((sum, appt) => sum + appt.amount, 0);
+  const dailyPaidCount = filteredInvoices.length;
 
   return (
     <div className="p-8 bg-green-50 min-h-screen font-sans">
-      <h1 className="text-3xl font-bold text-slate-800 mb-1">Billing & Invoices</h1>
-      <p className="text-slate-500 mb-8 text-sm font-medium">Manage patient invoices, payments, and financial records</p>
+      <div className="flex flex-row items-baseline justify-between mb-2">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-800 mb-1">
+            Billing & Invoices
+          </h1>
+        </div>
+        <div>
+          <button
+            onClick={() => setIsAddInvoiceOpen(true)}
+            className="p-4 bg-green-600 text-white rounded-lg text-lg font-black hover:bg-green-700 hover:scale-110 duration-400 transition cursor-pointer"
+          >
+            + Add Invoice
+          </button>
+        </div>
+      </div>
+
+      <p className="text-slate-500 mb-8 text-sm font-medium">
+        Manage patient invoices, payments, and financial records
+      </p>
 
       {/* STATS CARDS - Icons updated with matching background colors */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <StatCard title="Total Revenue" value={`LKR ${dailyPaidRevenue.toLocaleString()}`} symbol="💰" iconBg="bg-green-100" />
-        <StatCard title="Total Invoices" value={totalInvoicesAllTime}  symbol="📄" iconBg="bg-purple-100" />
-        <StatCard title="Paid Invoices" value={dailyPaidCount}  symbol="🕒" iconBg="bg-green-100" />
-        <StatCard title="Pending Payments" value={`LKR ${dailyPendingAmount.toLocaleString()}`} isNegative symbol="⌛" iconBg="bg-orange-100" />
+        <StatCard
+          title="Total Revenue"
+          value={`LKR ${dailyPaidRevenue.toLocaleString()}`}
+          symbol="💰"
+          iconBg="bg-green-100"
+        />
+        <StatCard
+          title="Total Invoices"
+          value={totalInvoicesAllTime}
+          symbol="📄"
+          iconBg="bg-purple-100"
+        />
+        <StatCard
+          title="Paid Invoices"
+          value={dailyPaidCount}
+          symbol="🕒"
+          iconBg="bg-green-100"
+        />
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-green-100">
@@ -118,18 +334,18 @@ const BillingPage = () => {
         <div className="p-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="relative w-full md:w-96">
             <span className="absolute left-3 top-2.5 text-green-600">🔍</span>
-            <input 
-              type="text" 
-              placeholder="Search invoices, patients, or invoice number..." 
+            <input
+              type="text"
+              placeholder="Search invoices, patients, or invoice number..."
               className="w-full pl-10 pr-4 py-2 border border-green-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className="flex gap-3 w-full md:w-auto">
-            <input 
-              type="date" 
-              value={selectedDate} 
+            <input
+              type="date"
+              value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
               className="border border-green-200 rounded-lg px-4 py-2 text-sm text-slate-600 outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
             />
@@ -144,76 +360,273 @@ const BillingPage = () => {
                 <th className="px-6 py-4">Patient</th>
                 <th className="px-6 py-4">Description</th>
                 <th className="px-6 py-4">Amount</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4">Method</th>
+
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-green-50">
               {filteredInvoices.map((appt) => (
-                <tr key={appt.id} className="hover:bg-green-50/50 transition-colors group">
-                  <td className="px-6 py-4 text-sm font-bold text-slate-700">{appt.invoiceId}</td>
-                  <td className="px-6 py-4 text-sm text-slate-900 font-bold">{appt.name}</td>
+                <tr
+                  key={appt.id}
+                  className="hover:bg-green-50/50 transition-colors group"
+                >
+                  <td className="px-6 py-4 text-sm font-bold text-slate-700">
+                    {appt.invoiceId}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-900 font-bold">
+                    {appt.name}
+                  </td>
                   <td className="px-6 py-4 text-sm text-slate-500">
-                    {appt.treatmentType || (
-                      <select 
-                        className="bg-green-50/50 border border-green-100 rounded px-2 py-1 text-xs outline-none focus:border-green-500"
-                        onChange={(e) => {
-                          const price = treatmentPrices[e.target.value] || 0;
-                          const updated = appointments.map(a => a.id === appt.id ? {...a, treatmentType: e.target.value, amount: price} : a);
-                          updateLocalStorage(updated);
+                    {appt.treatmentType}
+                  </td>
+                  <td className="px-6 py-4 text-sm font-black text-slate-900">
+                    LKR {appt.amount.toLocaleString()}
+                  </td>
+
+                  <td className="px-6 py-4">
+                    <div className="flex justify-end gap-2">
+                      {/* View */}
+                      <button
+                        onClick={() => {
+                          setActiveAppt(appt);
+                          setModalMode("view");
+                          setIsModalOpen(true);
                         }}
+                        className="px-3 py-1 text-xs font-bold text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 cursor-pointer
+"
                       >
-                        <option value="">Select Treatment</option>
-                        {Object.keys(treatmentPrices).map(t => <option key={t} value={t}>{t}</option>)}
-                      </select>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 text-sm font-black text-slate-900">LKR {appt.amount.toLocaleString()}</td>
-                  <td className="px-6 py-4">
-                    <button 
-                      onClick={() => toggleStatus(appt.id)}
-                      disabled={appt.billingStatus === "Paid"}
-                      className={`px-2.5 py-1 rounded-md text-[11px] font-black transition-all uppercase tracking-tighter ${
-                        appt.billingStatus === "Paid" 
-                          ? "bg-green-500 text-white cursor-default" 
-                          : "bg-orange-100 text-orange-600 hover:bg-orange-200"
-                      }`}
-                    >
-                      {appt.billingStatus}
-                    </button>
-                  </td>
-                  <td className="px-6 py-4">
-                    <button 
-                      onClick={() => toggleMethod(appt.id)}
-                      className="px-2.5 py-1 rounded-md text-[10px] font-black bg-purple-100 text-purple-700 hover:bg-purple-200 uppercase tracking-tight transition-all border border-purple-200"
-                    >
-                      {appt.paymentMethod}
-                    </button>
-                  </td>
-                  <td className="px-6 py-4 text-right relative">
-                    <button 
-                      onClick={() => setActiveMenu(activeMenu === appt.id ? null : appt.id)}
-                      className="text-slate-400 hover:text-green-600 font-bold text-lg px-2"
-                    >
-                      •••
-                    </button>
-                    {activeMenu === appt.id && (
-                      <div className="absolute right-6 top-12 w-48 bg-white border border-green-100 rounded-xl shadow-xl z-10 py-1 text-left overflow-hidden animate-in fade-in slide-in-from-top-1 duration-150">
-                        <button onClick={() => { setActiveAppt(appt); setModalMode("view"); setIsModalOpen(true); setActiveMenu(null); }} className="w-full px-4 py-2 text-xs font-bold text-slate-600 hover:bg-green-50 flex items-center gap-2">👁️ View Details</button>
-                        <button onClick={() => { setActiveAppt(appt); setModalMode("edit"); setIsModalOpen(true); setActiveMenu(null); }} className="w-full px-4 py-2 text-xs font-bold text-slate-600 hover:bg-green-50 flex items-center gap-2">✏️ Edit Invoice</button>
-                        {appt.billingStatus === "Paid" && (
-                           <button onClick={() => alert("Downloading PDF...")} className="w-full px-4 py-2 text-xs font-bold text-green-600 hover:bg-green-50 flex items-center gap-2">📥 Download PDF</button>
-                        )}
-                        <button className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 flex items-center gap-2 border-t mt-1">🗑️ Delete</button>
-                      </div>
-                    )}
+                        View
+                      </button>
+
+                      {/* Edit */}
+                      <button
+                        onClick={() => {
+                          setActiveAppt(appt);
+                          setModalMode("edit");
+                          setIsModalOpen(true);
+                        }}
+                        className="px-3 py-1 text-xs font-bold text-amber-600 border border-amber-200 rounded-lg hover:bg-amber-50 cursor-pointer
+"
+                      >
+                        Edit
+                      </button>
+
+                      {/* Download */}
+                      <button
+                        onClick={() => downloadInvoicePdf(appt)}
+                        className="px-3 py-1 text-xs font-bold text-green-600 border border-green-200 rounded-lg hover:bg-green-50 cursor-pointer
+"
+                      >
+                        PDF
+                      </button>
+
+                      {/* Print */}
+                      <button
+                        onClick={() => printInvoicePdf(appt)}
+                        className="px-3 py-1 text-xs font-bold text-slate-700 border border-slate-200 rounded-lg hover:bg-slate-100 cursor-pointer
+"
+                      >
+                        Print
+                      </button>
+
+                      {/* Delete */}
+                      <button
+                        onClick={async () => {
+                          const result = await confirmAction({
+                            title: "Delete Invoice?",
+                            text: "This action cannot be undone!",
+                            confirmText: "Delete",
+                            icon: "warning",
+                          });
+
+                          if (!result.isConfirmed) return;
+
+                          await deleteInvoice(appt.id);
+                          successAlert("Invoice deleted");
+                          setAppointments(await fetchInvoices());
+                        }}
+                        className="px-3 py-1 text-xs font-bold text-red-600 border border-red-200 rounded-lg hover:bg-red-50 cursor-pointer
+"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        {isAddInvoiceOpen && (
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+            <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-green-100">
+              {/* Header */}
+              <div className="p-5 border-b border-green-100 flex justify-between items-center">
+                <h2 className="text-xl font-black text-slate-800">
+                  Add New Invoice
+                </h2>
+                <button
+                  onClick={() => setIsAddInvoiceOpen(false)}
+                  className="text-xl font-bold text-slate-400 hover:text-red-500 cursor-pointer
+"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleAddInvoice} className="p-6 space-y-4">
+                {/* Patient Name */}
+                {/* Patient ID */}
+                <div>
+                  <label className="block text-xs font-black text-slate-500 uppercase mb-1">
+                    Patient ID
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Enter Patient ID"
+                    value={newInvoice.patientId}
+                    onChange={async (e) => {
+                      const id = e.target.value;
+
+                      setNewInvoice((prev) => ({
+                        ...prev,
+                        patientId: id,
+                      }));
+
+                      if (!id) {
+                        setPatientError("");
+                        setNewInvoice((prev) => ({
+                          ...prev,
+                          patientName: "",
+                        }));
+                        return;
+                      }
+
+                      try {
+                        const patient = await getPatientById(id);
+
+                        setNewInvoice((prev) => ({
+                          ...prev,
+                          patientName: patient.fullName,
+                        }));
+
+                        setPatientError("");
+
+                      } catch (err) {
+                        setNewInvoice((prev) => ({
+                          ...prev,
+                          patientName: "",
+                        }));
+
+                        setPatientError("Patient not found with this ID");
+                      }
+                    }}
+
+
+                    className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
+                  />
+
+                  {patientError && (
+                    <p className="text-red-500 text-xs mt-1 font-semibold">
+                      {patientError}
+                    </p>
+                  )}
+
+                </div>
+
+                {/* Patient Name */}
+                <div>
+                  <label className="block text-xs font-black text-slate-500 uppercase mb-1">
+                    Patient Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter Patient Name"
+                    value={newInvoice.patientName}
+                    readOnly
+                   /* onChange={(e) =>
+                      setNewInvoice({
+                        ...newInvoice,
+                        patientName: e.target.value,
+                      })
+                    }*/
+                    className="bg-gray-100 cursor-not-allowed w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
+                  />
+                </div>
+
+                {/* Treatment Type */}
+                <div>
+                  <label className="block text-xs font-black text-slate-500 uppercase mb-1">
+                    Treatment Type
+                  </label>
+                  <select
+                    value={newInvoice.treatmentServiceId || ""}
+                    onChange={(e) => {
+                      const selectedId = Number(e.target.value);
+                      const service = treatmentServices.find(
+                        (s) => s.id === selectedId
+                      );
+
+                      setNewInvoice({
+                        ...newInvoice,
+                        treatmentServiceId: selectedId,
+                        amount: service?.cost || 0,
+                      });
+                    }}
+                    className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
+                  >
+                    <option value="">Select treatment</option>
+                    {treatmentServices.map((service) => (
+                      <option key={service.id} value={service.id}>
+                        {service.description}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Invoice Date */}
+                <div>
+                  <label className="block text-xs font-black text-slate-500 uppercase mb-1">
+                    Invoice Date
+                  </label>
+                  <input
+                    type="date"
+                    value={newInvoice.date}
+                    onChange={(e) =>
+                      setNewInvoice({ ...newInvoice, date: e.target.value })
+                    }
+                    className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
+                  />
+                </div>
+
+                {/* Amount */}
+                <div>
+                  <label className="block text-xs font-black text-slate-500 uppercase mb-1">
+                    Amount (LKR)
+                  </label>
+                  <input
+                    type="number"
+                    value={newInvoice.amount}
+                    readOnly
+                    /*onChange={(e) =>
+                      setNewInvoice({ ...newInvoice, amount: e.target.value })
+                    }*/
+                    className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
+                  />
+                </div>
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700 transition-colors shadow-lg shadow-green-100 cursor-pointer"
+                >
+                  Save Invoice
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* VIEW/EDIT MODAL */}
@@ -222,64 +635,97 @@ const BillingPage = () => {
           <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200 border border-green-100">
             <div className="p-6 border-b border-green-50 flex justify-between items-start bg-green-50/30">
               <div>
-                <h2 className="text-2xl font-bold text-slate-800">{activeAppt.invoiceId}</h2>
-                <p className="text-sm text-slate-500 mt-0.5 font-bold uppercase tracking-widest">{activeAppt.name}</p>
+                <h2 className="text-2xl font-bold text-slate-800">
+                  {activeAppt.invoiceId}
+                </h2>
+                {modalMode === "view" ? (
+                  <p className="text-sm text-slate-500 mt-0.5 font-bold uppercase tracking-widest">
+                    {activeAppt.name}
+                  </p>
+                ) : (
+                  <input
+                    type="text"
+                    value={activeAppt.name}
+                    onChange={(e) =>
+                      setActiveAppt({ ...activeAppt, name: e.target.value })
+                    }
+                    className="mt-1 w-full border border-green-200 rounded-lg p-2 text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-green-400/20"
+                  />
+                )}
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-red-500 text-xl font-bold">✕</button>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-slate-400 hover:text-red-500 text-xl font-bold"
+              >
+                ✕
+              </button>
             </div>
 
-            <form onSubmit={handleUpdateDetails}>
+            <form onSubmit={(e) => e.preventDefault()}>
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-2 gap-8 text-sm">
                   <div>
-                    <p className="text-slate-400 font-bold uppercase text-[10px] mb-1">Invoice Date</p>
-                    <p className="font-bold text-slate-800">{activeAppt.date}</p>
-                  </div>
-                  <div>
-                    <p className="text-slate-400 font-bold uppercase text-[10px] mb-1">Status</p>
-                    {modalMode === "view" ? (
-                      <span className={`px-2 py-0.5 rounded font-black text-[10px] uppercase ${activeAppt.billingStatus === 'Paid' ? 'bg-green-500 text-white' : 'bg-orange-100 text-orange-600'}`}>
-                        {activeAppt.billingStatus}
-                      </span>
-                    ) : (
-                      <select 
-                        value={activeAppt.billingStatus}
-                        onChange={(e) => setActiveAppt({...activeAppt, billingStatus: e.target.value})}
-                        className="border border-green-200 rounded px-2 py-1 font-bold text-xs outline-none focus:border-green-500"
-                      >
-                        <option value="Unpaid">Unpaid</option>
-                        <option value="Paid">Paid</option>
-                      </select>
-                    )}
+                    <p className="text-slate-400 font-bold uppercase text-[10px] mb-1">
+                      Invoice Date
+                    </p>
+                    <p className="font-bold text-slate-800">
+                      {activeAppt.date}
+                    </p>
                   </div>
                 </div>
 
                 <div className="bg-green-50/30 border border-green-100 rounded-xl p-5">
-                  <h3 className="text-xs font-black text-green-700 uppercase tracking-widest mb-4">Service Details</h3>
+                  <h3 className="text-xs font-black text-green-700 uppercase tracking-widest mb-4">
+                    Service Details
+                  </h3>
                   <div className="flex justify-between items-center mb-4">
                     {modalMode === "view" ? (
-                      <span className="text-sm font-bold text-slate-700">{activeAppt.treatmentType || "N/A"}</span>
+                      <span className="text-sm font-bold text-slate-700">
+                        {activeAppt.treatmentType || "N/A"}
+                      </span>
                     ) : (
-                      <select 
-                        value={activeAppt.treatmentType || ""}
+                      <select
+                        value={activeAppt.treatmentServiceId || ""}
                         onChange={(e) => {
-                          const price = treatmentPrices[e.target.value] || 0;
-                          setActiveAppt({...activeAppt, treatmentType: e.target.value, amount: price});
+                          const selectedId = Number(e.target.value);
+                          const service = treatmentServices.find(
+                            (s) => s.id === selectedId
+                          );
+
+                          setActiveAppt({
+                            ...activeAppt,
+                            treatmentServiceId: selectedId,
+                            treatmentType: service?.description,
+                            amount: service?.cost,
+                          });
                         }}
                         className="border border-green-200 rounded-lg p-2 text-sm w-full max-w-[250px] font-medium outline-none"
-                      >
-                        {Object.keys(treatmentPrices).map(t => <option key={t} value={t}>{t}</option>)}
-                      </select>
-                    )}
-                    <span className="font-black text-slate-900 text-sm">LKR {activeAppt.amount?.toLocaleString()}</span>
+                    >
+                        {treatmentServices.map((service) => (
+                          <option key={service.id} value={service.id}>
+                            {service.description}
+                          </option>
+                        ))}
+                     </select>
+                      )}
+                      <span className="font-black text-slate-900 text-sm">
+                      LKR {activeAppt.amount?.toLocaleString()}
+                    </span>
                   </div>
-                  
+
                   {modalMode === "edit" && (
                     <div className="mt-4 pt-4 border-t border-green-100 flex justify-between items-center">
-                       <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Payment Method</p>
-                       <select 
+                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest cursor-pointer">
+                        Payment Method
+                      </p>
+                      <select
                         value={activeAppt.paymentMethod}
-                        onChange={(e) => setActiveAppt({...activeAppt, paymentMethod: e.target.value})}
+                        onChange={(e) =>
+                          setActiveAppt({
+                            ...activeAppt,
+                            paymentMethod: e.target.value,
+                          })
+                        }
                         className="border border-green-200 rounded-lg p-2 text-sm font-bold"
                       >
                         <option value="Cash">Cash</option>
@@ -289,8 +735,12 @@ const BillingPage = () => {
                   )}
 
                   <div className="mt-4 pt-4 border-t-2 border-dashed border-green-200 flex justify-between items-center">
-                    <span className="font-black text-slate-800 text-base">Total Due</span>
-                    <span className="font-black text-green-600 text-base">LKR {activeAppt.amount?.toLocaleString()}</span>
+                    <span className="font-black text-slate-800 text-base">
+                      Total Due
+                    </span>
+                    <span className="font-black text-green-600 text-base">
+                      LKR {activeAppt.amount?.toLocaleString()}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -298,12 +748,62 @@ const BillingPage = () => {
               <div className="p-6 bg-slate-50 flex gap-3 justify-end">
                 {modalMode === "view" ? (
                   <>
-                    <button type="button" className="flex-1 py-2.5 bg-green-600 text-white rounded-lg text-sm font-black flex items-center justify-center gap-2 hover:bg-green-700 transition-colors">📥 Download</button>
-                    <button type="button" className="flex-1 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-black flex items-center justify-center gap-2 hover:bg-slate-50">🖨️ Print</button>
-                    <button type="button" className="px-6 py-2.5 bg-white border border-red-100 text-red-500 rounded-lg text-sm font-black hover:bg-red-50">🗑️</button>
+                    <button
+                      type="button"
+                      onClick={() => downloadInvoicePdf(activeAppt)}
+                      className="flex-1 p-2.5 bg-green-600 text-white rounded-lg text-sm font-black flex items-center justify-center gap-2 hover:bg-green-700 transition-colors cursor-pointer"
+                    >
+                      📥 Download
+                    </button>
+                    <button
+                     
+                      className="px-3 py-1 text-xs font-bold text-red-600 border border-red-200 rounded-lg hover:bg-red-50 cursor-pointer"
+                    onClick={() => printInvoicePdf(activeAppt)} >
+                      🖨️ Print
+                      
+                    </button>
+                    <button
+                      onClick={async () => {
+                        if (!window.confirm("Delete this invoice?")) return;
+                        await deleteInvoice(activeAppt.id);
+                        setIsModalOpen(false);
+                        setAppointments(await fetchInvoices());
+                      }}
+                      className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 cursor-pointer"
+                    >
+                      🗑️ Delete
+                    </button>
                   </>
                 ) : (
-                  <button type="submit" className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700 transition-colors shadow-lg shadow-green-100">Update Payment Records</button>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const result = await confirmAction({
+                        title: "Update Invoice?",
+                        text: "Save changes to this invoice?",
+                        confirmText: "Yes, update",
+                      });
+
+                      if (!result.isConfirmed) return;
+
+                      try {
+                        await updateInvoice(activeAppt.id, {
+                        patientId: activeAppt.patientId,
+                        treatmentServiceId: activeAppt.treatmentServiceId,
+                        billDate: activeAppt.date,
+                      });
+
+                        successAlert("Invoice updated");
+                        setAppointments(await fetchInvoices());
+                        setIsModalOpen(false);
+                      } catch {
+                        errorAlert("Failed to update invoice");
+                      }
+                    }}
+                    className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700 cursor-pointer"
+                  >
+                    Update Invoice
+                  </button>
                 )}
               </div>
             </form>
@@ -318,12 +818,22 @@ const StatCard = ({ title, value, change, isNegative, symbol, iconBg }) => (
   <div className="bg-white p-5 rounded-2xl border border-green-100 shadow-sm">
     <div className="flex justify-between items-start">
       <div>
-        <p className="text-slate-400 text-xs font-bold uppercase mb-3">{title}</p>
-        <h3 className="text-2xl font-black text-slate-800 tracking-tight">{value}</h3>
+        <p className="text-slate-400 text-xs font-bold uppercase mb-3">
+          {title}
+        </p>
+        <h3 className="text-2xl font-black text-slate-800 tracking-tight">
+          {value}
+        </h3>
       </div>
-      <div className={`${iconBg} w-10 h-10 rounded-xl flex items-center justify-center text-lg`}>{symbol}</div>
+      <div
+        className={`${iconBg} w-10 h-10 rounded-xl flex items-center justify-center text-lg`}
+      >
+        {symbol}
+      </div>
     </div>
-    <p className={`text-[11px] font-black mt-3 ${isNegative ? "text-red-500" : "text-green-500"}`}>
+    <p
+      className={`text-[11px] font-black mt-3 ${isNegative ? "text-red-500" : "text-green-500"}`}
+    >
       {change}
     </p>
   </div>
