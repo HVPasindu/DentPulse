@@ -18,6 +18,7 @@ const navItems = [
   { name: 'Billing', icon: DollarSign, href: '/admin/billing' },
   { name: 'Inventory', icon: Package, href: '/admin/inventory' },
   { name: 'QR Scanner', icon: IdCardLanyard, href: '/admin/qr' },
+  { name: 'Notifications', icon: LayoutDashboard, href: '/admin/notifications' },
 ];
 
 export default function DashboardSidebar({ isOpen, setIsOpen }) {
