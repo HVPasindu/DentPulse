@@ -12,7 +12,7 @@ export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) =
               <UserPlus />
             </div>
               <div>
-         <h1 className="text-green-700 text-4xl font-serif font-stretch-105%">
+         <h1 className="text-green-700 text-4xl  font-stretch-105%">
             Select Patient
             <br />
   

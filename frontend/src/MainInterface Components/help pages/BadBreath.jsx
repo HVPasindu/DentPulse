@@ -19,7 +19,9 @@ export default function BadBreath() {
         </p>
 
         <section className="mb-6">
-          <h2 className="text-2xl font-bold text-green-600 mb-2">Common Causes</h2>
+          <h2 className="text-2xl font-bold text-green-600 mb-2">
+            Common Causes
+          </h2>
           <ul className="list-disc list-inside text-gray-700 space-y-1">
             <li>Plaque buildup</li>
             <li>Dry mouth</li>
@@ -29,8 +31,11 @@ export default function BadBreath() {
         </section>
 
         <div className="mt-8 flex justify-center">
-          <button className="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700">
-            Book a Dental Appointment
+          <button
+            onClick={() => window.close()}
+            className="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700"
+          >
+            Close
           </button>
         </div>
       </motion.div>

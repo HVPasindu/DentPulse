@@ -39,7 +39,7 @@ export default function WeeklyIncomeDashboard() {
         {recentWeeks.map((item, index) => (
           <div
             key={index}
-            className="bg-gradient-to-r from-green-500 to-green-600 text-white p-5 rounded-2xl shadow-lg"
+            className="bg-gradient-to-r from-green-700 to-green-600 text-white p-5 rounded-2xl shadow-lg"
           >
             <p className="text-sm opacity-90">Week starting</p>
             <p className="font-semibold">{item.week}</p>

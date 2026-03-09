@@ -79,8 +79,11 @@ export default function Toothache() {
 
         {/* CTA */}
         <div className="mt-8 flex justify-center">
-          <button className="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition">
-            Book a Dental Appointment
+            <button
+            onClick={() => window.close()}
+            className="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700"
+          >
+            Close
           </button>
         </div>
       </motion.div>

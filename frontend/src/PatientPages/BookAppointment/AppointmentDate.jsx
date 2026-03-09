@@ -11,7 +11,7 @@ export const AppointmentDate = ({ selectDate, setDate, selectedPatient }) => {
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="size-6 text-green-700" />
-            <h2 className="text-4xl font-serif font-stretch-105% text-green-700 ">Set Appointment Date</h2>
+            <h2 className="text-4xl  font-stretch-105% text-green-700 ">Set Appointment Date</h2>
           </div>
           <p className="text-green-500 text-2xl">
             Choose a date for your appointment

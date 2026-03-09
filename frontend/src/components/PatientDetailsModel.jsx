@@ -12,7 +12,7 @@ const PatientDetailsModal = ({ isOpen, onClose, patient, treatments = [] }) => {
   if (!isOpen || ! patient) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex justify-center items-center p-4">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-center p-4">
       <div className="bg-white w-full max-w-4xl rounded-lg shadow-xl max-h-[90vh] flex flex-col">
         
         {/* Header Section */}
