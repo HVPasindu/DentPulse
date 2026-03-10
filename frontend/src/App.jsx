@@ -34,7 +34,7 @@ import BillingPage from "./pages/BillingPage";
 import InventoryPage from "./pages/InventoryPage";
 import AppointmentPage from "./pages/AppointmentPage";
 import AdminQrScanner from "./Admin/AdminQrScanner";
-import NotificationManager from "./pages/admin/NotificationManager";
+import NotificationManager from "./Admin/NotificationManager";
 
 import { Toaster } from "react-hot-toast";
 //protected route
