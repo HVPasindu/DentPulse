@@ -44,7 +44,7 @@ const MainLogin = () => {
 
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/v1/auth/login",
+      "https://api.dentpulseclinic.com/api/v1/auth/login",
       formData,
       { headers: { "Content-Type": "application/json" } }
     );
