@@ -40,7 +40,7 @@ export default function OTPForm() {
     try {
       // Send OTP verification request
       const response = await fetch(
-        "http://localhost:8080/api/v1/auth/verify-email",
+        "https://api.dentpulseclinic.com/api/v1/auth/verify-email",
         {
           method: "POST",
           headers: {
