@@ -64,7 +64,7 @@ const RegisterPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/auth/register-patient",
+        "https://api.dentpulseclinic.com/api/v1/auth/register-patient",
         formData,
         { headers: { "Content-Type": "application/json" } },
       );
