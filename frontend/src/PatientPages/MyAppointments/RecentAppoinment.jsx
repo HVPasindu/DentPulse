@@ -6,6 +6,9 @@ export const RecentAppoinment = ({
   AppointmentList,
   OpenReviewCard,
   refreshAppointments,
+  page,
+  totalPages,
+  setPage,
 }) => {
   // Handle cancel appointment - DELETE request to backend
   const handleCancelAppointment = async (appointmentId) => {
@@ -92,13 +95,13 @@ export const RecentAppoinment = ({
             <CalendarClock />
           </div>
           <div>
-            <h1 className="p-1.5 text-green-700 text-4xl  font-stretch-125%">
+            <h1 className="p-1.5 text-green-700 text-2xl  font-stretch-125%">
               Upcoming Appoinments/Past Appoinments
             </h1>
           </div>
         </div>
 
-        <h1 className="p-1.5 text-green-400 text-xl">
+        <h1 className="p-1.5 text-green-400 text-lg">
           View your scheduled appointments
         </h1>
       </div>
@@ -197,7 +200,7 @@ export const RecentAppoinment = ({
                       onClick={() => OpenReviewCard(user)}
                       className="flex flex-row justify-evenly border-2 rounded-2xl text-green-500 hover:bg-green-100 border-green-400 bg-white p-2"
                     >
-                     {user.reviewId ? "Edit Review" : "Review Us"}
+                      {user.reviewId ? "Edit Review" : "Review Us"}
                     </button>
                   ) : null}
                 </td>
@@ -206,6 +209,29 @@ export const RecentAppoinment = ({
           </tbody>
         </table>
       )}
+      <div className="flex justify-center gap-3 mt-6">
+        <button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+          disabled={page === 0}
+          className={`px-4 py-2 rounded text-white 
+  ${page === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
+        >
+          Previous
+        </button>
+
+        <span className="px-3 py-2 font-semibold">
+          Page {page + 1} / {totalPages}
+        </span>
+
+        <button
+          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages - 1))}
+          disabled={page + 1 === totalPages}
+          className={`px-4 py-2 rounded text-white 
+  ${page + 1 === totalPages ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
