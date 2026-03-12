@@ -1,37 +1,59 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import { Star } from "lucide-react";
 
-export const Review = ({ AppointmentList, IsOpen, CloseReviewCard }) => {
+export const Review = ({ appointmentId, IsOpen, CloseReviewCard }) => {
   const [hoveredStar, setHoveredStar] = useState(-1);
   const [selectedRating, setSelectedRating] = useState(-1);
-  const [selectedPatient, setSelectedPatient] = useState("");
   const [comment, setComment] = useState("");
 
   const handleStarClick = (index) => {
     setSelectedRating(index);
   };
 
-  const handleSubmit = () => {
-    if (selectedRating === -1 || !selectedPatient) {
-      alert("Please select a patient and rating before submitting");
+  const handleSubmit = async () => {
+    console.log("Appointment ID:", appointmentId);
+    if (selectedRating === -1) {
+      alert("Please select a rating before submitting");
       return;
     }
 
-    
-    console.log({
-      patientId: selectedPatient,
-      rating: selectedRating + 1,
-      comment: comment,
-    });
+    const token = localStorage.getItem("authToken");
 
-    setSelectedRating(-1);
-    setHoveredStar(-1);
-    setSelectedPatient("");
-    setComment("");
+    if (!token) {
+      alert("Please login first");
+      return;
+    }
+    console.log("Appointment ID:", appointmentId);
+    try {
+      const response = await fetch("http://localhost:8080/api/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          appointmentId: appointmentId,
+          rating: selectedRating + 1,
+          comment: comment,
+        }),
+      });
 
-    alert("Thank you for your review!");
+      if (!response.ok) {
+        const error = await response.text();
+        alert(error || "Failed to submit review");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Review created:", data);
+
+      alert("Thank you for your review!");
+      CloseReviewCard();
+    } catch (error) {
+      console.error(error);
+      alert("Error submitting review");
+    }
   };
-
   return (
     <>
       {IsOpen && (
@@ -39,33 +61,17 @@ export const Review = ({ AppointmentList, IsOpen, CloseReviewCard }) => {
           className="fixed inset-0  bg-opacity-10 f z-50 backdrop-blur-sm flex justify-center items-center min-h-screen p-4"
           onClick={CloseReviewCard}
         >
-          <div className="flex flex-col bg-white justify-center items-center border-2 border-green-400 gap-y-3.5 rounded-2xl w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="flex flex-col bg-white justify-center items-center border-2 border-green-400 gap-y-3.5 rounded-2xl w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="bg-green-500 rounded-t-2xl w-full h-20 flex items-center justify-center">
               <h1 className="text-lg font-bold text-white text-center px-4">
                 Please Leave us a review!
               </h1>
             </div>
 
-            <div className="w-full px-6">
-              <select
-                value={selectedPatient}
-                onChange={(e) => setSelectedPatient(e.target.value)}
-                className="w-full text-green-600 border-2 border-green-400 rounded-lg p-2"
-              >
-                <option value="">--Select A Patient--</option>
-                {AppointmentList?.map((user, index) =>
-                  user.status === "Completed" ? (
-                    <option
-                      key={user.id || index}
-                      value={user.id}
-                      className="text-green-800"
-                    >
-                      {user.patientName}
-                    </option>
-                  ) : null
-                )}
-              </select>
-            </div>
+            <div className="w-full px-6"></div>
 
             <div className="text-center px-4">
               <h1 className="font-extrabold text-xl text-green-800 pb-0.5">
@@ -103,8 +109,9 @@ export const Review = ({ AppointmentList, IsOpen, CloseReviewCard }) => {
                 rows="5"
               />
               <button
+                disabled={selectedRating === -1}
                 onClick={handleSubmit}
-                className="bg-green-400 text-black rounded-lg p-2 w-3/4 hover:bg-green-600 transition-colors font-semibold"
+                className="bg-green-400 text-black rounded-lg p-2 w-3/4 hover:bg-green-600 transition-colors font-semibold disabled:bg-gray-300"
               >
                 Send
               </button>
