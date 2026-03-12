@@ -62,16 +62,21 @@ export const MyAppointments = () => {
     notes: "",
   });
 
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
   const [IsOpen, setIsOpen] = useState(false);
 
   // Fetch appointments from backend when component mounts
   useEffect(() => {
     fetchAppointments();
-  }, []);
+  }, [page]);
 
   const fetchAppointments = async () => {
     try {
-      setIsLoading(true);
+      if (AppointmentList.length === 0) {
+        setIsLoading(true);
+      }
       const token = localStorage.getItem("authToken");
 
       if (!token) {
@@ -83,7 +88,7 @@ export const MyAppointments = () => {
       console.log("🔍 Fetching appointments...");
 
       const response = await axios.get(
-        "http://localhost:8080/api/appointments/my-appointments",
+        `http://localhost:8080/api/appointments/my-appointments?page=${page}&size=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,7 +99,7 @@ export const MyAppointments = () => {
       console.log("✅ Appointments fetched:", response.data);
 
       // Transform backend data to match frontend format
-      const transformedData = response.data.map((apt) => ({
+      const transformedData = response.data.content.map((apt) => ({
         id: apt.appointmentId,
         patientId: apt.patientId,
         patientName: apt.fullName,
@@ -107,8 +112,8 @@ export const MyAppointments = () => {
         rating: apt.rating,
         comment: apt.comment,
       }));
-
       setAppointmentList(transformedData);
+      setTotalPages(response.data.totalPages);
       setError(null);
     } catch (error) {
       console.error("❌ Failed to fetch appointments:", error);
@@ -122,24 +127,24 @@ export const MyAppointments = () => {
     }
   };
 
-const OpenReviewCard = (appointment) => {
-  setSelectedAppointmentId(appointment.id);
+  const OpenReviewCard = (appointment) => {
+    setSelectedAppointmentId(appointment.id);
 
-  if (appointment.reviewId) {
-    setExistingReview({
-      reviewId: appointment.reviewId,
-      rating: appointment.rating,
-      comment: appointment.comment,
-    });
-  } else {
-    setExistingReview(null);
-  }
+    if (appointment.reviewId) {
+      setExistingReview({
+        reviewId: appointment.reviewId,
+        rating: appointment.rating,
+        comment: appointment.comment,
+      });
+    } else {
+      setExistingReview(null);
+    }
 
-  setIsOpen(true);
-};
+    setIsOpen(true);
+  };
   const CloseReviewCard = () => {
     setIsOpen(false);
-     setExistingReview(null);
+    setExistingReview(null);
   };
 
   // Show loading state
@@ -181,6 +186,9 @@ const OpenReviewCard = (appointment) => {
           AppointmentList={AppointmentList}
           OpenReviewCard={OpenReviewCard}
           refreshAppointments={fetchAppointments}
+          page={page}
+          totalPages={totalPages}
+          setPage={setPage}
         />
       </div>
       <div className="pt-10">

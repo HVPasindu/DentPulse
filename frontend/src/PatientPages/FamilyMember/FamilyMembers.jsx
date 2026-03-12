@@ -258,13 +258,13 @@ export const FamilyMembers = () => {
                 <Users />
               </div>
               <div>
-                <h1 className="text-4xl  font-stretch-105% text-green-700   mb-6">
+                <h1 className="text-2xl  font-stretch-105% text-green-700   mb-6">
                   Family Members
                 </h1>
               </div>
             </div>
 
-            <h1 className="text-2xl  text-green-500">
+            <h1 className="text-lg  text-green-500">
               Manage family members and book appointments for them
             </h1>
           </div>

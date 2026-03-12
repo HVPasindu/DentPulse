@@ -128,13 +128,13 @@ export const TimeSlot = ({
               <ClockCheck />
             </div>
             <div>
-              <h1 className="p-1.5 text-green-700   text-4xl">
+              <h1 className="p-1.5 text-green-700   text-2xl">
                 Select Time Slot
               </h1>
             </div>
           </div>
 
-          <h1 className="p-1.5 text-green-500 text-xl">
+          <h1 className="p-1.5 text-green-500 text-lg">
             {selectDate
               ? `Available slots for ${
                   selectDate.toDateString

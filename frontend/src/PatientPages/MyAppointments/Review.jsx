@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import { successAlert,errorAlert } from "../../utils/alert";
 export const Review = ({
   appointmentId,
   IsOpen,
@@ -17,14 +18,14 @@ export const Review = ({
 
   const handleSubmit = async () => {
     if (selectedRating === -1) {
-      alert("Please select a rating before submitting");
+      errorAlert("Please select a rating before submitting");
       return;
     }
 
     const token = localStorage.getItem("authToken");
 
     if (!token) {
-      alert("Please login first");
+      errorAlert("Please login first");
       return;
     }
 
@@ -59,10 +60,7 @@ export const Review = ({
 
       console.log("Review saved:", data);
 
-      alert(
-        reviewId
-          ? "Review updated successfully!"
-          : "Review submitted successfully!",
+     successAlert(`Your review has been ${reviewId ? "updated" : "saved"} successfully!`  
       );
 
       // reset form
@@ -77,7 +75,7 @@ export const Review = ({
       }
     } catch (error) {
       console.error("Error saving review:", error);
-      alert("Error submitting review");
+      errorAlert("An error occurred while saving your review. Please try again.");
     }
   };
   useEffect(() => {

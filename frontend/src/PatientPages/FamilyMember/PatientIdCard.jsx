@@ -72,11 +72,11 @@ export const PatientIdCard = ({ FormData, closeIdModel }) => {
         <div className="grid grid-cols-1 pb-10">
           <div className="flex gap-2 items-center">
             <IdCard />
-            <h1 className="text-green-800 text-3xl font-serif">
+            <h1 className="text-green-800 text-2xl font-serif">
               Patient ID Card
             </h1>
           </div>
-          <h2 className="text-green-400 text-2xl">
+          <h2 className="text-green-400 text-lg">
             View and download your ID card
           </h2>
         </div>

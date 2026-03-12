@@ -38,7 +38,7 @@ import NotificationManager from "./Admin/NotificationManager";
 
 import { Toaster } from "react-hot-toast";
 //protected route
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedPatientRoute from "./routes/ProtectedPatientRoute";
 import SimpleError404 from "./MainInterface Components/SimpleError404";
 //help pages
 
@@ -83,7 +83,14 @@ function App() {
         </Route>
         {/* <Route path="/doctor/admin/billing" element={<BillingPage  />}>
         </Route> */}
-        <Route path="/patient" element={<PatientLayout />}>
+        <Route
+          path="/patient"
+          element={
+            <ProtectedPatientRoute>
+              <PatientLayout />
+            </ProtectedPatientRoute>
+          }
+        >
           <Route index element={<MainInterface />} />
           <Route path="family" element={<FamilyMembers />} />
           <Route path="bookappointments" element={<BookAppoinment />} />
