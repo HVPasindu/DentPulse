@@ -15,10 +15,10 @@ export const PatientLayout = () => {
      
       <div
         className="flex-1 ml-80 relative bg-cover bg-center"
-        style={{ backgroundImage: "url('/background2.png')" }}
+        style={{ backgroundImage: "url('/background.png')" }}
       >
      
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
 
    
         <div className="relative z-10 p-6 md:p-8 min-h-screen">

@@ -13,20 +13,23 @@ api.interceptors.request.use((config) => {
 });
 
 /* ===================== FETCH ===================== */
-export const fetchInvoices = async () => {
-  const res = await api.get("");
+export const fetchInvoices = async (page = 0, size = 10) => {
+  const res = await api.get("", {
+    params: { page, size }
+  });
 
-  return res.data.map((b) => ({
-    id: b.id,
-    invoiceId: b.billNumber,
-    patientId: b.patientId,                // ADD
-    treatmentServiceId: b.treatmentServiceId, // ADD
-    name: b.patientName,
-    treatmentType: b.treatmentDescription,
-    amount: b.amount,
-    date: b.billDate,
-    paymentMethod: b.paymentMethod,
-  }));
+  return {
+    invoices: res.data.content.map((b) => ({
+      id: b.id,
+      invoiceId: b.billNumber,
+      name: b.patientName,
+      treatmentType: b.treatmentDescription,
+      amount: b.amount,
+      date: b.billDate,
+      paymentMethod: b.paymentMethod,
+    })),
+    totalPages: res.data.totalPages,
+  };
 };
 
 
