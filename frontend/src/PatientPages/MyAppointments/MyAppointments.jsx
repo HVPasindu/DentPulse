@@ -17,9 +17,7 @@
 //     notes: "",
 //   });
 
-
 //   const [IsOpen,setIsOpen]=useState(false);
-
 
 //   const OpenReviewCard=()=>{
 
@@ -29,7 +27,7 @@
 //   const CloseReviewCard=()=>{
 //     setIsOpen(false);
 //   }
-  
+
 //   return (
 //     <div>
 //       <div className="">
@@ -49,9 +47,10 @@ import axios from "axios";
 
 export const MyAppointments = () => {
   const [AppointmentList, setAppointmentList] = useState([]);
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [existingReview, setExistingReview] = useState(null);
   const [Appoinment, setAppointment] = useState({
     id: "",
     patientId: "",
@@ -89,7 +88,7 @@ export const MyAppointments = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       console.log("✅ Appointments fetched:", response.data);
@@ -104,6 +103,9 @@ export const MyAppointments = () => {
         status: apt.status,
         type: apt.type || "Checkup",
         notes: apt.notes || "",
+        reviewId: apt.reviewId,
+        rating: apt.rating,
+        comment: apt.comment,
       }));
 
       setAppointmentList(transformedData);
@@ -111,7 +113,7 @@ export const MyAppointments = () => {
     } catch (error) {
       console.error("❌ Failed to fetch appointments:", error);
       setError("Failed to load appointments. Please try again.");
-      
+
       if (error.response?.status === 401) {
         alert("Session expired. Please login again.");
       }
@@ -120,12 +122,24 @@ export const MyAppointments = () => {
     }
   };
 
-  const OpenReviewCard = () => {
-    setIsOpen(true);
-  };
+const OpenReviewCard = (appointment) => {
+  setSelectedAppointmentId(appointment.id);
 
+  if (appointment.reviewId) {
+    setExistingReview({
+      reviewId: appointment.reviewId,
+      rating: appointment.rating,
+      comment: appointment.comment,
+    });
+  } else {
+    setExistingReview(null);
+  }
+
+  setIsOpen(true);
+};
   const CloseReviewCard = () => {
     setIsOpen(false);
+     setExistingReview(null);
   };
 
   // Show loading state
@@ -134,7 +148,9 @@ export const MyAppointments = () => {
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-600 mx-auto"></div>
-          <p className="mt-4 text-green-700 font-semibold">Loading appointments...</p>
+          <p className="mt-4 text-green-700 font-semibold">
+            Loading appointments...
+          </p>
         </div>
       </div>
     );
@@ -161,21 +177,21 @@ export const MyAppointments = () => {
   return (
     <div>
       <div className="">
-        <RecentAppoinment 
-          AppointmentList={AppointmentList} 
+        <RecentAppoinment
+          AppointmentList={AppointmentList}
           OpenReviewCard={OpenReviewCard}
           refreshAppointments={fetchAppointments}
         />
       </div>
       <div className="pt-10">
         <Review
-          AppointmentList={AppointmentList}
+          appointmentId={selectedAppointmentId}
+          existingReview={existingReview}
           IsOpen={IsOpen}
           CloseReviewCard={CloseReviewCard}
+          refreshAppointments={fetchAppointments}
         />
       </div>
     </div>
   );
 };
-
-

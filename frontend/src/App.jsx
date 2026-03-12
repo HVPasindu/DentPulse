@@ -34,6 +34,7 @@ import BillingPage from "./pages/BillingPage";
 import InventoryPage from "./pages/InventoryPage";
 import AppointmentPage from "./pages/AppointmentPage";
 import AdminQrScanner from "./Admin/AdminQrScanner";
+import NotificationManager from "./Admin/NotificationManager";
 
 import { Toaster } from "react-hot-toast";
 //protected route
@@ -106,9 +107,12 @@ function App() {
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="appointment" element={<AppointmentPage />} />
           <Route path="qr" element={<AdminQrScanner />} />
+          <Route
+            path="/admin/notifications"
+            element={<NotificationManager />}
+          />
         </Route>
-   
-    
+
         {/* Other routes */}
         <Route path="/help/toothache" element={<Toothache />} />
         <Route path="/help/cavity" element={<Cavity />} />
@@ -120,10 +124,9 @@ function App() {
         <Route path="/help/sensitive-teeth" element={<SensitiveTeeth />} />
         <Route path="/help/tooth-mobility" element={<ToothMobility />} />
         <Route path="/help/bad-breath" element={<BadBreath />} />
-          <Route path="/help/receding-gum" element={<RecedingGum />} />
-      <Route path="*" element={<SimpleError404 />} /> 
+        <Route path="/help/receding-gum" element={<RecedingGum />} />
+        <Route path="*" element={<SimpleError404 />} />
       </Routes>
-      
 
       {/* Global chatbot */}
       <ChatbotWidget />

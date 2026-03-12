@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 
 export function Header() {
   const [helpOpen, setHelpOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const helpRef = useRef(null);
 
   const openNewWindow = (url) => {
@@ -111,7 +112,7 @@ export function Header() {
           </div>
         </nav>
       </div>
-      <div className="">
+      <div className="hidden lg:block">
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.96 }}
@@ -137,8 +138,46 @@ export function Header() {
       </div>
 
       <div className="block lg:hidden">
-        <TextAlignJustify />
+        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <TextAlignJustify size={28} className="text-green-700" />
+        </button>
       </div>
+
+      {mobileMenuOpen && (
+  <motion.div
+    initial={{ opacity: 0, y: -20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="lg:hidden absolute top-[90px] left-0 w-full bg-white shadow-lg z-40"
+  >
+    <nav className="flex flex-col items-center py-6 space-y-4 text-green-700 text-lg">
+      <HashLink smooth to="/#home" onClick={() => setMobileMenuOpen(false)}>
+        Home
+      </HashLink>
+
+      <HashLink smooth to="/#services" onClick={() => setMobileMenuOpen(false)}>
+        Services
+      </HashLink>
+
+      <HashLink smooth to="/#about" onClick={() => setMobileMenuOpen(false)}>
+        Testimonials
+      </HashLink>
+
+      <HashLink smooth to="/#contact" onClick={() => setMobileMenuOpen(false)}>
+        Contact
+      </HashLink>
+
+      <button
+        onClick={() => {
+          navigatetologinpage();
+          setMobileMenuOpen(false);
+        }}
+        className="border border-green-500 px-6 py-2 rounded-lg"
+      >
+        Login
+      </button>
+    </nav>
+  </motion.div>
+)}
     </div>
   );
 }

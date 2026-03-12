@@ -98,7 +98,7 @@ const AdminQrScanner = () => {
         <h1 className="text-4xl font-serif font-bold text-green-800">
           Admin QR Scanner
         </h1>
-        <p className="text-green-600 mt-2">
+        <p className="text-gray-600 mt-2">
           Scan patient QR codes to view profile & treatment history
         </p>
       </div>
