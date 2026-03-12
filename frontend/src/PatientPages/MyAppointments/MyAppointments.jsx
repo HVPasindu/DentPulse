@@ -50,7 +50,7 @@ export const MyAppointments = () => {
   const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [existingReview, setExistingReview] = useState(null);
   const [Appoinment, setAppointment] = useState({
     id: "",
     patientId: "",
@@ -103,6 +103,9 @@ export const MyAppointments = () => {
         status: apt.status,
         type: apt.type || "Checkup",
         notes: apt.notes || "",
+        reviewId: apt.reviewId,
+        rating: apt.rating,
+        comment: apt.comment,
       }));
 
       setAppointmentList(transformedData);
@@ -119,12 +122,24 @@ export const MyAppointments = () => {
     }
   };
 
-  const OpenReviewCard = (appointmentId) => {
-    setSelectedAppointmentId(appointmentId);
-    setIsOpen(true);
-  };
+const OpenReviewCard = (appointment) => {
+  setSelectedAppointmentId(appointment.id);
+
+  if (appointment.reviewId) {
+    setExistingReview({
+      reviewId: appointment.reviewId,
+      rating: appointment.rating,
+      comment: appointment.comment,
+    });
+  } else {
+    setExistingReview(null);
+  }
+
+  setIsOpen(true);
+};
   const CloseReviewCard = () => {
     setIsOpen(false);
+     setExistingReview(null);
   };
 
   // Show loading state
@@ -171,8 +186,10 @@ export const MyAppointments = () => {
       <div className="pt-10">
         <Review
           appointmentId={selectedAppointmentId}
+          existingReview={existingReview}
           IsOpen={IsOpen}
           CloseReviewCard={CloseReviewCard}
+          refreshAppointments={fetchAppointments}
         />
       </div>
     </div>

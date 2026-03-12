@@ -1,17 +1,21 @@
-import React, { useState } from "react";
 import { Star } from "lucide-react";
-
-export const Review = ({ appointmentId, IsOpen, CloseReviewCard }) => {
+import React, { useState, useEffect } from "react";
+export const Review = ({
+  appointmentId,
+  IsOpen,
+  CloseReviewCard,
+  existingReview,
+  refreshAppointments,
+}) => {
   const [hoveredStar, setHoveredStar] = useState(-1);
   const [selectedRating, setSelectedRating] = useState(-1);
   const [comment, setComment] = useState("");
-
+  const [reviewId, setReviewId] = useState(null);
   const handleStarClick = (index) => {
     setSelectedRating(index);
   };
 
   const handleSubmit = async () => {
-    console.log("Appointment ID:", appointmentId);
     if (selectedRating === -1) {
       alert("Please select a rating before submitting");
       return;
@@ -23,37 +27,70 @@ export const Review = ({ appointmentId, IsOpen, CloseReviewCard }) => {
       alert("Please login first");
       return;
     }
-    console.log("Appointment ID:", appointmentId);
+
     try {
-      const response = await fetch("http://localhost:8080/api/reviews", {
-        method: "POST",
+      // decide request type
+      const method = reviewId ? "PUT" : "POST";
+
+      const url = reviewId
+        ? `http://localhost:8080/api/reviews/${reviewId}`
+        : "http://localhost:8080/api/reviews";
+
+      const response = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          appointmentId: appointmentId,
+          appointmentId,
           rating: selectedRating + 1,
-          comment: comment,
+          comment,
         }),
       });
 
       if (!response.ok) {
         const error = await response.text();
-        alert(error || "Failed to submit review");
+        alert(error || "Failed to save review");
         return;
       }
 
       const data = await response.json();
-      console.log("Review created:", data);
 
-      alert("Thank you for your review!");
+      console.log("Review saved:", data);
+
+      alert(
+        reviewId
+          ? "Review updated successfully!"
+          : "Review submitted successfully!",
+      );
+
+      // reset form
+      setSelectedRating(-1);
+      setComment("");
+      setReviewId(null);
+
       CloseReviewCard();
+
+      if (refreshAppointments) {
+        refreshAppointments();
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error saving review:", error);
       alert("Error submitting review");
     }
   };
+  useEffect(() => {
+    if (existingReview && existingReview.reviewId) {
+      setSelectedRating(existingReview.rating - 1);
+      setComment(existingReview.comment);
+      setReviewId(existingReview.reviewId);
+    } else {
+      setSelectedRating(-1);
+      setComment("");
+      setReviewId(null);
+    }
+  }, [existingReview]);
   return (
     <>
       {IsOpen && (
@@ -113,7 +150,7 @@ export const Review = ({ appointmentId, IsOpen, CloseReviewCard }) => {
                 onClick={handleSubmit}
                 className="bg-green-400 text-black rounded-lg p-2 w-3/4 hover:bg-green-600 transition-colors font-semibold disabled:bg-gray-300"
               >
-                Send
+                {reviewId ? "Update Review" : "Send Review"}
               </button>
             </div>
           </div>

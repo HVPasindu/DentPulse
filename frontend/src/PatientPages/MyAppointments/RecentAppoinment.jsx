@@ -194,10 +194,10 @@ export const RecentAppoinment = ({
                   ) : user.status === "COMPLETED" ||
                     user.status === "Completed" ? (
                     <button
-                      onClick={() => OpenReviewCard(user.id)}
+                      onClick={() => OpenReviewCard(user)}
                       className="flex flex-row justify-evenly border-2 rounded-2xl text-green-500 hover:bg-green-100 border-green-400 bg-white p-2"
                     >
-                      Review Us!
+                     {user.reviewId ? "Edit Review" : "Review Us"}
                     </button>
                   ) : null}
                 </td>
