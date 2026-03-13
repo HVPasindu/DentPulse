@@ -47,9 +47,13 @@ export const PatientDetail = ({ patient, setPatient }) => {
     <div className="bg-white border border-green-300 rounded-2xl p-8">
       <div className="flex items-center gap-2">
         <UserRoundPen />
-        <h1 className="text-3xl  text-green-700">Patient Details</h1>
+        <h1 className="text-2xl  text-green-700">Patient Details</h1>
       </div>
-
+      <div>
+        <h1 className="text-green-500 text-lg">
+          View and update your personal information
+        </h1>
+      </div>
       {message && (
         <p
           className={`mt-2 text-center ${

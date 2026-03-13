@@ -1,6 +1,6 @@
-import { MapPin, Phone, Clock } from "lucide-react";
-import { motion } from "framer-motion";
 
+import { motion } from "framer-motion";
+import { MapPin, Phone, Clock } from "lucide-react";
 export default function ClinicLocation() {
   return (
     <section id="location" className="bg-green-50 py-16 px-6">
@@ -50,11 +50,7 @@ export default function ClinicLocation() {
           </div>
 
           {/* CTA */}
-          <div className="pt-4">
-            <button className="px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition shadow-md">
-              Get Directions
-            </button>
-          </div>
+        
         </motion.div>
 
         {/* RIGHT: Map */}

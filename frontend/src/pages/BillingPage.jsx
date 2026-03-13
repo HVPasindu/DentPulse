@@ -21,7 +21,7 @@ const BillingPage = () => {
   const [treatmentServices, setTreatmentServices] = useState([]);
   //const [patients, setPatients] = useState([]);
   const [patientError, setPatientError] = useState("");
-  
+
   // UI States
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,6 +33,7 @@ const BillingPage = () => {
     patientId: "",
     patientName: "",
     treatmentServiceId: "",
+    amount: "",
     date: today,
   });
 
@@ -49,29 +50,40 @@ const BillingPage = () => {
   loadPatients();
 }, []);*/
 
-
-
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
-  const loadServices = async () => {
-    try {
-      const data = await fetchTreatmentServices();
-      setTreatmentServices(data);
-    } catch (err) {
-      console.error("Failed to load services", err);
-    }
-  };
+    const loadServices = async () => {
+      try {
+        const data = await fetchTreatmentServices();
+        setTreatmentServices(data);
+      } catch (err) {
+        console.error("Failed to load services", err);
+      }
+    };
 
-  loadServices();
-}, []);
+    loadServices();
+  }, []);
+  useEffect(() => {
+    const loadInvoices = async () => {
+      try {
+        const data = await fetchInvoices(page, 10);
 
+        setAppointments(data.invoices);
+        setTotalPages(data.totalPages);
+      } catch (err) {
+        console.error("Failed to load invoices", err);
+      }
+    };
 
+    loadInvoices();
+  }, [page]);
   const handleAddInvoice = async (e) => {
     e.preventDefault();
-     if (!newInvoice.patientId || !newInvoice.treatmentServiceId) {
-    errorAlert("Please enter patient ID and select treatment");
-    return;
-  }
-
+    if (!newInvoice.patientId || !newInvoice.treatmentServiceId) {
+      errorAlert("Please enter patient ID and select treatment");
+      return;
+    }
 
     const result = await confirmAction({
       title: "Create Invoice?",
@@ -85,12 +97,14 @@ const BillingPage = () => {
       successAlert("Invoice created successfully");
       setIsAddInvoiceOpen(false);
 
-      const data = await fetchInvoices();
-      setAppointments(data);
-
+      const data = await fetchInvoices(page, 10);
+      setAppointments(data.invoices);
+      setTotalPages(data.totalPages);
       setNewInvoice({
         patientId: "",
+        patientName: "",
         treatmentServiceId: "",
+        amount: "",
         date: today,
       });
     } catch (err) {
@@ -210,19 +224,6 @@ const BillingPage = () => {
     };
   };
 
-  useEffect(() => {
-    const loadInvoices = async () => {
-      try {
-        const data = await fetchInvoices();
-        setAppointments(data);
-      } catch (err) {
-        console.error("Failed to load invoices", err);
-      }
-    };
-
-    loadInvoices();
-  }, []);
-
   const updateLocalStorage = (updatedList) => {
     setAppointments(updatedList);
     localStorage.setItem("app_appointments", JSON.stringify(updatedList));
@@ -241,7 +242,10 @@ const BillingPage = () => {
   const toggleMethod = (id) => {
     const updated = appointments.map((appt) => {
       if (appt.id === id) {
-        return { ...appt, paymentMethod: appt.paymentMethod === "Cash" ? "Card" : "Cash" };
+        return {
+          ...appt,
+          paymentMethod: appt.paymentMethod === "Cash" ? "Card" : "Cash",
+        };
       }
       return appt;
     });
@@ -254,7 +258,7 @@ const BillingPage = () => {
     const exists = appointments.some((appt) => appt.id === activeAppt.id);
     if (exists) {
       const updated = appointments.map((appt) =>
-        appt.id === activeAppt.id ? { ...activeAppt } : appt
+        appt.id === activeAppt.id ? { ...activeAppt } : appt,
       );
       updateLocalStorage(updated);
     } else {
@@ -440,10 +444,12 @@ const BillingPage = () => {
                           });
 
                           if (!result.isConfirmed) return;
-
                           await deleteInvoice(appt.id);
                           successAlert("Invoice deleted");
-                          setAppointments(await fetchInvoices());
+
+                          const data = await fetchInvoices(page, 10);
+                          setAppointments(data.invoices);
+                          setTotalPages(data.totalPages);
                         }}
                         className="px-3 py-1 text-xs font-bold text-red-600 border border-red-200 rounded-lg hover:bg-red-50 cursor-pointer
 "
@@ -456,6 +462,31 @@ const BillingPage = () => {
               ))}
             </tbody>
           </table>
+          <div className="flex justify-center gap-3 mt-6">
+            <button
+              onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+              disabled={page === 0}
+              className={`px-4 py-2 rounded text-white 
+  ${page === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
+            >
+              Previous
+            </button>
+
+            <span className="px-3 py-2 font-semibold">
+              Page {page + 1} / {totalPages}
+            </span>
+
+            <button
+              onClick={() =>
+                setPage((prev) => Math.min(prev + 1, totalPages - 1))
+              }
+              disabled={page + 1 === totalPages}
+              className={`px-4 py-2 rounded text-white 
+  ${page + 1 === totalPages ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
+            >
+              Next
+            </button>
+          </div>
         </div>
         {isAddInvoiceOpen && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center z-50 p-4">
@@ -512,7 +543,6 @@ const BillingPage = () => {
                         }));
 
                         setPatientError("");
-
                       } catch (err) {
                         setNewInvoice((prev) => ({
                           ...prev,
@@ -522,8 +552,6 @@ const BillingPage = () => {
                         setPatientError("Patient not found with this ID");
                       }
                     }}
-
-
                     className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
                   />
 
@@ -532,7 +560,6 @@ const BillingPage = () => {
                       {patientError}
                     </p>
                   )}
-
                 </div>
 
                 {/* Patient Name */}
@@ -545,7 +572,7 @@ const BillingPage = () => {
                     placeholder="Enter Patient Name"
                     value={newInvoice.patientName}
                     readOnly
-                   /* onChange={(e) =>
+                    /* onChange={(e) =>
                       setNewInvoice({
                         ...newInvoice,
                         patientName: e.target.value,
@@ -565,7 +592,7 @@ const BillingPage = () => {
                     onChange={(e) => {
                       const selectedId = Number(e.target.value);
                       const service = treatmentServices.find(
-                        (s) => s.id === selectedId
+                        (s) => s.id === selectedId,
                       );
 
                       setNewInvoice({
@@ -689,7 +716,7 @@ const BillingPage = () => {
                         onChange={(e) => {
                           const selectedId = Number(e.target.value);
                           const service = treatmentServices.find(
-                            (s) => s.id === selectedId
+                            (s) => s.id === selectedId,
                           );
 
                           setActiveAppt({
@@ -700,15 +727,15 @@ const BillingPage = () => {
                           });
                         }}
                         className="border border-green-200 rounded-lg p-2 text-sm w-full max-w-[250px] font-medium outline-none"
-                    >
+                      >
                         {treatmentServices.map((service) => (
                           <option key={service.id} value={service.id}>
                             {service.description}
                           </option>
                         ))}
-                     </select>
-                      )}
-                      <span className="font-black text-slate-900 text-sm">
+                      </select>
+                    )}
+                    <span className="font-black text-slate-900 text-sm">
                       LKR {activeAppt.amount?.toLocaleString()}
                     </span>
                   </div>
@@ -756,18 +783,19 @@ const BillingPage = () => {
                       📥 Download
                     </button>
                     <button
-                     
                       className="px-3 py-1 text-xs font-bold text-red-600 border border-red-200 rounded-lg hover:bg-red-50 cursor-pointer"
-                    onClick={() => printInvoicePdf(activeAppt)} >
+                      onClick={() => printInvoicePdf(activeAppt)}
+                    >
                       🖨️ Print
-                      
                     </button>
                     <button
                       onClick={async () => {
                         if (!window.confirm("Delete this invoice?")) return;
                         await deleteInvoice(activeAppt.id);
                         setIsModalOpen(false);
-                        setAppointments(await fetchInvoices());
+                        const data = await fetchInvoices(page, 10);
+                        setAppointments(data.invoices);
+                        setTotalPages(data.totalPages);
                       }}
                       className="w-full px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 cursor-pointer"
                     >
@@ -786,20 +814,26 @@ const BillingPage = () => {
 
                       if (!result.isConfirmed) return;
 
-                      try {
-                        await updateInvoice(activeAppt.id, {
-                        patientId: activeAppt.patientId,
-                        treatmentServiceId: activeAppt.treatmentServiceId,
-                        billDate: activeAppt.date,
-                      });
+                    
+                        try {
+                          await updateInvoice(activeAppt.id, {
+                            patientId: activeAppt.patientId,
+                            treatmentServiceId: activeAppt.treatmentServiceId,
+                            billDate: activeAppt.date,
+                          });
 
-                        successAlert("Invoice updated");
-                        setAppointments(await fetchInvoices());
-                        setIsModalOpen(false);
-                      } catch {
-                        errorAlert("Failed to update invoice");
-                      }
-                    }}
+                          successAlert("Invoice updated");
+
+                          const data = await fetchInvoices(page, 10);
+                          setAppointments(data.invoices);
+                          setTotalPages(data.totalPages);
+
+                          setIsModalOpen(false);
+                        } catch {
+                          errorAlert("Failed to update invoice");
+                        }
+                      } 
+                    }
                     className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700 cursor-pointer"
                   >
                     Update Invoice

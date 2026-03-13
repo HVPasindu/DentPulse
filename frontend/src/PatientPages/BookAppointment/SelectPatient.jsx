@@ -12,12 +12,12 @@ export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) =
               <UserPlus />
             </div>
               <div>
-         <h1 className="text-green-700 text-4xl  font-stretch-105%">
+         <h1 className="text-green-700 text-2xl  font-stretch-105%">
             Select Patient
             <br />
   
           </h1>
-                    <h1 className="text-green-500 text-2xl font-normal">
+                    <h1 className="text-green-500 text-lg font-normal">
               Choose who this appointment is for
             </h1>
               </div>
