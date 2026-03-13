@@ -1,18 +1,19 @@
-import { useState } from 'react';
-import { X } from 'lucide-react';
-import Swal from 'sweetalert2';
+import { useState } from "react";
+import { X } from "lucide-react";
+import Swal from "sweetalert2";
+import { addPatient } from "../api/adminPatientPageApi";
 
-const AddPatientModal = ({ onClose, onAdd }) => {
+const AddPatientModal = ({ onClose, onPatientAdded }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    dob: '',
-    age: '',
-    gender: 'Male',
-    phone: '',
-    email: '',
-    address: '',
-    hasNIC: '',
-    nicNumber: '',
+    name: "",
+    dob: "",
+    age: "",
+    gender: "Male",
+    phone: "",
+    email: "",
+    address: "",
+    hasNIC: "",
+    nicNumber: "",
   });
 
   // Handle form input change
@@ -24,39 +25,72 @@ const AddPatientModal = ({ onClose, onAdd }) => {
   };
 
   // Submit patient form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Optional: calculate age from DOB if needed
-    if (formData.dob && !formData.age) {
+    /*if (formData.dob && !formData.age) {
       const birthDate = new Date(formData.dob);
       const age = new Date().getFullYear() - birthDate.getFullYear();
       formData.age = age;
+    }*/
+
+    const payload = {
+      fullName: formData.name, // CHANGED
+      birthDate: formData.dob, // CHANGED
+      gender: formData.gender,
+      phone: formData.phone,
+      email: formData.email || null,
+      address: formData.address,
+      hasNic: formData.hasNIC === "yes", // CHANGED (boolean)
+      nic: formData.hasNIC === "yes" ? formData.nicNumber : null, // CHANGED
+    };
+
+    try {
+      await addPatient(payload);
+
+      Swal.fire({
+        title: "Success!",
+        text: "Patient added successfully!",
+        icon: "success",
+        confirmButtonColor: "#2563eb",
+      });
+
+      if (onPatientAdded) {
+        onPatientAdded(); //  refresh patient list
+      }
+
+      onClose();
+
+      onClose(); // modal close
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: error.message,
+        icon: "error",
+      });
     }
-    onAdd(formData);
-    Swal.fire({
-      title: "Success!",
-      text: "Patient added successfully!",
-      icon: "success",
-      confirmButtonText: "OK",
-      confirmButtonColor: "#2563eb",
-    });
   };
 
   // Logic to check if patient is under 16 based on DOB
-  const isUnder16 = formData.dob 
-    ? (new Date().getFullYear() - new Date(formData.dob).getFullYear()) < 16 
+  const isUnder16 = formData.dob
+    ? new Date().getFullYear() - new Date(formData.dob).getFullYear() < 16
     : false;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
 
       {/* Dialog Content */}
       <div className="relative z-50 w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-2xl sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-slate-900">Add New Patient</h2>
+            <h2 className="text-xl font-semibold text-slate-900">
+              Add New Patient
+            </h2>
             <p className="mt-1 text-sm text-slate-600">
               Enter the details for the new patient.
             </p>
@@ -73,7 +107,12 @@ const AddPatientModal = ({ onClose, onAdd }) => {
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           {/* Full Name */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-slate-700">Full Name *</label>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-slate-700"
+            >
+              Full Name *
+            </label>
             <input
               id="name"
               type="text"
@@ -88,7 +127,12 @@ const AddPatientModal = ({ onClose, onAdd }) => {
 
           {/* Date of Birth */}
           <div>
-            <label htmlFor="dob" className="block text-sm font-medium text-slate-700">Date of Birth *</label>
+            <label
+              htmlFor="dob"
+              className="block text-sm font-medium text-slate-700"
+            >
+              Date of Birth *
+            </label>
             <input
               id="dob"
               type="date"
@@ -102,7 +146,12 @@ const AddPatientModal = ({ onClose, onAdd }) => {
 
           {/* Gender */}
           <div>
-            <label htmlFor="gender" className="block text-sm font-medium text-slate-700">Gender *</label>
+            <label
+              htmlFor="gender"
+              className="block text-sm font-medium text-slate-700"
+            >
+              Gender *
+            </label>
             <select
               id="gender"
               name="gender"
@@ -119,7 +168,12 @@ const AddPatientModal = ({ onClose, onAdd }) => {
 
           {/* Phone */}
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-slate-700">Phone Number *</label>
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-slate-700"
+            >
+              Phone Number *
+            </label>
             <input
               id="phone"
               type="tel"
@@ -134,7 +188,12 @@ const AddPatientModal = ({ onClose, onAdd }) => {
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email Address</label>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-slate-700"
+            >
+              Email Address
+            </label>
             <input
               id="email"
               type="email"
@@ -148,7 +207,12 @@ const AddPatientModal = ({ onClose, onAdd }) => {
 
           {/* Address */}
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-slate-700">Address *</label>
+            <label
+              htmlFor="address"
+              className="block text-sm font-medium text-slate-700"
+            >
+              Address *
+            </label>
             <input
               id="address"
               type="text"
@@ -163,7 +227,9 @@ const AddPatientModal = ({ onClose, onAdd }) => {
 
           {/* Does patient have NIC */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-3">Does patient have NIC? *</label>
+            <label className="block text-sm font-medium text-slate-700 mb-3">
+              Does patient have NIC? *
+            </label>
             <div className="flex gap-6">
               <div className="flex items-center">
                 <input
@@ -171,11 +237,16 @@ const AddPatientModal = ({ onClose, onAdd }) => {
                   type="radio"
                   name="hasNIC"
                   value="yes"
-                  checked={formData.hasNIC === 'yes'}
+                  checked={formData.hasNIC === "yes"}
                   onChange={handleChange}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 cursor-pointer"
                 />
-                <label htmlFor="hasNIC-yes" className="ml-2 text-sm font-medium text-slate-700 cursor-pointer">Yes</label>
+                <label
+                  htmlFor="hasNIC-yes"
+                  className="ml-2 text-sm font-medium text-slate-700 cursor-pointer"
+                >
+                  Yes
+                </label>
               </div>
               <div className="flex items-center">
                 <input
@@ -183,20 +254,33 @@ const AddPatientModal = ({ onClose, onAdd }) => {
                   type="radio"
                   name="hasNIC"
                   value="no"
-                  checked={formData.hasNIC === 'no'}
+                  checked={formData.hasNIC === "no"}
                   onChange={handleChange}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 cursor-pointer"
                 />
-                <label htmlFor="hasNIC-no" className="ml-2 text-sm font-medium text-slate-700 cursor-pointer">No</label>
+                <label
+                  htmlFor="hasNIC-no"
+                  className="ml-2 text-sm font-medium text-slate-700 cursor-pointer"
+                >
+                  No
+                </label>
               </div>
             </div>
           </div>
 
           {/* NIC Number - Show only if hasNIC is 'yes' */}
-          {formData.hasNIC === 'yes' && (
+          {formData.hasNIC === "yes" && (
             <div>
-              <label htmlFor="nicNumber" className="block text-sm font-medium text-slate-700">
-                NIC Number * {isUnder16 && <span className="text-xs text-red-500 font-normal ml-2">(Disabled: Patient under 16)</span>}
+              <label
+                htmlFor="nicNumber"
+                className="block text-sm font-medium text-slate-700"
+              >
+                NIC Number *{" "}
+                {isUnder16 && (
+                  <span className="text-xs text-red-500 font-normal ml-2">
+                    (Disabled: Patient under 16)
+                  </span>
+                )}
               </label>
               <input
                 id="nicNumber"
@@ -205,12 +289,15 @@ const AddPatientModal = ({ onClose, onAdd }) => {
                 value={formData.nicNumber}
                 onChange={handleChange}
                 disabled={isUnder16}
-                required={formData.hasNIC === 'yes' && !isUnder16}
-                placeholder={isUnder16 ? "Not applicable for under 16" : "Enter NIC number"}
+                required={formData.hasNIC === "yes" && !isUnder16}
+                placeholder={
+                  isUnder16 ? "Not applicable for under 16" : "Enter NIC number"
+                }
                 className={`mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-2 
-                  ${isUnder16 
-                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed' 
-                    : 'bg-white text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-blue-500/20'
+                  ${
+                    isUnder16
+                      ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                      : "bg-white text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-blue-500/20"
                   }`}
               />
             </div>
