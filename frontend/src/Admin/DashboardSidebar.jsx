@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from 'sweetalert2';
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -11,6 +12,7 @@ import {
   LogOut,
   Bell,
 } from "lucide-react";
+import logo from '../assets/dentPulse_logob.png';
 
 const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, href: "/admin" },
@@ -28,16 +30,23 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
 
   /* ================= FIXED LOGOUT LOGIC ================= */
   const handleLogout = () => {
-    // 1. Remove the specific keys used by your app
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("userRole");
-
-    // 2. Navigate to the login/home page
-    // This triggers the ProtectedRoute to see you are logged out
-    navigate("/");
-
-    // 3. Close sidebar (useful for mobile view)
-    setIsOpen(false);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be signed out!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0fa562',
+      cancelButtonColor: 'rgb(185, 36, 36)',
+      confirmButtonText: 'Yes, sign out!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userRole");
+        navigate("/");
+        setIsOpen(false);
+        Swal.fire('Signed Out!', 'You have been signed out.', 'success');
+      }
+    });
   };
 
   return (
@@ -59,11 +68,19 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
       >
         <div>
           {/* Logo/Header Area */}
-          <div className="flex items-center justify-between h-20 bg-green-50 border-b border-gray-200 px-6">
-            <div className="flex items-center">
-              <span className="text-xl font-bold text-green-600">
-                DentPulse
-              </span>
+          
+           
+          {/* Logo/Header Area - UPDATED WITH LOGO */}
+          <div className="flex items-center justify-between h-20 bg-white border-b border-gray-200 px-6">
+            <div className="flex items-center gap-3">
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-12 h-12 object-contain"
+              />
+              <div className="leading-tight">
+                <div className="text-xl font-bold text-green-700">Admin Console</div>
+              </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}

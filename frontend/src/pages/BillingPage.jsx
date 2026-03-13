@@ -293,9 +293,10 @@ const BillingPage = () => {
     <div className="p-8 bg-green-50 min-h-screen font-sans">
       <div className="flex flex-row items-baseline justify-between mb-2">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 mb-1">
-            Billing & Invoices
-          </h1>
+           <h1 className="text-3xl font-bold text-slate-800">Billing Management</h1>
+           
+          
+            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">Manage patients invoices,payments and financial records</p>
         </div>
         <div>
           <button
@@ -307,9 +308,8 @@ const BillingPage = () => {
         </div>
       </div>
 
-      <p className="text-slate-500 mb-8 text-sm font-medium">
-        Manage patient invoices, payments, and financial records
-      </p>
+     
+           
 
       {/* STATS CARDS - Icons updated with matching background colors */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

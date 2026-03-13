@@ -1,8 +1,8 @@
 import axios from "axios";
+import Swal from "sweetalert2";
+ 
 import React, { useState, useEffect } from "react";
 import { Eye, Edit } from "lucide-react";
-import Swal from "sweetalert2";
-import { errorAlert } from "../utils/alert";
 import WelcomeHeader from "../Admin/WelcomeHeader";
 import SummarySection from "../Admin/SummarySection";
 import { fetchAllAppointments } from "../api/adminAppointmentApi";
@@ -64,6 +64,16 @@ const AppDashboard = () => {
     }
   };
 
+  const errorAlert = (message) => {
+  Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
+    confirmButtonColor: "#dc2626",
+  });
+};
+
+
   useEffect(() => {
     loadAppointments();
     loadStats();
@@ -122,7 +132,7 @@ const AppDashboard = () => {
       setIsPopupOpen(true);
     } catch (err) {
       console.error(err);
-      errorAlert("Failed to load appointment details");
+      alert("Failed to load appointment details");
     } finally {
       setLoading(false);
     }
@@ -154,7 +164,7 @@ const AppDashboard = () => {
       setIsPopupOpen(true);
     } catch (err) {
       console.error(err);
-      errorAlert("Failed to load appointment details");
+      alert("Failed to load appointment details");
     } finally {
       setLoading(false);
     }
@@ -177,10 +187,8 @@ const AppDashboard = () => {
         status: formData.status,
       };
 
-      // 👇 only for special appointments
-      //  if (formType === "special") {
-      //    payload.treatmentType = mapTreatment(formData.treatmentType);
-      //  }
+      //  for special appointments
+    
 
       await createAppointment(payload);
 
@@ -279,7 +287,7 @@ const AppDashboard = () => {
       )}
 
       {/* TABLE SECTION */}
-      <div className="bg-cyan-50 p-6 rounded-lg shadow-lg border border-dashed border-gray-300 mt-6">
+      <div className="bg-white p-6 rounded-lg shadow-lg border border-dashed border-gray-300 mt-6">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">
           Appointments
         </h2>
