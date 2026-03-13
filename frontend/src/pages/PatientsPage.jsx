@@ -1,117 +1,54 @@
-import { useState, useEffect } from 'react';
-import { Search, Plus, Eye } from 'lucide-react';
-import AddPatientModal from '../Admin/AddPatientModal';
-import PatientProfile from '../Admin/PatientProfile';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Search, Plus, Eye } from "lucide-react";
+import AddPatientModal from "../Admin/AddPatientModal";
+import PatientProfile from "../Admin/PatientProfile";
+import { useLocation } from "react-router-dom";
+import { getAllPatients } from "../api/adminPatientPageApi";
+import { getPatientById, getPatientHistory } from "../api/adminPatientPageApi";
 
 const PatientsPage = () => {
-  const [patients, setPatients] = useState([
-    {
-      id: 'PT-001',
-      name: 'Sarah Johnson',
-      age: 32,
-      gender: 'Female',
-      phone: '+1 (555) 123-4567',
-      email: 'sarah.j@email.com',
-      address: '123 Main St, New York, NY',
-      lastVisit: '2024-01-15',
-      status: 'Active',
-      hasNIC: 'yes',
-      nicNumber: '1234567890123',
-      treatments: [
-        { id: 1, date: '2024-01-15', procedure: 'Dental Cleaning', cost: 150 },
-        { id: 2, date: '2023-12-10', procedure: 'Filling', cost: 200 },
-      ],
-      billing: [
-        { id: 1, date: '2024-01-15', description: 'Dental Cleaning', amount: 150, status: 'Paid' },
-        { id: 2, date: '2023-12-10', description: 'Filling', amount: 200, status: 'Paid' },
-      ]
-    },
-    {
-      id: 'PT-002',
-      name: 'James Wilson',
-      age: 45,
-      gender: 'Male',
-      phone: '+1 (555) 234-5678',
-      email: 'james.w@email.com',
-      address: '456 Oak Ave, Los Angeles, CA',
-      lastVisit: '2024-01-18',
-      status: 'Active',
-      hasNIC: 'no',
-      nicNumber: '',
-      treatments: [
-        { id: 1, date: '2024-01-18', procedure: 'Root Canal', doctor: 'Dr. Brown', cost: 800 },
-      ],
-      billing: [
-        { id: 1, date: '2024-01-18', description: 'Root Canal', amount: 800, status: 'Pending' },
-      ]
-    },
-    {
-      id: 'PT-003',
-      name: 'Emily Davis',
-      age: 28,
-      gender: 'Female',
-      phone: '+1 (555) 345-6789',
-      email: 'emily.d@email.com',
-      address: '789 Pine Rd, Chicago, IL',
-      lastVisit: '2023-12-20',
-      status: 'Inactive',
-      hasNIC: 'yes',
-      nicNumber: '9876543210987',
-      treatments: [
-        { id: 1, date: '2023-12-20', procedure: 'Teeth Whitening', doctor: 'Dr. Lee', cost: 300 },
-      ],
-      billing: [
-        { id: 1, date: '2023-12-20', description: 'Teeth Whitening', amount: 300, status: 'Paid' },
-      ]
-    },
-    {
-      id: 'PT-004',
-      name: 'Michael Brown',
-      age: 38,
-      gender: 'Male',
-      phone: '+1 (555) 456-7890',
-      email: 'michael.b@email.com',
-      address: '321 Elm St, Houston, TX',
-      lastVisit: '2024-01-22',
-      status: 'Active',
-      hasNIC: 'yes',
-      nicNumber: '5555555555555',
-      treatments: [
-        { id: 1, date: '2024-01-22', procedure: 'Crown Placement', doctor: 'Dr. Smith', cost: 1200 },
-      ],
-      billing: [
-        { id: 1, date: '2024-01-22', description: 'Crown Placement', amount: 1200, status: 'Paid' },
-      ]
-    },
-  ]);
+  const [patients, setPatients] = useState([]);
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const location = useLocation();
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [showAllPatients, setShowAllPatients] = useState(false);
 
-  const filteredPatients = patients.filter(patient =>
-    patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    patient.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    patient.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    patient.phone.includes(searchTerm)
+  const filteredPatients = patients.filter(
+    (patient) =>
+      patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (patient.email || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.phone.includes(searchTerm)
   );
 
-  const displayedPatients = showAllPatients ? filteredPatients : filteredPatients.slice(0, 5);
+  const displayedPatients = showAllPatients
+    ? filteredPatients
+    : filteredPatients.slice(0, 5);
 
-  const addPatient = (newPatient) => {
-    const patient = {
-      ...newPatient,
-      id: `PT-${String(patients.length + 1).padStart(3, '0')}`,
-      status: 'Active',
-      treatments: [],
-      billing: []
-    };
-    setPatients([...patients, patient]);
-    setShowAddModal(false);
+  const fetchPatients = async () => {
+    try {
+      const data = await getAllPatients();
+
+      const mappedPatients = data.map((p) => ({
+        id: `PT-${String(p.id).padStart(3, "0")}`,
+        name: p.fullName,
+        age: p.age,
+        gender: p.gender,
+        phone: p.phone,
+        email: p.email || "",
+      }));
+
+      setPatients(mappedPatients);
+    } catch (error) {
+      console.error("Failed to load patients", error);
+    }
   };
+
+  useEffect(() => {
+    fetchPatients();
+  }, []);
 
   useEffect(() => {
     if (location?.state?.openAdd) {
@@ -119,14 +56,50 @@ const PatientsPage = () => {
     }
   }, [location]);
 
+  // 👇 MEKA ALUTHEN ADD KARANNA ONE
+  const handleViewPatient = async (patient) => {
+    try {
+      const numericId = Number(patient.id.replace("PT-", ""));
+      const patientInfo = await getPatientById(numericId);
+      const history = await getPatientHistory(numericId);
+
+      const mappedPatient = {
+        id: patient.id,
+        name: patientInfo.fullName,
+        age: patientInfo.age,
+        gender: patientInfo.gender,
+        phone: patientInfo.phone,
+        email: patientInfo.email,
+        address: patientInfo.address,
+        hasNIC: patientInfo.nic ? "yes" : "no",
+        nicNumber: patientInfo.nic,
+        treatments: history.map((t) => ({
+          treatment_id: t.treatment_id,
+          treatmentType: t.treatmentType, // ✅ FROM API
+          treatment_service: t.treatment_service, // ✅ FROM API
+          treatment_date: t.treatment_date, // ✅ FROM API
+          cost: t.cost, // ✅ FROM API
+        })),
+      };
+
+      setSelectedPatient(mappedPatient);
+    } catch (error) {
+      console.error("Failed to load patient profile", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-green-50 p-4 md:p-8">
       {/* Header Section */}
       <div className="max-w-7xl mx-auto mb-6 md:mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800">Patients Management</h1>
-            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">Manage and view all Patients records</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-800 mb-2">
+              Patient Management
+            </h1>
+            <p className="text-sm md:text-base text-slate-600">
+              Manage and view all patient records
+            </p>
           </div>
           <button
             onClick={() => setShowAddModal(true)}
@@ -139,7 +112,10 @@ const PatientsPage = () => {
 
         {/* Search Bar */}
         <div className="relative w-full md:w-96">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-600" size={18} />
+          <Search
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-600"
+            size={18}
+          />
           <input
             type="text"
             placeholder="Search by name, ID, email..."
@@ -162,7 +138,7 @@ const PatientsPage = () => {
                 onClick={() => setShowAllPatients(!showAllPatients)}
                 className="text-green-600 hover:text-green-700 font-bold text-sm md:text-base cursor-pointer"
               >
-                {showAllPatients ? 'Show Less' : 'View All'}
+                {showAllPatients ? "Show Less" : "View All"}
               </button>
             )}
           </div>
@@ -170,7 +146,10 @@ const PatientsPage = () => {
           {/* Mobile Card View */}
           <div className="block md:hidden">
             {displayedPatients.map((patient) => (
-              <div key={patient.id} className="border-b border-green-50 p-4 hover:bg-green-50/30">
+              <div
+                key={patient.id}
+                className="border-b border-green-50 p-4 hover:bg-green-50/30"
+              >
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-bold text-slate-800">{patient.name}</h3>
@@ -178,13 +157,24 @@ const PatientsPage = () => {
                   </div>
                 </div>
                 <div className="space-y-1 mb-3 text-sm">
-                  <p className="text-slate-600"><span className="font-semibold text-slate-400">Age:</span> {patient.age}</p>
-                  <p className="text-slate-600"><span className="font-semibold text-slate-400">Gender:</span> {patient.gender}</p>
-                  <p className="text-slate-600"><span className="font-semibold text-slate-400">Phone:</span> {patient.phone}</p>
+                  <p className="text-slate-600">
+                    <span className="font-semibold text-slate-400">Age:</span>{" "}
+                    {patient.age}
+                  </p>
+                  <p className="text-slate-600">
+                    <span className="font-semibold text-slate-400">
+                      Gender:
+                    </span>{" "}
+                    {patient.gender}
+                  </p>
+                  <p className="text-slate-600">
+                    <span className="font-semibold text-slate-400">Phone:</span>{" "}
+                    {patient.phone}
+                  </p>
                 </div>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => setSelectedPatient(patient)}
+                    onClick={() => handleViewPatient(patient)}
                     className="flex-1 flex items-center justify-center gap-2 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors font-bold text-sm cursor-pointer"
                   >
                     <Eye size={16} />
@@ -200,35 +190,63 @@ const PatientsPage = () => {
             <table className="w-full">
               <thead className="bg-green-50/50 border-b border-green-100">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Patient ID</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Age</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Gender</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Phone</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">
+                    Patient ID
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">
+                    Age
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">
+                    Gender
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">
+                    Phone
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-green-700 uppercase tracking-wider">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-green-50">
                 {displayedPatients.map((patient) => (
-                  <tr key={patient.id} className="hover:bg-green-50/50 transition-colors">
+                  <tr
+                    key={patient.id}
+                    className="hover:bg-green-50/50 transition-colors"
+                  >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-bold text-slate-700">{patient.id}</span>
+                      <span className="text-sm font-bold text-slate-700">
+                        {patient.id}
+                      </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-sm mr-3">
-                          {patient.name.split(' ').map(n => n[0]).join('')}
+                          {patient.name
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
                         </div>
-                        <span className="text-sm font-semibold text-slate-800">{patient.name}</span>
+                        <span className="text-sm font-semibold text-slate-800">
+                          {patient.name}
+                        </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{patient.age}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{patient.gender}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{patient.phone}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                      {patient.age}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                      {patient.gender}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                      {patient.phone}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => setSelectedPatient(patient)}
+                          onClick={() => handleViewPatient(patient)}
                           className="flex items-center gap-1 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors font-bold text-sm border border-purple-100 cursor-pointer"
                         >
                           <Eye size={16} />
@@ -244,7 +262,9 @@ const PatientsPage = () => {
 
           {filteredPatients.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-slate-400 italic">No patients found matching your search.</p>
+              <p className="text-slate-400 italic">
+                No patients found matching your search.
+              </p>
             </div>
           )}
         </div>
@@ -253,7 +273,7 @@ const PatientsPage = () => {
       {showAddModal && (
         <AddPatientModal
           onClose={() => setShowAddModal(false)}
-          onAdd={addPatient}
+          onPatientAdded={fetchPatients}
         />
       )}
 
