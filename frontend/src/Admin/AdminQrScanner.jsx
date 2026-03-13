@@ -95,12 +95,8 @@ const AdminQrScanner = () => {
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 p-8">
       {/* Header */}
       <div className="max-w-5xl align-middle mb-8">
-        <h1 className="text-4xl font-serif font-bold text-green-800">
-          Admin QR Scanner
-        </h1>
-        <p className="text-gray-600 mt-2">
-          Scan patient QR codes to view profile & treatment history
-        </p>
+         <h1 className="text-3xl font-bold text-slate-800">Admin QR Scanner</h1>
+            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">Scan patient QR codes to view profile & treatment history</p>
       </div>
 
       {/* Scanner Card */}
