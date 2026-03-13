@@ -125,8 +125,8 @@ const PatientsPage = () => {
       <div className="max-w-7xl mx-auto mb-6 md:mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-800 mb-2">Patient Management</h1>
-            <p className="text-sm md:text-base text-slate-600">Manage and view all patient records</p>
+            <h1 className="text-3xl font-bold text-slate-800">Patients Management</h1>
+            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">Manage and view all Patients records</p>
           </div>
           <button
             onClick={() => setShowAddModal(true)}

@@ -187,10 +187,8 @@ const AppDashboard = () => {
         status: formData.status,
       };
 
-      // 👇 only for special appointments
-      //  if (formType === "special") {
-      //    payload.treatmentType = mapTreatment(formData.treatmentType);
-      //  }
+      //  for special appointments
+    
 
       await createAppointment(payload);
 
