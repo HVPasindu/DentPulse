@@ -237,7 +237,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
                       date: e. target.value,
                     })
                   }
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
 
@@ -272,7 +272,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
                       treatmentType: e.target.value,
                     })
                   }
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 >
                   <option value="FILLING">Filling</option>
                   <option value="EXTRACTION">Extraction</option>
@@ -450,7 +450,7 @@ const [showSuccessModal, setShowSuccessModal] = useState(false);
                         <button
                           onClick={() => handleViewPatient(appt)}
                           disabled={patientLoading}
-                          className="px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
+                          className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
                         >
                           {patientLoading ?  "Loading..." : "View"}
                         </button>
