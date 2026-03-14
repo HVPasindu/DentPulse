@@ -121,8 +121,27 @@ export const TimeSlot = ({
 
   return (
     <div>
-      <div className="border border-green-300 shadow-lg m-4 w-full p-4 rounded-2xl bg-white">
-        <div className="flex flex-col pb-4">
+      <div className="border border-green-300 shadow-lg m-4 w-full p-4 rounded-2xl bg-white relative">
+
+
+        {/* [NEW] top-right legend box */}
+        <div className="absolute top-4 right-4 z-10">
+          <div className="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl px-3 py-2 shadow-md">
+            <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-1">
+              Slot Guide
+            </p>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-3 h-3 rounded-sm bg-green-200 border border-green-500 inline-block"></span>
+              <span className="text-xs text-gray-700">Most optimal</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-sm bg-white border-2 border-red-500 inline-block"></span>
+              <span className="text-xs text-gray-700">May be busy</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col pb-4 pr-44">
           <div className="flex flex-row items-baseline gap-x-2">
             <div>
               <ClockCheck />
@@ -143,6 +162,7 @@ export const TimeSlot = ({
                 }`
               : "Please select a date first"}
           </h1>
+
         </div>
 
         {/* Display all time slots with booked ones disabled and styled */}
