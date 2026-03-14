@@ -1,0 +1,68 @@
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+function AppointmentDayChart() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/admin/stats/appointments-by-day")
+      .then(res => setData(res.data));
+  }, []);
+
+  return (
+    <div className="w-full bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] p-6 border border-slate-100 box-border">
+      
+      <h3 className="m-0 mb-6 text-slate-800 text-lg font-semibold font-sans">
+        Appointments by Day
+      </h3>
+
+      <div className="w-full h-[300px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+            
+            <XAxis 
+              dataKey="day" 
+              axisLine={false} 
+              tickLine={false} 
+              tick={{ fill: '#64748B', fontSize: 13 }} 
+              dy={10} 
+            />
+            
+            <YAxis 
+              axisLine={false} 
+              tickLine={false} 
+              tick={{ fill: '#64748B', fontSize: 13 }} 
+            />
+            
+            <Tooltip 
+              cursor={{ fill: '#F8FAFC' }} 
+              contentStyle={{
+                backgroundColor: '#FFFFFF',
+                borderRadius: '8px',
+                border: 'none',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                color: '#1E293B',
+                padding: '10px 15px'
+              }}
+              itemStyle={{ color: '#0F9D58', fontWeight: '600' }} 
+            />
+            
+            <Bar 
+              dataKey="count" 
+              name="Appointments"
+              fill="#0F9D58" 
+              radius={[6, 6, 0, 0]} 
+              barSize={40} 
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+    </div>
+  );
+}
+
+export default AppointmentDayChart;
