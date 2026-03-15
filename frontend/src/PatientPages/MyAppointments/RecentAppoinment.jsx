@@ -49,7 +49,7 @@ export const RecentAppoinment = ({
 
       // DELETE request to cancel appointment
       const response = await fetch(
-        `http://localhost:8080/api/appointments/${appointmentId}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/appointments/${appointmentId}`,
         {
           method: "DELETE",
           headers: {

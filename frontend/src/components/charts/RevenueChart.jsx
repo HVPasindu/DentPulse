@@ -15,7 +15,7 @@ function RevenueChart() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/admin/stats/monthly-revenue")
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/stats/monthly-revenue`)
       .then((res) => setData(res.data));
   }, []);
 
