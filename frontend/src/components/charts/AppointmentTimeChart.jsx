@@ -6,7 +6,7 @@ function AppointmentTimeChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/admin/stats/appointment-times")
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/stats/appointment-times`)
       .then(res => setData(res.data));
   }, []);
 

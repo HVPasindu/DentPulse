@@ -88,7 +88,7 @@ export const MyAppointments = () => {
       console.log("🔍 Fetching appointments...");
 
       const response = await axios.get(
-        `http://localhost:8080/api/appointments/my-appointments?page=${page}&size=10`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/appointments/my-appointments?page=${page}&size=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
