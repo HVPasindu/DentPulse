@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // REMOVED the trailing slash at the end of the URL
-const BASE_URL = "http://localhost:8080/api/v1/admin/inventory"; 
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1/admin/inventory`; 
 
 const authHeader = () => {
   // Confirmed: your key is "authToken"

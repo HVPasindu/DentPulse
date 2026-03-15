@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 export default function ChatMessages({ messages, isTyping, onQuickSend }) {
   const containerRef = useRef(null);
 
-  // ✅ AUTO SCROLL
+  // AUTO SCROLL
   useEffect(() => {
     containerRef.current.scrollTop =
       containerRef.current.scrollHeight;
@@ -27,7 +27,7 @@ export default function ChatMessages({ messages, isTyping, onQuickSend }) {
         </div>
       )}
 
-      {/* ✅ QUICK ACTION BUTTONS */}
+      {/*QUICK ACTION BUTTONS */}
       {!isTyping && (
         <div className="quick-actions">
           <button onClick={() => onQuickSend("Where is your clinic located?")}>
