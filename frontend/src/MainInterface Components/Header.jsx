@@ -43,17 +43,17 @@ export function Header() {
       <div className=" w-[200px] flex justify-center  items-center gap-x-2 ">
         <img
           src="logo.png"
-          className="size-14 md:size-14 hover:cursor-pointer"
+          className="size-10 md:size-10 hover:cursor-pointer"
           onClick={navigatetohome}
         />
 
-        <h1 className="font-extrabold text-3xl md:text-5xl tracking-tight text-green-600">
+        <h1 className="font-extrabold text-3xl md:text-3xl tracking-tight text-green-600">
           Dent<span className="font-bold text-green-700">Pulse</span>
         </h1>
       </div>
 
       <div className="hidden lg:block">
-        <nav className="space-x-8 cursor-pointer text-xl text-green-600">
+        <nav className="space-x-8 cursor-pointer text-lg text-green-600">
           <HashLink smooth to="/#home" className="hover:text-green-800 ">
             Home
           </HashLink>
@@ -122,7 +122,7 @@ export function Header() {
                    hover:text-green-500 hover:bg-green-100 hover:cursor-pointer"
           onClick={navigatetologinpage}
         >
-          <div className="flex flex-row items-center gap-x-2 p-0.5">
+          <div className="flex flex-row items-center gap-x-2 ">
             {/* Icon */}
             <motion.div
               whileHover={{ scale: 1.15 }}
@@ -132,7 +132,7 @@ export function Header() {
             </motion.div>
 
             {/* Text */}
-            <h1 className="text-green-700 text-xl font-semibold">Login</h1>
+            <h1 className="text-green-700 text-lg font-semibold">Login</h1>
           </div>
         </motion.button>
       </div>
@@ -171,7 +171,7 @@ export function Header() {
           navigatetologinpage();
           setMobileMenuOpen(false);
         }}
-        className="border border-green-500 px-6 py-2 rounded-lg"
+        className="border border-green-500 px-4 py-2 rounded-xl"
       >
         Login
       </button>

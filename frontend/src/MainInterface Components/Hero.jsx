@@ -38,7 +38,7 @@ export function Hero() {
       <div className="relative z-10 px-12 py-10 ">
         {/* TEXT SECTION */}
         <div className="flex flex-col items-start">
-          <h1 className="text-white rounded-3xl bg-green-700 my-6 py-1.5 px-4">
+          <h1 className="text-white rounded-2xl bg-green-700 my-6 py-1.5 px-4">
             🌟 Trusted by 100000+ Happy Patients
           </h1>
           <div className="w-16 h-1 bg-green-600 mb-3 rounded-full"></div>
@@ -48,7 +48,7 @@ export function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="font-extrabold text-5xl md:text-6xl tracking-tight leading-tight text-green-800 mt-4"
+            className="font-extrabold text-4xl md:text-5xl tracking-tight leading-tight text-green-800 mt-4"
           >
             Your Smile,{" "}
             <motion.span
@@ -63,7 +63,7 @@ export function Hero() {
           </motion.h1>
 
           <div className="w-full md:w-[50%] mt-4">
-            <p className="text-lg md:text-xl text-gray-800 font-normal leading-relaxed text-left mt-4">
+            <p className="text-md md:text-lg text-gray-800 font-normal leading-relaxed text-left mt-4">
               Experience exceptional dental care with our team of experienced
               professionals. We're committed to providing comfortable,
               high-quality treatment for the whole family.
@@ -77,7 +77,7 @@ export function Hero() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="rounded-xl bg-green-600 text-white px-10 py-6 hover:bg-green-700 hover:cursor-pointer"
+            className="rounded-xl bg-green-600 text-white px-5 py-3.5 hover:bg-green-700 hover:cursor-pointer"
             onClick={switchlologin}
           >
             <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ export function Hero() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="rounded-lg bg-white border-green-600 border-2 px-10 py-6 hover:bg-green-200 hover:cursor-pointer"
+            className="rounded-xl bg-white border-green-600 border-2 px-5 py-3.5 hover:bg-green-200 hover:cursor-pointer"
             onClick={contactClick}
           >
             <div className="flex items-center gap-2">
