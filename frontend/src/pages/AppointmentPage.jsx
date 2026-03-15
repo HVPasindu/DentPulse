@@ -251,7 +251,7 @@ const AppDashboard = () => {
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50 p-4">
           <div className="bg-white w-full max-w-md rounded-xl shadow-xl flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-xl font-semibold text-slate-800">
+              <h2 className="text-xl font-semibold text-green-600">
                 {isAddingNew
                   ? "Add New Appointment"
                   : isReadOnly
@@ -288,7 +288,7 @@ const AppDashboard = () => {
 
       {/* TABLE SECTION */}
       <div className="bg-white p-6 rounded-lg shadow-lg border border-dashed border-gray-300 mt-6">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+        <h2 className="text-xl font-semibold text-green-600 mb-4">
           Appointments
         </h2>
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
@@ -430,7 +430,7 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
     email: "",
     address: "",
     date: new Date().toISOString().split("T")[0],
-    time: "17:00",
+    time: "16:00",
     status: "PENDING",
     notes: "",
   });
@@ -445,8 +445,8 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
     const day = selectedDate.getDay();
     const isWeekend = day === 6 || day === 0;
     return isWeekend
-      ? { min: "10:00", max: "17:00", label: "Weekends: 10am - 5pm" }
-      : { min: "16:00", max: "20:00", label: "Weekdays: 4pm - 8pm" };
+      ? { min: "10:30", max: "16:30", label: "Weekends: 10.30am - 4.30pm" }
+      : { min: "16:00", max: "19:30", label: "Weekdays: 4pm - 7.30pm" };
   };
 
   const limits = getTimeLimits(formData.date);
@@ -825,13 +825,13 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700">
-              Time (5pm-8pm)
+              Time (10.30am-4.30pm)
             </label>
             <input
               name="time"
               type="time"
-              min="17:00"
-              max="20:00"
+              min="10:30"
+              max="16:30"
               required
               value={formData.time}
               onChange={handleChange}
