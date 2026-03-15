@@ -39,8 +39,8 @@ export function Header() {
     navigate("/");
   };
   return (
-    <div className="sticky top-0 left-0 z-50 w-screen flex justify-around items-center bg-white py-5 shadow-xl mb-0.5">
-      <div className=" w-[200px] flex justify-center  items-center gap-x-2 ">
+    <div className="sticky top-0 left-0 z-50 w-screen flex justify-between items-center bg-white py-5 shadow-xl mb-0.5">
+      <div className=" w-[200px] flex items-center justify-center pl-15 ">
         <img
           src="logo.png"
           className="size-14 md:size-12 hover:cursor-pointer"
@@ -112,7 +112,7 @@ export function Header() {
           </div>
         </nav>
       </div>
-      <div className="hidden lg:block">
+      <div className="hidden lg:block pr-3">
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.96 }}
