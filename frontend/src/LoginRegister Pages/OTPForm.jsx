@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import toast from "react-hot-toast";
+
 export default function OTPForm() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -40,7 +40,7 @@ export default function OTPForm() {
     try {
       // Send OTP verification request
       const response = await fetch(
-        "https://api.dentpulseclinic.com/api/v1/auth/verify-email",
+       `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/verify-email`,
         {
           method: "POST",
           headers: {
