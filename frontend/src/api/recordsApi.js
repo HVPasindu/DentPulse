@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Base URL for treatment records API endpoint
-const BASE_URL = "http://localhost:8080/api/records";
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/records`;
 
 /**
  * Save or update a treatment record

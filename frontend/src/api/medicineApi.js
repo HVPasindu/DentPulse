@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/medicine";
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/medicine`;
 
 export const getAllMedicines = async () => {
   const response = await axios.get(BASE_URL);
@@ -20,11 +20,11 @@ export const searchMedicines = async (keyword) => {
 // 🔹 Medicines for prescription dropdown (AVAILABLE + LIMITED)
 export const getAvailableMedicinesForPrescription = async () => {
   const response = await axios.get(
-    "http://localhost:8080/api/medicine/available"
+    `${import.meta.env.VITE_API_BASE_URL}/api/medicine/available`
   );
   return response.data;
 };
-const PRESCRIPTION_BASE_URL = "http://localhost:8080/api/prescriptions";
+const PRESCRIPTION_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/prescriptions`;
 export const getTodayPrescriptionCount = async () => {
   const response = await axios.get(`${PRESCRIPTION_BASE_URL}/today-count`);
   return response.data;
