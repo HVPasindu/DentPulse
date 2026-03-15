@@ -62,8 +62,8 @@ export default function DashboardPage() {
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 p-4 md:p-6 lg:p-8 space-y-6 overflow-auto">
           <div>
-            <h1 className="text-3xl font-bold text-green-600">Dashboard</h1>
-            <p className="text-green-500 mt-1 font-medium">
+            <h1 className="text-3xl font-bold text-green-700">Dashboard</h1>
+            <p className="text-green-600 mt-1 font-medium">
               Welcome back! Here's what's happening today.
             </p>
           </div>

@@ -16,8 +16,8 @@ export default function NotificationManager() {
   return (
     <div className="p-8 bg-green-50 min-h-screen">
       <div>
-      <h1 className="text-3xl font-bold text-slate-800">Notification Management</h1>
-            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">Display reminder logs</p>
+      <h1 className="text-3xl font-bold text-green-700">Notification Management</h1>
+            <p className="mt-2 text-sm text-green-600 font-medium sm:text-base">Display reminder logs</p>
             </div>
       <div className="overflow-hidden rounded-xl border border-green-400 shadow-lg bg-white">
         <table className="w-full  ">
