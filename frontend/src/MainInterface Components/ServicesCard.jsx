@@ -14,14 +14,14 @@ export function Services(props) {
   };
 
   return (
-    <div className=" flex flex-col justify-center items-center p-10 bg-white rounded-2xl py-5 border-green-300 border-2 w-[400px] mx-auto hover:shadow-lg hover:scale-110 transition-transform duration-300">
+    <div className=" flex flex-col min-h-[500px] justify-center items-center p-10 bg-white rounded-2xl py-5 border-green-300 border-2 w-[340px] mx-auto hover:shadow-lg hover:scale-105 transition-transform duration-300">
       <h1 className="font-bold text-2xl text-green-700 pb-2">{props.title}</h1>
       <div>
         {
           <img
             src={props.img}
             alt={props.title}
-            className="w-64 h-72  mb-4 mx-auto hover:scale-120 duration-400"
+            className="w-64 h-72  mb-4 mx-auto hover:scale-110 duration-400"
           />
         }
       </div>

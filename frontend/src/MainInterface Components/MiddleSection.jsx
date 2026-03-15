@@ -41,10 +41,10 @@ export function MiddleSection({ link }) {
       </div>
 
       <div className=" flex  flex-col bg-green-600 w-screen pt-20 justify-center items-center pb-20">
-        <h1 className="font-semibold text-4xl text-white p-5">
+        <h1 className="font-semibold text-3xl text-white p-5">
           Ready to Shedule Your Visit
         </h1>
-        <h1 className="font-normal text-2xl text-white p-7">
+        <h1 className="font-normal text-lg text-white p-7">
           Our friendly staff is here to help you. Book your appointment today
           and take the first step towards a healthier smile.
         </h1>
@@ -52,7 +52,7 @@ export function MiddleSection({ link }) {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="bg-white p-3 rounded-xl px-7 shadow-lg hover:bg-green-200 hover:cursor-pointer"
+          className="bg-white p-3 rounded-xl px-6 shadow-lg hover:bg-green-200 hover:cursor-pointer"
           onClick={switchlologin}
         >
           Make An Appointment

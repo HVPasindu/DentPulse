@@ -48,7 +48,7 @@ export function Hero() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="font-extrabold text-4xl md:text-5xl tracking-tight leading-tight text-green-800 mt-4"
+            className="font-extrabold text-5xl md:text-6xl tracking-tight leading-tight text-green-800 mt-4"
           >
             Your Smile,{" "}
             <motion.span

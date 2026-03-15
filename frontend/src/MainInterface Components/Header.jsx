@@ -43,11 +43,11 @@ export function Header() {
       <div className=" w-[200px] flex justify-center  items-center gap-x-2 ">
         <img
           src="logo.png"
-          className="size-10 md:size-10 hover:cursor-pointer"
+          className="size-14 md:size-12 hover:cursor-pointer"
           onClick={navigatetohome}
         />
 
-        <h1 className="font-extrabold text-3xl md:text-3xl tracking-tight text-green-600">
+        <h1 className="font-extrabold text-5xl md:text-4xl tracking-tight text-green-600">
           Dent<span className="font-bold text-green-700">Pulse</span>
         </h1>
       </div>
