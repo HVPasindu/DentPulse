@@ -15,7 +15,7 @@ export default function ChatWindow({ onClose }) {
   const [isTyping, setIsTyping] = useState(false);
   const [sessionId, setSessionId] = useState(null);
 
-  // ✅ Create session once
+  //Create session once
   useEffect(() => {
     let storedSession = localStorage.getItem("chatSessionId");
     if (!storedSession) {

@@ -197,7 +197,7 @@ const BillingPage = () => {
     doc.text(
       "Thank you for trusting DentPulse with your smile 🦷",
       14,
-      finalY + 40,
+      finalY + 40
     );
 
     doc.text("Authorized Signature:", 14, finalY + 55);
@@ -258,7 +258,7 @@ const BillingPage = () => {
     const exists = appointments.some((appt) => appt.id === activeAppt.id);
     if (exists) {
       const updated = appointments.map((appt) =>
-        appt.id === activeAppt.id ? { ...activeAppt } : appt,
+        appt.id === activeAppt.id ? { ...activeAppt } : appt
       );
       updateLocalStorage(updated);
     } else {
@@ -284,7 +284,7 @@ const BillingPage = () => {
 
   const dailyPaidRevenue = filteredInvoices.reduce(
     (sum, appt) => sum + appt.amount,
-    0,
+    0
   );
 
   const dailyPaidCount = filteredInvoices.length;
@@ -293,23 +293,23 @@ const BillingPage = () => {
     <div className="p-8 bg-green-50 min-h-screen font-sans">
       <div className="flex flex-row items-baseline justify-between mb-2">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 mb-1">
-            Billing & Invoices
+          <h1 className="text-3xl font-bold text-green-700">
+            Billing Management
           </h1>
+
+          <p className="mt-2 text-sm text-green-600 font-medium sm:text-base">
+            Manage patients invoices,payments and financial records
+          </p>
         </div>
         <div>
           <button
             onClick={() => setIsAddInvoiceOpen(true)}
-            className="p-4 bg-green-600 text-white rounded-lg text-lg font-black hover:bg-green-700 hover:scale-110 duration-400 transition cursor-pointer"
+            className="cursor-pointer px-5 py-2 bg-green-600 text-white text-base font-medium rounded-lg hover:bg-green-700 hover:scale-105 transition-all duration-300 shadow-sm"
           >
             + Add Invoice
           </button>
         </div>
       </div>
-
-      <p className="text-slate-500 mb-8 text-sm font-medium">
-        Manage patient invoices, payments, and financial records
-      </p>
 
       {/* STATS CARDS - Icons updated with matching background colors */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -467,7 +467,11 @@ const BillingPage = () => {
               onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
               disabled={page === 0}
               className={`px-4 py-2 rounded text-white 
-  ${page === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
+  ${
+    page === 0
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-green-600 hover:bg-green-700"
+  }`}
             >
               Previous
             </button>
@@ -482,7 +486,11 @@ const BillingPage = () => {
               }
               disabled={page + 1 === totalPages}
               className={`px-4 py-2 rounded text-white 
-  ${page + 1 === totalPages ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
+  ${
+    page + 1 === totalPages
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-green-600 hover:bg-green-700"
+  }`}
             >
               Next
             </button>
@@ -592,7 +600,7 @@ const BillingPage = () => {
                     onChange={(e) => {
                       const selectedId = Number(e.target.value);
                       const service = treatmentServices.find(
-                        (s) => s.id === selectedId,
+                        (s) => s.id === selectedId
                       );
 
                       setNewInvoice({
@@ -716,7 +724,7 @@ const BillingPage = () => {
                         onChange={(e) => {
                           const selectedId = Number(e.target.value);
                           const service = treatmentServices.find(
-                            (s) => s.id === selectedId,
+                            (s) => s.id === selectedId
                           );
 
                           setActiveAppt({
@@ -814,26 +822,24 @@ const BillingPage = () => {
 
                       if (!result.isConfirmed) return;
 
-                    
-                        try {
-                          await updateInvoice(activeAppt.id, {
-                            patientId: activeAppt.patientId,
-                            treatmentServiceId: activeAppt.treatmentServiceId,
-                            billDate: activeAppt.date,
-                          });
+                      try {
+                        await updateInvoice(activeAppt.id, {
+                          patientId: activeAppt.patientId,
+                          treatmentServiceId: activeAppt.treatmentServiceId,
+                          billDate: activeAppt.date,
+                        });
 
-                          successAlert("Invoice updated");
+                        successAlert("Invoice updated");
 
-                          const data = await fetchInvoices(page, 10);
-                          setAppointments(data.invoices);
-                          setTotalPages(data.totalPages);
+                        const data = await fetchInvoices(page, 10);
+                        setAppointments(data.invoices);
+                        setTotalPages(data.totalPages);
 
-                          setIsModalOpen(false);
-                        } catch {
-                          errorAlert("Failed to update invoice");
-                        }
-                      } 
-                    }
+                        setIsModalOpen(false);
+                      } catch {
+                        errorAlert("Failed to update invoice");
+                      }
+                    }}
                     className="w-full py-3 bg-green-600 text-white rounded-lg font-black hover:bg-green-700 cursor-pointer"
                   >
                     Update Invoice
@@ -866,7 +872,9 @@ const StatCard = ({ title, value, change, isNegative, symbol, iconBg }) => (
       </div>
     </div>
     <p
-      className={`text-[11px] font-black mt-3 ${isNegative ? "text-red-500" : "text-green-500"}`}
+      className={`text-[11px] font-black mt-3 ${
+        isNegative ? "text-red-500" : "text-green-500"
+      }`}
     >
       {change}
     </p>

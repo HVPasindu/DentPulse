@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Essential for the redirect logic
+import { useNavigate } from "react-router-dom";
 
 import DashboardQuickActions from "../Admin/DashboardQuickActions";
 import DashboardRecentAppointments from "../Admin/DashboardRecentAppoinments";
+
+import RevenueChart from "../components/charts/RevenueChart";
+import AppointmentTimeChart from "../components/charts/AppointmentTimeChart";
+import TreatmentChart from "../components/charts/TreatmentChart";
+import AppointmentDayChart from "../components/charts/AppointmentDayChart";
 
 // import admin dashboard API
 import { getAdminDashboardSummary } from "../api/adminDashboardApi";
@@ -25,23 +30,22 @@ export default function DashboardPage() {
 
         // If no token exists, immediately redirect to login
         if (!token) {
-          navigate('/login');
+          navigate("/login");
           return;
         }
 
         // Backend call
         const data = await getAdminDashboardSummary(token);
         setSummary(data);
-
       } catch (err) {
         console.error("Failed to load dashboard summary", err);
-        
+
         // Handle 403 Forbidden or 401 Unauthorized errors
         // This clears the 'stuck' session and redirects to login
         if (err.response?.status === 403 || err.response?.status === 401) {
           localStorage.removeItem("authToken");
           localStorage.removeItem("userRole");
-          navigate('/login');
+          navigate("/login");
         } else {
           setError("Failed to load dashboard data");
         }
@@ -58,8 +62,8 @@ export default function DashboardPage() {
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 p-4 md:p-6 lg:p-8 space-y-6 overflow-auto">
           <div>
-            <h1 className="text-2xl font-bold text-green-600">Dashboard</h1>
-            <p className="text-green-500 mt-1 font-medium">
+            <h1 className="text-3xl font-bold text-green-700">Dashboard</h1>
+            <p className="text-green-600 mt-1 font-medium">
               Welcome back! Here's what's happening today.
             </p>
           </div>
@@ -81,10 +85,31 @@ export default function DashboardPage() {
           {/* ================= DASHBOARD CONTENT ================= */}
           {!loading && !error && summary && (
             <>
-              {/* pass backend summary */}
+              {/* Dashboard summary cards */}
               <DashboardQuickActions summary={summary} />
 
-              {/* pass today's appointments from backend */}
+              {/* Charts Section */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white p-5 rounded-xl shadow">
+                  <AppointmentDayChart />
+                </div>
+
+                <div className="bg-white p-5 rounded-xl shadow">
+                  <AppointmentTimeChart />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white p-5 rounded-xl shadow">
+                  <TreatmentChart />
+                </div>
+
+                <div className="bg-white p-5 rounded-xl shadow">
+                  <RevenueChart />
+                </div>
+              </div>
+
+              {/* Recent appointments */}
               <DashboardRecentAppointments
                 appointments={summary.todayAppointments || []}
               />

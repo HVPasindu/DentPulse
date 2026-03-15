@@ -17,10 +17,10 @@ const PatientDetailsModal = ({ isOpen, onClose, patient, treatments = [] }) => {
         
         {/* Header Section */}
         <div className="px-6 py-4 border-b flex justify-between items-center">
-          <h2 className="text-xl font-semibold text-cyan-800">Patient Details</h2>
+          <h2 className="text-xl font-semibold text-green-700">Patient Information</h2>
           <button
             onClick={onClose}
-            className="text-gray-900 hover:text-brown-700 text-2xl"
+            className="text-gray-900 hover:text-green-700 text-2xl"
             aria-label="Close modal"
           >
             &times;
@@ -32,10 +32,8 @@ const PatientDetailsModal = ({ isOpen, onClose, patient, treatments = [] }) => {
           
           {/* Patient Information Section */}
           <div>
-            <h3 className="font-semibold text-lg mb-3 text-cyan-700 border-b pb-2">
-              Patient Information
-            </h3>
-            <div className="grid grid-cols-1 md: grid-cols-2 gap-4 bg-cyan-500/20 text-sm">
+
+            <div className="grid grid-cols-1 md: grid-cols-2 gap-4 bg-green-500/20 pl-10 text-sm">
               <Info label="Patient ID" value={patient.id} />
               <Info label="Full Name" value={patient.name} />
               <Info label="Gender" value={patient.gender} />
@@ -49,15 +47,11 @@ const PatientDetailsModal = ({ isOpen, onClose, patient, treatments = [] }) => {
 
           {/* Past Treatments Section */}
           <div>
-            <h3 className="font-semibold text-lg mb-3 text-cyan-700 border-b pb-2">
-              Treatment History
-            </h3>
+
 
             {! treatments || treatments.length === 0 ?  (
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
-                <p className="text-sm text-gray-500">
-                  No treatment history available for this patient.
-                </p>
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 pl-10 text-center">
+
               </div>
             ) : (
               <div className="overflow-x-auto border rounded-lg">
@@ -109,7 +103,7 @@ const PatientDetailsModal = ({ isOpen, onClose, patient, treatments = [] }) => {
         <div className="px-6 py-4 border-t flex justify-end bg-gray-50">
           <button
             onClick={onClose}
-            className="px-6 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-700 transition-colors"
+            className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Close
           </button>

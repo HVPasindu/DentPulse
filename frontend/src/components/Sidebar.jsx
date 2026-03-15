@@ -1,5 +1,7 @@
 import React from 'react';
 import logo from '../assets/dentPulse_logob.png';
+import { confirmAction } from "../utils/alert"; // adjust path
+import { useNavigate } from "react-router-dom";
 import {
   ArrowLeftOnRectangleIcon,
   HomeIcon,
@@ -20,6 +22,24 @@ const navigation = [
 
 const Sidebar = () => {
   const location = useLocation();
+
+  //new
+  const navigate = useNavigate();
+
+const handleLogout = async () => {
+  const result = await confirmAction({
+    title: "Log out?",
+    text: "Are you sure you want to log out?",
+    confirmText: "Yes, Log out",
+    icon: "warning",
+  });
+
+  if (result.isConfirmed) {
+    localStorage.removeItem("token");
+    navigate("/");
+  }
+};
+//end new
 
   return (
     <div className="w-64 bg-white h-screen shadow-xl flex flex-col justify-between fixed top-0 left-0 z-10">
@@ -79,13 +99,13 @@ const Sidebar = () => {
         </div>
 
         {/* Sign Out Button */}
-        <Link
-          to="/" // NEW: navigate to homepage on sign-out click
+        <button
+          onClick={handleLogout}
           className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-green-200 hover:bg-green-400 transition duration-150 ease-in-out"
         >
           <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-2" />
           Sign Out
-        </Link>
+        </button>
       </div>
     </div>
   );
