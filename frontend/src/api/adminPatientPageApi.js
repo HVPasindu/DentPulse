@@ -40,7 +40,7 @@ export const addPatient = async (patientData) => {
 
 export const getPatientById = async (id) => {
   const res = await axios.get(
-    `http://localhost:8080/api/v1/patient/admin/${id}`,
+    `${import.meta.env.VITE_API_BASE_URL}/api/v1/patient/admin/${id}`,
     authHeader()
   );
   return res.data;
@@ -48,7 +48,7 @@ export const getPatientById = async (id) => {
 
 export const getPatientHistory = async (id) => {
   const res = await axios.get(
-    `http://localhost:8080/api/v1/patient/admin/${id}/history`,
+    `${import.meta.env.VITE_API_BASE_URL}/api/v1/patient/admin/${id}/history`,
     authHeader()
   );
   return res.data;

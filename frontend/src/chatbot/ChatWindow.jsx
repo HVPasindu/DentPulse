@@ -35,7 +35,7 @@ export default function ChatWindow({ onClose }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/chat",
+        `${import.meta.env.VITE_API_BASE_URL}/api/chat`,
         { message: text },
         {
           headers: {
