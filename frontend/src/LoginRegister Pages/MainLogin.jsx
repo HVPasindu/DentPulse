@@ -6,7 +6,6 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate,Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import api from "../api";
 const MainLogin = () => {
  
   const [formData, setFormData] = useState({
@@ -45,7 +44,7 @@ const MainLogin = () => {
 
   try {
     const response = await axios.post(
-      "https://api.dentpulseclinic.com/api/v1/auth/login",
+      `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login`,
       formData,
       { headers: { "Content-Type": "application/json" } }
     );
