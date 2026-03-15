@@ -7,7 +7,7 @@ export default function NotificationManager() {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/v1/reminders/logs?page=${page}&size=20`).then((res) => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/reminders/logs?page=${page}&size=20`).then((res) => {
       setLogs(res.data.content);
       setTotalPages(res.data.totalPages);
     });

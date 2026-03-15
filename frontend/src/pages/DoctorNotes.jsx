@@ -20,7 +20,7 @@ pdfMake.vfs = pdfFonts.pdfMake ? pdfFonts.pdfMake.vfs : pdfFonts.vfs;
 
 
 async function fetchAvailableMeds() {
-  const response = await fetch("http://localhost:8080/api/medicines/available");
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/medicines/available`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch medicines");
