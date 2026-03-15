@@ -430,7 +430,7 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
     email: "",
     address: "",
     date: new Date().toISOString().split("T")[0],
-    time: "17:00",
+    time: "16:00",
     status: "PENDING",
     notes: "",
   });
@@ -445,8 +445,8 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
     const day = selectedDate.getDay();
     const isWeekend = day === 6 || day === 0;
     return isWeekend
-      ? { min: "10:00", max: "17:00", label: "Weekends: 10am - 5pm" }
-      : { min: "16:00", max: "20:00", label: "Weekdays: 4pm - 8pm" };
+      ? { min: "10:30", max: "16:30", label: "Weekends: 10.30am - 4.30pm" }
+      : { min: "16:00", max: "19:30", label: "Weekdays: 4pm - 7.30pm" };
   };
 
   const limits = getTimeLimits(formData.date);
@@ -825,13 +825,13 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700">
-              Time (5pm-8pm)
+              Time (10.30am-4.30pm)
             </label>
             <input
               name="time"
               type="time"
-              min="17:00"
-              max="20:00"
+              min="10:30"
+              max="16:30"
               required
               value={formData.time}
               onChange={handleChange}
