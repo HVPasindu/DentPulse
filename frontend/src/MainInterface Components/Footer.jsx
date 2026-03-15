@@ -6,7 +6,7 @@ export function Footer() {
         <div>
           <h1 className="font-extrabold text-3xl md:text-2xl text-green-300 ">
             {" "}
-            Dent<span className="font-bold text-3xl text-green-500">Pulse</span>
+            Dent<span className="font-bold text-2xl text-green-500">Pulse</span>
           </h1>
           <h5 className="font-light text-lg text-green-200">
             <br />
