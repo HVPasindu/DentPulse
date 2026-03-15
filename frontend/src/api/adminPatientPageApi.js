@@ -1,7 +1,7 @@
 // adminPatientPageApi.js
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/v1/patient";
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1/patient`;
 
 const authHeader = () => ({
   headers: {
@@ -9,7 +9,7 @@ const authHeader = () => ({
   },
 });
 
-// ✅ GET ALL PATIENTS (ADMIN)
+// GET ALL PATIENTS (ADMIN)
 export const getAllPatients = async () => {
   try {
     const response = await axios.get(
@@ -23,7 +23,7 @@ export const getAllPatients = async () => {
   }
 };
 
-// ✅ ADD PATIENT (ADMIN)  🔥 THIS WAS MISSING
+// ADD PATIENT (ADMIN)  🔥 THIS WAS MISSING
 export const addPatient = async (patientData) => {
   try {
     const response = await axios.post(
