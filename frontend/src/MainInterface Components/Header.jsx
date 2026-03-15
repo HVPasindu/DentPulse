@@ -47,7 +47,7 @@ export function Header() {
           onClick={navigatetohome}
         />
 
-        <h1 className="font-extrabold text-5xl md:text-4xl tracking-tight text-green-600">
+        <h1 className="font-extrabold text-5xl md:text-4xl tracking-tight text-green-600 cursor-pointer">
           Dent<span className="font-bold text-green-700">Pulse</span>
         </h1>
       </div>

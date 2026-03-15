@@ -5,7 +5,7 @@ function InputCommonCard({ name, type, value, label,onChange,error }) {
 
   return (
     <>
-      <div className="p-1 flex flex-col gap-3">
+      <div className="p-1 flex flex-col gap-1">
         <label className="text-green-600 text-lg font-semibold">{label}</label>
         <input
        type={isPhone ? "tel" : type}
@@ -16,7 +16,7 @@ function InputCommonCard({ name, type, value, label,onChange,error }) {
         maxLength={isPhone ? 10 : undefined}
         pattern={isPhone ? "[0-9]{10}" : undefined}
         placeholder={isPhone ? "07XXXXXXXX" : label}
-        className={`p-3 rounded-xl border outline-none ${
+        className={`text-green-800 font-medium p-3 rounded-xl border outline-none ${
           error ? "border-red-500" : "border-green-400"
         }`}
         />

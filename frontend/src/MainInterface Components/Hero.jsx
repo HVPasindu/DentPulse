@@ -39,7 +39,7 @@ export function Hero() {
         {/* TEXT SECTION */}
         <div className="flex flex-col items-start">
           <h1 className="text-white rounded-2xl bg-green-700 my-6 py-1.5 px-4">
-            🌟 Trusted by 100000+ Happy Patients
+            🌟 Trusted by 100+ Happy Patients
           </h1>
           <div className="w-16 h-1 bg-green-600 mb-3 rounded-full"></div>
 

@@ -28,7 +28,7 @@ const RegisterPage = () => {
     if (!formData.fullName.trim())
       newErrors.fullName = "*Full name is required";
 
-    if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
+    if (formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "*Invalid email address";
     }
 
@@ -102,25 +102,26 @@ const RegisterPage = () => {
     >
       <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
       <div className="relative z-10 w-full flex flex-col justify-center items-center">
-        <div className="flex flex-row justify-center items-center  pr-50 md:pr-80 py-2">
-          <ArrowLeft className="text-black text-xl hover:cursor-pointer" onClick={navigateToHome}/>
-          <h1 className="hover:cursor-pointer" onClick={navigateToHome}>Back to Home</h1>
+        <div
+          className="flex items-center gap-2 w-full max-w-md mb-4 cursor-pointer"
+          onClick={navigateToHome}
+        >
+          <ArrowLeft className="text-black" />
+          <span>Back to Home</span>
         </div>
 
-        <div className="border-2 rounded-2xl shadow-2xl border-green-400 flex flex-col  p-5 w-[95%] py-15 mx-auto max-w-lg bg-white">
+        <div className="border-2 rounded-2xl shadow-2xl border-green-400 flex flex-col p-4 w-[92%] py-8 mx-auto max-w-md bg-white">
           <div className="flex flex-col justify-center items-center">
             <img
               src="logo.png"
               alt="dental_iamge_rest here"
-              className="size-25 "
+              className="w-16 h-16"
             />
           </div>
-          <div className="flex flex-col items-center justify-center pb-10 text-center px-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl ">
-              Create Patient Account
-            </h1>
+          <div className="flex flex-col items-center justify-center pb-1.5 text-center px-4">
+            <h1 className="text-3xl font-semibold">Create Patient Account</h1>
 
-            <p className="mt-2 text-base sm:text-lg md:text-2xl text-green-500">
+            <p className="mt-1 text-lg text-green-500">
               Join us and start your journey to a healthier smile
             </p>
           </div>
@@ -133,18 +134,18 @@ const RegisterPage = () => {
                     <label className="text-green-600  font-semibold text-lg">
                       {registerpage_data.label}
                     </label>
-                    <div>
+                    <div className="">
                       {registerpage_data.genders.map((gender) => (
                         <label
                           key={gender}
-                          className="text-green-500 p-1.5 text-xl"
+                          className="text-green-500 p-1 text-lg"
                         >
                           <input
                             type="radio"
                             name="gender"
                             value={gender}
                             onChange={handleChange}
-                            className="gap-x-1.5"
+                            className=""
                           />
                           {gender}
                         </label>
@@ -163,13 +164,13 @@ const RegisterPage = () => {
                   />
                 ),
               )}
-              <div className="flex justify-center items-center p-5">
+              <div className="flex justify-center items-center pt-4">
                 <motion.button
                   type="submit"
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="bg-green-600 rounded-2xl w-[90%] p-3 text-white mx-auto hover:bg-green-800"
+                  className="bg-green-600 rounded-2xl w-[95%] py-2 text-white mx-auto hover:bg-green-800"
                 >
                   Sign Up
                 </motion.button>
@@ -177,14 +178,14 @@ const RegisterPage = () => {
             </form>
           </div>
 
-          <div className="py-6">
+          <div className="py-3">
             <hr />
           </div>
           <div className="flex flex-row justify-center gap-4">
             <h1 className="text-green-500">Have An Account?</h1>
             <a
               href="/login"
-              className="text-green-600 hover:text-green-700 text-lg"
+              className="text-green-600 hover:text-green-700 text-md"
             >
               <u>Login Here</u>
             </a>
