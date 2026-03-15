@@ -94,10 +94,10 @@ const PatientsPage = () => {
       <div className="max-w-7xl mx-auto mb-6 md:mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-800 mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-green-700 mb-2">
               Patient Management
             </h1>
-            <p className="text-sm md:text-base text-slate-600">
+            <p className="text-sm md:text-base text-green-600 font-medium">
               Manage and view all patient records
             </p>
           </div>

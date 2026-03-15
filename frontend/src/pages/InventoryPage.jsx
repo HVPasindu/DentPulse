@@ -169,8 +169,8 @@ export default function InventoryDashboard() {
       <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800">Inventory Management</h1>
-            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">Manage dental supplies</p>
+            <h1 className="text-3xl font-bold text-green-700">Inventory Management</h1>
+            <p className="mt-2 text-sm text-green-600 font-medium sm:text-base">Manage dental supplies</p>
           </div>
           <button onClick={handleAddItem} className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-green-100 hover:bg-green-700 active:scale-95 uppercase tracking-tighter">
             <Plus className="h-4 w-4" /> Add Item

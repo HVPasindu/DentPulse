@@ -4,8 +4,8 @@ const WelcomeHeader = ({ onAddNew, onAddSpecial }) => {
   return (
     <div className="flex justify-between items-center">
       <div>
-        <h1 className="text-3xl font-bold text-slate-800">Appointment Management</h1>
-            <p className="mt-2 text-sm text-slate-500 font-medium sm:text-base">Manage dental appointments efficiently</p>
+        <h1 className="text-3xl font-bold text-green-700">Appointment Management</h1>
+            <p className="mt-2 text-sm text-green-600 font-medium sm:text-base">Manage dental appointments efficiently</p>
       </div>
       {/* Added a div container with gap-3 to separate the buttons */}
       <div className="flex gap-3">

@@ -251,7 +251,7 @@ const AppDashboard = () => {
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50 p-4">
           <div className="bg-white w-full max-w-md rounded-xl shadow-xl flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-xl font-semibold text-slate-800">
+              <h2 className="text-xl font-semibold text-green-600">
                 {isAddingNew
                   ? "Add New Appointment"
                   : isReadOnly
@@ -288,7 +288,7 @@ const AppDashboard = () => {
 
       {/* TABLE SECTION */}
       <div className="bg-white p-6 rounded-lg shadow-lg border border-dashed border-gray-300 mt-6">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+        <h2 className="text-xl font-semibold text-green-600 mb-4">
           Appointments
         </h2>
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
