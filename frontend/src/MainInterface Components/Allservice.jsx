@@ -41,8 +41,8 @@ export const Allservice = () => {
             transition: { staggerChildren: 0.15 }
           }
         }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-5 pb-28  mx-auto"
-        id="services"
+      className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 py-5 pb-28"
+  id="services"
       >
         {servicesData.map((service, index) => (
           <motion.div

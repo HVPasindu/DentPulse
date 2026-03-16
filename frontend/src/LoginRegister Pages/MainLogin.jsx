@@ -100,14 +100,14 @@ const navigateToHome = () => {
     >
       <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
       <div className="relative z-10 w-full flex flex-col justify-center items-center">
-        <div className="flex flex-row justify-center items-center  pr-50 md:pr-80 py-2">
+        <div className="flex items-center gap-2 w-full max-w-md mb-4 cursor-pointer">
           <ArrowLeft className="text-black hover:cursor-pointer" onClick={navigateToHome}/>
           <h1 className="hover:cursor-pointer" onClick={navigateToHome}>    Back to Home</h1>
         
   
         </div>
 
-        <div className="border-2 rounded-2xl shadow-2xl border-green-400 flex flex-col  p-5 w-[95%] py-15 mx-auto max-w-lg bg-white">
+        <div className="bg-white border-2 rounded-2xl shadow-2xl border-green-400 flex flex-col p-5 w-[95%] py-15 mx-auto max-w-md">
           <div className="flex flex-col justify-center items-center">
             <img
               src="logo.png"
@@ -115,9 +115,9 @@ const navigateToHome = () => {
               className="size-25 "
             />
           </div>
-          <div className="flex flex-col justify-center items-center">
-            <h1 className=" text-4xl  font-sans">Login</h1>
-            <h1 className="text-lg md:text-xl text-green-700">
+          <div className="flex flex-col text-center justify-center ">
+            <h1 className=" text-3xl  font-semibold">Login</h1>
+            <h1 className="text-lg md:text-lg text-green-700">
               {" "}
               Access your patient portal to manage appointments
             </h1>
@@ -155,7 +155,7 @@ const navigateToHome = () => {
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="bg-green-600 rounded-2xl w-[90%] p-3 text-white mx-auto hover:bg-green-800"
+                  className="bg-green-600 rounded-2xl w-[90%] p-3 text-white mx-auto hover:bg-green-800 cursor-pointer"
                 >
                   Sign in
                 </motion.button>
@@ -164,7 +164,7 @@ const navigateToHome = () => {
                 <hr />
               </div>
               <div className="flex flex-row justify-center gap-4">
-                <h1 className="text-green-600 text-lg">
+                <h1 className="text-green-600 text-md">
                   Dont Have An Account?
                 </h1>
                 <a

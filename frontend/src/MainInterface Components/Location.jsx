@@ -14,7 +14,7 @@ export default function ClinicLocation() {
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >
-          <h2 className="text-4xl font-extrabold text-green-700">
+          <h2 className="text-3xl font-extrabold text-green-700">
             Visit Our Clinic
           </h2>
 

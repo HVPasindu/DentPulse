@@ -25,9 +25,9 @@ export function ContactCard(props) {
     <div className=" group bg-white rounded-lg border-2 gap-y-2 shadow-lg hover:shadow-2xl hover:scale-105 duration-300 border-green-200 flex flex-col justify-center items-center p-12  ">
      {image_component}
 
-      <h1 className="text-3xl">{props.title}</h1>
-      <h1 className="text-green-800  text-xl">{props.first_data}</h1>
-      <h1 className="text-green-800 text-lg">{props.second_data}</h1>
+      <h1 className="text-xl font-semibold">{props.title}</h1>
+      <h1 className="text-green-800  text-lg">{props.first_data}</h1>
+      <h1 className="text-green-800 text-md">{props.second_data}</h1>
     </div>
   );
 }
