@@ -8,7 +8,7 @@ function TreatmentChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/admin/stats/treatment-stats")
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/stats/treatment-stats`)
       .then(res => setData(res.data));
   }, []);
 

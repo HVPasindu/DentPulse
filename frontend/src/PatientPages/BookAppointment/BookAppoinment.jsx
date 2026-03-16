@@ -142,7 +142,7 @@ export const BookAppoinment = () => {
       try {
         const token = localStorage.getItem("authToken");
         const response = await axios.get(
-          "http://localhost:8080/api/v1/patient/list",
+          `${import.meta.env.VITE_API_BASE_URL}/api/v1/patient/list`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -210,7 +210,7 @@ export const BookAppoinment = () => {
       console.log("🔍 Fetching booked times for date:", formattedDate);
 
       const response = await axios.get(
-        `http://localhost:8080/api/appointments/booked-times?date=${formattedDate}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/appointments/booked-times?date=${formattedDate}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -272,7 +272,7 @@ export const BookAppoinment = () => {
 
       // POST request to book appointment
       const response = await axios.post(
-        "http://localhost:8080/api/appointments",
+        `${import.meta.env.VITE_API_BASE_URL}/api/appointments`,
         appointmentData,
         {
           headers: {

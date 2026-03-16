@@ -51,7 +51,7 @@ const AdminQrScanner = () => {
       const token = localStorage.getItem("authToken");
 
       const profileRes = await fetch(
-        `http://localhost:8080/api/v1/patient/admin/${patientId}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/patient/admin/${patientId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (!profileRes.ok) throw new Error("Patient not found");
@@ -59,7 +59,7 @@ const AdminQrScanner = () => {
       const profileData = await profileRes.json();
 
       const historyRes = await fetch(
-        `http://localhost:8080/api/v1/patient/admin/${patientId}/history`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/patient/admin/${patientId}/history`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

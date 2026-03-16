@@ -26,7 +26,7 @@ export const FamilyMembers = () => {
     gender: "",
   });
 
-  const BASE_URL = "http://localhost:8080/api/v1/patient";
+  const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1/patient`;
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem("authToken");

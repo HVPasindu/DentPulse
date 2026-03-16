@@ -64,7 +64,7 @@ const RegisterPage = () => {
 
     try {
       const response = await axios.post(
-        "https://api.dentpulseclinic.com/api/v1/auth/register-patient",
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/register-patient`,
         formData,
         { headers: { "Content-Type": "application/json" } },
       );

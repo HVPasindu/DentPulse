@@ -14,7 +14,7 @@ export default function WeeklyIncomeDashboard() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/revenue/weekly")
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/revenue/weekly`)
       .then(res => {
         const formatted = res.data.map(item => ({
           week: item.weekStartDate,

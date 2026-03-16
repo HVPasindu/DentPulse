@@ -34,8 +34,8 @@ export const Review = ({
       const method = reviewId ? "PUT" : "POST";
 
       const url = reviewId
-        ? `http://localhost:8080/api/reviews/${reviewId}`
-        : "http://localhost:8080/api/reviews";
+        ? `${import.meta.env.VITE_API_BASE_URL}/api/reviews/${reviewId}`
+        : `${import.meta.env.VITE_API_BASE_URL}/api/reviews`;
 
       const response = await fetch(url, {
         method,

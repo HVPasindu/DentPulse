@@ -3,7 +3,7 @@ import axios from "axios";
 export const getAiRecommendation = async (payload) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/appointments/ai-recommendation",
+      `${import.meta.env.VITE_API_BASE_URL}/api/appointments/ai-recommendation`,
       payload
     );
     return response.data;
