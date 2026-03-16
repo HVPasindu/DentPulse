@@ -61,7 +61,7 @@ const MainInterface = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full max-w-6xl mx-auto">
       <PatientDetail patient={patient} setPatient={setPatient} />
       <PatientIdCard patient={patient} />
     </div>

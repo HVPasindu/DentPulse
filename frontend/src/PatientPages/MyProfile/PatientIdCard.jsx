@@ -33,7 +33,7 @@ export const PatientIdCard = ({ patient }) => {
   };
 
   return (
-    <div className="border border-green-400 bg-white rounded-2xl p-11">
+   <div className="border border-green-400 bg-white rounded-2xl p-6 max-w-xl">
       {/* Header */}
       <div className="grid grid-cols-1 pb-10">
         <div className="flex flex-row gap-x-2 items-center">
@@ -214,12 +214,12 @@ export const PatientIdCard = ({ patient }) => {
         </div>
       </div>
       {/* Buttons */}
-      <div className="p-10">
+      <div className="p-5">
         <motion.button
           onClick={handleDownloadPDF}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="p-4 bg-green-500 rounded-xl text-white hover:bg-green-700 flex gap-2"
+          className="p-2 bg-green-500 rounded-xl font-semibold text-white hover:bg-green-700 flex gap-2"
         >
           <Download /> Download Card
         </motion.button>

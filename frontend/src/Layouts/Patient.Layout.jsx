@@ -5,25 +5,24 @@ import { NavigationButtons } from "../PatientPages/StaticPages/NavigationButtons
 import { Patientsidebar } from "../PatientPages/StaticPages/Patientsidebar";
 export const PatientLayout = () => {
   return (
-       <div className="relative min-h-screen flex">
-      
-    
-      <div className="relative z-20">
-        <Patientsidebar />
-      </div>
+  <div className="min-h-screen">
 
-     
+      {/* Sidebar */}
+      <Patientsidebar />
+
+      {/* Main Content */}
       <div
-        className="flex-1 ml-80 relative bg-cover bg-center"
+        className="ml-60 min-h-screen relative bg-cover bg-center"
         style={{ backgroundImage: "url('/background.png')" }}
       >
-     
+        {/* Background overlay */}
         <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
 
-   
-        <div className="relative z-10 p-6 md:p-8 min-h-screen">
+        {/* Page content */}
+        <div className="relative z-10 p-6 md:p-8">
           <Outlet />
         </div>
+
       </div>
     </div>
   );

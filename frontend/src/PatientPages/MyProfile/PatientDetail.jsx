@@ -44,7 +44,7 @@ export const PatientDetail = ({ patient, setPatient }) => {
   };
 
   return (
-    <div className="bg-white border border-green-300 rounded-2xl p-8">
+    <div className="bg-white border border-green-300 rounded-2xl p-5 max-w-xl">
       <div className="flex items-center gap-2">
         <UserRoundPen />
         <h1 className="text-2xl  text-green-700">Patient Details</h1>
