@@ -47,10 +47,10 @@ export const PatientDetail = ({ patient, setPatient }) => {
     <div className="bg-white border border-green-300 rounded-2xl p-5 max-w-xl">
       <div className="flex items-center gap-2">
         <UserRoundPen />
-        <h1 className="text-2xl  text-green-700">Patient Details</h1>
+        <h1 className="text-xl  text-green-700">Patient Details</h1>
       </div>
       <div>
-        <h1 className="text-green-500 text-lg">
+        <h1 className="text-green-500 text-md">
           View and update your personal information
         </h1>
       </div>
@@ -80,11 +80,11 @@ export const PatientDetail = ({ patient, setPatient }) => {
             name="gender"
             value={formData.gender}
             onChange={handleChange}
-            className="border border-green-400 rounded-lg p-2"
+            className="border border-green-400 text-sm rounded-lg p-1"
           >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+            <option value="" >Select Gender</option>
+            <option value="Male" >Male</option>
+            <option value="Female" >Female</option>
           </select>
         </div>
 
@@ -92,7 +92,7 @@ export const PatientDetail = ({ patient, setPatient }) => {
           type="submit"
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.96 }}
-          className="mt-4 w-full bg-green-600 text-white p-2 rounded-xl"
+          className="mt-4 w-full bg-green-600 font-medium text-white p-2 rounded-xl"
         >
           Update Details
         </motion.button>
