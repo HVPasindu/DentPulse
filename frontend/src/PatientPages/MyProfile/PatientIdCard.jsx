@@ -33,7 +33,7 @@ export const PatientIdCard = ({ patient }) => {
   return (
     <div className="border border-green-400 bg-white rounded-2xl p-6 max-w-xl">
       {/* Header */}
-      <div className="grid grid-cols-1 pb-10">
+      <div className="hidden sm:grid grid-cols-1 pb-10">
         <div className="flex flex-row gap-x-2 items-center">
           <IdCard />
           <h1 className="text-green-800 text-xl font-stretch-105% ">
@@ -49,7 +49,7 @@ export const PatientIdCard = ({ patient }) => {
       {/* Card */}
       <div
         ref={cardRef}
-        className="border-2 rounded-lg border-green-600 shadow-lg hover:shadow-xl hover:scale-105 duration-300 flex flex-col justify-center w-full md:w-[90%] mx-auto bg-white"
+        className="hidden sm:flex border-2 rounded-lg border-green-600 shadow-lg hover:shadow-xl hover:scale-105 duration-300 flex-col justify-center w-full max-w-[420px] mx-auto bg-white"
       >
         <div className="bg-green-700 p-1 flex flex-row justify-around rounded-lg">
           <div className="flex flex-row justify-between w-full">
@@ -69,27 +69,27 @@ export const PatientIdCard = ({ patient }) => {
         </div>
 
         {/* Body */}
-        <div className="flex flex-row items-center gap-4 p-4">
+        <div className="flex flex-col sm:flex-row items-center gap-4 p-4">
           {/* Left details */}
           <div className="pl-2 space-y-1 flex-1 min-w-0">
             <h1 className="text-green-400 text-sm font-bold ">Full Name</h1>
-            <h1 className="text-green-800 text-md font-semibold  break-words max-w-xs">
+            <h1 className="text-green-800 text-sm font-semibold break-words">
               {patient.fullName}
             </h1>
 
             <h1 className="text-green-400 text-sm font-bold">Contact</h1>
-            <h1 className="text-green-800 text-sm font-semibold  break-words max-w-xs">
+            <h1 className="text-green-800 text-sm font-semibold break-words">
               {patient.phone}
             </h1>
 
             <h1 className="text-green-400 text-sm  font-bold">Gender</h1>
-            <h1 className="text-green-800 text-sm font-semibold  break-words max-w-xs">
+            <h1 className="text-green-800 text-sm font-semibold break-words">
               {patient.gender}
             </h1>
 
             <h1 className="text-green-400 text-sm font-bold">Address</h1>
 
-            <h1 className="text-green-800 text-sm font-semibold break-words whitespace-normal">
+            <h1 className="text-green-800 text-sm font-semibold break-words">
               {patient.address}
             </h1>
 
@@ -100,7 +100,7 @@ export const PatientIdCard = ({ patient }) => {
           </div>
 
           {/* QR */}
-          <div className="pt-2 flex flex-col justify-center items-center w-[110px] shrink-0">
+          <div className="flex flex-col justify-center items-center sm:w-[110px] shrink-0">
             <QRCode value={qrData} size={90} level="M" />
             <h1 className="text-green-700 pt-1">Scan QR Code</h1>
           </div>
@@ -109,7 +109,7 @@ export const PatientIdCard = ({ patient }) => {
         {/* Footer */}
         <div>
           <hr className="p-0.5" />
-          <div className="flex flex-row justify-around p-1">
+          <div className="flex flex-col sm:flex-row items-center gap-4 p-4">
             <h1 className="text-green-800 text-xs font-medium">
               Emergency Hotline: +94769952271
             </h1>
@@ -230,8 +230,16 @@ export const PatientIdCard = ({ patient }) => {
           each visit
         </div>
       </div>
+      <div className="sm:hidden text-center mb-4">
+        <h1 className="text-green-700 font-semibold text-lg">
+          Download Your Patient QR Card
+        </h1>
+        <p className="text-sm text-gray-600">
+          Save your ID card to your phone and show it at the clinic
+        </p>
+      </div>
       {/* Buttons */}
-      <div className="p-5">
+      <div className="mx-auto flex justify-center pt-1.5">
         <motion.button
           onClick={handleDownloadPDF}
           whileHover={{ scale: 1.05 }}
