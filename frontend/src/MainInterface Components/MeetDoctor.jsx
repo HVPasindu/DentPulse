@@ -1,24 +1,16 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function MeetDoctorHero() {
-
-
   const navigate = useNavigate();
 
-
   const handleBookAppointment = () => {
-
     navigate("/login");
-  }
-
+  };
 
   return (
     <section className="bg-gradient-to-b from-green-100 to-green-50 py-16 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        
         {/* LEFT: Doctor Image */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -49,7 +41,7 @@ export default function MeetDoctorHero() {
           </h4>
 
           <h2 className="text-4xl font-extrabold text-green-800 leading-tight">
-            Dr. Amanda Silva
+            Dr. Achini Sandalekha
           </h2>
 
           <p className="text-green-700 font-medium text-lg">
@@ -57,7 +49,8 @@ export default function MeetDoctorHero() {
           </p>
 
           <p className="text-gray-700 text-lg leading-relaxed">
-            Dr. Amanda Silva has over <span className="font-semibold text-green-700">10 years</span> of
+            Dr. Achini Sandalekha has over{" "}
+            <span className="font-semibold text-green-700">2 years</span> of
             experience in providing gentle, high-quality dental care. She
             believes in patient comfort, modern treatments, and creating
             confident smiles.
@@ -66,22 +59,25 @@ export default function MeetDoctorHero() {
           {/* Highlights */}
           <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
             <div className="bg-white rounded-xl p-4 shadow">
-              🦷 10+ Years Experience
+              🦷 2+ Years Experience
             </div>
             <div className="bg-white rounded-xl p-4 shadow">
-              ⭐ Trusted by 2,000+ Patients
+              ⭐ Trusted by 500+ Patients
             </div>
             <div className="bg-white rounded-xl p-4 shadow">
               🌿 Gentle & Modern Care
             </div>
             <div className="bg-white rounded-xl p-4 shadow">
-              📍 Colombo, Sri Lanka
+              📍 Kalutara, Sri Lanka
             </div>
           </div>
 
           {/* CTA */}
           <div className="pt-4">
-            <button className="px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition shadow-md" onClick={handleBookAppointment}>
+            <button
+              className="px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition shadow-md"
+              onClick={handleBookAppointment}
+            >
               Book Appointment
             </button>
           </div>

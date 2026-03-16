@@ -39,7 +39,7 @@ export function Footer() {
               className="text-green-300 text-md hover:text-white"
             >
               <br />
-              Testimonials
+              Feedbacks
             </HashLink>
             <HashLink
               smooth
