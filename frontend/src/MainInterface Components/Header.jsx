@@ -61,7 +61,7 @@ export function Header() {
             Services
           </HashLink>
           <HashLink smooth to="/#about" className="hover:text-green-800 ">
-            Testimonials
+            Feedbacks
           </HashLink>
           <HashLink smooth to="/#contact" className="hover:text-green-800 ">
             Contact
@@ -69,7 +69,7 @@ export function Header() {
           <div ref={helpRef} className="relative inline-block >">
             <button
               onClick={() => setHelpOpen(!helpOpen)}
-              className="hover:text-green-800 focus:outline-none"
+              className="cursor-pointer hover:text-green-800 focus:outline-none"
             >
               Help
             </button>

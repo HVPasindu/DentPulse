@@ -14,7 +14,7 @@ function Carosuel() {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/reviews/public");
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/reviews/public`);
       const data = await response.json();
 
       console.log("Reviews:", data);
