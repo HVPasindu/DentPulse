@@ -28,7 +28,9 @@ const RegisterPage = () => {
     if (!formData.fullName.trim())
       newErrors.fullName = "*Full name is required";
 
-    if (formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+    if (!formData.email) {
+      newErrors.email = "*Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "*Invalid email address";
     }
 
@@ -66,7 +68,7 @@ const RegisterPage = () => {
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/register-patient`,
         formData,
-        { headers: { "Content-Type": "application/json" } },
+        { headers: { "Content-Type": "application/json" } }
       );
 
       if (response.status === 200) {
@@ -162,7 +164,7 @@ const RegisterPage = () => {
                     onChange={handleChange}
                     error={errors[registerpage_data.name]}
                   />
-                ),
+                )
               )}
               <div className="flex justify-center items-center pt-4">
                 <motion.button
