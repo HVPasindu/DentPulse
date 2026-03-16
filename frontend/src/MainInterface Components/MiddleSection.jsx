@@ -11,53 +11,66 @@ export function MiddleSection({ link }) {
   };
 
   return (
-    <div className="grid grid-cols-1 justify-evenly md:grid-cols-2 gap-x-64">
-      <div className="flex flex-col justify-center items-center ">
-        <h1 className="text-4xl font-medium   text-green-700">
-          Why Choose DentPulse Clinic
-        </h1>
-        <h1 className="text-lg m-8 text-green-600">
-          Enhance your smile with our cosmetic dentistry services, including
-          teeth whitening, veneers, bonding, and smile makeovers tailored to
-          your needs.{" "}
-        </h1>
-        <div className="grid  grid-cols-1 gap-x-7 gap-y-7 md:grid-cols-2 ">
-          {middledata.map((middle_data) => (
-            <MiddleSectionCard
-              main_text={middle_data.main_text}
-              second_text={middle_data.second_text}
-            />
-          ))}
+    
+   <>
+      {/* SECTION CONTENT */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 px-6 py-20">
+
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-3xl font-medium text-green-700">
+            Why Choose DentPulse Clinic
+          </h1>
+
+          <p className="text-lg m-8 text-green-600 text-center">
+            Enhance your smile with our cosmetic dentistry services, including
+            teeth whitening, veneers, bonding, and smile makeovers tailored to
+            your needs.
+          </p>
+
+          <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
+            {middledata.map((middle_data, index) => (
+              <MiddleSectionCard
+                key={index}
+                main_text={middle_data.main_text}
+                second_text={middle_data.second_text}
+              />
+            ))}
+          </div>
         </div>
 
-        <div></div>
-      </div>
-      <div className="bg-green-200 rounded-3xl w-[600px] h-[600px] my-9">
-        <img
-          src="check.jpeg"
-          alt="middlesection_image"
-          className="w-[800px] h-[500px] pt-20 mx-auto"
-        />
+        {/* IMAGE */}
+        <div className="bg-green-200 rounded-3xl flex items-center justify-center max-w-[500px] h-[450px] my-9">
+          <img
+            src="check.jpeg"
+            alt="middlesection_image"
+            className="w-[85%] h-auto object-cover rounded-2xl"
+          />
+        </div>
+
       </div>
 
-      <div className=" flex  flex-col bg-green-600 w-screen pt-20 justify-center items-center pb-20">
-        <h1 className="font-semibold text-4xl text-white p-5">
-          Ready to Shedule Your Visit
+      {/* FULL WIDTH CTA */}
+      <div className="w-full bg-green-600 py-20 flex flex-col justify-center items-center text-center">
+        <h1 className="font-semibold text-3xl text-white p-5">
+          Ready to Schedule Your Visit
         </h1>
-        <h1 className="font-normal text-2xl text-white p-7">
+
+        <p className="font-normal text-lg text-white max-w-xl">
           Our friendly staff is here to help you. Book your appointment today
           and take the first step towards a healthier smile.
-        </h1>
+        </p>
+
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="bg-white p-3 rounded-xl px-7 shadow-lg hover:bg-green-200 hover:cursor-pointer"
+          className="bg-white p-3 rounded-xl px-6 shadow-lg hover:bg-green-200 mt-6"
           onClick={switchlologin}
         >
           Make An Appointment
         </motion.button>
       </div>
-    </div>
+    </>
+    
   );
 }

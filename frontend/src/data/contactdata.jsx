@@ -6,7 +6,7 @@
         id:1,
         title:"Phone",
         first_data:"+94 71 546 6337",
-        second_data:"Mon-Fri, 8am-6pm"
+        second_data:"Mon-Fri: 4:30pm - 7:30pm"
     
     },
 

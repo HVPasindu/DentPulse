@@ -14,7 +14,7 @@ export default function ClinicLocation() {
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >
-          <h2 className="text-4xl font-extrabold text-green-700">
+          <h2 className="text-3xl font-extrabold text-green-700">
             Visit Our Clinic
           </h2>
 
@@ -29,8 +29,8 @@ export default function ClinicLocation() {
               <MapPin className="text-green-600 mt-1" />
               <p className="text-gray-700">
                 DentPulse Dental Clinic,<br />
-                Main Street, Colombo 07,<br />
-                Sri Lanka
+                No.5, Nagoda Junction,<br />
+                Kalutara, Sri Lanka.
               </p>
             </div>
 
@@ -44,7 +44,8 @@ export default function ClinicLocation() {
             <div className="flex items-center gap-4 bg-white p-4 rounded-xl shadow">
               <Clock className="text-green-600" />
               <p className="text-gray-700">
-                Mon – Sat : 9.00 AM – 6.00 PM
+                Mon – Fri : 4.30 PM – 7.30 PM <br></br>
+                Sat – Sun : 10.30 AM – 4.30 PM
               </p>
             </div>
           </div>
@@ -63,7 +64,7 @@ export default function ClinicLocation() {
         >
           <iframe
             title="Clinic Location"
-            src="https://www.google.com/maps?q=Colombo%207%20Sri%20Lanka&output=embed"
+            src="https://www.google.com/maps?q=Nagoda%20Junction%20Kalutara%20Sri%20Lanka&output=embed"
             className="w-full h-full border-0"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

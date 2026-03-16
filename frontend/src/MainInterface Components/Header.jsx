@@ -39,21 +39,21 @@ export function Header() {
     navigate("/");
   };
   return (
-    <div className="sticky top-0 left-0 z-50 w-screen flex justify-around items-center bg-white py-5 shadow-xl mb-0.5">
-      <div className=" w-[200px] flex justify-center  items-center gap-x-2 ">
+    <div className="sticky top-0 left-0 z-50 w-screen flex justify-between items-center bg-white py-5 shadow-xl mb-0.5">
+      <div className=" w-[200px] flex items-center justify-center pl-15 ">
         <img
           src="logo.png"
-          className="size-14 md:size-14 hover:cursor-pointer"
+          className="size-14 md:size-12 hover:cursor-pointer"
           onClick={navigatetohome}
         />
 
-        <h1 className="font-extrabold text-3xl md:text-5xl tracking-tight text-green-600">
+        <h1 className="font-extrabold text-5xl md:text-4xl tracking-tight text-green-600 cursor-pointer">
           Dent<span className="font-bold text-green-700">Pulse</span>
         </h1>
       </div>
 
       <div className="hidden lg:block">
-        <nav className="space-x-8 cursor-pointer text-xl text-green-600">
+        <nav className="space-x-8 cursor-pointer text-lg text-green-600">
           <HashLink smooth to="/#home" className="hover:text-green-800 ">
             Home
           </HashLink>
@@ -61,7 +61,7 @@ export function Header() {
             Services
           </HashLink>
           <HashLink smooth to="/#about" className="hover:text-green-800 ">
-            Testimonials
+            Feedbacks
           </HashLink>
           <HashLink smooth to="/#contact" className="hover:text-green-800 ">
             Contact
@@ -69,7 +69,7 @@ export function Header() {
           <div ref={helpRef} className="relative inline-block >">
             <button
               onClick={() => setHelpOpen(!helpOpen)}
-              className="hover:text-green-800 focus:outline-none"
+              className="cursor-pointer hover:text-green-800 focus:outline-none"
             >
               Help
             </button>
@@ -112,7 +112,7 @@ export function Header() {
           </div>
         </nav>
       </div>
-      <div className="hidden lg:block">
+      <div className="hidden lg:block pr-3">
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.96 }}
@@ -122,7 +122,7 @@ export function Header() {
                    hover:text-green-500 hover:bg-green-100 hover:cursor-pointer"
           onClick={navigatetologinpage}
         >
-          <div className="flex flex-row items-center gap-x-2 p-0.5">
+          <div className="flex flex-row items-center gap-x-2 ">
             {/* Icon */}
             <motion.div
               whileHover={{ scale: 1.15 }}
@@ -132,7 +132,7 @@ export function Header() {
             </motion.div>
 
             {/* Text */}
-            <h1 className="text-green-700 text-xl font-semibold">Login</h1>
+            <h1 className="text-green-700 text-lg font-semibold">Login</h1>
           </div>
         </motion.button>
       </div>
@@ -171,7 +171,7 @@ export function Header() {
           navigatetologinpage();
           setMobileMenuOpen(false);
         }}
-        className="border border-green-500 px-6 py-2 rounded-lg"
+        className="border border-green-500 px-4 py-2 rounded-xl"
       >
         Login
       </button>

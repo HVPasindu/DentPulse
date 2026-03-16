@@ -6,8 +6,8 @@ export function Contact() {
   return (
     <section>
       <div className="flex flex-col justify-center items-center  py-9 ">
-        <h1 className="font-bold text-4xl text-green-900 py-2">Get In Touch</h1>
-        <h1 className="font-semibold text-xl  text-green-600 py-10">
+        <h1 className="font-bold text-3xl text-green-900 py-2">Get In Touch</h1>
+        <h1 className="font-semibold text-lg  text-green-600 py-10">
           We are here to answer to your questions
         </h1>
 
