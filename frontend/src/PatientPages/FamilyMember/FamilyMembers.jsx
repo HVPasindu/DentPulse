@@ -195,7 +195,7 @@ export const FamilyMembers = () => {
         relationship: formData.relationship,
         birthDate: formData.date,
         address: formData.address,
-        gender: (formData.gender || "").toLowerCase(),
+        gender: (formData.gender || ""),
         hasNic: formData.nic === "With NIC",
         nic: formData.nic === "With NIC" ? formData.nicnumber : null,
       };
@@ -348,7 +348,7 @@ export const FamilyMembers = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-row justify-around px-1">
                       <button
-                        className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-green-700 hover:text-black border-green-300 bg-white p-1 hover:bg-green-100"
+                        className="cursor-pointer flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-green-700 hover:text-black border-green-300 bg-white p-1 hover:bg-green-100"
                         onClick={() => handleIdcard(user)}
                       >
                         <div className=" pr-2">
@@ -363,7 +363,7 @@ export const FamilyMembers = () => {
                         <>
                           <div className="px-1">
                             <button
-                              className="border-2 rounded-lg text-sm border-green-400 flex flex-row justify-evenly text-green-700 p-1 hover:bg-green-300 hover:text-black"
+                              className="cursor-pointer border-2 rounded-lg text-sm border-green-400 flex flex-row justify-evenly text-green-700 p-1 hover:bg-green-300 hover:text-black"
                               onClick={() => handleEdit(user)}
                             >
                               <SquarePen className="size-4 pt-1" />
@@ -373,7 +373,7 @@ export const FamilyMembers = () => {
 
                           <div className="pt-1">
                             <button
-                              className="border-2 rounded-md p-1 border-red-300 text-red-500 hover:bg-red-200"
+                              className="cursor-pointer border-2 rounded-md p-1 border-red-300 text-red-500 hover:bg-red-200"
                               onClick={() => handleDelete(user.id)}
                             >
                               <Trash2 className="size-3" />
