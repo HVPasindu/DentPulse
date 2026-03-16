@@ -46,17 +46,14 @@ export const FamilyMembers = () => {
       ]);
 
       const mapMember = (m) => ({
-     
         id: m.patientId ?? m.id,
 
-  
         name: m.fullName ?? m.name ?? "",
 
         phone: m.phone ?? "",
         email: m.email ?? "",
         gender: m.gender ?? "",
         address: m.address ?? "",
-
 
         birthDate: (m.birthDate || "").includes("T")
           ? m.birthDate.slice(0, 10)
@@ -251,7 +248,7 @@ export const FamilyMembers = () => {
   return (
     <div className="p-8  min-h-screen">
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg border border-green-400 shadow-xl">
-        <div className="flex flex-row justify-between p-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-3 p-4">
           <div>
             <div className="flex flex-row  gap-4 items-baseline">
               <div>
@@ -291,26 +288,26 @@ export const FamilyMembers = () => {
           </div>
         </div>
 
-       <div className="bg-white rounded-lg border border-green-300 overflow-x-auto">
-         <table className="min-w-[600px] w-full divide-y divide-gray-200">
+        <div className="bg-white rounded-lg border border-green-300 overflow-x-auto">
+          <table className="min-w-[500px] w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-black ">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-black ">
                   Relationship
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-black uppercase tracking-wider">
+                <th className="hidden md:table-cell px-3 py-2 text-left text-xs font-semibold">
                   Gender
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-black uppercase tracking-wider">
+                <th className="hidden md:table-cell px-3 py-2 text-left text-xs font-semibold">
                   Email
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-black ">
                   Phone Number
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-black ">
                   Action
                 </th>
               </tr>
@@ -322,11 +319,11 @@ export const FamilyMembers = () => {
                   key={user.id ?? idx}
                   className="hover:bg-gray-50 transition-colors"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 py-2 whitespace-nowrap">
                     <div className="text-sm  text-gray-900">{user.name}</div>
                   </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 py-2 whitespace-nowrap">
                     <span
                       className={`rounded-full px-2 py-1  text-xs inline-flex  ${
                         user.relationship == "Account Owner"
@@ -338,25 +335,24 @@ export const FamilyMembers = () => {
                     </span>
                   </td>
 
-                  <td className="px-3 py-2 text-sm  whitespace-nowrap">{user.gender}</td>
-                  <td className="px-3 py-2 text-sm  whitespace-nowrap">{user.email}</td>
-
+                  <td className="hidden md:table-cell px-3 py-2 text-xs">
+                    {user.gender}
+                  </td>
+                  <td className="hidden md:table-cell px-3 py-2 text-xs">
+                    {user.email}
+                  </td>
                   <td className="px-3 py-2 text-sm whitespace-nowrap">
                     <div className="text-sm  text-gray-900">{user.phone}</div>
                   </td>
 
                   <td className="px-3 py-2 whitespace-nowrap text-sm">
-                    <div className="flex flex-row justify-around px-1">
+                    <div className="flex flex-col sm:flex-row gap-1">
                       <button
-                        className="flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-green-700 hover:text-black border-green-300 bg-white p-1 hover:bg-green-100"
+                        className="flex items-center gap-1 text-xs border rounded-md px-2 py-1 text-green-700 hover:bg-green-100"
                         onClick={() => handleIdcard(user)}
                       >
-                        <div className=" pr-2">
-                          <IdCard className="size-6" />
-                        </div>
-                        <div className="pt-1">
-                          <h1>Id card</h1>
-                        </div>
+                        <IdCard className="size-4" />
+                        ID
                       </button>
 
                       {user.relationship !== "Account Owner" && (
