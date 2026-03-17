@@ -125,7 +125,7 @@ export const TimeSlot = ({
 
 
         {/* [NEW] top-right legend box */}
-        <div className="absolute top-4 right-4 z-10">
+        <div className="mt-3 sm:absolute sm:top-4 sm:right-4">
           <div className="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl px-3 py-2 shadow-md">
             <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-1">
               Slot Guide
@@ -141,19 +141,19 @@ export const TimeSlot = ({
           </div>
         </div>
 
-        <div className="flex flex-col pb-4 pr-44">
-          <div className="flex flex-row items-baseline gap-x-2">
+       <div className="flex flex-col pb-4">
+          <div className="flex items-center gap-2 flex-wrap">
             <div>
               <ClockCheck />
             </div>
             <div>
-              <h1 className="p-1.5 text-green-700   text-2xl">
+              <h1 className="p-1.5 text-green-700   text-lg">
                 Select Time Slot
               </h1>
             </div>
           </div>
 
-          <h1 className="p-1.5 text-green-500 text-lg">
+          <h1 className="p-1.5 text-green-500 text-md">
             {selectDate
               ? `Available slots for ${
                   selectDate.toDateString
@@ -166,7 +166,7 @@ export const TimeSlot = ({
         </div>
 
         {/* Display all time slots with booked ones disabled and styled */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3">
           {timedata.map((data, index) => {
             const isThisBooked = bookedTimes.includes(data);
 
@@ -185,16 +185,16 @@ export const TimeSlot = ({
         </div>
 
         {selectTime && (
-          <div className="mt-4 p-3 bg-green-50 rounded-lg text-center">
+          <div className="mt-4 p-2 bg-green-50 rounded-lg text-center">
             <div></div>
-            <p className="text-lg text-gray-600">Selected Time:</p>
-            <p className="text-xl font-semibold text-green-700">{selectTime}</p>
+            <p className="text-xs text-gray-600">Selected Time:</p>
+           <p className="text-sm sm:text-base font-semibold text-green-700">{selectTime}</p>
           </div>
         )}
 
         <div className="flex justify-center items-center p-6">
           <button
-            className={`w-[90%] rounded-2xl p-3 text-white font-semibold transition-colors ${
+            className={`w-full sm:w-[60%] rounded-2xl p-2.5 text-white font-semibold transition-colors ${
               selectedPatient && selectDate && selectTime && !isBooking
                 ? "bg-green-600 hover:bg-green-800 cursor-pointer"
                 : "bg-gray-400 cursor-not-allowed"

@@ -57,7 +57,7 @@ export const PatientIdCard = ({ FormData, closeIdModel }) => {
       onClick={closeIdModel}
     >
       <div
-        className="border border-green-400 bg-white rounded-2xl p-11 w-[40%]"
+        className="border border-green-400 bg-white rounded-xl p-5 sm:p-8 w-[92%] sm:w-[75%] lg:w-[520px] max-w-xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ---------------- CLOSE ---------------- */}
@@ -69,63 +69,63 @@ export const PatientIdCard = ({ FormData, closeIdModel }) => {
         </div>
 
         {/* ---------------- HEADER ---------------- */}
-        <div className="grid grid-cols-1 pb-10">
+        <div className="grid grid-cols-1 pb-10 justify-center">
           <div className="flex gap-2 items-center">
             <IdCard />
-            <h1 className="text-green-800 text-2xl font-serif">
-              Patient ID Card
-            </h1>
+            <h1 className="text-green-800 text-lg">Patient ID Card</h1>
           </div>
-          <h2 className="text-green-400 text-lg">
+          <h2 className="text-green-400 text-md">
             View and download your ID card
           </h2>
         </div>
 
         {/* =================== VISIBLE UI CARD =================== */}
-        <div className="border-2 rounded-lg border-green-600 shadow-lg w-[90%] mx-auto">
+
+        <div className="hidden sm:block border-2 rounded-2xl border-green-600 shadow-md w-full max-w-[420px] mx-auto">
           {/* Top */}
-          <div className="bg-green-700 p-4 flex justify-between rounded-lg">
+          <div className="bg-green-700 p-2 flex justify-between rounded-xs">
             <div>
-              <h1 className="text-white text-2xl font-semibold">DentPulse</h1>
-              <p className="text-white text-lg">Patient Identification Card</p>
+              <h1 className="text-white text-xs font-semibold">DentPulse</h1>
+              <p className="text-white text-xs font-semibold">
+                Patient Identification Card
+              </p>
             </div>
             <div className="text-white font-bold">
-              <p>Patient ID</p>
-              <p>PT-{patient.patientId}</p>
+              <h1 className="text-sm">Patient ID</h1>
+              <h1 className="text-sm">PT-{patient.patientId}</h1>
             </div>
           </div>
 
           {/* Body */}
-          <div className="flex justify-around p-6">
+          <div className="flex justify-between gap-4 p-4">
             <div className="space-y-1">
-              <p className="text-green-400 font-bold text-xl">Full Name</p>
-              <p className="text-green-800 text-lg font-semibold  break-words max-w-xs">
+              <p className="text-green-400 font-bold text-sm">Full Name</p>
+              <p className="text-green-800 text-xs font-semibold  break-words max-w-xs">
                 {patient.fullName}
               </p>
 
-              <p className="text-green-400 font-bold text-xl">Contact</p>
-              <p className="text-green-800 text-lg font-semibold">
+              <p className="text-green-400 font-bold text-sm">Contact</p>
+              <p className="text-green-800 text-xs font-semibold">
                 {patient.phone}
               </p>
 
-              <p className="text-green-400 font-bold text-xl">Gender</p>
-              <p className="text-green-800 text-lg font-semibold">
+              <p className="text-green-400 font-bold text-sm">Gender</p>
+              <p className="text-green-800 text-xs font-semibold">
                 {patient.gender}
               </p>
 
-              <p className="text-green-400 font-bold text-xl">Address</p>
-              <p className="text-green-800 text-lg font-semibold  break-words max-w-xs">
+              <p className="text-green-400 font-bold text-sm">Address</p>
+              <p className="text-green-800 text-xs font-semibold  break-words max-w-xs">
                 {patient.address}
               </p>
 
-              <p className="text-green-400 font-bold text-xl">Date Of Birth</p>
-              <p className="text-green-800 text-lg font-semibold">
+              <p className="text-green-400 font-bold text-sm">Date Of Birth</p>
+              <p className="text-green-800 text-xs font-semibold">
                 {patient.birthDate}
               </p>
             </div>
-
-            <div className="flex flex-col items-center pt-20">
-              <QRCode value={qrData} size={128} />
+            <div className="flex flex-col items-center justify-center">
+              <QRCode value={qrData} size={90} />
               <p className="text-green-700">Scan QR Code</p>
             </div>
           </div>
@@ -133,12 +133,13 @@ export const PatientIdCard = ({ FormData, closeIdModel }) => {
           {/* Footer */}
           <div>
             <hr />
-            <div className="flex justify-around p-2 text-sm text-green-800">
-              <span>Emergency: 011-566600</span>
-              <span>123 Dental Street, NY</span>
+            <div className="flex justify-around p-2 text-sm font-semibold text-green-800">
+              <span>Emergency Hotline: +9471493020</span>
+              <span>Kaluthara,Sri Lanka</span>
             </div>
-            <div className="bg-green-700 text-white text-xs text-center p-3 rounded-b-lg">
-              This card must be presented at each visit
+            <div className="bg-green-700 text-white text-xs text-center p-3 rounded-b-xs">
+              This card is the property of DentPulse Dental and must be
+              presented at each visit
             </div>
           </div>
         </div>
@@ -235,7 +236,7 @@ export const PatientIdCard = ({ FormData, closeIdModel }) => {
                       style={{
                         width: "35%",
                         textAlign: "center",
-                        verticalAlign: "middle", // ✅ THIS LINE
+                        verticalAlign: "middle",
                       }}
                     >
                       <QRCode value={qrData} size={100} />
@@ -273,14 +274,21 @@ export const PatientIdCard = ({ FormData, closeIdModel }) => {
             </div>
           </div>
         </div>
-
+        <div className="sm:hidden text-center pb-4">
+          <h1 className="text-green-700 font-semibold text-xs">
+            Download Your Patient ID Card
+          </h1>
+          <p className="text-sm text-gray-600">
+            Save your ID card to your phone and show it at the clinic
+          </p>
+        </div>
         {/* ---------------- BUTTON ---------------- */}
-        <div className="p-8 flex justify-center">
+        <div className="p-4 sm:p-8 flex justify-center">
           <motion.button
             onClick={handleDownloadPDF}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="p-4 bg-green-500 rounded-xl text-white hover:bg-green-700 flex gap-2"
+            className="px-2 py-1 sm:p-2 font-medium bg-green-500 rounded-xl text-white hover:bg-green-700 flex gap-2"
           >
             <Download /> Download Card
           </motion.button>

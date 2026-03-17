@@ -11,9 +11,9 @@ export const AppointmentDate = ({ selectDate, setDate, selectedPatient }) => {
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="size-6 text-green-700" />
-            <h2 className="text-2xl  font-stretch-105% text-green-700 ">Set Appointment Date</h2>
+            <h2 className="text-lg  font-stretch-105% text-green-700 ">Set Appointment Date</h2>
           </div>
-          <p className="text-green-500 text-lg">
+          <p className="text-green-500 text-md">
             Choose a date for your appointment
           </p>
         </div>
@@ -42,8 +42,8 @@ export const AppointmentDate = ({ selectDate, setDate, selectedPatient }) => {
         )}
         {selectDate && (
           <div className="mt-4 p-3 bg-green-50 rounded-lg text-center">
-            <p className="text-lg text-gray-600">Selected Date:</p>
-            <p className="text-xl font-semibold text-green-700">
+            <p className="text-xs text-gray-600">Selected Date:</p>
+            <p className="text-xm font-semibold text-green-700">
               {selectDate.toDateString ? selectDate.toDateString() : selectDate}
             </p>
           </div>

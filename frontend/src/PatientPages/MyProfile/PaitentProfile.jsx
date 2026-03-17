@@ -1,25 +1,4 @@
-// import React from "react";
-// import PatientHeader from "../StaticPages/PatientHeader";
-// import { AppointmentDate } from "../BookAppointment/AppointmentDate";
-// import { PatientDetail } from "./PatientDetail";
 
-// import { PatientIdCard } from "./PatientIdCard";
-// import { NavigationButtons } from "../StaticPages/NavigationButtons";
-// const MainInterface = () => {
-//   return (
-//     <>
-  
-    
-//         <div className="">
-     
-//           <PatientIdCard />
-
-//       </div>
-//     </>
-//   );
-// };
-
-// export default MainInterface;
 
 
 
@@ -61,7 +40,7 @@ const MainInterface = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+   <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 gap-6 w-full  max-w-6xl mx-auto">
       <PatientDetail patient={patient} setPatient={setPatient} />
       <PatientIdCard patient={patient} />
     </div>

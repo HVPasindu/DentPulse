@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import { useRef } from "react";
 import { QRCodeSVG as QRCode } from "qrcode.react";
@@ -33,17 +31,17 @@ export const PatientIdCard = ({ patient }) => {
   };
 
   return (
-    <div className="border border-green-400 bg-white rounded-2xl p-11">
+    <div className="border border-green-400 bg-white rounded-2xl p-6 max-w-xl">
       {/* Header */}
-      <div className="grid grid-cols-1 pb-10">
+      <div className="hidden sm:grid grid-cols-1 pb-10">
         <div className="flex flex-row gap-x-2 items-center">
           <IdCard />
-          <h1 className="text-green-800 text-2xl font-stretch-105% ">
+          <h1 className="text-green-800 text-xl font-stretch-105% ">
             Patient ID Card
           </h1>
         </div>
 
-        <h1 className="text-green-400 text-lg">
+        <h1 className="text-green-400 text-md">
           View and download your ID card
         </h1>
       </div>
@@ -51,19 +49,19 @@ export const PatientIdCard = ({ patient }) => {
       {/* Card */}
       <div
         ref={cardRef}
-        className="border-2 rounded-lg border-green-600 shadow-lg hover:shadow-4xl hover:scale-110 duration-500 flex flex-col justify-center w-full md:w-[90%] mx-auto bg-white"
+        className="hidden sm:flex border-2 rounded-lg border-green-600 shadow-lg hover:shadow-xl hover:scale-105 duration-300 flex-col justify-center w-full max-w-[420px] mx-auto bg-white"
       >
-        <div className="bg-green-700 p-4 flex flex-row justify-around rounded-lg">
+        <div className="bg-green-700 p-1 flex flex-row justify-around rounded-lg">
           <div className="flex flex-row justify-between w-full">
             <div>
-              <h1 className="text-white text-2xl font-semibold">DentPulse</h1>
-              <h1 className="text-white text-xl font-normal">
+              <h1 className="text-white text-md font-semibold">DentPulse</h1>
+              <h1 className="text-white text-sm font-normal">
                 Patient Identification Card
               </h1>
             </div>
             <div>
-              <h1 className="text-white text-lg font-bold">Patient ID</h1>
-              <h1 className="text-white text-xm font-semibold">
+              <h1 className="text-white text-sm font-bold">Patient ID</h1>
+              <h1 className="text-white text-xs font-semibold">
                 <h1>PT-{patient.patientId}</h1>
               </h1>
             </div>
@@ -71,39 +69,39 @@ export const PatientIdCard = ({ patient }) => {
         </div>
 
         {/* Body */}
-        <div className="flex flex-row justify-around p-6">
+        <div className="flex flex-col sm:flex-row items-center gap-4 p-4">
           {/* Left details */}
-          <div className="pl-4 space-y-0.1">
-            <h1 className="text-green-400 text-lg font-bold ">Full Name</h1>
-            <h1 className="text-green-800 text-lg font-semibold  break-words max-w-xs">
+          <div className="pl-2 space-y-1 flex-1 min-w-0">
+            <h1 className="text-green-400 text-sm font-bold ">Full Name</h1>
+            <h1 className="text-green-800 text-sm font-semibold break-words">
               {patient.fullName}
             </h1>
 
-            <h1 className="text-green-400 text-lg font-bold">Contact</h1>
-            <h1 className="text-green-800 text-lg font-semibold  break-words max-w-xs">
+            <h1 className="text-green-400 text-sm font-bold">Contact</h1>
+            <h1 className="text-green-800 text-sm font-semibold break-words">
               {patient.phone}
             </h1>
 
-            <h1 className="text-green-400 text-lg font-bold">Gender</h1>
-            <h1 className="text-green-800 text-lg font-semibold  break-words max-w-xs">
+            <h1 className="text-green-400 text-sm  font-bold">Gender</h1>
+            <h1 className="text-green-800 text-sm font-semibold break-words">
               {patient.gender}
             </h1>
 
-            <h1 className="text-green-400 text-lg font-bold">Address</h1>
-           
-            <h1 className="text-green-800 text-lg font-semibold  break-words max-w-xs">
+            <h1 className="text-green-400 text-sm font-bold">Address</h1>
+
+            <h1 className="text-green-800 text-sm font-semibold break-words">
               {patient.address}
             </h1>
 
-            <h1 className="text-green-400 text-lg font-bold">Date Of Birth</h1>
-            <h1 className="text-green-800 text-lg font-semibold">
+            <h1 className="text-green-400 text-sm font-bold">Date Of Birth</h1>
+            <h1 className="text-green-800 text-sm font-semibold">
               {patient.birthDate || patient.dob}
             </h1>
           </div>
 
           {/* QR */}
-          <div className="pt-3 flex flex-col justify-center items-center">
-            <QRCode value={qrData} size={128} level="M" />
+          <div className="flex flex-col justify-center items-center sm:w-[110px] shrink-0">
+            <QRCode value={qrData} size={90} level="M" />
             <h1 className="text-green-700 pt-1">Scan QR Code</h1>
           </div>
         </div>
@@ -111,17 +109,17 @@ export const PatientIdCard = ({ patient }) => {
         {/* Footer */}
         <div>
           <hr className="p-0.5" />
-          <div className="flex flex-row justify-around p-2">
-            <h1 className="text-green-800 text-sm">
-              Emergency Hotline: 011-566600
+          <div className="flex flex-col sm:flex-row items-center gap-4 p-4">
+            <h1 className="text-green-800 text-xs font-medium">
+              Emergency Hotline: +94769952271
             </h1>
             <h1 className="text-green-800 text-sm">
               No.5, Nagoda Junction, Kalutara
             </h1>
           </div>
 
-          <div className="bg-green-700 rounded-lg flex justify-center p-4">
-            <h1 className="font-light text-sm text-white">
+          <div className="bg-green-700 rounded-lg flex justify-center p-1">
+            <h1 className="font-light text-xs text-center text-white">
               This card is the property of DentPulse Dental and must be
               presented at each visit
             </h1>
@@ -162,8 +160,21 @@ export const PatientIdCard = ({ patient }) => {
         </div>
 
         {/* Body */}
-        <div style={{ padding: "12px", display: "flex", gap: "12px" }}>
-          <div style={{ flex: 1, fontSize: "13px" }}>
+        <div
+          style={{
+            padding: "12px",
+            display: "flex",
+            gap: "12px",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              flex: 1,
+              fontSize: "13px",
+              wordBreak: "break-word",
+            }}
+          >
             <p>
               <b>Name:</b> {patient.fullName}
             </p>
@@ -181,7 +192,13 @@ export const PatientIdCard = ({ patient }) => {
             </p>
           </div>
 
-          <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              textAlign: "center",
+              width: "110px",
+              flexShrink: 0,
+            }}
+          >
             <QRCode value={qrData} size={90} />
             <div style={{ fontSize: "11px", marginTop: "4px" }}>Scan QR</div>
           </div>
@@ -213,8 +230,16 @@ export const PatientIdCard = ({ patient }) => {
           each visit
         </div>
       </div>
+      <div className="sm:hidden text-center mb-4">
+        <h1 className="text-green-700 font-semibold text-lg">
+          Download Your Patient QR Card
+        </h1>
+        <p className="text-sm text-gray-600">
+          Save your ID card to your phone and show it at the clinic
+        </p>
+      </div>
       {/* Buttons */}
-      <div className="p-10">
+      <div className="mx-auto flex justify-center pt-1.5">
         <motion.button
           onClick={handleDownloadPDF}
           whileHover={{ scale: 1.05 }}

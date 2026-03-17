@@ -327,23 +327,30 @@ export const BookAppoinment = () => {
 
   return (
     <div>
-      <div className="flex flex-col  p-4 min-h-screen">
-        <div className="grid grid-cols-1 md:grid-cols-2 justify-evenly gap-7">
-          <SelectPatient
-            FamilyDetail={FamilyDetail}
-            handleChange={handleChange}
-            selectedPatient={selectedPatient}
-          />
-          <AppointmentDate
-            selectedPatient={selectedPatient}
-            setDate={setDate}
-            selectDate={selectDate}
-          />
+      <div className="flex flex-col px-3 py-4 sm:p-6 min-h-screen">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <div className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-green-200">
+            <SelectPatient
+              FamilyDetail={FamilyDetail}
+              handleChange={handleChange}
+              selectedPatient={selectedPatient}
+            />
+          </div>
+          <div className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-green-200">
+            <AppointmentDate
+              selectedPatient={selectedPatient}
+              setDate={setDate}
+              selectDate={selectDate}
+            />
+          </div>
         </div>
 
         {/* AI Recommendation Component */}
-        <Recommendation selectDate={selectDate} setAiSlots={setAiSlots} />
-        <div className="gap-6">
+        <div className="mt-4 sm:mt-6">
+          <Recommendation selectDate={selectDate} setAiSlots={setAiSlots} />
+        </div>
+
+        <div className="mt-4 sm:mt-6 bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-green-200">
           <TimeSlot
             selectTime={selectTime}
             setTime={setTime}

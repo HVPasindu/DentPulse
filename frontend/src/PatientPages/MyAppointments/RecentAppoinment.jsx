@@ -67,7 +67,7 @@ export const RecentAppoinment = ({
           confirmButtonColor: "#16a34a",
         });
 
-        // Refresh appointments list after cancellation
+      
         if (refreshAppointments) {
           refreshAppointments();
         }
@@ -88,20 +88,20 @@ export const RecentAppoinment = ({
   };
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden border border-green-400 p-7">
+    <div className="bg-white rounded-xl overflow-hidden border border-green-400 p-7">
       <div>
         <div className="flex flex-row items-baseline gap-x-2">
           <div>
             <CalendarClock />
           </div>
           <div>
-            <h1 className="p-1.5 text-green-700 text-2xl  font-stretch-125%">
+            <h1 className="p-0.5 text-green-700 text-lg  font-stretch-125%">
               Upcoming Appoinments/Past Appoinments
             </h1>
           </div>
         </div>
 
-        <h1 className="p-1.5 text-green-400 text-lg">
+        <h1 className="pb-4 text-green-400 text-md">
           View your scheduled appointments
         </h1>
       </div>
@@ -114,25 +114,26 @@ export const RecentAppoinment = ({
           </p>
         </div>
       ) : (
+        <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-100">
             <tr>
-              <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Name
               </th>
-              <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Date
               </th>
-              <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Time
               </th>
-              <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Type
               </th>
-              <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
                 Action
               </th>
             </tr>
@@ -140,47 +141,49 @@ export const RecentAppoinment = ({
           <tbody className="bg-white divide-y divide-gray-200">
             {AppointmentList.map((user) => (
               <tr key={user.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-3 py-2 break-words max-w-[120px]">
                   <div className="text-sm text-gray-900">
                     {user.patientName}
                   </div>
                 </td>
 
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-3 py-2 break-words max-w-[120px]">
                   {user.status === "CONFIRMED" ||
                   user.status === "Confirmed" ? (
-                    <span className="bg-blue-200 rounded-2xl p-1.5 text-sm">
+                    <span className="bg-blue-200 rounded-2xl px-2 py-1 text-xs">
                       Confirmed
                     </span>
                   ) : user.status === "COMPLETED" ||
                     user.status === "Completed" ? (
-                    <span className="bg-green-200 rounded-2xl p-1.5 text-sm">
+                    <span className="bg-green-200 rounded-2xl px-2 py-1 text-xs">
                       Completed
                     </span>
                   ) : user.status === "PENDING" || user.status === "Pending" ? (
-                    <span className="bg-yellow-200 rounded-2xl p-1.5 text-sm">
+                    <span className="bg-yellow-200 rounded-2xl px-2 py-1 text-xs">
                       Pending
                     </span>
                   ) : user.status === "SCHEDULED" ? (
-                    <span className="bg-purple-200 rounded-2xl p-1.5 text-sm">
+                    <span className="bg-purple-200 rounded-2xl px-2 py-1 text-xs">
                       Scheduled
                     </span>
                   ) : (
-                    <span className="bg-gray-200 rounded-2xl p-1.5 text-sm">
+                    <span className="bg-gray-200 rounded-2xl px-2 py-1 text-xs">
                       {user.status}
                     </span>
                   )}
                 </td>
 
-                <td className="px-6 py-4 whitespace-nowrap">{user.date}</td>
+                <td className="px-3 py-2 break-words max-w-[120px]">
+                  {user.date}
+                </td>
 
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-3 py-2 break-words max-w-[120px]">
                   <div className="text-sm text-gray-900">{user.time}</div>
                 </td>
 
-                <td className="px-6 py-4 whitespace-nowrap">{user.type}</td>
+                <td className="px-3 py-2 break-words max-w-[120px]">{user.type.toLowerCase()}</td>
 
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-3 py-2 break-words max-w-[120px]">
                   {user.status === "CONFIRMED" ||
                   user.status === "Confirmed" ||
                   user.status === "SCHEDULED" ? (
@@ -208,25 +211,26 @@ export const RecentAppoinment = ({
             ))}
           </tbody>
         </table>
+        </div>
       )}
-      <div className="flex justify-center gap-3 mt-6">
+      <div className="flex flex-wrap justify-center items-center gap-2 mt-6 text-sm">
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
           disabled={page === 0}
-          className={`px-4 py-2 rounded text-white 
+          className={`px-2 py-1 rounded text-white 
   ${page === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
         >
           Previous
         </button>
 
-        <span className="px-3 py-2 font-semibold">
+        <span className="px-2 py-1 font-semibold">
           Page {page + 1} / {totalPages}
         </span>
 
         <button
           onClick={() => setPage((prev) => Math.min(prev + 1, totalPages - 1))}
           disabled={page + 1 === totalPages}
-          className={`px-4 py-2 rounded text-white 
+          className={`px-2 py-1 rounded text-white 
   ${page + 1 === totalPages ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
         >
           Next
