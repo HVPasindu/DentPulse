@@ -92,7 +92,7 @@ export const PatientDetail = ({ patient, setPatient }) => {
           type="submit"
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.96 }}
-          className="mt-4 w-full bg-green-600 font-medium text-white p-2 rounded-xl"
+          className="cursor-pointer mt-4 w-full bg-green-600 text-white p-2 rounded-xl"
         >
           Update Details
         </motion.button>

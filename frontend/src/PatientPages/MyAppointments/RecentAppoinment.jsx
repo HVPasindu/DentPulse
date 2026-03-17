@@ -187,13 +187,13 @@ export const RecentAppoinment = ({
                   {user.status === "CONFIRMED" ||
                   user.status === "Confirmed" ||
                   user.status === "SCHEDULED" ? (
-                    <button className="p-3 rounded-2xl border-2 border-green-300 text-green-800 hover:text-black hover:border-black hover:bg-green-100">
+                    <button className="cursor-pointer p-3 rounded-2xl border-2 border-green-300 text-green-800 hover:text-black hover:border-black hover:bg-green-100">
                       Contact Us
                     </button>
                   ) : user.status === "PENDING" || user.status === "Pending" ? (
                     <button
                       onClick={() => handleCancelAppointment(user.id)}
-                      className="flex flex-row justify-evenly border-2 rounded-lg text-red-500 hover:bg-red-200 border-red-400 bg-white p-1"
+                      className="cursor-pointer flex flex-row justify-evenly border-2 rounded-2xl text-red-500 hover:bg-red-200 border-red-400 bg-white p-2"
                     >
                       Cancel
                     </button>
@@ -201,7 +201,7 @@ export const RecentAppoinment = ({
                     user.status === "Completed" ? (
                     <button
                       onClick={() => OpenReviewCard(user)}
-                      className="flex flex-row justify-evenly border-2 rounded-lg text-green-500 hover:bg-green-100 border-green-400 bg-white p-1"
+                      className="cursor-pointer flex flex-row justify-evenly border-2 rounded-2xl text-green-500 hover:bg-green-100 border-green-400 bg-white p-2"
                     >
                       {user.reviewId ? "Edit Review" : "Review Us"}
                     </button>

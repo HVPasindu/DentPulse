@@ -113,8 +113,8 @@ export const PatientIdCard = ({ patient }) => {
             <h1 className="text-green-800 text-xs font-medium">
               Emergency Hotline: +94769952271
             </h1>
-            <h1 className="text-green-800 text-xs font-medium">
-              Kaluthara, Sri Lanka
+            <h1 className="text-green-800 text-sm">
+              No.5, Nagoda Junction, Kalutara
             </h1>
           </div>
 
@@ -244,7 +244,7 @@ export const PatientIdCard = ({ patient }) => {
           onClick={handleDownloadPDF}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="p-2 bg-green-500 rounded-xl font-semibold text-white hover:bg-green-700 flex gap-2"
+          className="cursor-pointer p-4 bg-green-500 rounded-xl text-white hover:bg-green-700 flex gap-2"
         >
           <Download /> Download Card
         </motion.button>

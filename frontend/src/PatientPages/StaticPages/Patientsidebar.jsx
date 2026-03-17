@@ -117,13 +117,14 @@ export const Patientsidebar = ({ sidebarOpen, setSidebarOpen }) => {
           </div>
 
           {/* Sign Out Button */}
-          <button
-            onClick={handleLogout}
-            className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-green-200 hover:bg-green-400 transition duration-150 ease-in-out"
-          >
-            <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-2" />
-            Sign Out
-          </button>
+<button
+  onClick={handleLogout}
+  className="cursor-pointer flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-lg text-black bg-green-200 hover:bg-green-400 transition duration-150 ease-in-out"
+>
+  <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-2" />
+  Sign Out
+</button>
+
         </div>
       </div>
     </div>

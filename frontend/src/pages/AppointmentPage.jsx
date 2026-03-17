@@ -394,7 +394,7 @@ const AppDashboard = () => {
                       <td className="px-4 py-3 text-center">
                         <button
                           onClick={() => openViewPopup(appt)}
-                          className="text-green-500 hover:text-green-700 transition-colors inline-flex items-center justify-center p-1"
+                          className="cursor-pointer text-green-500 hover:text-green-700 transition-colors inline-flex items-center justify-center p-1"
                           title="View"
                         >
                           <Eye size={20} />
@@ -403,7 +403,7 @@ const AppDashboard = () => {
                       <td className="px-4 py-3 text-center">
                         <button
                           onClick={() => openEditPopup(appt)}
-                          className="text-green-500 hover:text-green-700 transition-colors inline-flex items-center justify-center p-1"
+                          className="cursor-pointer text-green-500 hover:text-green-700 transition-colors inline-flex items-center justify-center p-1"
                           title="Update"
                         >
                           <Edit size={20} />
@@ -622,13 +622,13 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
+          className="cursor-pointer rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700"
+          className="cursor-pointer rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700"
         >
           Add Appointment
         </button>
@@ -860,13 +860,13 @@ const AddSpecialForm = ({ onSubmit, onCancel }) => {
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
+          className="cursor-pointer rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700"
+          className="cursor-pointer rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700"
         >
           Add Appointment
         </button>
@@ -1031,14 +1031,14 @@ const EditAppointmentForm = ({ appointment, onSubmit, onCancel, readOnly }) => {
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
+          className="cursor-pointer rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
         >
           {readOnly ? "Close" : "Cancel"}
         </button>
         {!readOnly && (
           <button
             type="submit"
-            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700"
+            className="cursor-pointer rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700"
           >
             Update Appointment
           </button>
