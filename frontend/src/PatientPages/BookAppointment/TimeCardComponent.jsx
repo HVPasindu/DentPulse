@@ -38,7 +38,7 @@ export const TimeCardComponent = ({
         onClick={handleClick}
         className={`
           flex justify-center items-center 
-          border-2 rounded-lg p-3 gap-2 m-1 
+          border-2 rounded-lg p-1.5 gap-1.5 m-1 
           transition-all duration-200
           ${
             isBooked
@@ -58,7 +58,7 @@ export const TimeCardComponent = ({
         `}
       >
         <Clock className="w-4 h-4" />
-        <h1 className="font-medium">{data}</h1>
+        <h1 className="text-sm">{data}</h1>
         {isBooked && <span className="text-xs ml-1">(Booked)</span>}
       </div>
     </div>
