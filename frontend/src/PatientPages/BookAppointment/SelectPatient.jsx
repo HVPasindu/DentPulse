@@ -4,7 +4,7 @@ import React from "react";
 import { UserPlus } from "lucide-react";
 export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) => {
   return (
-    <div className="pl-10">
+    <div className="">
       <div className="rounded-2xl bg-white border border-green-300 shadow-lg h-full p-4">
         <div className="p-4">
          <div className="flex items-start gap-2">

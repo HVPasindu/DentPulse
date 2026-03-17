@@ -66,16 +66,16 @@ export default function MeetDoctorHero() {
           {/* Highlights */}
           <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
             <div className="bg-white rounded-xl p-4 shadow">
-              🦷 10+ Years Experience
+              🦷 2+ Years Experience
             </div>
             <div className="bg-white rounded-xl p-4 shadow">
-              ⭐ Trusted by 2,000+ Patients
+              ⭐ Trusted by 200+ Patients
             </div>
             <div className="bg-white rounded-xl p-4 shadow">
               🌿 Gentle & Modern Care
             </div>
             <div className="bg-white rounded-xl p-4 shadow">
-              📍 Colombo, Sri Lanka
+              📍 Kaluthara, Sri Lanka
             </div>
           </div>
 
