@@ -1,37 +1,57 @@
 import React, { useState } from "react";
-
+import { resetpassword } from "../api/resetpasswordApi";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 export const ResetPassword = ({ onSubmit }) => {
   const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const validate = () => {
     if (password.length < 6) {
       return "Password must be at least 6 characters";
     }
-    if (password !== confirm) {
-      return "Passwords do not match";
-    }
     return "";
   };
 
-  const handleSubmit = () => {
+  const email = localStorage.getItem("email");
+
+  useEffect(() => {
+    if (!email) {
+      alert("Session expired. Please start again.");
+      navigate("/forgot-password");
+    }
+  }, [email, navigate]);
+
+  const handleSubmit = async () => {
     const validationError = validate();
 
     if (validationError) {
       setError(validationError);
       return;
     }
-
-    setError("");
-    onSubmit(password);
+    try {
+      setError("");
+      if (!email) {
+        alert("Session expired. Please start again.");
+        navigate("/forgot-password");
+        return;
+      }
+      const response = await resetpassword(email, password);
+      console.log("successfully resetted password!", response);
+      alert("Password resetting Successful!");
+      localStorage.removeItem("email");
+      navigate("/");
+    } catch (error) {
+      alert(error?.response?.data?.message || "Password reset failed");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-300">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-
         <h2 className="text-2xl font-bold text-green-700 text-center mb-2">
           Set New Password
         </h2>
@@ -44,28 +64,18 @@ export const ResetPassword = ({ onSubmit }) => {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="New Password"
-            className="w-full px-4 py-3 border border-green-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full px-4 py-3 pr-12 border border-green-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
+          {/* Show/Hide */}
           <span
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-3 cursor-pointer text-green-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-green-600 text-sm"
           >
             {showPassword ? "Hide" : "Show"}
           </span>
-        </div>
-
-        {/* Confirm Password */}
-        <div className="mb-4">
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            className="w-full px-4 py-3 border border-green-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-          />
         </div>
 
         {/* Error */}
@@ -81,9 +91,8 @@ export const ResetPassword = ({ onSubmit }) => {
           Reset Password
         </button>
 
-        {/* Extra */}
         <p className="text-sm text-center mt-4 text-gray-500">
-          Make sure your password is strong and secure
+          Use a strong password for better security
         </p>
       </div>
     </div>

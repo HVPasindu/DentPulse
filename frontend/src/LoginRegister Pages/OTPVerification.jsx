@@ -43,6 +43,11 @@ export const OTPVerification = ({ onVerify }) => {
     });
   };
   const email = localStorage.getItem("email");
+  if (!email) {
+    alert("Session expired. Please start again.");
+    navigate("/forgot-password");
+    return;
+  }
   const handleSubmit = async () => {
     const finalOtp = otp.join("");
     console.log("Entered OTP:", finalOtp);
@@ -52,14 +57,11 @@ export const OTPVerification = ({ onVerify }) => {
         const response = await confirmotp(email, finalOtp);
         console.log("response", response);
         navigate("/reset");
-      }catch (error) {
-  console.error(error);
+      } catch (error) {
+        console.error(error);
 
-  alert(
-    error?.response?.data?.message ||
-    "Invalid OTP"
-  );
-}
+        alert(error?.response?.data?.message || "Invalid OTP");
+      }
     } else {
       alert("Please enter complete OTP");
     }
@@ -69,14 +71,11 @@ export const OTPVerification = ({ onVerify }) => {
     try {
       const response = await otpresend(email);
       alert(response?.message || "OTP resent successfully");
-     }catch (error) {
-  console.error(error);
+    } catch (error) {
+      console.error(error);
 
-  alert(
-    error?.response?.data?.message ||
-    "OTP Sent Failed!"
-  );
-}
+      alert(error?.response?.data?.message || "OTP Sent Failed!");
+    }
   };
 
   return (
