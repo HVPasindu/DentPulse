@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-
+import { otpresend } from "../api/otpresendApi";
 export default function OTPForm() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");

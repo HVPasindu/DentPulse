@@ -7,8 +7,10 @@ export const ForgotPassword = () => {
   const [email, setEmail] = useState("");
 
   const handleSubmit =async (e) => {
+    e.preventDefault();
     try {
     localStorage.setItem("email", email);
+    console.log(localStorage.getItem("email"));
 
     const response = await forgotpw(email);
 

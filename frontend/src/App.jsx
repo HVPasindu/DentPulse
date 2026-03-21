@@ -77,6 +77,7 @@ function App() {
         <Route path="/forgot" element={<ForgotPassword/>}/>
         <Route path ="/forgot-otp" element={<OTPVerification/>}/>
         <Route path="/reset" element={<ResetPassword/>}/>
+  
 
         {/* ================= DOCTOR ================= */}
 
