@@ -53,6 +53,9 @@ import SensitiveTeeth from "./MainInterface Components/help pages/SensitiveTeeth
 import ToothMobility from "./MainInterface Components/help pages/ToothMobility";
 import BadBreath from "./MainInterface Components/help pages/BadBreath";
 import RecedingGum from "./MainInterface Components/help pages/RecedingGum";
+import { ForgotPassword } from "./LoginRegister Pages/ForgotPassword";
+import {OTPVerification } from "./LoginRegister Pages/OTPVerification"
+import {ResetPassword} from "./LoginRegister Pages/ResetPassword"
 function App() {
   return (
     <BrowserRouter>
@@ -71,6 +74,10 @@ function App() {
         <Route path="/login" element={<MainLogin />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/otp" element={<OTPForm />} />
+        <Route path="/forgot" element={<ForgotPassword/>}/>
+        <Route path ="/forgot-otp" element={<OTPVerification/>}/>
+        <Route path="/reset" element={<ResetPassword/>}/>
+  
 
         {/* ================= DOCTOR ================= */}
 
