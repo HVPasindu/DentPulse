@@ -28,7 +28,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  /* ================= FIXED LOGOUT LOGIC ================= */
+  /* =================  LOGOUT LOGIC ================= */
   const handleLogout = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -70,7 +70,7 @@ export default function DashboardSidebar({ isOpen, setIsOpen }) {
           {/* Logo/Header Area */}
           
            
-          {/* Logo/Header Area - UPDATED WITH LOGO */}
+         
           <div className="flex items-center justify-between h-20 bg-white border-b border-gray-200 px-6">
             <div className="flex items-center gap-3">
               <img

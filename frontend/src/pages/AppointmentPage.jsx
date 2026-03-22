@@ -222,7 +222,7 @@ const AppDashboard = () => {
         )
       );
 
-      // 🔥 IMPORTANT: reload summary stats
+      // reload summary stats
       await loadStats();
 
       Swal.fire({
@@ -421,7 +421,7 @@ const AppDashboard = () => {
   );
 };
 
-/* --- ADD REGULAR FORM (With Time Restrictions) --- */
+/* ---  REGULAR FORM  --- */
 const AddRegularForm = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     patientId: "",
@@ -472,7 +472,7 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
                 patientId,
               }));
 
-              // 🟢 ID clear nam → error + data clear
+              //  ID clear nam → error + data clear
               if (!patientId) {
                 setError("");
                 setFormData((prev) => ({
@@ -489,7 +489,7 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
                 const res = await fetchPatientById(patientId);
                 const patient = res.data;
 
-                // 🟢 VALID ID → error clear
+                //  VALID ID → error clear
                 setError("");
 
                 setFormData((prev) => ({
@@ -500,7 +500,7 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
                   address: patient.address,
                 }));
               } catch (err) {
-                // 🔴 INVALID ID → error set + clear data
+                // INVALID ID → error set + clear data
                 setError("Patient not found");
 
                 setFormData((prev) => ({
@@ -637,7 +637,7 @@ const AddRegularForm = ({ onSubmit, onCancel }) => {
   );
 };
 
-/* --- ADD SPECIAL FORM (Weekends only, 5pm - 8pm) --- */
+/* ---  SPECIAL FORM (Weekends only, 5pm - 8pm) --- */
 const AddSpecialForm = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     patientId: "",

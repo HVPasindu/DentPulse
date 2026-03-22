@@ -1,4 +1,4 @@
-// adminPatientPageApi.js
+
 import axios from "axios";
 
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1/patient`;
@@ -23,7 +23,7 @@ export const getAllPatients = async () => {
   }
 };
 
-// ADD PATIENT (ADMIN)  🔥 THIS WAS MISSING
+// ADD PATIENT (ADMIN)  
 export const addPatient = async (patientData) => {
   try {
     const response = await axios.post(

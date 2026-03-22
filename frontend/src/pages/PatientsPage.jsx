@@ -56,7 +56,7 @@ const PatientsPage = () => {
     }
   }, [location]);
 
-  // 👇 MEKA ALUTHEN ADD KARANNA ONE
+ 
   const handleViewPatient = async (patient) => {
     try {
       const numericId = Number(patient.id.replace("PT-", ""));
@@ -75,10 +75,10 @@ const PatientsPage = () => {
         nicNumber: patientInfo.nic,
         treatments: history.map((t) => ({
           treatment_id: t.treatment_id,
-          treatmentType: t.treatmentType, // ✅ FROM API
-          treatment_service: t.treatment_service, // ✅ FROM API
-          treatment_date: t.treatment_date, // ✅ FROM API
-          cost: t.cost, // ✅ FROM API
+          treatmentType: t.treatmentType, 
+          treatment_service: t.treatment_service, 
+          treatment_date: t.treatment_date, 
+          cost: t.cost, 
         })),
       };
 

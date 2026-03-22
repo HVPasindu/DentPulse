@@ -27,13 +27,7 @@ const AddPatientModal = ({ onClose, onPatientAdded }) => {
   // Submit patient form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Optional: calculate age from DOB if needed
-    /*if (formData.dob && !formData.age) {
-      const birthDate = new Date(formData.dob);
-      const age = new Date().getFullYear() - birthDate.getFullYear();
-      formData.age = age;
-    }*/
-
+   
     const payload = {
       fullName: formData.name, // CHANGED
       birthDate: formData.dob, // CHANGED
@@ -71,7 +65,7 @@ const AddPatientModal = ({ onClose, onPatientAdded }) => {
     }
   };
 
-  // Logic to check if patient is under 16 based on DOB
+  // check if patient is under 16 based on DOB
   const isUnder16 = formData.dob
     ? new Date().getFullYear() - new Date(formData.dob).getFullYear() < 16
     : false;

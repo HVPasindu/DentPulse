@@ -37,18 +37,6 @@ const BillingPage = () => {
     date: today,
   });
 
-  /*useEffect(() => {
-  const loadPatients = async () => {
-    try {
-      const data = await getAllPatients();
-      setPatients(data);
-    } catch (err) {
-      console.error("Failed to load patients", err);
-    }
-  };
-
-  loadPatients();
-}, []);*/
 
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -311,7 +299,7 @@ const BillingPage = () => {
         </div>
       </div>
 
-      {/* STATS CARDS - Icons updated with matching background colors */}
+      {/* STATS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <StatCard
           title="Total Revenue"
@@ -580,12 +568,7 @@ const BillingPage = () => {
                     placeholder="Enter Patient Name"
                     value={newInvoice.patientName}
                     readOnly
-                    /* onChange={(e) =>
-                      setNewInvoice({
-                        ...newInvoice,
-                        patientName: e.target.value,
-                      })
-                    }*/
+                   
                     className="bg-gray-100 cursor-not-allowed w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
                   />
                 </div>
@@ -644,9 +627,7 @@ const BillingPage = () => {
                     type="number"
                     value={newInvoice.amount}
                     readOnly
-                    /*onChange={(e) =>
-                      setNewInvoice({ ...newInvoice, amount: e.target.value })
-                    }*/
+                    
                     className="w-full border border-green-200 rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-green-400/20"
                   />
                 </div>

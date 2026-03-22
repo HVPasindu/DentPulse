@@ -5,7 +5,7 @@ const ProtectedAdminRoute = ({ children }) => {
   const role = localStorage.getItem("userRole");
   console.log("ProtectedAdminRoute running");
 
-// Use .trim() and .toUpperCase() to avoid "invisible" mismatches
+
 if (!token || role?.trim().toUpperCase() !== "ADMIN") {
   console.log("Access denied. Found role:", role);
   return <Navigate to="/login" />;
