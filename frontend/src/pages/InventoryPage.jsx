@@ -7,7 +7,7 @@ import InventoryTable from "../Admin/InventoryTable";
 import ItemDialog from "../Admin/ItemDialog";
 import { useLocation } from "react-router-dom";
 
-// Import the new named exports including Stats and Search
+
 import {
   fetchAllInventory,
   createInventoryItem,
@@ -32,7 +32,7 @@ export default function InventoryDashboard() {
     totalValue: 0,
   });
 
-  // Updated formData to include brand, expiryDate, and medicine fields
+ 
   const [formData, setFormData] = useState({
     name: "",
     sku: "",
@@ -184,7 +184,7 @@ export default function InventoryDashboard() {
           </button>
         </div>
 
-        {/* --- STATS CARDS (Updated to use dynamic 'stats' from backend) --- */}
+        {/* --- STATS CARDS  --- */}
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           <StatsCard
             title="Total Items"
@@ -224,7 +224,7 @@ export default function InventoryDashboard() {
               <h2 className="text-lg font-bold text-slate-800">
                 Inventory List
               </h2>
-              {/* SearchBar updated with backend search handler */}
+              
               <SearchBar value={searchQuery} onChange={handleSearchChange} />
             </div>
           </div>

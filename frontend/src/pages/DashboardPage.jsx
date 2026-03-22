@@ -9,7 +9,7 @@ import AppointmentTimeChart from "../components/charts/AppointmentTimeChart";
 import TreatmentChart from "../components/charts/TreatmentChart";
 import AppointmentDayChart from "../components/charts/AppointmentDayChart";
 
-// import admin dashboard API
+
 import { getAdminDashboardSummary } from "../api/adminDashboardApi";
 
 export default function DashboardPage() {
@@ -82,7 +82,7 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* ================= DASHBOARD CONTENT ================= */}
+          
           {!loading && !error && summary && (
             <>
               {/* Dashboard summary cards */}

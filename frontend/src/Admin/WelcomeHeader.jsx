@@ -11,7 +11,7 @@ const WelcomeHeader = ({ onAddNew, onAddSpecial }) => {
           Manage dental appointments efficiently
         </p>
       </div>
-      {/* Added a div container with gap-3 to separate the buttons */}
+     
       <div className="flex gap-3">
         <button
           onClick={onAddNew}

@@ -36,7 +36,7 @@ const PatientProfile = ({ patient, onClose }) => {
 
         <div className="flex-1 overflow-y-auto p-4 md:p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-            {/* Frame 1: Patient Information */}
+            {/*  Patient Information */}
             <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
               <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
                 <User size={20} className="text-primary-600" />
@@ -106,7 +106,7 @@ const PatientProfile = ({ patient, onClose }) => {
               </div>
             </div>
 
-            {/* Frame 2: Past Treatments */}
+            {/* Past Treatments */}
             <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
               <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
                 <Activity size={20} className="text-green-600" />

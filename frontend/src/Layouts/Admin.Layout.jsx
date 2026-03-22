@@ -5,7 +5,7 @@ export const AdminLayout = () => {
   return (
     <div>
       <div className="flex h-screen">
-        {/* Sidebar - Added h-full to ensure it stretches the full length */}
+        {/* Sidebar  */}
         <div className="w-64 bg-gray-100 h-full">
           <DashboardSidebar />
         </div>
