@@ -1,52 +1,6 @@
 import React from "react";
 
-/*
-====================================================
-OLD VERSION (COMMENTED – DO NOT DELETE)
-----------------------------------------------------
-Previously this component:
-- Read appointments from localStorage
-- Filtered today's appointments internally
-- Used useEffect + window focus listeners
 
-Now backend already provides `todayAppointments`,
-so this logic is no longer required.
-====================================================
-
-import React, { useState, useEffect } from "react";
-
-export default function DashboardRecentAppointments() {
-  const [appointments, setAppointments] = useState([]);
-
-  useEffect(() => {
-    const updateTodaysList = () => {
-      const saved = localStorage.getItem("app_appointments");
-      if (saved) {
-        const allAppointments = JSON.parse(saved);
-        const todayStr = new Date().toISOString().split("T")[0];
-        const todaysList = allAppointments.filter(appt => appt.date === todayStr);
-        const sorted = todaysList.sort((a, b) => a.time.localeCompare(b.time));
-        setAppointments(sorted);
-      }
-    };
-
-    updateTodaysList();
-    window.addEventListener("focus", updateTodaysList);
-    return () => window.removeEventListener("focus", updateTodaysList);
-  }, []);
-}
-*/
-
-/*
-====================================================
-NEW VERSION (BACKEND-DRIVEN)
-----------------------------------------------------
-Appointments are passed as props from:
-DashboardPage.jsx → summary.todayAppointments
-
-This makes the component PURE UI.
-====================================================
-*/
 
 export default function DashboardRecentAppointments({ appointments = [] }) {
   return (

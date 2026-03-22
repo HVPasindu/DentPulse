@@ -93,23 +93,22 @@ export const Review = ({
     <>
       {IsOpen && (
         <div
-          className="fixed inset-0  bg-opacity-10 f z-50 backdrop-blur-sm flex justify-center items-center min-h-screen p-4"
+          className="fixed inset-0  bg-black/30 f z-50 backdrop-blur-sm flex justify-center items-center min-h-screen p-3 sm:p-4"
           onClick={CloseReviewCard}
         >
           <div
-            className="flex flex-col bg-white justify-center items-center border-2 border-green-400 gap-y-3.5 rounded-2xl w-full max-w-md"
+            className="flex flex-col bg-white border border-green-400 gap-5 rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-green-500 rounded-t-2xl w-full h-20 flex items-center justify-center">
-              <h1 className="text-lg font-bold text-white text-center px-4">
+            <div className="bg-green-500 rounded-t-2xl w-full h-16 sm:h-20 flex items-center justify-center">
+             <h1 className="text-base sm:text-lg font-bold text-white text-center px-4">
                 Please Leave us a review!
               </h1>
             </div>
 
-            <div className="w-full px-6"></div>
-
+            
             <div className="text-center px-4">
-              <h1 className="font-extrabold text-xl text-green-800 pb-0.5">
+              <h1 className="font-extrabold text-lg text-green-800 pb-0.5">
                 Smile For Your Dental
               </h1>
               <h1 className="font-light text-lg text-green-800">
@@ -117,7 +116,7 @@ export const Review = ({
               </h1>
             </div>
 
-            <div className="flex flex-row gap-x-3">
+           <div className="flex justify-center gap-2 sm:gap-3 flex-wrap">
               {[0, 1, 2, 3, 4].map((index) => (
                 <Star
                   key={index}
@@ -129,7 +128,7 @@ export const Review = ({
                   onMouseEnter={() => setHoveredStar(index)}
                   onMouseLeave={() => setHoveredStar(-1)}
                   onClick={() => handleStarClick(index)}
-                  size={32}
+                  size={28}
                 />
               ))}
             </div>
@@ -146,7 +145,7 @@ export const Review = ({
               <button
                 disabled={selectedRating === -1}
                 onClick={handleSubmit}
-                className="bg-green-400 text-black rounded-lg p-2 w-3/4 hover:bg-green-600 transition-colors font-semibold disabled:bg-gray-300"
+                className="bg-green-400 text-black rounded-lg p-2 w-full sm:w-3/4 hover:bg-green-600 transition-colors font-semibold disabled:bg-gray-300"
               >
                 {reviewId ? "Update Review" : "Send Review"}
               </button>

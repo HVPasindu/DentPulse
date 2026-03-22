@@ -1,46 +1,7 @@
 import { Users, Calendar, Package, TrendingUp } from "lucide-react";
 
-/*
-====================================================
-OLD VERSION (COMMENTED – DO NOT DELETE)
-----------------------------------------------------
-This version calculated stats from multiple arrays
-(patients, appointments, inventoryItems, billings).
-We keep it commented for reference and comparison.
-====================================================
 
-const DashboardQuickActions = ({ patients = [], appointments = [], inventoryItems = [], billings = [] }) => {
-  const totalPatients = patients.length || 0;
 
-  const todayAppointments = appointments.filter(appt => {
-    const today = new Date().toISOString().split('T')[0];
-    return appt.date && appt.date.split('T')[0] === today;
-  }).length || 0;
-
-  const totalInventoryItems = [...new Set(inventoryItems.map(item => item.name))].length || 0;
-
-  const dailyRevenue = billings
-    .filter(bill => {
-      const today = new Date().toISOString().split('T')[0];
-      return bill.date && bill.date.split('T')[0] === today;
-    })
-    .reduce((sum, bill) => sum + (bill.amount || 0), 0) || 0;
-};
-*/
-
-/*
-====================================================
-NEW VERSION (BACKEND-DRIVEN)
-----------------------------------------------------
-Now this component receives ONE `summary` object
-directly from backend endpoint:
-
-GET /api/v1/admin/dashboard/summary
-
-This removes duplicate calculations and keeps
-frontend simple and reliable.
-====================================================
-*/
 
 const DashboardQuickActions = ({ summary }) => {
   if (!summary) return null;

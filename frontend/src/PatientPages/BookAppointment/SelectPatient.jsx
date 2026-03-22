@@ -4,32 +4,32 @@ import React from "react";
 import { UserPlus } from "lucide-react";
 export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) => {
   return (
-    <div className="pl-10">
+    <div className="">
       <div className="rounded-2xl bg-white border border-green-300 shadow-lg h-full p-4">
         <div className="p-4">
-          <div className="flex flex-row items-baseline gap-x-2">
+         <div className="flex items-start gap-2">
             <div>
               <UserPlus />
             </div>
               <div>
-         <h1 className="text-green-700 text-2xl  font-stretch-105%">
+         <h1 className="text-green-700 text-lg ">
             Select Patient
             <br />
   
           </h1>
-                    <h1 className="text-green-500 text-lg font-normal">
+                    <h1 className="text-green-500 text-md font-normal">
               Choose who this appointment is for
             </h1>
               </div>
           </div>
  
         </div>
-        <div className="p-4">
-          <h1 className="text-xl text-green-700 mb-2">Patient</h1>
+        <div className="p-3">
+          <h1 className="text-md text-green-700 mb-2">Patient</h1>
           <select
             name="patient"
             id="patient-select"
-            className="border-2 border-green-500 rounded-lg w-full p-2"
+            className="border-2 border-green-500 rounded-lg w-full p-1"
             onChange={handleChange}
             value={selectedPatient?.patientId || ""}
           >
@@ -42,9 +42,9 @@ export const SelectPatient = ({ FamilyDetail, handleChange, selectedPatient }) =
           </select>
         </div>
         {selectedPatient && (
-          <div className="p-4 mt-2 bg-green-50 rounded-lg">
-            <p className="text-lg text-gray-600">Selected:</p>
-            <p className="text-xl font-semibold text-green-700">
+         <div className="p-3 mt-2 bg-green-50 rounded-lg w-full overflow-hidden">
+            <p className="text-xs text-gray-600">Selected:</p>
+            <p className="text-sm font-semibold text-green-700 break-words">
               {selectedPatient.fullName}
             </p>
           </div>

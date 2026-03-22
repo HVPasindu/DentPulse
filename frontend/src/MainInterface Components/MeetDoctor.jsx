@@ -62,7 +62,7 @@ export default function MeetDoctorHero() {
               🦷 2+ Years Experience
             </div>
             <div className="bg-white rounded-xl p-4 shadow">
-              ⭐ Trusted by 500+ Patients
+              ⭐ Trusted by 200+ Patients
             </div>
             <div className="bg-white rounded-xl p-4 shadow">
               🌿 Gentle & Modern Care

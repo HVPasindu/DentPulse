@@ -260,7 +260,7 @@ const inputs = [
   { id: "9", name: "Address", label: "address", type: "text" },
 ];
 
-/* ---------------------------------------------------------- */
+
 
 export const PopupForm = ({
   closeModal,
@@ -269,7 +269,7 @@ export const PopupForm = ({
   formData,
   isEditMode = false,
 }) => {
-  /* ---------------- HELPERS (UNCHANGED) ---------------- */
+
   const getValue = (label) => {
     const v = formData?.[label];
     if (label === "date" && typeof v === "string" && v.includes("T")) {
@@ -280,16 +280,16 @@ export const PopupForm = ({
 
   const normalize = (v) => (v ?? "").toString().trim().toLowerCase();
 
-  /* ---------------- VALIDATION STATE ---------------- */
+
   const [errors, setErrors] = useState({});
   const today = new Date().toISOString().split("T")[0];
 
-  /* ---------------- 🔴 CHANGED VALIDATION ---------------- */
+
   const validate = () => {
     const e = {};
 
-    if (!formData.name?.trim()) e.name = "Patient name is required";
-    if (!formData.relationship) e.relationship = "Relationship is required";
+    if (!formData.name?.trim()) e.name = "*Patient name is required";
+    if (!formData.relationship) e.relationship = "*Relationship is required";
 
     if (!formData.phone) e.phone = "Phone number is required";
     else if (!/^\d{10}$/.test(formData.phone))
@@ -297,11 +297,11 @@ export const PopupForm = ({
 
     if (!formData.email) e.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      e.email = "Invalid email address";
+      e.email = "*Invalid email address";
 
-    if (!formData.gender) e.gender = "Gender is required";
-    if (!formData.date) e.date = "Date of birth is required";
-    if (!formData.address?.trim()) e.address = "Address is required";
+    if (!formData.gender) e.gender = "*Gender is required";
+    if (!formData.date) e.date = "*Date of birth is required";
+    if (!formData.address?.trim()) e.address = "*Address is required";
 
     // 🔴 ADD: NIC number validation ONLY if "With NIC"
     if (formData.nic === "With NIC") {
@@ -341,10 +341,10 @@ export const PopupForm = ({
       >
         {/* Header */}
         <div className="flex justify-between items-start px-6 py-4">
-          <h1 className="text-green-800 text-3xl font-serif font-stretch-105%">
+          <h1 className="text-green-800 text-lg ">
             {isEditMode ? "Update Family Member" : "Add Family Member"}
             <br />
-            <span className="text-green-400 text-xl">
+            <span className="text-green-400 text-xm">
               {isEditMode
                 ? "Update family member to manage appointments"
                 : "Add a family member to manage appointments"}
@@ -357,9 +357,9 @@ export const PopupForm = ({
         </div>
 
         {/* Form */}
-        <div className="px-6 pb-6 space-y-3  overflow-y-auto flex-1">
+        <div className="px-6 pb-3 space-y-2  overflow-y-auto flex-1">
           {inputs.map((input) => {
-            /* 🔴 ADD: HIDE NIC NUMBER FIELD CONDITIONALLY */
+  
             if (
               input.label === "nicnumber" &&
               formData.nic !== "With NIC"
@@ -371,7 +371,7 @@ export const PopupForm = ({
 
             return (
               <div key={input.id}>
-                <label className="block text-lg font-semibold text-green-700 mb-1">
+                <label className="block text-xs font-semibold text-green-700 mb-1">
                   {input.name}
                 </label>
 
@@ -380,7 +380,7 @@ export const PopupForm = ({
                     name={input.label}
                     value={currentValue}
                     onChange={handleChangeWithValidation}
-                    className="w-full border border-green-300 rounded-lg px-3 py-2"
+                    className="w-full border border-green-300 rounded-lg px-2 py-1"
                   >
                     <option value="">Select A Relationship</option>
                     {input.options.map((opt) => (
@@ -411,7 +411,7 @@ export const PopupForm = ({
                     value={currentValue}
                     onChange={handleChangeWithValidation}
                     max={input.type === "date" ? today : undefined}
-                    className="w-full border border-green-300 rounded-lg px-3 py-2"
+                    className="w-full border border-green-300 rounded-lg px-2 py-1"
                     placeholder={input.name}
                   />
                 )}
@@ -433,7 +433,7 @@ export const PopupForm = ({
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
+              className="px-2 py-1 bg-green-600 text-white rounded-xl hover:bg-green-700"
             >
               {isEditMode ? "Update Details" : "Add Details"}
             </motion.button>
@@ -444,7 +444,7 @@ export const PopupForm = ({
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 250, damping: 22 }}
-              className="px-4 py-2 border rounded-xl hover:bg-gray-100"
+              className="px-2 py-1 border rounded-xl hover:bg-gray-100"
             >
               Cancel
             </motion.button>

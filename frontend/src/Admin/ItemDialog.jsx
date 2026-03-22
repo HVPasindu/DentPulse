@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formData, onFormChange }) {
   if (!isOpen) return null;
 
-  // Helper: check if category is Medicine
+  //  check if category is Medicine
   const isMedicine = (formData.category === 'Medicine');
 
   const handleSaveClick = (e) => {
@@ -127,7 +127,7 @@ export default function ItemDialog({ isOpen, onClose, onSave, editingItem, formD
                 <option value="Equipment">Equipment</option>
               </select>
             </div>
-            {/* Dosage field only for Medicine */}
+            {/* Dosage field- only for Medicine */}
             {isMedicine && (
               <div className="space-y-1">
                 <label className="text-[10px] font-black uppercase text-slate-500">Dosage *</label>

@@ -46,10 +46,8 @@ export const FamilyMembers = () => {
       ]);
 
       const mapMember = (m) => ({
-        // ✅ works for BOTH account owner & family
         id: m.patientId ?? m.id,
 
-        // ✅ normalize names
         name: m.fullName ?? m.name ?? "",
 
         phone: m.phone ?? "",
@@ -57,7 +55,6 @@ export const FamilyMembers = () => {
         gender: m.gender ?? "",
         address: m.address ?? "",
 
-        // ✅ normalize date
         birthDate: (m.birthDate || "").includes("T")
           ? m.birthDate.slice(0, 10)
           : m.birthDate || "",
@@ -251,20 +248,20 @@ export const FamilyMembers = () => {
   return (
     <div className="p-8  min-h-screen">
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg border border-green-400 shadow-xl">
-        <div className="flex flex-row justify-between p-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-3 p-4">
           <div>
             <div className="flex flex-row  gap-4 items-baseline">
               <div>
                 <Users />
               </div>
               <div>
-                <h1 className="text-2xl  font-stretch-105% text-green-700   mb-6">
+                <h1 className="text-xl  font-stretch-105% text-green-700   mb-2">
                   Family Members
                 </h1>
               </div>
             </div>
 
-            <h1 className="text-lg  text-green-500">
+            <h1 className="text-md  text-green-500">
               Manage family members and book appointments for them
             </h1>
           </div>
@@ -274,7 +271,7 @@ export const FamilyMembers = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="rounded-lg bg-green-500 text-white hover:bg-green-700 p-2 hover:cursor-pointer"
+              className="rounded-lg bg-green-500 text-white hover:bg-green-700 p-1 hover:cursor-pointer"
             >
               <div className="flex flex-row items-center gap-2">
                 {/* Icon micro-animation */}
@@ -285,32 +282,32 @@ export const FamilyMembers = () => {
                   <UserRoundPlus className="size-5" />
                 </motion.div>
 
-                <h1 className="text-xl">Add New Patient</h1>
+                <h1 className="text-md">Add New Patient</h1>
               </div>
             </motion.button>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg  overflow-hidden border border-green-300">
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="bg-white rounded-lg border border-green-300 overflow-x-auto">
+          <table className="min-w-[500px] w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-black ">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-black ">
                   Relationship
                 </th>
-                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+                <th className="hidden md:table-cell px-3 py-2 text-left text-xs font-semibold">
                   Gender
                 </th>
-                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+                <th className="hidden md:table-cell px-3 py-2 text-left text-xs font-semibold">
                   Email
                 </th>
-                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-black ">
                   Phone Number
                 </th>
-                <th className="px-6 py-3 text-left text-lg font-bold text-black uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-black ">
                   Action
                 </th>
               </tr>
@@ -322,11 +319,11 @@ export const FamilyMembers = () => {
                   key={user.id ?? idx}
                   className="hover:bg-gray-50 transition-colors"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 py-2 whitespace-nowrap">
                     <div className="text-sm  text-gray-900">{user.name}</div>
                   </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 py-2 whitespace-nowrap">
                     <span
                       className={`rounded-full px-2 py-1  text-xs inline-flex  ${
                         user.relationship == "Account Owner"
@@ -338,25 +335,24 @@ export const FamilyMembers = () => {
                     </span>
                   </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">{user.gender}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
-
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="hidden md:table-cell px-3 py-2 text-xs">
+                    {user.gender}
+                  </td>
+                  <td className="hidden md:table-cell px-3 py-2 text-xs">
+                    {user.email}
+                  </td>
+                  <td className="px-3 py-2 text-sm whitespace-nowrap">
                     <div className="text-sm  text-gray-900">{user.phone}</div>
                   </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex flex-row justify-around px-1">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm">
+                    <div className="flex flex-col sm:flex-row gap-1">
                       <button
                         className="cursor-pointer flex flex-row  text-sm justify-evenly border-2 rounded-2xl text-green-700 hover:text-black border-green-300 bg-white p-1 hover:bg-green-100"
                         onClick={() => handleIdcard(user)}
                       >
-                        <div className=" pr-2">
-                          <IdCard className="size-6" />
-                        </div>
-                        <div className="pt-1">
-                          <h1>Id card</h1>
-                        </div>
+                        <IdCard className="size-4" />
+                        ID
                       </button>
 
                       {user.relationship !== "Account Owner" && (

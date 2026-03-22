@@ -4,15 +4,14 @@ import loginpagedata from "../data/loginpagedata";
 import InputCommonCard from "./InputCommonCard";
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 const MainLogin = () => {
- 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -22,76 +21,75 @@ const MainLogin = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!formData.email || !formData.password) {
-    Swal.fire({
-      icon: "warning",
-      title: "Missing Fields",
-      text: "Please enter email and password",
-      confirmButtonColor: "#16a34a",
-    });
-    return;
-  }
-
-  Swal.fire({
-    title: "Signing in...",
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  });
-
-  try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login`,
-      formData,
-      { headers: { "Content-Type": "application/json" } }
-    );
-
-    if (response.status === 200) {
-      const { token, user } = response.data;
-
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userRole", user.role);
-
-      let redirectPath = "/";
-      let roleTitle = "Login Successful";
-
-      if (user.role === "PATIENT") {
-        redirectPath = "/patient";
-        roleTitle = "Patient Login Successful 🦷";
-      } else if (user.role === "DENTIST") {
-        redirectPath = "/doctor";
-        roleTitle = "Dentist Login Successful 🩺";
-      } else if (user.role === "ADMIN") {
-        redirectPath = "/admin";
-        roleTitle = "Admin Login Successful 🔐";
-      }
-
+    if (!formData.email || !formData.password) {
       Swal.fire({
-        icon: "success",
-        title: roleTitle,
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please enter email and password",
         confirmButtonColor: "#16a34a",
-      }).then(() => {
-        navigate(redirectPath);
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: "Signing in...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login`,
+        formData,
+        { headers: { "Content-Type": "application/json" } },
+      );
+
+      if (response.status === 200) {
+        const { token, user } = response.data;
+
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("userRole", user.role);
+
+        let redirectPath = "/";
+        let roleTitle = "Login Successful";
+
+        if (user.role === "PATIENT") {
+          redirectPath = "/patient";
+          roleTitle = "Patient Login Successful 🦷";
+        } else if (user.role === "DENTIST") {
+          redirectPath = "/doctor";
+          roleTitle = "Dentist Login Successful 🩺";
+        } else if (user.role === "ADMIN") {
+          redirectPath = "/admin";
+          roleTitle = "Admin Login Successful 🔐";
+        }
+
+        Swal.fire({
+          icon: "success",
+          title: roleTitle,
+          confirmButtonColor: "#16a34a",
+        }).then(() => {
+          navigate(redirectPath);
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text:
+          error?.response?.data?.message ||
+          "Invalid email or password. Please try again.",
+        confirmButtonColor: "#dc2626",
       });
     }
-  } catch (error) {
-    Swal.fire({
-      icon: "error",
-      title: "Login Failed",
-      text:
-        error?.response?.data?.message ||
-        "Invalid email or password. Please try again.",
-      confirmButtonColor: "#dc2626",
-    });
-  }
-};
-const navigateToHome = () => {
-
-  navigate("/");
-}
+  };
+  const navigateToHome = () => {
+    navigate("/");
+  };
 
   return (
     <div
@@ -101,10 +99,14 @@ const navigateToHome = () => {
       <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
       <div className="relative z-10 w-full flex flex-col justify-center items-center">
         <div className="flex items-center gap-2 w-full max-w-md mb-4 cursor-pointer">
-          <ArrowLeft className="text-black hover:cursor-pointer" onClick={navigateToHome}/>
-          <h1 className="hover:cursor-pointer" onClick={navigateToHome}>    Back to Home</h1>
-        
-  
+          <ArrowLeft
+            className="text-black hover:cursor-pointer"
+            onClick={navigateToHome}
+          />
+          <h1 className="hover:cursor-pointer" onClick={navigateToHome}>
+            {" "}
+            Back to Home
+          </h1>
         </div>
 
         <div className="bg-white border-2 rounded-2xl shadow-2xl border-green-400 flex flex-col p-5 w-[95%] py-15 mx-auto max-w-md">
@@ -125,26 +127,47 @@ const navigateToHome = () => {
 
           <div className=" ">
             <form className="flex flex-col" onSubmit={handleSubmit}>
-              {loginpagedata.map((login_data, index) => (
-                <InputCommonCard
-                  key={login_data.id}
-                  type={login_data.type}
-                  name={login_data.name}
-                  value={formData[login_data.name]}
-                  onChange={handleChange}
-                  label={login_data.label}
-                />
-              ))}
+              {loginpagedata.map((login_data) => {
+                if (login_data.name === "password") {
+                  return (
+                    <div key={login_data.id} className="relative">
+                      <InputCommonCard
+                        type={showPassword ? "text" : "password"}
+                        name={login_data.name}
+                        value={formData[login_data.name]}
+                        onChange={handleChange}
+                        label={login_data.label}
+                      />
 
+                      {/* Show/Hide Button */}
+                      <span
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-10  pt-2.5 cursor-pointer text-green-600 text-sm"
+                      >
+                        {showPassword ? "Hide" : "Show"}
+                      </span>
+                    </div>
+                  );
+                }
+
+                return (
+                  <InputCommonCard
+                    key={login_data.id}
+                    type={login_data.type}
+                    name={login_data.name}
+                    value={formData[login_data.name]}
+                    onChange={handleChange}
+                    label={login_data.label}
+                  />
+                );
+              })}
               {message && (
                 <div className="text-red-500 text-center mt-2">{message}</div>
               )}
 
               <div className="flex flex-row justify-around pt-3">
-           
-
                 <div>
-                  <a href="" className="hover:text-green-500">
+                  <a href="/forgot" className="hover:text-green-500">
                     Forget Password?
                   </a>
                 </div>
